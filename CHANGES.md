@@ -140,7 +140,7 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 
 > Con C-02 completado, se construyen en paralelo la pantalla principal de selección de métodos (`/`) y el motor matemático puro para habilitar de inmediato la calculadora interactiva en `/brew/:methodSlug`.
 
-### [C-03] `home-method-selector-ui`
+### [x] [C-03] `home-method-selector-ui`
 - **Estado**: `[ ]` pendiente
 - **Scope**: Pantalla de inicio (`/`) con grilla interactiva de las 6 cafeteras e ilustraciones SVG (`US-001`)
   - Vista `src/features/brewing/views/HomeMethodSelectorView.tsx` conectada al catálogo validado de los 6 métodos
@@ -159,7 +159,7 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 
 ---
 
-### [C-04] `brewing-scaling-and-espresso-engine`
+### [x] [C-04] `brewing-scaling-and-espresso-engine`
 - **Estado**: `[ ]` pendiente
 - **Scope**: Motor funcional puro de escalado bidireccional, modo Espresso por *yield*, validación de umbrales y tips de molienda
   - Funciones puras en `src/domain/brewing/scaling.engine.ts`:

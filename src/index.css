@@ -36,6 +36,11 @@
   --ease-drawer: var(--ease-drawer);
 }
 
+/* Prevent horizontal navbar/layout shift when routes toggle vertical scrollbars */
+html {
+  scrollbar-gutter: stable;
+}
+
 /* Ensure minimum touch target for interactive controls */
 .min-touch-target {
   min-width: 44px;

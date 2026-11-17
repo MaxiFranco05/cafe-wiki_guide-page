@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>UI Mockup — C-03: Home Method Selector UI (Dark-Only Rev 3)</title>
+  <link rel="stylesheet" href="../../../../design-system/tokens.css" />
+  <style>
+    /* ==========================================================================
+     * C-03 HOME METHOD SELECTOR UI — DESIGN SYSTEM REVISION 3 (DARK-ONLY MOODY)
+     * - Conecta el selector de cafeteras (/) al catálogo validado de 6 métodos
+     * - Combina fotografía moody de baja exposición con siluetas SVG vectoriales
+     * - Incluye barra interactiva de filtrado por categoría y doble acceso rápido
+     *   a Wiki Sensorial (/wiki) y Rueda de Sabores SCA (/flavor-wheel)
+     * ========================================================================== */
+    :root {
+      --navbar-height: 64px;
+      --bottom-bar-height: 68px;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-canvas);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+    }
+
+    /* Reviewer Bar */
+    .mockup-bar {
+      background: #1C1512;
+      color: #D8CBB8;
+      padding: 8px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .bar-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+    .bar-pill {
+      text-decoration: none;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      padding: 5px 11px;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      cursor: pointer;
+      transition: background-color var(--duration-fast) var(--ease-out),
+                  color var(--duration-fast) var(--ease-out),
+                  border-color var(--duration-fast) var(--ease-out);
+    }
+    .bar-pill[aria-current="true"],
+    .bar-pill[aria-selected="true"] {
+      background: var(--accent-primary);
+      border-color: var(--accent-primary);
+      color: var(--text-on-accent);
+      font-weight: 700;
+    }
+
+    /* Top Navbar */
+    .top-navbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      height: var(--navbar-height);
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+    @media (min-width: 768px) {
+      .top-navbar { padding: 0 36px; }
+    }
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+    .brand-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--bg-dark-card);
+      color: var(--accent-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(223, 158, 82, 0.35);
+    }
+    .desktop-nav {
+      display: none;
+      gap: 8px;
+    }
+    @media (min-width: 768px) {
+      .desktop-nav { display: flex; }
+    }
+    .nav-btn {
+      background: transparent;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .nav-btn[aria-current="page"] {
+      background: var(--accent-primary);
+      color: var(--text-on-accent);
+    }
+
+    /* Main Container */
+    .main-wrap {
+      flex: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    @media (min-width: 768px) {
+      .main-wrap { padding: 32px 36px 80px; }
+    }
+
+    /* Hero Spotlight (Asymmetric Split) */
+    .pro-hero {
+      position: relative;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      background: var(--bg-dark-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-on-photo);
+      display: grid;
+      grid-template-columns: 1fr;
+      box-shadow: var(--shadow-card);
+    }
+    @media (min-width: 860px) {
+      .pro-hero {
+        grid-template-columns: 1.08fr 1.12fr;
+        min-height: 290px;
+      }
+    }
+    .pro-hero-copy {
+      padding: 26px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 14px;
+      z-index: 2;
+      background: linear-gradient(135deg, var(--bg-dark-card) 0%, var(--bg-surface) 100%);
+    }
+    @media (min-width: 860px) {
+      .pro-hero-copy { padding: 36px 40px; }
+    }
+    .hero-kicker {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--accent-gold-soft);
+      color: var(--accent-gold);
+      border: 1px solid rgba(223, 158, 82, 0.35);
+    }
+    .pro-hero-title {
+      font-size: clamp(1.65rem, 3vw, 2.35rem);
+      font-weight: 700;
+      letter-spacing: var(--tracking-tight);
+      line-height: 1.12;
+      margin: 0;
+      color: var(--text-primary);
+    }
+    .pro-hero-desc {
+      margin: 0;
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      line-height: 1.55;
+      max-width: 54ch;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .btn-hero-primary {
+      min-height: 44px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent-primary);
+      color: var(--text-on-accent);
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .btn-hero-secondary {
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(40, 31, 26, 0.75);
+      color: var(--text-primary);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .pro-hero-media {
+      position: relative;
+      min-height: 210px;
+      overflow: hidden;
+    }
+    .pro-hero-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: contrast(1.08) saturate(1.18) brightness(0.82);
+      display: block;
+    }
+    .pro-hero-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, var(--bg-surface) 0%, rgba(22, 17, 14, 0.25) 45%, rgba(22, 17, 14, 0.35) 100%);
+    }
+    @media (max-width: 859px) {
+      .pro-hero-media::after {
+        background: linear-gradient(180deg, var(--bg-surface) 0%, rgba(22, 17, 14, 0.15) 50%, rgba(22, 17, 14, 0.45) 100%);
+      }
+    }
+
+    /* Section Header & Category Filter Bar */
+    .selector-toolbar {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    @media (min-width: 860px) {
+      .selector-toolbar {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+    }
+    .selector-heading-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .selector-title {
+      margin: 0;
+      font-size: var(--text-xl);
+      font-weight: 700;
+      letter-spacing: var(--tracking-tight);
+      color: var(--text-primary);
+    }
+    .selector-subtitle {
+      margin: 0;
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+
+    .filter-chip-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .filter-chip {
+      min-height: 44px;
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .filter-chip:hover {
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+    }
+    .filter-chip[aria-pressed="true"] {
+      background: var(--accent-primary-soft);
+      border-color: var(--accent-primary);
+      color: var(--text-primary);
+    }
+    .chip-count {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: rgba(18, 14, 12, 0.65);
+      color: var(--accent-gold);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Method Cards Grid */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    @media (min-width: 640px) {
+      .photo-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      .photo-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .photo-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--bg-dark-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-on-photo);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 286px;
+      box-shadow: var(--shadow-card);
+      text-decoration: none;
+    }
+    .photo-card[hidden] {
+      display: none !important;
+    }
+    .photo-card:hover {
+      border-color: var(--border-strong);
+    }
+    .photo-card-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: contrast(1.12) saturate(1.22) brightness(0.72);
+      z-index: 0;
+      transition: transform var(--duration-normal) var(--ease-out);
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .photo-card:hover .photo-card-bg {
+        transform: scale(1.025);
+      }
+    }
+    .photo-card-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(18, 14, 12, 0.25) 0%,
+        rgba(18, 14, 12, 0.62) 45%,
+        rgba(18, 14, 12, 0.96) 100%
+      );
+      z-index: 1;
+    }
+    .photo-card-content {
+      position: relative;
+      z-index: 2;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+      gap: 16px;
+    }
+
+    /* Card Top Header: Category Tag + SVG Vessel Silhouette */
+    .photo-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .photo-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(18, 14, 12, 0.80);
+      border: 1px solid rgba(223, 158, 82, 0.40);
+      color: var(--accent-gold);
+      backdrop-filter: blur(6px);
+    }
+    .vessel-silhouette-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(18, 14, 12, 0.82);
+      border: 1px solid rgba(245, 236, 224, 0.20);
+      color: var(--svg-vessel-stroke);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Card Body & Metrics Footer */
+    .photo-card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: auto;
+    }
+    .photo-card-title-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .photo-card-title {
+      font-size: 21px;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+    .photo-card-author {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+    .photo-card-desc {
+      font-size: 13px;
+      color: rgba(247, 239, 226, 0.85);
+      margin: 0;
+      line-height: 1.45;
+    }
+    .photo-card-specs {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent-gold);
+      padding-top: 12px;
+      margin-top: 4px;
+      border-top: 1px solid rgba(247, 239, 226, 0.16);
+      font-variant-numeric: tabular-nums;
+    }
+    .spec-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .spec-dot {
+      color: rgba(247, 239, 226, 0.30);
+    }
+
+    /* Dual Sensory Discovery Section (/wiki + /flavor-wheel) */
+    .discovery-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    @media (min-width: 860px) {
+      .discovery-grid {
+        grid-template-columns: 1.1fr 0.9fr;
+      }
+    }
+    .discovery-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      min-height: 175px;
+      padding: 24px 26px;
+      background: var(--bg-dark-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-on-photo);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: var(--shadow-card);
+    }
+    .discovery-card-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: contrast(1.1) saturate(1.25) brightness(0.42);
+      z-index: 0;
+    }
+    .discovery-card-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(18, 14, 12, 0.94) 0%, rgba(18, 14, 12, 0.74) 60%, rgba(18, 14, 12, 0.45) 100%);
+      z-index: 1;
+    }
+    .discovery-card-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      gap: 14px;
+    }
+    .discovery-wheel-layout {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .btn-discovery-gold {
+      align-self: flex-start;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent-gold);
+      color: var(--bg-dark-card);
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .btn-discovery-copper {
+      align-self: flex-start;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: 1px solid rgba(223, 107, 62, 0.55);
+      background: var(--accent-primary-soft);
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    /* Mobile Bottom Tab Bar */
+    .bottom-tab-bar {
+      display: flex;
+      position: sticky;
+      bottom: 0;
+      z-index: 50;
+      height: var(--bottom-bar-height);
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-subtle);
+      justify-content: space-around;
+      align-items: center;
+    }
+    html.full-capture .bottom-tab-bar {
+      position: static;
+    }
+    @media (min-width: 768px) {
+      .bottom-tab-bar { display: none; }
+    }
+    .tab-btn {
+      flex: 1;
+      min-height: 48px;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .tab-btn[aria-selected="true"] {
+      color: var(--accent-primary);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <!-- Reviewer Bar -->
+  <header class="mockup-bar" aria-label="Controles de previsualización del mockup">
+    <div class="bar-links">
+      <span style="font-family: var(--font-mono); font-weight: 700; color: var(--accent-gold);">C-03 MOCKUP</span>
+      <span>Selector Visual de Cafeteras · Design System Rev 3 (Dark-Only)</span>
+    </div>
+    <div class="bar-links">
+      <button type="button" class="bar-pill" data-quick-filter="all" aria-selected="true">Vista Completa (6)</button>
+      <button type="button" class="bar-pill" data-quick-filter="pour_over" aria-selected="false">Solo Filtro (3)</button>
+      <button type="button" class="bar-pill" data-quick-filter="pressure" aria-selected="false">Solo Presión (1)</button>
+    </div>
+  </header>
+
+  <!-- AppShell Top Navigation -->
+  <nav class="top-navbar" aria-label="Navegación principal">
+    <a href="#top" class="brand-link">
+      <div class="brand-badge" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+          <path d="M5 5h14l-5 12h-4L5 5Z"></path>
+          <circle cx="12" cy="20" r="1.5" fill="currentColor"></circle>
+        </svg>
+      </div>
+      <div>
+        <div style="font-weight: 700; font-size: 16px; letter-spacing: -0.02em;" data-brand-name="short">Atelier Brew</div>
+        <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-secondary);">BARISMO DE ESPECIALIDAD · TBD</div>
+      </div>
+    </a>
+
+    <div class="desktop-nav">
+      <button type="button" class="nav-btn" aria-current="page">Métodos</button>
+      <button type="button" class="nav-btn">Estación de Preparación</button>
+      <button type="button" class="nav-btn">Wiki &amp; Orígenes</button>
+      <button type="button" class="nav-btn">Rueda SCA</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-wrap">
+    <!-- 1. Featured Moody Hero Spotlight -->
+    <section class="pro-hero" aria-labelledby="hero-heading">
+      <div class="pro-hero-copy">
+        <span class="hero-kicker">6 MÉTODOS CALIBRADOS · ESCALADO EN VIVO</span>
+        <h1 id="hero-heading" class="pro-hero-title">Precisión de barra en cada extracción.</h1>
+        <p class="pro-hero-desc">
+          Elegí tu cafetera en un toque: cargamos al instante el perfil equilibrado y la dosis base para que inicies el reloj con pantalla siempre activa.
+        </p>
+        <div class="hero-actions">
+          <a href="#brew-v60" class="btn-hero-primary pressable">
+            <span>Abrir Hario V60</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </a>
+          <a href="#discovery" class="btn-hero-secondary pressable">
+            <span>Explorar Wiki y Rueda SCA</span>
+          </a>
+        </div>
+      </div>
+      <div class="pro-hero-media">
+        <img
+          src="../../../../public/images/coffee/pro-machine-moody.jpg"
+          alt="Máquina profesional de espresso de doble grupo en barra con manómetros iluminados"
+        />
+      </div>
+    </section>
+
+    <!-- 2. Method Selector Header + Interactive Category Filter Chips -->
+    <section aria-labelledby="methods-heading" style="display: flex; flex-direction: column; gap: 18px;">
+      <div class="selector-toolbar">
+        <div class="selector-heading-group">
+          <h2 id="methods-heading" class="selector-title">Métodos de Extracción</h2>
+          <p class="selector-subtitle">Seleccioná una cafetera para abrir su estación con receta base pre-cargada.</p>
+        </div>
+
+        <div class="filter-chip-bar" role="group" aria-label="Filtrar métodos por tipo de extracción">
+          <button type="button" class="filter-chip pressable" data-filter="all" aria-pressed="true">
+            <span>Todos</span>
+            <span class="chip-count">6</span>
+          </button>
+          <button type="button" class="filter-chip pressable" data-filter="pour_over" aria-pressed="false">
+            <span>Filtro</span>
+            <span class="chip-count">3</span>
+          </button>
+          <button type="button" class="filter-chip pressable" data-filter="immersion" aria-pressed="false">
+            <span>Inmersión</span>
+            <span class="chip-count">1</span>
+          </button>
+          <button type="button" class="filter-chip pressable" data-filter="hybrid" aria-pressed="false">
+            <span>Híbrido</span>
+            <span class="chip-count">1</span>
+          </button>
+          <button type="button" class="filter-chip pressable" data-filter="pressure" aria-pressed="false">
+            <span>Presión</span>
+            <span class="chip-count">1</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 3. 6-Method Catalog Grid (METHODS_CATALOG) -->
+      <div class="photo-grid" id="methods-grid">
+        <!-- Card 1: Hario V60 (pour_over) -->
+        <a href="#/brew/v60" class="photo-card hover-lift pressable" data-category="pour_over" data-method-id="v60">
+          <img
+            class="photo-card-bg"
+            src="../../../../public/images/coffee/v60-moody.jpg"
+            alt="Hario V60"
+          />
+          <div class="photo-card-scrim"></div>
+          <div class="photo-card-content">
+            <div class="photo-card-top">
+              <span class="photo-tag">Filtro · Pour-Over</span>
+              <div class="vessel-silhouette-badge" title="Silueta SVG: Cono Hario V60">
+                <!-- SVG Silhouette: cone_v60 -->
+                <svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 7h22l-7.5 14h-7L5 7Z" />
+                  <path d="M24.5 10.5h3a2.5 2.5 0 0 1 0 5h-4.8" />
+                  <path d="M8 21h16" stroke="var(--accent-gold)" />
+                  <path d="M10 10.5l4 8M16 10.5l2 8" stroke-opacity="0.55" stroke-width="1.3" />
+                  <path d="M11 21v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="photo-card-body">
+              <div class="photo-card-title-row">
+                <h3 class="photo-card-title">Hario V60</h3>
+                <span class="photo-card-author">James Hoffmann</span>
+              </div>
+              <p class="photo-card-desc">Extracción balanceada en cono espiralado con dulzor pronunciado y claridad floral.</p>
+              <div class="photo-card-specs" aria-label="Parámetros base de Hario V60">
+                <span class="spec-pill">Ratio 1:16.7</span>
+                <span class="spec-dot">·</span>
+                <span class="spec-pill">15 g</span>
+                <span class="spec-dot">·</span>
+                <span class="spec-pill">3:30 min</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 2: Chemex (pour_over) -->
+        <a href="#/brew/chemex" class="photo-card hover-lift pressable" data-category="pour_over" data-method-id="chemex">
+          <img
+            class="photo-card-bg"
+            src="../../../../public/images/coffee/immersion-moody.jpg"
+            alt="Chemex"
+          />
+          <div class="photo-card-scrim"></div>
+          <div class="photo-card-content">
+            <div class="photo-card-top">
+              <span class="photo-tag">Filtro · Pour-Over</span>
+              <div class="vessel-silhouette-badge" title="Silueta SVG: Jarra Reloj de Arena Chemex">
+                <!-- SVG Silhouette: hourglass_chemex -->
+                <svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M8 5h16l-5.5 10.5L25 27H7l6.5-11.5L8 5Z" />
+                  <rect x="11.5" y="13" width="9" height="4.5" rx="1" stroke="var(--accent-gold)" fill="rgba(223, 158, 82, 0.16)" />
+                  <circle cx="16" cy="15.25" r="1" fill="var(--accent-gold)" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="photo-card-body">
+              <div class="photo-card-title-row">
+                <h3 class="photo-card-title">Chemex</h3>
+                <span class="photo-card-author">James Hoffmann</span>
+              </div>
+              <p class="photo-card-desc">Triple capa de papel grueso para jarras limpias, sedosas y de alta transparencia.</p>
+              <div class="photo-card-specs" aria-label="Parámetros base de Chemex">
+                <span class="spec-pill">Ratio 1:16</span>
+                <span class="spec-dot">·</span>
+                <span class="spec-pill">30 g</span>
+                <span class="spec-dot">·</span>
+                <span class="spec-pill">4:00 min</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 3: Melitta (pour_over) -->
+        <a href="#/brew/melitta" class="photo-card hover-lift pressable" data-category="pour_over" data-method-id="melitta">
+          <img
+            class="photo-card-bg"
+            src="../../../../public/images/coffee/v60-moody.jpg"
+            style="object-position: center bottom;"
+            alt="Melitta"
+          />
+          <div class="photo-card-scrim"></div>
+          <div class="photo-card-content">
+            <div class="photo-card-top">
+              <span class="photo-tag">Filtro · Pour-Over</span>
+              <div class="vessel-silhouette-badge" title="Silueta SVG: Cono Trapezoidal Melitta">
+                <!-- SVG Silhouette: wedge_melitta -->
+                <svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M6 7h20l-4.5 14h-11L6 7Z" />
+                  <path d="M23.8 10h3.2a2.5 2.5 0 0 1 0 5h-4.2" />
+                  <path d="M8 21h16" stroke="var(--accent-gold)" />
+                  <path d="M10.5 24.5h11" stroke-opacity="0.6" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="photo-card-body">
+              <div class="photo-card-title-row">
+                <h3 class="photo-card-title">Melitta</h3>
+                <span class="photo-card-author">Tradición Alemana</span>
+              </div>
+              <p class="photo-card-desc">Drenaje controlado por cuña trapezoidal con cuerpo medio y equilibrio reconfortante.</p>
+              <div class="photo-card-specs" aria-label="Parámetros base de Melitta">
+                <span class="spec-pill">Ratio 1:16</span>
+                <span class="spec-dot">·</span>
+                <span class="spec-pill">20 g</span>
+                <span class="spec-dot">·</span>
+                <span class="spec-pill">3:30 min</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 4: AeroPress (hybrid) -->
+        <a href="#/brew/aeropress" class="photo-card hover-lift pressable" data-category="hybrid" data-method-id="aeropress">
+          <img
+            class="photo-card-bg"
+            src="../../../../public/images/coffee/pro-machine-moody.jpg"
+            style="object-position: right center;"
+            alt="AeroPress"
+          />
+          <div class="photo-card-scrim"></div>
+          <div class="photo-card-content">
+            <div class="photo-card-top">
+              <span class="photo-tag">Híbrido · Inmersión + Presión</span>
+              <div class="vessel-silhouette-badge" title="Silueta SVG: Cámara Cilíndrica AeroPress">
+                <!-- SVG Silhouette: cylinder_aeropress -->
+                <svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M10 5h12" stroke="var(--accent-gold)" stroke-width="2" />
+                  <rect x="12" y="5" width="8" height="7" />
+                  <rect x="10.5" y="12" width="11" height="13" />
+                  <path d="M8.5 25h15" stroke="var(--accent-gold)" />
+                  <path d="M11.5 25v2.5h9V25" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="photo-card-body">
+              <div class="photo-card-title-row">
+                <h3 class="photo-card-title">AeroPress</h3>
+                <span class="photo-card-author">WAC Standard</span>
+              </div>
+              <p class="photo-card-desc">Infusión rápida y empuje neumático suave para una taza dulce, limpia y versátil.</p>
+              <div class="photo-card-specs" aria-label="Parámetros base de AeroPress">
+                <span class="spec-pill">Ratio 1:15</span>
+                <span class="spec-dot">·</span>
+                <span class="spec-pill">15 g</span>
+                <span class="spec-dot">·</span>
+                <span class="spec-pill">2:00 min</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 5: Prensa Francesa (immersion) -->
+        <a href="#/brew/french-press" class="photo-card hover-lift pressable" data-category="immersion" data-method-id="french-press">
+          <img
+            class="photo-card-bg"
+            src="../../../../public/images/coffee/immersion-moody.jpg"
+            style="object-position: right center;"
+            alt="Prensa Francesa"
+          />
+          <div class="photo-card-scrim"></div>
+          <div class="photo-card-content">
+            <div class="photo-card-top">
+              <span class="photo-tag">Inmersión Pura</span>
+              <div class="vessel-silhouette-badge" title="Silueta SVG: Vaso de Émbolo Prensa Francesa">
+                <!-- SVG Silhouette: beaker_french_press -->
+                <svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="15" cy="4.5" r="1.5" fill="var(--accent-gold)" stroke="none" />
+                  <path d="M15 6v12" stroke="var(--accent-gold)" />
+                  <path d="M8.5 8.5h13" />
+                  <rect x="9.5" y="8.5" width="11" height="18" rx="1.5" />
+                  <path d="M20.5 11.5h3a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-3" />
+                  <path d="M10 18h10" stroke="var(--accent-gold)" stroke-width="2" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="photo-card-body">
+              <div class="photo-card-title-row">
+                <h3 class="photo-card-title">Prensa Francesa</h3>
+                <span class="photo-card-author">James Hoffmann</span>
+              </div>
+              <p class="photo-card-desc">Inmersión total con rompimiento de costra y decantación para textura sedosa.</p>
+              <div class="photo-card-specs" aria-label="Parámetros base de Prensa Francesa">
+                <span class="spec-pill">Ratio 1:15</span>
+                <span class="spec-dot">·</span>
+                <span class="spec-pill">30 g</span>
+                <span class="spec-dot">·</span>
+                <span class="spec-pill">4:30 min</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 6: Espresso (pressure) -->
+        <a href="#/brew/espresso" class="photo-card hover-lift pressable" data-category="pressure" data-method-id="espresso">
+          <img
+            class="photo-card-bg"
+            src="../../../../public/images/coffee/espresso-moody.jpg"
+            alt="Espresso"
+          />
+          <div class="photo-card-scrim"></div>
+          <div class="photo-card-content">
+            <div class="photo-card-top">
+              <span class="photo-tag">Presión · 9 Bar</span>
+              <div class="vessel-silhouette-badge" title="Silueta SVG: Portafiltro Espresso">
+                <!-- SVG Silhouette: portafilter_espresso -->
+                <svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M3.5 12h7.5" stroke-width="2.4" />
+                  <path d="M11 10h13v5a4 4 0 0 1-4 4h-5a4 4 0 0 1-4-4v-5Z" />
+                  <path d="M15.5 19v3M19.5 19v3" stroke="var(--accent-gold)" />
+                  <circle cx="15.5" cy="25.5" r="1.1" fill="var(--accent-gold)" stroke="none" />
+                  <circle cx="19.5" cy="25.5" r="1.1" fill="var(--accent-gold)" stroke="none" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="photo-card-body">
+              <div class="photo-card-title-row">
+                <h3 class="photo-card-title">Espresso</h3>
+                <span class="photo-card-author">SCA Standard</span>
+              </div>
+              <p class="photo-card-desc">Cálculo simultáneo por rendimiento en taza (Ristretto, Normale y Lungo) a 9 bar.</p>
+              <div class="photo-card-specs" aria-label="Parámetros base de Espresso">
+                <span class="spec-pill">Yield 1:2</span>
+                <span class="spec-dot">·</span>
+                <span class="spec-pill">18 g</span>
+                <span class="spec-dot">·</span>
+                <span class="spec-pill">25–30 s</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 4. Dual Direct-Access Discovery Section (/wiki and /flavor-wheel) -->
+    <section id="discovery" class="discovery-grid" aria-label="Exploración sensorial y enciclopedia">
+      <!-- Wiki Sensorial Banner -->
+      <article class="discovery-card">
+        <img
+          class="discovery-card-bg"
+          src="../../../../public/images/coffee/beans-moody.jpg"
+          alt="Granos de café tostado de especialidad y cucharas de cata"
+        />
+        <div class="discovery-card-scrim"></div>
+        <div class="discovery-card-inner">
+          <div style="display: flex; flex-direction: column; gap: 6px; max-width: 52ch;">
+            <span class="photo-tag" style="align-self: flex-start;">ORÍGENES · VARIETALES · BENEFICIOS</span>
+            <h2 style="margin: 4px 0 0; font-size: 21px; font-weight: 700; letter-spacing: -0.02em;">Wiki Sensorial del Café</h2>
+            <p style="margin: 0; font-size: 13px; color: rgba(247, 239, 226, 0.84); line-height: 1.5;">
+              Consultá fichas técnicas de trazabilidad, altitud, procesos de beneficio (lavado, natural, honey) y qué cafetera destaca cada perfil.
+            </p>
+          </div>
+          <a href="#/wiki" class="btn-discovery-gold pressable">
+            <span>Explorar Wiki Sensorial</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- Rueda de Sabores SCA Banner -->
+      <article class="discovery-card" style="background: linear-gradient(135deg, #1A1310 0%, #241A15 100%);">
+        <div class="discovery-card-inner">
+          <div class="discovery-wheel-layout">
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <span class="photo-tag" style="align-self: flex-start;">CATA &amp; ANÁLISIS SENSORIAL</span>
+              <h2 style="margin: 4px 0 0; font-size: 21px; font-weight: 700; letter-spacing: -0.02em;">Rueda de Sabores SCA</h2>
+              <p style="margin: 0; font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
+                Entrená el paladar navegando los anillos aromáticos (floral, frutal, cacao, especias) y vinculá notas con recetas.
+              </p>
+            </div>
+
+            <!-- Inline SVG SCA Flavor Wheel Emblem -->
+            <div aria-hidden="true" style="flex-shrink: 0;">
+              <svg width="76" height="76" viewBox="0 0 80 80" fill="none">
+                <circle cx="40" cy="40" r="36" stroke="var(--border-strong)" stroke-width="1.5" />
+                <circle cx="40" cy="40" r="26" stroke="var(--flavor-fruity)" stroke-width="8" stroke-dasharray="28 136" stroke-dashoffset="0" />
+                <circle cx="40" cy="40" r="26" stroke="var(--flavor-floral)" stroke-width="8" stroke-dasharray="24 140" stroke-dashoffset="-30" />
+                <circle cx="40" cy="40" r="26" stroke="var(--flavor-sweet)" stroke-width="8" stroke-dasharray="28 136" stroke-dashoffset="-56" />
+                <circle cx="40" cy="40" r="26" stroke="var(--flavor-nutty-cocoa)" stroke-width="8" stroke-dasharray="30 134" stroke-dashoffset="-86" />
+                <circle cx="40" cy="40" r="26" stroke="var(--flavor-spices)" stroke-width="8" stroke-dasharray="24 140" stroke-dashoffset="-118" />
+                <circle cx="40" cy="40" r="26" stroke="var(--flavor-green-vegetative)" stroke-width="8" stroke-dasharray="22 142" stroke-dashoffset="-144" />
+                <circle cx="40" cy="40" r="14" fill="var(--bg-canvas)" stroke="var(--accent-gold)" stroke-width="1.5" />
+                <circle cx="40" cy="40" r="4" fill="var(--accent-gold)" />
+              </svg>
+            </div>
+          </div>
+
+          <a href="#/flavor-wheel" class="btn-discovery-copper pressable">
+            <span>Abrir Rueda de Sabores</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="bottom-tab-bar" aria-label="Navegación móvil">
+    <button type="button" class="tab-btn" aria-selected="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
+      <span>Métodos</span>
+    </button>
+    <button type="button" class="tab-btn" aria-selected="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M5 4h14l-5 12h-4L5 4Z"></path></svg>
+      <span>Preparar</span>
+    </button>
+    <button type="button" class="tab-btn" aria-selected="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+      <span>Wiki</span>
+    </button>
+    <button type="button" class="tab-btn" aria-selected="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="3"></circle></svg>
+      <span>Rueda SCA</span>
+    </button>
+  </nav>
+
+  <script src="../../../../design-system/brand.js"></script>
+  <script>
+    (function () {
+      const filterButtons = document.querySelectorAll('[data-filter]');
+      const quickFilterButtons = document.querySelectorAll('[data-quick-filter]');
+      const methodCards = document.querySelectorAll('[data-category]');
+
+      function applyFilter(rawCategory) {
+        const normalized = rawCategory === 'filter' ? 'pour_over' : (rawCategory || 'all');
+
+        filterButtons.forEach((btn) => {
+          const isMatch = btn.getAttribute('data-filter') === normalized;
+          btn.setAttribute('aria-pressed', isMatch ? 'true' : 'false');
+        });
+
+        quickFilterButtons.forEach((btn) => {
+          const isMatch = btn.getAttribute('data-quick-filter') === normalized;
+          btn.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+        });
+
+        methodCards.forEach((card) => {
+          const cardCat = card.getAttribute('data-category');
+          if (normalized === 'all' || cardCat === normalized) {
+            card.removeAttribute('hidden');
+          } else {
+            card.setAttribute('hidden', '');
+          }
+        });
+      }
+
+      filterButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          applyFilter(btn.getAttribute('data-filter'));
+        });
+      });
+
+      quickFilterButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          applyFilter(btn.getAttribute('data-quick-filter'));
+        });
+      });
+
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('capture') === 'full') {
+        document.documentElement.classList.add('full-capture');
+      }
+      if (params.get('filter')) {
+        applyFilter(params.get('filter'));
+      }
+    })();
+  </script>
+</body>
+</html>

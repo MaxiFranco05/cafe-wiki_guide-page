@@ -76,12 +76,41 @@
     }
   },
   "home": {
+    "heroBadge": "6 MÉTODOS CALIBRADOS · ESCALADO EN VIVO",
     "heroTitle": "Precisión de barra en cada extracción.",
     "heroDesc": "Calculá proporciones en gramos, escalá cada vertido automáticamente y seguí los tiempos con pantalla activa en la mesada.",
     "heroCtaBrew": "Abrir Hario V60",
     "heroCtaWiki": "Ver Granos y Orígenes",
+    "heroCtaDiscover": "Explorar Wiki y Rueda SCA",
     "heroMediaAlt": "Máquina profesional de espresso de doble grupo en barra con manómetros iluminados",
     "methodsTitle": "Métodos de Extracción",
+    "methodsSubtitle": "Seleccioná una cafetera para abrir su estación con receta base pre-cargada.",
+    "filters": {
+      "ariaLabel": "Filtrar métodos por tipo de extracción",
+      "all": "Todos",
+      "pour_over": "Filtro",
+      "immersion": "Inmersión",
+      "hybrid": "Híbrido",
+      "pressure": "Presión"
+    },
+    "categoryBadges": {
+      "pour_over": "Filtro · Pour-Over",
+      "immersion": "Inmersión Pura",
+      "hybrid": "Híbrido · Inmersión + Presión",
+      "pressure": "Presión · 9 Bar"
+    },
+    "wikiCard": {
+      "tag": "ORÍGENES · VARIETALES · BENEFICIOS",
+      "title": "Wiki Sensorial del Café",
+      "desc": "Consultá fichas técnicas de trazabilidad, altitud, procesos de beneficio (lavado, natural, honey) y qué cafetera destaca cada perfil.",
+      "cta": "Explorar Wiki Sensorial"
+    },
+    "wheelCard": {
+      "tag": "CATA & ANÁLISIS SENSORIAL",
+      "title": "Rueda de Sabores SCA",
+      "desc": "Entrená el paladar navegando los anillos aromáticos (floral, frutal, cacao, especias) y vinculá notas con recetas.",
+      "cta": "Abrir Rueda de Sabores"
+    },
     "wikiBannerTitle": "Enciclopedia de Granos, Procesos y Cata SCA",
     "wikiBannerDesc": "Descubrí qué origen y tueste rinde mejor según tu cafetera y explorá la rueda de sabores.",
     "wikiBannerCta": "Explorar Wiki Sensorial",
@@ -109,7 +138,15 @@
     "phaseInstruction": "Verté 30 g en espiral sobre la cama seca y agitá suavemente la jarra.",
     "timerZero": "00:00",
     "actionStart": "Iniciar extracción",
-    "actionReset": "Reiniciar reloj"
+    "actionReset": "Reiniciar reloj",
+    "warnings": {
+      "invalidInput": "Ingresá una cantidad válida mayor a 0 para calcular la receta."
+    },
+    "grindTips": {
+      "finer": "Dosis pequeña: ajustá la molienda 1–2 puntos más fina para evitar sub-extracción.",
+      "coarser": "Dosis grande: ajustá la molienda 1–2 puntos más gruesa para evitar sobre-extracción y bloqueo.",
+      "standard": "Mantené la molienda estándar recomendada para este método."
+    }
   },
   "wiki": {
     "title": "Wiki de Orígenes y Varietales",
