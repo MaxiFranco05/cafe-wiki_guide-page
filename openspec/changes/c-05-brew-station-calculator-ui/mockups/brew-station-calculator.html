@@ -24,24 +24,48 @@
       --navbar-height: 64px;
       --bottom-bar-height: 68px;
 
-      /* Contraste 3A Confirmado (Tinta Cálida Elevada sobre Espresso Profundo) */
-      --bg-canvas: #0B0807;
-      --bg-surface: #1F1814;
-      --bg-dark-card: #1F1814;
-      --bg-elevated: #120E0C;
-      --bg-tooltip: #261E19;
-      --bg-glass: rgba(11, 8, 7, 0.90);
+      /* Paleta Café, Chocolate y Blanco Beige */
+      --bg-canvas: #160D08;          /* Café espresso profundo */
+      --bg-surface: #281911;         /* Chocolate amargo elevado */
+      --bg-dark-card: #24160F;       /* Chocolate tostado (panel Timer) */
+      --bg-elevated: #1B100A;        /* Chocolate negro (campos rebajados) */
+      --bg-tooltip: #342117;         /* Chocolate cacao (tooltips) */
+      --bg-glass: rgba(22, 13, 8, 0.92);
 
-      --border-subtle: #3B2E26;
-      --border-strong: #5A463A;
-      --border-recessed: #44352C;
+      --text-primary: #F7F1E7;       /* Blanco beige principal */
+      --text-secondary: #D9C8B6;     /* Beige latte */
+      --text-muted: #A9937E;         /* Café con leche suave */
+      --text-on-accent: #FCF8F2;     /* Blanco crema puro */
+      --text-on-photo: #F8F2E8;      /* Blanco beige sobre foto */
 
-      --surface-highlight: inset 0 1px 0 rgba(245, 236, 224, 0.08);
-      --tooltip-shadow: 0 12px 28px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--border-strong);
+      --border-subtle: #4A3123;      /* Cacao sutil */
+      --border-strong: #6B4935;      /* Chocolate avellana */
+      --border-recessed: #543828;    /* Borde de pozos de entrada */
+      --border-focus: #C89B6E;       /* Caramelo beige en foco */
 
-      /* Active Font Tokens (default Font 1) */
-      --active-font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
-      --active-font-mono: "JetBrains Mono", monospace;
+      /* Acentos Chocolate Tostado & Blanco Beige Crema */
+      --accent-primary: #944E29;     /* Chocolate canela tostado */
+      --accent-primary-hover: #A85B32;
+      --accent-primary-soft: rgba(148, 78, 41, 0.24);
+      --accent-gold: #E4C49B;        /* Blanco beige dorado / crema */
+      --accent-gold-soft: rgba(228, 196, 155, 0.14);
+
+      /* Semántica & SVG armónicos con chocolate/beige */
+      --status-optimal: #63A882;
+      --status-optimal-bg: rgba(99, 168, 130, 0.16);
+      --svg-vessel-stroke: #F7F1E7;
+      --svg-vessel-glass: rgba(247, 241, 231, 0.08);
+      --svg-water-stream: #87B9D4;
+      --svg-coffee-liquid: #6E3619;
+      --svg-coffee-crema: #E4C49B;
+      --svg-coffee-bed: #4B2816;
+
+      --surface-highlight: inset 0 1px 0 rgba(247, 241, 231, 0.09);
+      --tooltip-shadow: 0 12px 28px rgba(10, 5, 3, 0.6), 0 0 0 1px var(--border-strong);
+
+      /* Active Font Tokens (default Font 2: Outfit + IBM Plex Mono) */
+      --active-font-sans: "Outfit", system-ui, sans-serif;
+      --active-font-mono: "IBM Plex Mono", monospace;
     }
 
     html[data-font="1"] {
@@ -267,24 +291,24 @@
     }
     .nav-fill-layer::before {
       border-radius: 45%;
-      background: #0B0807;
+      background: var(--bg-canvas);
       animation: liquidWaveRotate 5.5s linear infinite;
     }
     .nav-fill-layer::after {
       border-radius: 40%;
-      background: rgba(11, 8, 7, 0.55);
+      background: rgba(22, 13, 8, 0.58);
       animation: liquidWaveRotate 9.5s linear infinite;
     }
 
     /* Variante 1: Espresso Intenso (~86% lleno, doble ola arriba como botón izq.) */
     html[data-nav-hover="1"] .nav-btn:not([aria-current="page"]) .nav-fill-layer {
-      background: #422112;
+      background: #4F2916;
     }
     html[data-nav-hover="1"] .nav-btn:not([aria-current="page"]):hover,
     html[data-nav-hover="1"] .nav-btn:not([aria-current="page"]):focus-visible,
     html[data-nav-hover="1"] .nav-btn:not([aria-current="page"]).is-demo-hover {
       color: var(--text-on-accent);
-      border-color: #7D4427;
+      border-color: var(--border-strong);
     }
     html[data-nav-hover="1"] .nav-btn:not([aria-current="page"]):hover .nav-fill-layer,
     html[data-nav-hover="1"] .nav-btn:not([aria-current="page"]):focus-visible .nav-fill-layer,
@@ -294,13 +318,13 @@
 
     /* Variante 2: Ristretto Ola Visible (~66% lleno, ola pronunciada al centro) */
     html[data-nav-hover="2"] .nav-btn:not([aria-current="page"]) .nav-fill-layer {
-      background: #4F2816;
+      background: #61331C;
     }
     html[data-nav-hover="2"] .nav-btn:not([aria-current="page"]):hover,
     html[data-nav-hover="2"] .nav-btn:not([aria-current="page"]):focus-visible,
     html[data-nav-hover="2"] .nav-btn:not([aria-current="page"]).is-demo-hover {
       color: var(--text-on-accent);
-      border-color: var(--accent-primary);
+      border-color: var(--accent-gold);
     }
     html[data-nav-hover="2"] .nav-btn:not([aria-current="page"]):hover .nav-fill-layer,
     html[data-nav-hover="2"] .nav-btn:not([aria-current="page"]):focus-visible .nav-fill-layer,
@@ -310,16 +334,16 @@
 
     /* Variante 3: Café Negro Profundo (~80% lleno, tono más sobrio y oscuro) */
     html[data-nav-hover="3"] .nav-btn:not([aria-current="page"]) .nav-fill-layer {
-      background: #2C160C;
+      background: #3B1E10;
     }
     html[data-nav-hover="3"] .nav-btn:not([aria-current="page"]) .nav-fill-layer::after {
-      background: rgba(24, 14, 10, 0.55);
+      background: rgba(28, 16, 10, 0.58);
     }
     html[data-nav-hover="3"] .nav-btn:not([aria-current="page"]):hover,
     html[data-nav-hover="3"] .nav-btn:not([aria-current="page"]):focus-visible,
     html[data-nav-hover="3"] .nav-btn:not([aria-current="page"]).is-demo-hover {
       color: var(--text-on-accent);
-      border-color: rgba(223, 158, 82, 0.45);
+      border-color: rgba(228, 196, 155, 0.5);
     }
     html[data-nav-hover="3"] .nav-btn:not([aria-current="page"]):hover .nav-fill-layer,
     html[data-nav-hover="3"] .nav-btn:not([aria-current="page"]):focus-visible .nav-fill-layer,
@@ -329,7 +353,7 @@
 
     /* Variante 4: Doble Vaivén Opuesto (giros contrarios en ::before y ::after) */
     html[data-nav-hover="4"] .nav-btn:not([aria-current="page"]) .nav-fill-layer {
-      background: linear-gradient(180deg, #542B18 0%, #2E170D 32%, #1C0E08 100%);
+      background: linear-gradient(180deg, #63341C 0%, #3E2011 32%, #24120A 100%);
     }
     html[data-nav-hover="4"] .nav-btn:not([aria-current="page"]) .nav-fill-layer::after {
       animation: liquidWaveRotateRev 7.5s linear infinite;
@@ -634,11 +658,11 @@
     }
     .dose-well:focus-within {
       border-color: var(--border-focus);
-      box-shadow: 0 0 0 3px rgba(223, 107, 62, 0.18);
+      box-shadow: 0 0 0 3px rgba(200, 155, 110, 0.22);
     }
     .dose-well.is-water:focus-within {
       border-color: var(--svg-water-stream);
-      box-shadow: 0 0 0 3px rgba(104, 176, 216, 0.18);
+      box-shadow: 0 0 0 3px rgba(135, 185, 212, 0.22);
     }
     .dose-well.has-error { border-color: var(--status-danger); }
 
@@ -874,8 +898,8 @@
     .phase-row:last-child { border-bottom: none; }
     .phase-row:hover { background: rgba(245, 236, 224, 0.03); }
     .phase-row.is-active {
-      border-left-color: var(--accent-primary);
-      background: rgba(223, 107, 62, 0.08);
+      border-left-color: var(--accent-gold);
+      background: rgba(148, 78, 41, 0.14);
     }
     .phase-row-top {
       display: flex;
@@ -957,7 +981,7 @@
     .timer-bg-scrim {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(31, 24, 20, 0.72) 0%, rgba(11, 8, 7, 0.92) 100%);
+      background: linear-gradient(180deg, rgba(40, 25, 17, 0.72) 0%, rgba(22, 13, 8, 0.92) 100%);
       pointer-events: none;
     }
     .timer-content {
@@ -980,7 +1004,7 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      background: radial-gradient(ellipse 68% 60% at 50% 48%, rgba(223, 158, 82, 0.08) 0%, transparent 72%);
+      background: radial-gradient(ellipse 68% 60% at 50% 48%, rgba(228, 196, 155, 0.08) 0%, transparent 72%);
       border-bottom: 1px solid var(--border-subtle);
     }
     .svg-stage-caption {
@@ -1059,7 +1083,7 @@
     .step-arrow-btn:hover:not(:disabled) {
       border-color: var(--accent-gold);
       color: var(--accent-gold);
-      background: rgba(223, 158, 82, 0.12);
+      background: rgba(228, 196, 155, 0.12);
     }
     .step-arrow-btn:active:not(:disabled) { transform: scale(0.95); }
     .step-arrow-btn:disabled { opacity: 0.3; cursor: not-allowed; }
@@ -1310,17 +1334,17 @@
       background: var(--accent-primary);
       color: var(--text-on-accent);
       font-size: 16px;
-      box-shadow: 0 6px 20px rgba(223, 107, 62, 0.25);
+      box-shadow: 0 6px 20px rgba(148, 78, 41, 0.28);
     }
     .btn-primary-full:hover:not(:disabled) { background: var(--accent-primary-hover); }
     .btn-primary-full:disabled { opacity: 0.45; cursor: not-allowed; }
     .btn-secondary-full {
       border: 1px solid var(--border-strong);
-      background: rgba(18, 14, 12, 0.55);
+      background: rgba(27, 16, 10, 0.65);
       color: var(--accent-gold);
       font-size: 15px;
     }
-    .btn-secondary-full:hover { background: rgba(223, 158, 82, 0.12); }
+    .btn-secondary-full:hover { background: rgba(228, 196, 155, 0.12); }
 
     /* Mobile Bottom Tab Bar */
     .bottom-tab-bar {
