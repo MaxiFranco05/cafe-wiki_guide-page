@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Propuesta 2 (Modo Oscuro Único): Profesional Fotográfico Moody — C-01</title>
+  <link rel="stylesheet" href="../../../../design-system/tokens.css" />
+  <style>
+    /* ==========================================================================
+     * PROPUESTA 2 (MODO OSCURO ÚNICO): SPECIALTY ROASTERY & MOODY PHOTOGRAPHY
+     * - Base espresso profundo (#120E0C) y superficies (#1B1512) integrando
+     *   design-system/tokens.css (Revisión 3 — Dark-Only)
+     * - Cards fotográficas con imágenes de baja exposición y saturación profunda
+     *   (máquinas comerciales de espresso, V60 en vivo, Chemex/Prensa, granos)
+     * - Estación de temporizador inmersiva oscura estilo barra profesional
+     * ========================================================================== */
+    :root {
+      --navbar-height: 64px;
+      --bottom-bar-height: 68px;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-canvas);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+    }
+
+    /* Reviewer Switcher */
+    .mockup-bar {
+      background: #1C1512;
+      color: #D8CBB8;
+      padding: 8px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12px;
+      border-bottom: 1px solid #352922;
+    }
+    .bar-links { display: flex; flex-wrap: wrap; gap: 6px; }
+    .bar-pill {
+      text-decoration: none;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #B5A490;
+      padding: 5px 11px;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .bar-pill[aria-current="true"],
+    .bar-pill[aria-selected="true"] {
+      background: var(--accent-primary);
+      color: #FFFDF9;
+      font-weight: 700;
+    }
+
+    /* Navbar */
+    .top-navbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      height: var(--navbar-height);
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+    @media (min-width: 768px) { .top-navbar { padding: 0 36px; } }
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+    .brand-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: #16110E;
+      color: var(--accent-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(223, 158, 82, 0.35);
+    }
+    .desktop-nav { display: none; gap: 8px; }
+    @media (min-width: 768px) { .desktop-nav { display: flex; } }
+    .nav-btn {
+      background: transparent;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .nav-btn[aria-current="page"] {
+      background: var(--accent-primary);
+      color: var(--text-on-accent);
+    }
+
+    /* Main Wrap */
+    .main-wrap {
+      flex: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px 64px;
+    }
+    @media (min-width: 768px) { .main-wrap { padding: 32px 36px 80px; } }
+
+    .view-section { display: none; }
+    .view-section.active { display: block; }
+
+    /* Hero Spotlight with Commercial Espresso Machine Photo (Asymmetric Split) */
+    .pro-hero {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--bg-dark-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-on-photo);
+      display: grid;
+      grid-template-columns: 1fr;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow-card);
+    }
+    @media (min-width: 860px) {
+      .pro-hero {
+        grid-template-columns: 1.05fr 1.15fr;
+        min-height: 300px;
+      }
+    }
+    .pro-hero-copy {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 14px;
+      z-index: 2;
+      background: linear-gradient(135deg, #16110E 0%, #221812 100%);
+    }
+    @media (min-width: 860px) {
+      .pro-hero-copy { padding: 38px 40px; }
+    }
+    .pro-hero-title {
+      font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin: 0;
+    }
+    .pro-hero-media {
+      position: relative;
+      min-height: 210px;
+      overflow: hidden;
+    }
+    .pro-hero-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: contrast(1.08) saturate(1.18) brightness(0.82);
+      display: block;
+    }
+    .pro-hero-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, #1E1611 0%, rgba(22, 17, 14, 0.15) 45%, rgba(22, 17, 14, 0.35) 100%);
+    }
+    @media (max-width: 859px) {
+      .pro-hero-media::after {
+        background: linear-gradient(180deg, #1E1611 0%, rgba(22, 17, 14, 0.1) 50%, rgba(22, 17, 14, 0.4) 100%);
+      }
+    }
+
+    /* Moody Photographic Method Cards Grid */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    @media (min-width: 640px) {
+      .photo-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      .photo-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .photo-card {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      background: var(--bg-dark-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-on-photo);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-height: 270px;
+      box-shadow: var(--shadow-card);
+      transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1), border-color 180ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .photo-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-strong);
+    }
+    .photo-card-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: contrast(1.12) saturate(1.22) brightness(0.74);
+      z-index: 0;
+    }
+    .photo-card-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(16, 12, 9, 0.12) 0%, rgba(16, 12, 9, 0.58) 46%, rgba(16, 12, 9, 0.94) 100%);
+      z-index: 1;
+    }
+    .photo-card-content {
+      position: relative;
+      z-index: 2;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .photo-tag {
+      align-self: flex-start;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 6px;
+      background: rgba(20, 15, 12, 0.72);
+      border: 1px solid rgba(223, 158, 82, 0.38);
+      color: var(--accent-gold);
+      backdrop-filter: blur(4px);
+      margin-bottom: auto;
+    }
+    .photo-card-title {
+      font-size: 21px;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+    .photo-card-desc {
+      font-size: 13px;
+      color: rgba(247, 239, 226, 0.82);
+      margin: 0;
+      line-height: 1.45;
+    }
+    .photo-card-specs {
+      display: flex;
+      gap: 14px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent-gold);
+      padding-top: 10px;
+      border-top: 1px solid rgba(247, 239, 226, 0.16);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Wiki Editorial Card Banner with Beans Photo */
+    .wiki-moody-banner {
+      margin-top: 28px;
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      min-height: 150px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 26px 28px;
+      background: var(--bg-dark-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-on-photo);
+    }
+    .wiki-moody-banner img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: contrast(1.1) saturate(1.25) brightness(0.45);
+      z-index: 0;
+    }
+    .wiki-moody-banner::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(18, 13, 10, 0.92) 0%, rgba(18, 13, 10, 0.62) 60%, rgba(18, 13, 10, 0.35) 100%);
+      z-index: 1;
+    }
+
+    /* Brew Station (Warm Beige Calc + Dark Moody Timer Panel) */
+    .brew-pro-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 22px;
+    }
+    @media (min-width: 860px) {
+      .brew-pro-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .pro-calc-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .pro-timer-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      padding: 28px 24px;
+      background: var(--bg-dark-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-on-photo);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .pro-timer-card img.bg-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.24;
+      filter: saturate(1.3) contrast(1.1);
+      z-index: 0;
+    }
+    .pro-timer-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .intensity-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .intensity-pill {
+      min-height: 46px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-canvas);
+      color: var(--text-secondary);
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .intensity-pill[aria-pressed="true"] {
+      background: var(--accent-gold-soft);
+      color: var(--accent-gold);
+      border-color: rgba(223, 158, 82, 0.55);
+    }
+
+    .dose-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .dose-card {
+      background: var(--bg-canvas);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    /* Full-width Stacked Mercado Libre Pattern Buttons */
+    .action-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .btn-primary-full {
+      width: 100%;
+      min-height: 50px;
+      border: none;
+      border-radius: 12px;
+      background: var(--accent-primary);
+      color: #FFFDF9;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-secondary-full {
+      width: 100%;
+      min-height: 50px;
+      border: none;
+      border-radius: 12px;
+      background: rgba(223, 158, 82, 0.16);
+      color: var(--accent-gold);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    /* Mobile Bottom Tab Bar */
+    .bottom-tab-bar {
+      display: flex;
+      position: sticky;
+      bottom: 0;
+      z-index: 50;
+      height: var(--bottom-bar-height);
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-subtle);
+      justify-content: space-around;
+      align-items: center;
+    }
+    html.full-capture .bottom-tab-bar { position: static; }
+    @media (min-width: 768px) { .bottom-tab-bar { display: none; } }
+    .tab-btn {
+      flex: 1;
+      min-height: 48px;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .tab-btn[aria-selected="true"] {
+      color: var(--accent-primary);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <header class="mockup-bar">
+    <div class="bar-links">
+      <a class="bar-pill" href="01-minimal-beige.html">1. Minimalista Beige</a>
+      <a class="bar-pill" href="02-profesional-barismo.html" aria-current="true">2. Profesional Moody (Oscuro Único)</a>
+      <a class="bar-pill" href="03-metalico-industrial.html">3. Metálico Industrial</a>
+    </div>
+    <div class="bar-links">
+      <button class="bar-pill" aria-selected="true" data-route-btn="view-home">/ (Métodos)</button>
+      <button class="bar-pill" aria-selected="false" data-route-btn="view-brew">/brew/v60</button>
+      <button class="bar-pill" aria-selected="false" data-route-btn="view-wiki">/wiki</button>
+      <button class="bar-pill" aria-selected="false" data-route-btn="view-wheel">/flavor-wheel</button>
+    </div>
+  </header>
+
+  <nav class="top-navbar">
+    <a href="#home" class="brand-link" onclick="event.preventDefault(); showView('view-home')">
+      <div class="brand-badge">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+          <path d="M5 5h14l-5 12h-4L5 5Z"></path>
+          <circle cx="12" cy="20" r="1.5" fill="currentColor"></circle>
+        </svg>
+      </div>
+      <div>
+        <div style="font-weight: 700; font-size: 16px; letter-spacing: -0.02em;" data-brand-name="short">Atelier Brew</div>
+        <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-secondary);">BARISMO DE ESPECIALIDAD · TBD</div>
+      </div>
+    </a>
+
+    <div class="desktop-nav">
+      <button class="nav-btn" aria-current="page" data-nav="view-home">Métodos</button>
+      <button class="nav-btn" data-nav="view-brew">Estación de Preparación</button>
+      <button class="nav-btn" data-nav="view-wiki">Wiki &amp; Orígenes</button>
+      <button class="nav-btn" data-nav="view-wheel">Rueda SCA</button>
+    </div>
+  </nav>
+
+  <main class="main-wrap">
+    <!-- VIEW HOME -->
+    <section id="view-home" class="view-section active">
+      <!-- Featured Moody Commercial Machine Banner -->
+      <div class="pro-hero">
+        <div class="pro-hero-copy">
+          <h1 class="pro-hero-title">Precisión de barra en cada extracción.</h1>
+          <p style="margin: 0; font-size: 14px; color: rgba(247,239,226,0.78); line-height: 1.55;">
+            Calculá proporciones en gramos, escalá cada vertido automáticamente y seguí los tiempos con pantalla activa en la mesada.
+          </p>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px;">
+            <button style="background: var(--accent-primary); color: #FFFDF9; border: none; padding: 12px 20px; border-radius: 10px; font-weight: 700; cursor: pointer;" onclick="showView('view-brew')">Abrir Hario V60</button>
+            <button style="background: rgba(247,239,226,0.12); color: var(--text-on-photo); border: 1px solid rgba(247,239,226,0.22); padding: 12px 18px; border-radius: 10px; font-weight: 600; cursor: pointer;" onclick="showView('view-wiki')">Ver Granos y Orígenes</button>
+          </div>
+        </div>
+        <div class="pro-hero-media">
+          <img src="assets/pro-machine-moody.jpg" alt="Máquina profesional de espresso de doble grupo con manómetros iluminados" />
+        </div>
+      </div>
+
+      <!-- Moody Photographic Cards -->
+      <div class="photo-grid">
+        <article class="photo-card" onclick="showView('view-brew')">
+          <img class="photo-card-bg" src="assets/v60-moody.jpg" alt="Extracción Hario V60 sobre balanza" />
+          <div class="photo-card-scrim"></div>
+          <div class="photo-card-content" style="height: 100%; justify-content: space-between;">
+            <span class="photo-tag">Filtro Cónico</span>
+            <div>
+              <h2 class="photo-card-title">Hario V60</h2>
+              <p class="photo-card-desc">Vertido en espiral por fases con claridad sensorial brillante.</p>
+              <div class="photo-card-specs"><span>Ratio 1:16.7</span><span>15 g</span><span>3:30 min</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="photo-card" onclick="showView('view-brew')">
+          <img class="photo-card-bg" src="assets/espresso-moody.jpg" alt="Extracción de crema de espresso desde portafiltro profesional" />
+          <div class="photo-card-scrim"></div>
+          <div class="photo-card-content" style="height: 100%; justify-content: space-between;">
+            <span class="photo-tag">Presión 9 Bar</span>
+            <div>
+              <h2 class="photo-card-title">Espresso</h2>
+              <p class="photo-card-desc">Cálculo por rendimiento en taza: Ristretto, Normale y Lungo.</p>
+              <div class="photo-card-specs"><span>Yield 1:2</span><span>18 g</span><span>25–30 s</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="photo-card" onclick="showView('view-brew')">
+          <img class="photo-card-bg" src="assets/immersion-moody.jpg" alt="Chemex y prensa francesa en barra oscura" />
+          <div class="photo-card-scrim"></div>
+          <div class="photo-card-content" style="height: 100%; justify-content: space-between;">
+            <span class="photo-tag">Filtro Grueso</span>
+            <div>
+              <h2 class="photo-card-title">Chemex</h2>
+              <p class="photo-card-desc">Triple capa de papel para jarras limpias y notas florales.</p>
+              <div class="photo-card-specs"><span>Ratio 1:16</span><span>30 g</span><span>4:00 min</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="photo-card" onclick="showView('view-brew')">
+          <img class="photo-card-bg" src="assets/v60-moody.jpg" style="object-position: center bottom;" alt="Goteo Melitta sobre jarra" />
+          <div class="photo-card-scrim"></div>
+          <div class="photo-card-content" style="height: 100%; justify-content: space-between;">
+            <span class="photo-tag">Fondo Plano</span>
+            <div>
+              <h2 class="photo-card-title">Melitta</h2>
+              <p class="photo-card-desc">Cuerpo equilibrado y extracción constante para todos los días.</p>
+              <div class="photo-card-specs"><span>Ratio 1:16</span><span>20 g</span><span>3:30 min</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="photo-card" onclick="showView('view-brew')">
+          <img class="photo-card-bg" src="assets/pro-machine-moody.jpg" style="object-position: right center;" alt="Equipo de presión y molienda" />
+          <div class="photo-card-scrim"></div>
+          <div class="photo-card-content" style="height: 100%; justify-content: space-between;">
+            <span class="photo-tag">Inmersión + Presión</span>
+            <div>
+              <h2 class="photo-card-title">AeroPress</h2>
+              <p class="photo-card-desc">Taza densa y dulce en dos minutos, estándar o invertida.</p>
+              <div class="photo-card-specs"><span>Ratio 1:15</span><span>15 g</span><span>2:00 min</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="photo-card" onclick="showView('view-brew')">
+          <img class="photo-card-bg" src="assets/immersion-moody.jpg" style="object-position: right center;" alt="Prensa francesa mate negra" />
+          <div class="photo-card-scrim"></div>
+          <div class="photo-card-content" style="height: 100%; justify-content: space-between;">
+            <span class="photo-tag">Inmersión Pura</span>
+            <div>
+              <h2 class="photo-card-title">Prensa Francesa</h2>
+              <p class="photo-card-desc">Textura untuosa sin filtros de papel y notas acarameladas.</p>
+              <div class="photo-card-specs"><span>Ratio 1:15</span><span>30 g</span><span>4:30 min</span></div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Wiki Banner with Low-Exposure Saturated Beans -->
+      <div class="wiki-moody-banner">
+        <img src="assets/beans-moody.jpg" alt="Granos de café tostado de especialidad y cucharas de cata" />
+        <div style="position: relative; z-index: 2; max-width: 520px;">
+          <h2 style="margin: 0 0 6px 0; font-size: 22px;">Enciclopedia de Granos, Procesos y Cata SCA</h2>
+          <p style="margin: 0; font-size: 14px; color: rgba(247,239,226,0.82);">Descubrí qué origen y tueste rinde mejor según tu cafetera y explorá la rueda de sabores.</p>
+        </div>
+        <button style="position: relative; z-index: 2; background: var(--accent-gold); color: #16110E; border: none; padding: 12px 22px; border-radius: 10px; font-weight: 700; cursor: pointer;" onclick="showView('view-wiki')">Explorar Wiki Sensorial →</button>
+      </div>
+    </section>
+
+    <!-- VIEW BREW -->
+    <section id="view-brew" class="view-section">
+      <div style="margin-bottom: 20px;">
+        <button style="background: none; border: none; color: var(--accent-primary); font-weight: 700; cursor: pointer; padding: 0 0 8px 0;" onclick="showView('view-home')">← Volver al catálogo</button>
+        <h1 style="font-size: 28px; margin: 0 0 6px 0;">Hario V60 — Estación de Barra</h1>
+        <p style="margin: 0; font-size: 14px; color: var(--text-secondary);">Ajustá intensidad o dosis; cada pulso se recalcula con exactitud de balanza.</p>
+      </div>
+
+      <div class="brew-pro-grid">
+        <div class="pro-calc-card">
+          <div>
+            <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">Perfil de Intensidad</div>
+            <div class="intensity-group">
+              <button class="intensity-pill" aria-pressed="false">Liviano 1:17</button>
+              <button class="intensity-pill" aria-pressed="true">Normal 1:16.7</button>
+              <button class="intensity-pill" aria-pressed="false">Fuerte 1:15</button>
+            </div>
+          </div>
+
+          <div class="dose-grid-2">
+            <div class="dose-card">
+              <div style="font-size: 12px; color: var(--text-secondary);">Café seco</div>
+              <div class="font-mono-tabular" style="font-size: 26px; font-weight: 700;">15.0 g</div>
+            </div>
+            <div class="dose-card">
+              <div style="font-size: 12px; color: var(--text-secondary);">Agua (93 °C)</div>
+              <div class="font-mono-tabular" style="font-size: 26px; font-weight: 700;">250 ml</div>
+            </div>
+          </div>
+
+          <div style="border-top: 1px solid var(--border-subtle); padding-top: 12px; display: grid; gap: 8px; font-size: 13px;">
+            <div style="display: flex; justify-content: space-between;"><span>0:00 · Bloom</span><strong class="font-mono-tabular">+30 g → 30 g</strong></div>
+            <div style="display: flex; justify-content: space-between;"><span>0:45 · Vertido 1 (60%)</span><strong class="font-mono-tabular">+120 g → 150 g</strong></div>
+            <div style="display: flex; justify-content: space-between;"><span>1:15 · Vertido 2 (100%)</span><strong class="font-mono-tabular">+100 g → 250 g</strong></div>
+          </div>
+        </div>
+
+        <div class="pro-timer-card">
+          <img class="bg-photo" src="assets/v60-moody.jpg" alt="" />
+          <div class="pro-timer-inner">
+            <span style="font-family: var(--font-mono); font-size: 12px; color: var(--accent-gold);">FASE 1 DE 4 · BLOOM (45 s)</span>
+            <div class="font-mono-tabular" style="font-size: 62px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin: 6px 0;">00:00</div>
+            <p style="font-size: 14px; color: rgba(247,239,226,0.85); margin: 0 0 10px 0; max-width: 34ch;">Verté 30 g en espiral sobre la cama seca y agitá suavemente la jarra.</p>
+
+            <div class="action-stack">
+              <button class="btn-primary-full" type="button">Iniciar extracción</button>
+              <button class="btn-secondary-full" type="button">Reiniciar reloj</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW WIKI -->
+    <section id="view-wiki" class="view-section">
+      <div class="pro-hero" style="min-height: 220px;">
+        <div class="pro-hero-copy">
+          <h1 class="pro-hero-title">Wiki de Orígenes y Varietales</h1>
+          <p style="margin: 0; font-size: 14px; color: rgba(247,239,226,0.8);">Perfiles sensoriales reales por altitud, proceso y método recomendado.</p>
+        </div>
+        <div class="pro-hero-media">
+          <img src="assets/beans-moody.jpg" alt="Granos de café y cucharas de cata" />
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW FLAVOR WHEEL -->
+    <section id="view-wheel" class="view-section">
+      <div class="pro-calc-card">
+        <span class="photo-tag" style="margin-bottom: 4px;">CATA SCA</span>
+        <h1 style="font-size: 26px; margin: 0;">Rueda de Sabores SCA</h1>
+        <p style="margin: 0; font-size: 14px; color: var(--text-secondary);">Placeholder estructural para el anillo interactivo de descriptores y ajuste por método (Change C-09).</p>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-tab-bar">
+    <button class="tab-btn" aria-selected="true" data-tab="view-home">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
+      <span>Métodos</span>
+    </button>
+    <button class="tab-btn" aria-selected="false" data-tab="view-brew">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M5 4h14l-5 12h-4L5 4Z"></path></svg>
+      <span>Preparar</span>
+    </button>
+    <button class="tab-btn" aria-selected="false" data-tab="view-wiki">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+      <span>Wiki</span>
+    </button>
+    <button class="tab-btn" aria-selected="false" data-tab="view-wheel">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="3"></circle></svg>
+      <span>Rueda SCA</span>
+    </button>
+  </nav>
+
+  <script src="../../../../design-system/brand.js"></script>
+  <script>
+    function showView(id) {
+      document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+      const el = document.getElementById(id);
+      if (el) el.classList.add('active');
+      document.querySelectorAll('[data-route-btn]').forEach(b => b.setAttribute('aria-selected', b.getAttribute('data-route-btn') === id ? 'true' : 'false'));
+      document.querySelectorAll('[data-nav]').forEach(b => b.setAttribute('aria-current', b.getAttribute('data-nav') === id ? 'page' : 'false'));
+      document.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', b.getAttribute('data-tab') === id ? 'true' : 'false'));
+    }
+    document.querySelectorAll('[data-route-btn]').forEach(b => b.addEventListener('click', () => showView(b.getAttribute('data-route-btn'))));
+    document.querySelectorAll('[data-nav]').forEach(b => b.addEventListener('click', () => showView(b.getAttribute('data-nav'))));
+    document.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => showView(b.getAttribute('data-tab'))));
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('capture') === 'full') document.documentElement.classList.add('full-capture');
+    document.documentElement.setAttribute('data-theme', 'dark');
+    if (params.get('view')) showView(params.get('view'));
+  </script>
+</body>
+</html>

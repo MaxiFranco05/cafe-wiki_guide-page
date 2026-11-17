@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design System Reference — Cafetería Wiki &amp; Guide Page</title>
+  <link rel="stylesheet" href="tokens.css" />
+  <style>
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: var(--space-6) var(--space-4) var(--space-10);
+    }
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      padding-bottom: var(--space-6);
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: var(--space-8);
+    }
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+    .brand-logo {
+      height: 44px;
+      width: auto;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .badge-provisional {
+      background: var(--accent-primary-soft);
+      color: var(--accent-primary);
+      border: 1px solid var(--accent-primary);
+    }
+    .badge-optimal {
+      background: var(--status-optimal-bg);
+      color: var(--status-optimal);
+    }
+    .badge-warning {
+      background: var(--status-warning-bg);
+      color: var(--status-warning);
+      border: 1px solid var(--status-warning-border);
+    }
+    .grid-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+    @media (min-width: 960px) {
+      .grid-layout {
+        grid-template-columns: 1.15fr 0.85fr;
+        align-items: start;
+      }
+    }
+    .surface-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      box-shadow: var(--shadow-card);
+    }
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      color: var(--text-muted);
+      margin: 0 0 var(--space-2) 0;
+    }
+    .section-title {
+      font-size: var(--text-xl);
+      letter-spacing: var(--tracking-tight);
+      margin: 0 0 var(--space-4) 0;
+    }
+    /* Method Selector Pills */
+    .method-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(156px, 1fr));
+      gap: var(--space-2);
+      margin-bottom: var(--space-6);
+    }
+    .method-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      background: var(--bg-elevated);
+      border: 1px solid transparent;
+      color: var(--text-primary);
+      font-weight: 600;
+      font-size: var(--text-sm);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .method-pill[aria-current="true"] {
+      background: var(--text-primary);
+      color: var(--bg-canvas);
+    }
+    /* Segmented 3-Tier Ratio Control */
+    .segmented-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-2);
+      background: var(--bg-elevated);
+      padding: 6px;
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-5);
+    }
+    .segment-btn {
+      border: none;
+      background: transparent;
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      cursor: pointer;
+      text-align: center;
+    }
+    .segment-btn[aria-pressed="true"] {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-sm);
+      font-weight: 700;
+    }
+    .segment-ratio {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--accent-primary);
+      margin-top: 2px;
+    }
+    /* Bidirectional Inputs */
+    .calc-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+      align-items: center;
+      margin-bottom: var(--space-4);
+    }
+    @media (min-width: 520px) {
+      .calc-row {
+        grid-template-columns: 1fr auto 1fr;
+      }
+    }
+    .input-box {
+      background: var(--bg-elevated);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--space-3) var(--space-4);
+    }
+    .input-box:focus-within {
+      border-color: var(--border-focus);
+      box-shadow: var(--shadow-focus);
+    }
+    .input-label {
+      display: block;
+      font-size: var(--text-xs);
+      color: var(--text-secondary);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .input-value-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+    .input-number {
+      font-family: var(--font-mono);
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--text-primary);
+      border: none;
+      background: transparent;
+      width: 90px;
+    }
+    .input-unit {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+    }
+    .input-helper {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    /* Range Warning Banner */
+    .warning-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      background: var(--status-warning-bg);
+      border: 1px solid var(--status-warning-border);
+      color: var(--text-primary);
+      font-size: var(--text-sm);
+      margin-bottom: var(--space-5);
+    }
+    /* Procedural SVG + Timer Stage */
+    .stage-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+      align-items: center;
+      background: var(--bg-canvas);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+    }
+    @media (min-width: 560px) {
+      .stage-grid {
+        grid-template-columns: 180px 1fr;
+      }
+    }
+    .timer-readout {
+      font-family: var(--font-mono);
+      font-size: var(--text-timer);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      margin: var(--space-2) 0;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      background: var(--accent-primary);
+      color: var(--text-on-accent);
+      border: none;
+      border-radius: var(--radius-md);
+      padding: var(--space-3) var(--space-5);
+      font-size: var(--text-base);
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      cursor: pointer;
+    }
+    /* Phase Timeline List */
+    .phase-list {
+      margin-top: var(--space-5);
+      border-top: 1px solid var(--border-subtle);
+    }
+    .phase-item {
+      display: grid;
+      grid-template-columns: 76px 1fr auto;
+      gap: var(--space-3);
+      align-items: center;
+      padding: var(--space-3) 0;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: var(--text-sm);
+    }
+    .phase-item[data-active="true"] {
+      color: var(--accent-primary);
+      font-weight: 700;
+    }
+    /* Espresso Yield Strip & Wiki Preview */
+    .espresso-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+      margin-top: var(--space-3);
+    }
+    @media (min-width: 520px) {
+      .espresso-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .espresso-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: var(--space-3);
+    }
+    .espresso-card[data-selected="true"] {
+      border-color: var(--accent-primary);
+      background: var(--accent-primary-soft);
+    }
+    .sensory-bar-row {
+      display: grid;
+      grid-template-columns: 84px 1fr 32px;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-xs);
+      margin-bottom: 6px;
+    }
+    .sensory-track {
+      height: 6px;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+    .sensory-fill {
+      height: 100%;
+      background: var(--accent-primary);
+      border-radius: var(--radius-pill);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Top Header with Provisional Logo & Kitchen Mode Status -->
+    <header class="topbar">
+      <div class="brand-row">
+        <img src="assets/logo.svg" alt="Logo provisional" class="brand-logo" />
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <strong data-brand-name="full" style="font-size: var(--text-lg); letter-spacing: var(--tracking-tight);">Atelier Brew (TBD)</strong>
+            <span class="badge badge-provisional">Design System Rev 1</span>
+          </div>
+          <p style="margin: 2px 0 0 0; font-size: var(--text-xs); color: var(--text-secondary);">
+            Guía interactiva de preparación en mesada &amp; Wiki sensorial SCA
+          </p>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: var(--space-2);">
+        <span class="badge badge-optimal" title="Screen Wake Lock API activa">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2"></path>
+          </svg>
+          Wake Lock Activo
+        </span>
+        <button type="button" class="btn-secondary pressable" id="themeToggle">
+          Alternar Modo Cocina
+        </button>
+      </div>
+    </header>
+
+    <!-- 6 MVP Methods Strip -->
+    <nav aria-label="Métodos de preparación" class="method-strip">
+      <button type="button" class="method-pill pressable" aria-current="true">
+        <span>Hario V60</span>
+        <span class="font-mono-tabular" style="font-size: var(--text-xs); opacity: 0.75;">1:16.7</span>
+      </button>
+      <button type="button" class="method-pill pressable">
+        <span>Chemex</span>
+        <span class="font-mono-tabular" style="font-size: var(--text-xs); opacity: 0.75;">1:16</span>
+      </button>
+      <button type="button" class="method-pill pressable">
+        <span>Melitta</span>
+        <span class="font-mono-tabular" style="font-size: var(--text-xs); opacity: 0.75;">1:16</span>
+      </button>
+      <button type="button" class="method-pill pressable">
+        <span>AeroPress</span>
+        <span class="font-mono-tabular" style="font-size: var(--text-xs); opacity: 0.75;">1:15</span>
+      </button>
+      <button type="button" class="method-pill pressable">
+        <span>Prensa Francesa</span>
+        <span class="font-mono-tabular" style="font-size: var(--text-xs); opacity: 0.75;">1:15</span>
+      </button>
+      <button type="button" class="method-pill pressable">
+        <span>Espresso</span>
+        <span class="font-mono-tabular" style="font-size: var(--text-xs); opacity: 0.75;">1:2.0</span>
+      </button>
+    </nav>
+
+    <main class="grid-layout">
+      <!-- LEFT COLUMN: Interactive Brew Station (Calculator + Procedural SVG + Timer) -->
+      <section class="surface-card" aria-labelledby="station-heading">
+        <p class="section-eyebrow">Estación de Preparación · Filtro por Gravedad</p>
+        <h2 id="station-heading" class="section-title">Hario V60 — Escalado Proporcional por Fase</h2>
+
+        <!-- 3 Intensity Levels -->
+        <div class="segmented-group" role="group" aria-label="Intensidad de preparación">
+          <button type="button" class="segment-btn pressable" aria-pressed="false">
+            Liviano (Floral)
+            <span class="segment-ratio">Ratio 1 : 17</span>
+          </button>
+          <button type="button" class="segment-btn pressable" aria-pressed="true">
+            Normal (Equilibrado)
+            <span class="segment-ratio">Ratio 1 : 16.7</span>
+          </button>
+          <button type="button" class="segment-btn pressable" aria-pressed="false">
+            Fuerte (Cuerpo)
+            <span class="segment-ratio">Ratio 1 : 15</span>
+          </button>
+        </div>
+
+        <!-- Bidirectional Calculator Inputs -->
+        <div class="calc-row">
+          <div class="input-box">
+            <label class="input-label" for="coffeeInput">Dosis de Café</label>
+            <div class="input-value-row">
+              <input id="coffeeInput" class="input-number" type="number" value="18" readonly />
+              <span class="input-unit">gramos</span>
+            </div>
+            <div class="input-helper">≈ 2.3 cucharadas soperas · Molienda media-fina</div>
+          </div>
+
+          <div style="color: var(--text-muted);" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+              <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/>
+            </svg>
+          </div>
+
+          <div class="input-box">
+            <label class="input-label" for="waterInput">Agua Total</label>
+            <div class="input-value-row">
+              <input id="waterInput" class="input-number" type="number" value="300" readonly />
+              <span class="input-unit">ml (g)</span>
+            </div>
+            <div class="input-helper">Temp. recomendada: 93 °C · Rango V60-02: 150–600 ml</div>
+          </div>
+        </div>
+
+        <!-- Non-blocking Physical Range Warning State Showcase -->
+        <div class="warning-banner" role="status">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--status-warning)" stroke-width="2" style="flex-shrink: 0; margin-top: 2px;">
+            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          <div>
+            <strong>Estado de ejemplo (Advertencia de rango físico RN-RG-01):</strong>
+            Si ingresás más de <span class="font-mono-tabular">36 g</span> de café o <span class="font-mono-tabular">600 ml</span> de agua en un cono V60-02, el nivel puede desbordar el filtro. Mantené los hitos de reloj y molí ligeramente más grueso.
+          </div>
+        </div>
+
+        <!-- Procedural SVG Stage + Active Stopwatch -->
+        <div class="stage-grid">
+          <!-- Composable SVG Primitives Preview -->
+          <svg viewBox="0 0 180 180" width="100%" height="170" role="img" aria-label="Escena procedural V60: Primer vertido en espiral">
+            <!-- Kettle Pour Stream Primitive -->
+            <path d="M90 12 C90 36, 86 52, 90 78" stroke="var(--svg-water-stream)" stroke-width="4" stroke-linecap="round" stroke-dasharray="6 4"/>
+            <!-- V60 Cone Vessel Primitive -->
+            <polygon points="38,44 142,44 108,122 72,122" fill="var(--svg-vessel-glass)" stroke="var(--svg-vessel-stroke)" stroke-width="2.5" stroke-linejoin="round"/>
+            <!-- Liquid Fill Level Primitive (Interpolated by phase progress) -->
+            <polygon points="51,74 129,74 108,122 72,122" fill="var(--svg-coffee-liquid)" fill-opacity="0.72"/>
+            <!-- Active Coffee Bed Slurry Primitive -->
+            <polygon points="64,102 116,102 108,122 72,122" fill="var(--svg-coffee-bed)"/>
+            <!-- Spiral Ribs -->
+            <line x1="58" y1="44" x2="78" y2="122" stroke="var(--svg-vessel-stroke)" stroke-opacity="0.3" stroke-width="1.5"/>
+            <line x1="122" y1="44" x2="102" y2="122" stroke="var(--svg-vessel-stroke)" stroke-opacity="0.3" stroke-width="1.5"/>
+            <!-- Dripper Base & Glass Server -->
+            <line x1="48" y1="123" x2="132" y2="123" stroke="var(--svg-vessel-stroke)" stroke-width="3" stroke-linecap="round"/>
+            <path d="M58 125 L52 166 H128 L122 125" fill="none" stroke="var(--svg-vessel-stroke)" stroke-width="2"/>
+            <path d="M54 152 H126 L128 165 H52 Z" fill="var(--svg-coffee-liquid)" fill-opacity="0.85"/>
+            <!-- Falling Extraction Drop -->
+            <circle cx="90" cy="136" r="3" fill="var(--svg-coffee-liquid)"/>
+          </svg>
+
+          <div>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span class="badge badge-provisional">Fase 2 de 4 · Vertido Principal (60%)</span>
+              <span class="font-mono-tabular" style="font-size: var(--text-xs); color: var(--text-secondary);">Audio WebSynth ON</span>
+            </div>
+            <div class="timer-readout">00:58</div>
+            <p style="margin: 0 0 var(--space-4) 0; font-size: var(--text-base); color: var(--text-secondary);">
+              Verté en espiral suave <strong class="font-mono-tabular" style="color: var(--text-primary);">+144 g</strong> hasta llegar a <strong class="font-mono-tabular" style="color: var(--accent-primary);">180 g</strong> en la balanza antes de <span class="font-mono-tabular">01:15</span>.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-2);">
+              <button type="button" class="btn-primary pressable">Pausar Timer</button>
+              <button type="button" class="btn-secondary pressable">Reiniciar (00:00)</button>
+              <button type="button" class="btn-secondary pressable">Siguiente Fase</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scaled Phase Breakdown (Option A: Fixed Timestamps, Scaled Water Masses) -->
+        <div class="phase-list" aria-label="Desglose de fases escaladas">
+          <div class="phase-item">
+            <span class="font-mono-tabular" style="color: var(--text-muted);">0:00–0:45</span>
+            <span>1. Bloom (2x dosis) + giro suave</span>
+            <span class="font-mono-tabular">+36 g → <strong>36 g</strong></span>
+          </div>
+          <div class="phase-item" data-active="true">
+            <span class="font-mono-tabular">0:45–1:15</span>
+            <span>2. Primer vertido continuo al 60%</span>
+            <span class="font-mono-tabular">+144 g → <strong>180 g</strong></span>
+          </div>
+          <div class="phase-item">
+            <span class="font-mono-tabular" style="color: var(--text-muted);">1:15–1:45</span>
+            <span>3. Segundo vertido térmico al 100%</span>
+            <span class="font-mono-tabular">+120 g → <strong>300 g</strong></span>
+          </div>
+          <div class="phase-item">
+            <span class="font-mono-tabular" style="color: var(--text-muted);">1:45–3:30</span>
+            <span>4. Remoción con cuchara + Drawdown final</span>
+            <span class="font-mono-tabular">Meta: <strong>300 g</strong></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN: Espresso Yield Mode + Wiki & SCA Flavor Wheel Reference -->
+      <div style="display: grid; gap: var(--space-6);">
+        <!-- Espresso Yield Reference Component -->
+        <section class="surface-card" aria-labelledby="espresso-heading">
+          <p class="section-eyebrow">Modo Presión · Cálculo por Yield (RN-BR-06)</p>
+          <h2 id="espresso-heading" class="section-title">Espresso — 3 Niveles desde Dosis Seca (18 g)</h2>
+          <div class="espresso-grid">
+            <div class="espresso-card">
+              <div style="font-size: var(--text-xs); color: var(--text-secondary); font-weight: 600;">Fuerte · Ristretto</div>
+              <div class="font-mono-tabular" style="font-size: var(--text-xl); font-weight: 700; margin: 4px 0;">27 g</div>
+              <div class="font-mono-tabular" style="font-size: var(--text-xs); color: var(--accent-primary);">Ratio 1:1.5 · 20–25s</div>
+            </div>
+            <div class="espresso-card" data-selected="true">
+              <div style="font-size: var(--text-xs); color: var(--text-primary); font-weight: 700;">Normal · Normale</div>
+              <div class="font-mono-tabular" style="font-size: var(--text-xl); font-weight: 700; margin: 4px 0;">36 g</div>
+              <div class="font-mono-tabular" style="font-size: var(--text-xs); color: var(--accent-primary);">Ratio 1:2.0 · 25–30s</div>
+            </div>
+            <div class="espresso-card">
+              <div style="font-size: var(--text-xs); color: var(--text-secondary); font-weight: 600;">Liviano · Lungo</div>
+              <div class="font-mono-tabular" style="font-size: var(--text-xl); font-weight: 700; margin: 4px 0;">54 g</div>
+              <div class="font-mono-tabular" style="font-size: var(--text-xs); color: var(--accent-primary);">Ratio 1:3.0 · 30–35s</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Wiki Entry + Interactive SCA Flavor Wheel Preview -->
+        <section class="surface-card" aria-labelledby="wiki-heading">
+          <p class="section-eyebrow">Wiki Sensorial &amp; Rueda de Sabores SCA</p>
+          <h2 id="wiki-heading" class="section-title">Origen: Etiopía Yirgacheffe (Lavado)</h2>
+
+          <div style="display: grid; grid-template-columns: 140px 1fr; gap: var(--space-4); align-items: center;">
+            <!-- Interactive SCA Wheel SVG Ring Preview -->
+            <svg viewBox="0 0 140 140" width="136" height="136" role="img" aria-label="Rueda de sabores SCA: segmento Floral y Frutal">
+              <circle cx="70" cy="70" r="62" fill="none" stroke="var(--border-subtle)" stroke-width="18"/>
+              <!-- Segmented Semantic Arcs -->
+              <circle cx="70" cy="70" r="52" fill="none" stroke="var(--flavor-fruity)" stroke-width="18" stroke-dasharray="65 260" stroke-dashoffset="0"/>
+              <circle cx="70" cy="70" r="52" fill="none" stroke="var(--flavor-floral)" stroke-width="18" stroke-dasharray="50 275" stroke-dashoffset="-68"/>
+              <circle cx="70" cy="70" r="52" fill="none" stroke="var(--flavor-sweet)" stroke-width="18" stroke-dasharray="55 270" stroke-dashoffset="-121"/>
+              <circle cx="70" cy="70" r="52" fill="none" stroke="var(--flavor-nutty-cocoa)" stroke-width="18" stroke-dasharray="60 265" stroke-dashoffset="-179"/>
+              <circle cx="70" cy="70" r="52" fill="none" stroke="var(--flavor-roasted)" stroke-width="18" stroke-dasharray="70 255" stroke-dashoffset="-242"/>
+              <circle cx="70" cy="70" r="30" fill="var(--bg-surface)"/>
+              <text x="70" y="67" text-anchor="middle" fill="var(--text-primary)" font-family="var(--font-mono)" font-size="9" font-weight="700">SCA WHEEL</text>
+              <text x="70" y="79" text-anchor="middle" fill="var(--accent-primary)" font-family="var(--font-sans)" font-size="8" font-weight="600">Jazmín · Bergamota</text>
+            </svg>
+
+            <div>
+              <div class="sensory-bar-row">
+                <span>Acidez</span>
+                <div class="sensory-track"><div class="sensory-fill" style="width: 92%;"></div></div>
+                <span class="font-mono-tabular">4.6/5</span>
+              </div>
+              <div class="sensory-bar-row">
+                <span>Dulzor</span>
+                <div class="sensory-track"><div class="sensory-fill" style="width: 84%;"></div></div>
+                <span class="font-mono-tabular">4.2/5</span>
+              </div>
+              <div class="sensory-bar-row">
+                <span>Cuerpo</span>
+                <div class="sensory-track"><div class="sensory-fill" style="width: 45%;"></div></div>
+                <span class="font-mono-tabular">2.2/5</span>
+              </div>
+              <p style="font-size: var(--text-xs); color: var(--text-secondary); margin: var(--space-2) 0 0 0;">
+                <strong>Recomendación en taza:</strong> Hario V60 o Chemex en perfil <em>Liviano (1:17)</em> a 94 °C para destacar notas florales y cítricas.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="brand.js"></script>
+  <script>
+    document.getElementById("themeToggle").addEventListener("click", function () {
+      const root = document.documentElement;
+      const isDark = root.getAttribute("data-theme") === "dark";
+      if (isDark) {
+        root.removeAttribute("data-theme");
+      } else {
+        root.setAttribute("data-theme", "dark");
+      }
+    });
+  </script>
+</body>
+</html>

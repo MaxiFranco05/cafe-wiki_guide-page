@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Propuesta 1: Minimalista Editorial Beige — C-01</title>
+  <link rel="stylesheet" href="../../../../design-system/tokens.css" />
+  <style>
+    /* ==========================================================================
+     * PROPUESTA 1: CUADERNO DE CATA EDITORIAL (Minimalista Beige)
+     * - Cero blanco puro: papel beige lino (#EFE6D8) y marfil cálido (#F7F1E7)
+     * - Tipografía serif editorial para títulos + sans limpia + mono tabular discreta
+     * - Sin cajas recargadas ni sombras densas; separación por aire y filetes 1px
+     * ========================================================================== */
+    :root {
+      --bg-canvas: #EFE6D8;
+      --bg-surface: #F7F1E7;
+      --bg-elevated: #E4D7C4;
+      --bg-glass: rgba(239, 230, 216, 0.92);
+      --text-primary: #211914;
+      --text-secondary: #5C4F43;
+      --text-muted: #8A7A6B;
+      --border-subtle: #DBCEBA;
+      --border-strong: #BDAE96;
+      --accent-primary: #B6532D;
+      --accent-primary-hover: #9C4422;
+      --accent-primary-soft: rgba(182, 83, 45, 0.13);
+      --font-editorial: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      --navbar-height: 68px;
+      --bottom-bar-height: 68px;
+    }
+
+    html[data-theme="dark"] {
+      --bg-canvas: #181310;
+      --bg-surface: #221B17;
+      --bg-elevated: #2E251F;
+      --bg-glass: rgba(24, 19, 16, 0.92);
+      --text-primary: #F2E9DC;
+      --text-secondary: #C5B7A5;
+      --text-muted: #8E7F6F;
+      --border-subtle: #3A2F27;
+      --border-strong: #544539;
+      --accent-primary: #DF6E45;
+      --accent-primary-hover: #EB815A;
+      --accent-primary-soft: rgba(223, 110, 69, 0.17);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--bg-canvas);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+    }
+
+    /* Reviewer Switcher */
+    .mockup-bar {
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 8px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12px;
+    }
+    .bar-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .bar-pill {
+      text-decoration: none;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-secondary);
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .bar-pill[aria-current="true"],
+    .bar-pill[aria-selected="true"] {
+      background: var(--bg-surface);
+      color: var(--accent-primary);
+      border-color: var(--border-subtle);
+      font-weight: 700;
+    }
+
+    /* Minimal Topbar */
+    .top-navbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      height: var(--navbar-height);
+      background: var(--bg-glass);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+    @media (min-width: 768px) {
+      .top-navbar { padding: 0 40px; }
+    }
+
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-primary);
+      background: var(--bg-surface);
+    }
+    .brand-wordmark {
+      font-family: var(--font-editorial);
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    .provisional-chip {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: var(--accent-primary-soft);
+      color: var(--accent-primary);
+    }
+
+    .desktop-nav {
+      display: none;
+      gap: 24px;
+    }
+    @media (min-width: 768px) {
+      .desktop-nav { display: flex; }
+    }
+    .nav-text-btn {
+      background: none;
+      border: none;
+      padding: 8px 2px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+    .nav-text-btn[aria-current="page"] {
+      color: var(--text-primary);
+      font-weight: 700;
+      border-bottom-color: var(--accent-primary);
+    }
+
+    .theme-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    /* Main Content Container */
+    .main-wrap {
+      flex: 1;
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 28px 20px 64px;
+    }
+    @media (min-width: 768px) {
+      .main-wrap { padding: 48px 40px 80px; }
+    }
+
+    .view-section { display: none; }
+    .view-section.active { display: block; }
+
+    /* Asymmetric Editorial Intro (No Eyebrow Kicker) */
+    .editorial-intro {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 32px;
+    }
+    @media (min-width: 820px) {
+      .editorial-intro {
+        grid-template-columns: 1.3fr 0.7fr;
+        align-items: end;
+      }
+    }
+    .editorial-h1 {
+      font-family: var(--font-editorial);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+      margin: 0 0 12px 0;
+    }
+    .editorial-lead {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 54ch;
+      margin: 0;
+      line-height: 1.6;
+    }
+    .quick-feature-strip {
+      background: var(--bg-surface);
+      padding: 18px 20px;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Minimalist 2-Column List Grid (No heavy card boxes) */
+    .minimal-methods {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 720px) {
+      .minimal-methods {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 32px;
+        row-gap: 20px;
+      }
+    }
+    .method-row-card {
+      background: var(--bg-surface);
+      border-radius: 18px;
+      padding: 22px 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      cursor: pointer;
+      transition: background-color 180ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .method-row-card:hover {
+      background: var(--bg-elevated);
+    }
+    .method-line-art {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: var(--bg-canvas);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-primary);
+    }
+    .method-row-title {
+      font-family: var(--font-editorial);
+      font-size: 22px;
+      font-weight: 400;
+      margin: 0 0 6px 0;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .method-tag-clean {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .method-row-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin: 0 0 12px 0;
+      line-height: 1.5;
+    }
+    .method-specs-inline {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-primary);
+      display: flex;
+      gap: 16px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Brew Station (Zen Split) */
+    .brew-split {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    @media (min-width: 860px) {
+      .brew-split {
+        grid-template-columns: 1fr 0.95fr;
+        align-items: start;
+      }
+    }
+    .zen-panel {
+      background: var(--bg-surface);
+      border-radius: 22px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .intensity-pills {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      background: var(--bg-canvas);
+      padding: 5px;
+      border-radius: 14px;
+    }
+    .intensity-btn {
+      min-height: 44px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .intensity-btn[aria-pressed="true"] {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+    }
+
+    .dose-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .dose-tile {
+      background: var(--bg-canvas);
+      padding: 16px;
+      border-radius: 14px;
+    }
+    .dose-tile-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .dose-tile-num {
+      font-family: var(--font-mono);
+      font-size: 26px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Full-width Stacked Mercado Libre Pattern Buttons */
+    .action-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+    .btn-primary-full {
+      width: 100%;
+      min-height: 50px;
+      border: none;
+      border-radius: 14px;
+      background: var(--accent-primary);
+      color: #FFFDF9;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-secondary-full {
+      width: 100%;
+      min-height: 50px;
+      border: none;
+      border-radius: 14px;
+      background: var(--accent-primary-soft);
+      color: var(--accent-primary);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    /* Mobile Bottom Tab Bar */
+    .bottom-tab-bar {
+      display: flex;
+      position: sticky;
+      bottom: 0;
+      z-index: 50;
+      height: var(--bottom-bar-height);
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-subtle);
+      justify-content: space-around;
+      align-items: center;
+    }
+    html.full-capture .bottom-tab-bar { position: static; }
+    @media (min-width: 768px) { .bottom-tab-bar { display: none; } }
+    .tab-btn {
+      flex: 1;
+      min-height: 48px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .tab-btn[aria-selected="true"] {
+      color: var(--accent-primary);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <!-- Comparison Toolbar -->
+  <header class="mockup-bar">
+    <div class="bar-links">
+      <a class="bar-pill" href="01-minimal-beige.html" aria-current="true">1. Minimalista Beige</a>
+      <a class="bar-pill" href="02-profesional-barismo.html">2. Profesional Fotográfico</a>
+      <a class="bar-pill" href="03-metalico-industrial.html">3. Metálico Industrial</a>
+    </div>
+    <div class="bar-links">
+      <button class="bar-pill" aria-selected="true" data-route-btn="view-home">/ (Métodos)</button>
+      <button class="bar-pill" aria-selected="false" data-route-btn="view-brew">/brew/v60</button>
+      <button class="bar-pill" aria-selected="false" data-route-btn="view-wiki">/wiki</button>
+    </div>
+  </header>
+
+  <nav class="top-navbar">
+    <a href="#home" class="brand-link" onclick="event.preventDefault(); showView('view-home')">
+      <div class="brand-mark">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M5 5h14l-5 13h-4L5 5Z"></path>
+          <path d="M8 18h8"></path>
+        </svg>
+      </div>
+      <span class="brand-wordmark" data-brand-name="short">Atelier Brew</span>
+      <span class="provisional-chip">TBD</span>
+    </a>
+
+    <div class="desktop-nav">
+      <button class="nav-text-btn" aria-current="page" data-nav="view-home">Métodos</button>
+      <button class="nav-text-btn" data-nav="view-brew">Preparar</button>
+      <button class="nav-text-btn" data-nav="view-wiki">Wiki del Café</button>
+      <button class="nav-text-btn" data-nav="view-brew">Rueda SCA</button>
+    </div>
+
+    <button id="theme-toggle" class="theme-btn" aria-label="Cambiar tema">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+      </svg>
+    </button>
+  </nav>
+
+  <main class="main-wrap">
+    <!-- VIEW HOME -->
+    <section id="view-home" class="view-section active">
+      <div class="editorial-intro">
+        <div>
+          <h1 class="editorial-h1">Tu mesa de preparación, sin ruido ni relleno.</h1>
+          <p class="editorial-lead">Elegí la cafetera, calibrá los gramos exactos y dejá que el temporizador te guíe paso a paso con la pantalla siempre activa.</p>
+        </div>
+        <div class="quick-feature-strip">
+          <strong style="font-size: 13px;">Acceso rápido al cuaderno sensorial</strong>
+          <p style="font-size: 13px; color: var(--text-secondary); margin: 0;">Explorá varietales, procesos y la rueda SCA de sabores antes de moler.</p>
+          <button class="btn-secondary-full" style="min-height: 44px; font-size: 14px;" onclick="showView('view-wiki')">Explorar Wiki Sensorial →</button>
+        </div>
+      </div>
+
+      <div class="minimal-methods">
+        <article class="method-row-card" onclick="showView('view-brew')">
+          <div class="method-line-art">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35"><path d="M5 4h14l-5 12h-4L5 4Z"></path><path d="M8 19h8"></path></svg>
+          </div>
+          <div style="flex: 1;">
+            <h2 class="method-row-title">Hario V60 <span class="method-tag-clean">Filtro cónico</span></h2>
+            <p class="method-row-desc">Taza limpia, acidez brillante y notas florales definidas en tres vertidos.</p>
+            <div class="method-specs-inline"><span>1:16.7</span><span>15 g</span><span>3:30 min</span></div>
+          </div>
+        </article>
+
+        <article class="method-row-card" onclick="showView('view-brew')">
+          <div class="method-line-art">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35"><path d="M7 3h10l-3 7v9a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-9L7 3Z"></path></svg>
+          </div>
+          <div style="flex: 1;">
+            <h2 class="method-row-title">Chemex <span class="method-tag-clean">Filtro grueso</span></h2>
+            <p class="method-row-desc">Claridad cristalina ideal para dos o más tazas con cuerpo ligero.</p>
+            <div class="method-specs-inline"><span>1:16</span><span>30 g</span><span>4:00 min</span></div>
+          </div>
+        </article>
+
+        <article class="method-row-card" onclick="showView('view-brew')">
+          <div class="method-line-art">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35"><path d="M5 4h14l-2 14H7L5 4Z"></path><path d="M9 18h6"></path></svg>
+          </div>
+          <div style="flex: 1;">
+            <h2 class="method-row-title">Melitta <span class="method-tag-clean">Fondo plano</span></h2>
+            <p class="method-row-desc">Extracción pareja y dulzor cotidiano sin complicaciones de caudal.</p>
+            <div class="method-specs-inline"><span>1:16</span><span>20 g</span><span>3:30 min</span></div>
+          </div>
+        </article>
+
+        <article class="method-row-card" onclick="showView('view-brew')">
+          <div class="method-line-art">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35"><rect x="7" y="6" width="10" height="14" rx="1.5"></rect><path d="M5 3h14M12 3v3"></path></svg>
+          </div>
+          <div style="flex: 1;">
+            <h2 class="method-row-title">AeroPress <span class="method-tag-clean">Híbrido</span></h2>
+            <p class="method-row-desc">Cuerpo concentrado y amargor mínimo en dos minutos exactos.</p>
+            <div class="method-specs-inline"><span>1:15</span><span>15 g</span><span>2:00 min</span></div>
+          </div>
+        </article>
+
+        <article class="method-row-card" onclick="showView('view-brew')">
+          <div class="method-line-art">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35"><rect x="6" y="6" width="12" height="15" rx="2"></rect><path d="M12 2v4M6 14h12"></path></svg>
+          </div>
+          <div style="flex: 1;">
+            <h2 class="method-row-title">Prensa Francesa <span class="method-tag-clean">Inmersión</span></h2>
+            <p class="method-row-desc">Textura sedosa con todos los aceites naturales del grano en taza.</p>
+            <div class="method-specs-inline"><span>1:15</span><span>30 g</span><span>4:30 min</span></div>
+          </div>
+        </article>
+
+        <article class="method-row-card" onclick="showView('view-brew')">
+          <div class="method-line-art">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35"><path d="M4 9h12v7a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V9Z"></path><path d="M16 10h2a3 3 0 0 1 0 6h-2"></path></svg>
+          </div>
+          <div style="flex: 1;">
+            <h2 class="method-row-title">Espresso <span class="method-tag-clean">Presión 9 bar</span></h2>
+            <p class="method-row-desc">Cálculo directo desde dosis seca hacia Ristretto, Normale y Lungo.</p>
+            <div class="method-specs-inline"><span>1:2 yield</span><span>18 g</span><span>28 s</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- VIEW BREW -->
+    <section id="view-brew" class="view-section">
+      <div style="margin-bottom: 24px;">
+        <button style="background: none; border: none; color: var(--accent-primary); font-weight: 600; cursor: pointer; padding: 0 0 8px 0;" onclick="showView('view-home')">← Volver a métodos</button>
+        <h1 class="editorial-h1" style="margin-bottom: 6px;">Hario V60</h1>
+        <p class="editorial-lead">Receta calibrada con tiempos fijos y recálculo proporcional de cada vertido.</p>
+      </div>
+
+      <div class="brew-split">
+        <div class="zen-panel">
+          <div>
+            <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Intensidad</div>
+            <div class="intensity-pills">
+              <button class="intensity-btn" aria-pressed="false">Liviano 1:17</button>
+              <button class="intensity-btn" aria-pressed="true">Normal 1:16.7</button>
+              <button class="intensity-btn" aria-pressed="false">Fuerte 1:15</button>
+            </div>
+          </div>
+
+          <div class="dose-pair">
+            <div class="dose-tile">
+              <div class="dose-tile-label">Café molido</div>
+              <div class="dose-tile-num">15.0 g</div>
+            </div>
+            <div class="dose-tile">
+              <div class="dose-tile-label">Agua (93 °C)</div>
+              <div class="dose-tile-num">250 ml</div>
+            </div>
+          </div>
+
+          <div style="border-top: 1px solid var(--border-subtle); padding-top: 14px; font-size: 13px; color: var(--text-secondary); display: grid; gap: 10px;">
+            <div style="display: flex; justify-content: space-between;"><span>0:00 · Bloom y agitación suave</span><strong class="font-mono-tabular">30 g</strong></div>
+            <div style="display: flex; justify-content: space-between;"><span>0:45 · Primer vertido al 60%</span><strong class="font-mono-tabular">150 g</strong></div>
+            <div style="display: flex; justify-content: space-between;"><span>1:15 · Segundo vertido al 100%</span><strong class="font-mono-tabular">250 g</strong></div>
+          </div>
+        </div>
+
+        <div class="zen-panel" style="align-items: center; text-align: center;">
+          <div style="font-size: 13px; color: var(--text-secondary);">Paso 1 · Bloom (pre-infusión)</div>
+          <div style="font-family: var(--font-mono); font-size: 64px; font-weight: 500; letter-spacing: -0.04em; line-height: 1; margin: 8px 0;">00:00</div>
+          <p style="font-size: 14px; color: var(--text-secondary); margin: 0 0 12px 0; max-width: 32ch;">Verté 30 g de agua para mojar todo el café y remové suavemente durante 45 segundos.</p>
+
+          <div class="action-stack">
+            <button class="btn-primary-full" type="button">Iniciar preparación</button>
+            <button class="btn-secondary-full" type="button">Reiniciar a 00:00</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW WIKI -->
+    <section id="view-wiki" class="view-section">
+      <h1 class="editorial-h1">Wiki Sensorial</h1>
+      <p class="editorial-lead">Fichas directas de orígenes, varietales y procesos conectadas a tus métodos de extracción.</p>
+    </section>
+  </main>
+
+  <nav class="bottom-tab-bar">
+    <button class="tab-btn" aria-selected="true" data-tab="view-home">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
+      <span>Métodos</span>
+    </button>
+    <button class="tab-btn" aria-selected="false" data-tab="view-brew">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 4h14l-5 12h-4L5 4Z"></path></svg>
+      <span>Preparar</span>
+    </button>
+    <button class="tab-btn" aria-selected="false" data-tab="view-wiki">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+      <span>Wiki</span>
+    </button>
+  </nav>
+
+  <script src="../../../../design-system/brand.js"></script>
+  <script>
+    function showView(id) {
+      document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+      const el = document.getElementById(id);
+      if (el) el.classList.add('active');
+      document.querySelectorAll('[data-route-btn]').forEach(b => b.setAttribute('aria-selected', b.getAttribute('data-route-btn') === id ? 'true' : 'false'));
+      document.querySelectorAll('[data-nav]').forEach(b => b.setAttribute('aria-current', b.getAttribute('data-nav') === id ? 'page' : 'false'));
+      document.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', b.getAttribute('data-tab') === id ? 'true' : 'false'));
+    }
+    document.querySelectorAll('[data-route-btn]').forEach(b => b.addEventListener('click', () => showView(b.getAttribute('data-route-btn'))));
+    document.querySelectorAll('[data-nav]').forEach(b => b.addEventListener('click', () => showView(b.getAttribute('data-nav'))));
+    document.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => showView(b.getAttribute('data-tab'))));
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      document.documentElement.toggleAttribute('data-theme');
+      if (document.documentElement.hasAttribute('data-theme')) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    });
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('capture') === 'full') document.documentElement.classList.add('full-capture');
+    if (params.get('theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    if (params.get('view')) showView(params.get('view'));
+  </script>
+</body>
+</html>

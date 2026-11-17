@@ -1,0 +1,143 @@
+{
+  "app": {
+    "title": "Atelier Brew",
+    "tagline": "Barismo de Especialidad",
+    "subtitle": "BARISMO DE ESPECIALIDAD · TBD"
+  },
+  "nav": {
+    "methods": "Métodos",
+    "brewStation": "Estación de Preparación",
+    "wiki": "Wiki & Orígenes",
+    "flavorWheel": "Rueda SCA",
+    "mobile": {
+      "methods": "Métodos",
+      "brew": "Preparar",
+      "wiki": "Wiki",
+      "wheel": "Rueda SCA"
+    },
+    "aria": {
+      "main": "Navegación principal",
+      "mobile": "Navegación móvil",
+      "brand": "Ir al inicio de Atelier Brew"
+    }
+  },
+  "methods": {
+    "ratioLabel": "Ratio 1:{ratio}",
+    "yieldLabel": "Yield 1:{yield}",
+    "timeLabel": "{time} min",
+    "doseLabel": "{dose} g",
+    "v60": {
+      "title": "Hario V60",
+      "tag": "Filtro Cónico",
+      "desc": "Vertido en espiral por fases con claridad sensorial brillante.",
+      "ratio": "16.7",
+      "dose": "15",
+      "time": "3:30"
+    },
+    "espresso": {
+      "title": "Espresso",
+      "tag": "Presión 9 Bar",
+      "desc": "Cálculo por rendimiento en taza: Ristretto, Normale y Lungo.",
+      "yield": "2",
+      "dose": "18",
+      "time": "25–30 s"
+    },
+    "chemex": {
+      "title": "Chemex",
+      "tag": "Filtro Grueso",
+      "desc": "Triple capa de papel para jarras limpias y notas florales.",
+      "ratio": "16",
+      "dose": "30",
+      "time": "4:00"
+    },
+    "melitta": {
+      "title": "Melitta",
+      "tag": "Fondo Plano",
+      "desc": "Cuerpo equilibrado y extracción constante para todos los días.",
+      "ratio": "16",
+      "dose": "20",
+      "time": "3:30"
+    },
+    "aeropress": {
+      "title": "AeroPress",
+      "tag": "Inmersión + Presión",
+      "desc": "Taza densa y dulce en dos minutos, estándar o invertida.",
+      "ratio": "15",
+      "dose": "15",
+      "time": "2:00"
+    },
+    "frenchPress": {
+      "title": "Prensa Francesa",
+      "tag": "Inmersión Pura",
+      "desc": "Textura untuosa sin filtros de papel y notas acarameladas.",
+      "ratio": "15",
+      "dose": "30",
+      "time": "4:30"
+    }
+  },
+  "home": {
+    "heroTitle": "Precisión de barra en cada extracción.",
+    "heroDesc": "Calculá proporciones en gramos, escalá cada vertido automáticamente y seguí los tiempos con pantalla activa en la mesada.",
+    "heroCtaBrew": "Abrir Hario V60",
+    "heroCtaWiki": "Ver Granos y Orígenes",
+    "heroMediaAlt": "Máquina profesional de espresso de doble grupo en barra con manómetros iluminados",
+    "methodsTitle": "Métodos de Extracción",
+    "wikiBannerTitle": "Enciclopedia de Granos, Procesos y Cata SCA",
+    "wikiBannerDesc": "Descubrí qué origen y tueste rinde mejor según tu cafetera y explorá la rueda de sabores.",
+    "wikiBannerCta": "Explorar Wiki Sensorial",
+    "wikiBannerAlt": "Granos de café tostado de especialidad y cucharas de cata"
+  },
+  "brew": {
+    "backToCatalog": "Volver al catálogo",
+    "stationTitle": "Estación de Barra",
+    "stationSubtitle": "Ajustá intensidad o dosis; cada pulso se recalcula con exactitud de balanza.",
+    "intensityTitle": "Perfil de Intensidad",
+    "intensityLight": "Liviano 1:17",
+    "intensityNormal": "Normal 1:16.7",
+    "intensityStrong": "Fuerte 1:15",
+    "dryCoffee": "Café seco",
+    "water": "Agua (93 °C)",
+    "sampleDryCoffee": "15.0 g",
+    "sampleWater": "250 ml",
+    "phaseBloom": "Bloom",
+    "phaseBloomDelta": "+30 g → 30 g",
+    "phasePour1": "Vertido 1 (60%)",
+    "phasePour1Delta": "+120 g → 150 g",
+    "phasePour2": "Vertido 2 (100%)",
+    "phasePour2Delta": "+100 g → 250 g",
+    "phaseIndicator": "FASE 1 DE 4 · BLOOM (45 s)",
+    "phaseInstruction": "Verté 30 g en espiral sobre la cama seca y agitá suavemente la jarra.",
+    "timerZero": "00:00",
+    "actionStart": "Iniciar extracción",
+    "actionReset": "Reiniciar reloj"
+  },
+  "wiki": {
+    "title": "Wiki de Orígenes y Varietales",
+    "subtitle": "Perfiles sensoriales reales por altitud, proceso y método recomendado.",
+    "heroAlt": "Granos de café y cucharas de cata",
+    "featuredEntryPrefix": "Ver entrada destacada:",
+    "breadcrumbAria": "Miga de pan",
+    "breadcrumbHome": "Wiki",
+    "entryPlaceholderBody": "Ficha técnica y perfil descriptivo para {title}. En la fase C-08 se integrará el catálogo exhaustivo de varietales, altitudes y procesos con referencias cruzadas.",
+    "backToWiki": "← Volver a la enciclopedia",
+    "prepareWithV60": "Preparar con Hario V60 →",
+    "categories": {
+      "granos": "Granos y Varietales",
+      "procesos": "Procesos de Beneficio",
+      "molienda": "Guía de Molienda",
+      "agua": "Química del Agua",
+      "extraccion": "Teoría de Extracción"
+    }
+  },
+  "wheel": {
+    "tag": "CATA SCA",
+    "title": "Rueda de Sabores SCA",
+    "subtitle": "Exploración interactiva de familias aromáticas y descriptores sensoriales según el estándar SCA.",
+    "placeholderDesc": "Placeholder estructural para el anillo interactivo de descriptores y ajuste por método (Change C-09)."
+  },
+  "notFound": {
+    "title": "404 — Ruta no encontrada",
+    "desc": "La página solicitada o el método especificado no existe en el catálogo.",
+    "cta": "Volver al inicio"
+  }
+}

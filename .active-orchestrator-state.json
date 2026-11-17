@@ -1,0 +1,295 @@
+{
+  "version": 5,
+  "step": "done",
+  "owner": "active-orchestrator",
+  "discovery": {
+    "created_by": "discovery-research",
+    "sources": [
+      "https://getfiltru.com",
+      "https://apps.apple.com/app/brew-timer-make-great-coffee/id1476926258",
+      "https://beanconqueror.com",
+      "https://aeroprecipe.com",
+      "https://aeromatic.app",
+      "https://timer.coffee",
+      "https://coffeeratio.app"
+    ],
+    "competitors": [
+      { "name": "Filtru Coffee", "notes_file": "discovery/sources/filtru-coffee.md" },
+      { "name": "Brew Timer", "notes_file": "discovery/sources/brew-timer.md" },
+      { "name": "Beanconqueror", "notes_file": "discovery/sources/beanconqueror.md" },
+      { "name": "AeroPrecipe", "notes_file": "discovery/sources/aeroprecipe.md" },
+      { "name": "Aeromatic", "notes_file": "discovery/sources/aeromatic.md" },
+      { "name": "Timer.Coffee", "notes_file": "discovery/sources/timer-coffee.md" },
+      { "name": "CoffeeRatio.app", "notes_file": "discovery/sources/coffeeratio-app.md" }
+    ],
+    "problema": "Falta una web mobile-first rápida, sin relleno de blog ni instalación obligatoria, para preparar los 6 métodos más populares en la mesada con escalado proporcional de vertidos, pantalla siempre activa, animaciones SVG en tiempo real y una wiki sensorial con rueda de sabores SCA.",
+    "usuarios": [
+      "Preparador diario (cálculo rápido y guía paso a paso en mesada con pantalla activa)",
+      "Entusiasta / Home Barista (réplica de recetas de referentes y ajuste fino de ratios)",
+      "Explorador de café de especialidad (aprendizaje de orígenes, varietales, procesos y cata)"
+    ],
+    "casos_de_uso": [
+      "Seleccionar método e intensidad (liviano/normal/fuerte) e ingresar café o agua para recalcular todas las fases y ejecutar el timer con Wake Lock y audio",
+      "Ingresar dosis de Espresso en gramos para obtener sugerencias de Ristretto, Normale y Lungo con yield y ventana de tiempo",
+      "Recibir advertencias cuando la dosis o volumen de agua esté fuera de los límites normales del método",
+      "Consultar fichas de orígenes, varietales y procesos junto a una rueda de sabores interactiva estilo SCA"
+    ],
+    "funcionalidades_necesarias": [
+      "6 métodos MVP: Espresso, Melitta, Hario V60, Chemex, AeroPress y Prensa Francesa",
+      "Motor de escalado bidireccional (café <-> agua) con 3 intensidades y recálculo proporcional por fase",
+      "Modo Espresso por dosis única con Ristretto (1:1.5), Normale (1:2) y Lungo (1:3)",
+      "Advertencias por dosis o volumen fuera de rango normal",
+      "Animaciones SVG procedurales reutilizables sincronizadas con timer y dosis",
+      "UX de cocina: Screen Wake Lock API, alertas sonoras Web Audio API y soporte offline PWA",
+      "Wiki de orígenes/procesos/varietales + rueda de sabores interactiva estilo SCA"
+    ],
+    "funcionalidades_opcionales": [
+      "Bitácora personal en IndexedDB (bolsas, ajuste de molino, puntuación) con exportar/importar JSON",
+      "Cuentas de usuario y recetas comunitarias",
+      "CMS headless para edición sin código",
+      "Multi-idioma (i18n) con traducciones asistidas por IA o colaboradores"
+    ],
+    "reglas_de_negocio": [
+      "Filtro usa Opción A: tiempos de hitos estables por receta al escalar gramos, recalculando masas de agua por fase y mostrando tip dinámico de molienda",
+      "Advertir al usuario si la cantidad de café o agua está fuera de lo normal para el método",
+      "Espresso calcula yield (bebida extraída) desde dosis seca en 3 niveles: Ristretto 1:1.5 (20-25s), Normale 1:2 (25-30s), Lungo 1:3 (30-35s)",
+      "Contenido desacoplado de la lógica de UI para habilitar futuro i18n"
+    ],
+    "integraciones": [
+      "Ninguna integración externa ni backend en el MVP (100% estático/client-side vía push al repo)"
+    ],
+    "restricciones": [
+      "Hosting 100% gratuito en el MVP (Vercel, Netlify, GitHub Pages o equivalente)",
+      "Un solo repositorio privado con distintas ramas",
+      "Web mobile-first sin instalación nativa obligatoria (PWA offline opcional)",
+      "Idioma inicial: español"
+    ],
+    "riesgos": [
+      "Peculiaridades de iOS Safari con Web Audio API (requiere gesto del usuario) y re-adquisición de Screen Wake Lock",
+      "Consistencia y calibración real de recetas, umbrales por método y datos de la wiki",
+      "Mantener animaciones SVG reutilizables simples para no retrasar el MVP",
+      "Supuesto sin probar: adopción de web/PWA frente a apps nativas establecidas en mesada"
+    ],
+    "preguntas_abiertas": [
+      "Definir umbrales mínimos y máximos (g / ml) que disparan advertencias por cada uno de los 6 métodos",
+      "Definir stack tecnológico y arquitectura de datos en kb-creator"
+    ]
+  },
+  "kb": {
+    "created_by": "kb-creator",
+    "source": "interactive",
+    "discovery": {
+      "problem": "Falta una web mobile-first rápida, sin relleno de blog ni instalación obligatoria, para preparar los 6 métodos más populares en la mesada con escalado proporcional de vertidos, pantalla siempre activa, animaciones SVG en tiempo real y una wiki sensorial con rueda de sabores SCA.",
+      "system_type": "web_app",
+      "domain": "specialty_coffee_brewing_and_sensory_wiki",
+      "scale": "public_multi_user",
+      "stack": [
+        "TypeScript",
+        "React 19",
+        "Vite 6",
+        "Tailwind CSS",
+        "Zod",
+        "React Router",
+        "vite-plugin-pwa",
+        "Vitest",
+        "Web Audio API",
+        "Screen Wake Lock API"
+      ],
+      "needs_infra": false
+    },
+    "files": [
+      "knowledge-base/README.md",
+      "knowledge-base/01_vision_y_objetivos.md",
+      "knowledge-base/02_descripcion_general.md",
+      "knowledge-base/03_actores_y_roles.md",
+      "knowledge-base/04_modelo_de_datos.md",
+      "knowledge-base/05_reglas_de_negocio.md",
+      "knowledge-base/06_funcionalidades.md",
+      "knowledge-base/07_flujos_principales.md",
+      "knowledge-base/08_arquitectura_propuesta.md",
+      "knowledge-base/09_decisiones_y_supuestos.md",
+      "knowledge-base/10_preguntas_abiertas.md"
+    ]
+  },
+  "visual_design": {
+    "created_by": "design-system",
+    "mode": "system-and-mockups",
+    "status": "approved",
+    "revision": 3,
+    "path": "design-system/README.md"
+  },
+  "roadmap": {
+    "created_by": "roadmap-generator",
+    "source": "CHANGES.md",
+    "changes": [
+      "C-01",
+      "C-02",
+      "C-03",
+      "C-04",
+      "C-05",
+      "C-06",
+      "C-07",
+      "C-08",
+      "C-09",
+      "C-10",
+      "C-11",
+      "C-12"
+    ]
+  },
+  "skills": {
+    "created_by": "find-skill",
+    "recommended": [
+      {
+        "skill": "vercel-react-best-practices",
+        "repo": "vercel-labs/agent-skills",
+        "package": "vercel-labs/agent-skills@vercel-react-best-practices",
+        "installs": "899.8K",
+        "url": "https://skills.sh/vercel-labs/agent-skills/vercel-react-best-practices",
+        "reason": "Guía oficial de Vercel sobre React 19, optimización de renders, estado derivado e interactividad fluida para la calculadora y el timer en vivo."
+      },
+      {
+        "skill": "vercel-composition-patterns",
+        "repo": "vercel-labs/agent-skills",
+        "package": "vercel-labs/agent-skills@vercel-composition-patterns",
+        "installs": "454.7K",
+        "url": "https://skills.sh/vercel-labs/agent-skills/vercel-composition-patterns",
+        "reason": "Patrones de composición de componentes React desacoplados y reutilizables para las fichas de métodos, el reproductor por fases y la Wiki Sensorial."
+      },
+      {
+        "skill": "typescript-advanced-types",
+        "repo": "wshobson/agents",
+        "package": "wshobson/agents@typescript-advanced-types",
+        "installs": "99.9K",
+        "url": "https://skills.sh/wshobson/agents/typescript-advanced-types",
+        "reason": "Tipado estricto, uniones discriminadas (filter vs espresso) y tipos seguros para el motor matemático de escalado bidireccional y catálogos."
+      },
+      {
+        "skill": "tailwind-design-system",
+        "repo": "wshobson/agents",
+        "package": "wshobson/agents@tailwind-design-system",
+        "installs": "73.5K",
+        "url": "https://skills.sh/wshobson/agents/tailwind-design-system",
+        "reason": "Integración de tokens CSS (design-system/tokens.css) y arquitectura responsive mobile-first con Tailwind CSS."
+      },
+      {
+        "skill": "vitest",
+        "repo": "antfu/skills",
+        "package": "antfu/skills@vitest",
+        "installs": "48.2K",
+        "url": "https://skills.sh/antfu/skills/vitest",
+        "reason": "Patrones oficiales de testing con Vitest (por Anthony Fu) para el flujo Strict TDD del motor de recetas, escalado y alertas de umbral."
+      },
+      {
+        "skill": "vite",
+        "repo": "antfu/skills",
+        "package": "antfu/skills@vite",
+        "installs": "42.1K",
+        "url": "https://skills.sh/antfu/skills/vite",
+        "reason": "Configuración óptima de Vite 6, manejo de assets estáticos, code-splitting por ruta y empaquetado liviano."
+      },
+      {
+        "skill": "zod",
+        "repo": "pproenca/dot-skills",
+        "package": "pproenca/dot-skills@zod",
+        "installs": "7.3K",
+        "url": "https://skills.sh/pproenca/dot-skills/zod",
+        "reason": "Validación de esquemas e inferencia de tipos (z.infer) para los catálogos JSON de recetas, orígenes, varietales, procesos y rueda SCA."
+      },
+      {
+        "skill": "pwa-development",
+        "repo": "alinaqi/maggy",
+        "package": "alinaqi/maggy@pwa-development",
+        "installs": "4.5K",
+        "url": "https://skills.sh/alinaqi/maggy/pwa-development",
+        "reason": "Configuración de Service Worker, Web App Manifest y estrategia offline-first (vite-plugin-pwa) para uso sin conexión en mesada."
+      },
+      {
+        "skill": "svg-animation",
+        "repo": "iart-ai/web-animation-skills",
+        "package": "iart-ai/web-animation-skills@svg-animation",
+        "installs": "3.9K",
+        "url": "https://skills.sh/iart-ai/web-animation-skills/svg-animation",
+        "reason": "Animaciones SVG procedurales y declarativas para el componente <BrewVesselSvg /> sincronizado con el timer y la rueda de sabores interactiva."
+      },
+      {
+        "skill": "impeccable",
+        "repo": "pbakaus/impeccable",
+        "package": "pbakaus/impeccable@impeccable",
+        "installs": "411.4K",
+        "url": "https://skills.sh/pbakaus/impeccable/impeccable",
+        "reason": "Dirección de diseño frontend integral (craft floor, critique, audit, polish, harden, adapt, animate) para interfaces web de alta calidad."
+      },
+      {
+        "skill": "modern-web-guidance",
+        "repo": "googlechrome/modern-web-guidance",
+        "package": "googlechrome/modern-web-guidance@modern-web-guidance",
+        "installs": "58.2K",
+        "url": "https://skills.sh/googlechrome/modern-web-guidance/modern-web-guidance",
+        "reason": "Guía oficial del equipo de Chrome sobre APIs web modernas (Baseline), CSS moderno, dark mode, accesibilidad y Core Web Vitals."
+      },
+      {
+        "skill": "ui-ux-pro-max",
+        "repo": "local (~/.agents/skills)",
+        "package": "nextlevelbuilder/ui-ux-pro-max-skill@ui-ux-pro-max",
+        "installs": "454K",
+        "url": "https://skills.sh/nextlevelbuilder/ui-ux-pro-max-skill/ui-ux-pro-max",
+        "reason": "Inteligencia UI/UX global ya instalada en el equipo (119 guías de accesibilidad, touch targets y mobile-first)."
+      },
+      {
+        "skill": "no-ai-slop",
+        "repo": "local (~/.agents/skills)",
+        "package": "local/no-ai-slop",
+        "installs": "local",
+        "url": "local",
+        "reason": "Edición directa y sin relleno genérico para redactar las fichas de la Wiki Sensorial."
+      },
+      {
+        "skill": "playwright-cli",
+        "repo": "local (~/.agents/skills)",
+        "package": "local/playwright-cli",
+        "installs": "local",
+        "url": "local",
+        "reason": "Testing E2E y verificación visual en navegador real."
+      }
+    ],
+    "installed": [
+      "vercel-react-best-practices",
+      "vercel-composition-patterns",
+      "typescript-advanced-types",
+      "tailwind-design-system",
+      "vitest",
+      "vite",
+      "zod",
+      "pwa-development",
+      "svg-animation",
+      "impeccable",
+      "modern-web-guidance",
+      "ui-ux-pro-max",
+      "no-ai-slop",
+      "playwright-cli",
+      "design-taste-frontend-v1",
+      "emil-design-eng"
+    ]
+  },
+  "registry": {
+    "created_by": "skill-registry",
+    "file": ".atl/skill-registry.md",
+    "skills_count": 31
+  },
+  "agents": {
+    "created_by": "agent-instruction",
+    "files": [
+      "CLAUDE.md",
+      "AGENTS.md"
+    ],
+    "reglas_applied": [
+      "Ramas y Despliegue (dev vs. main: pushear siempre a dev; a main únicamente código y datos depurados de producción)",
+      "TypeScript Estricto y Catálogos Zod (RN-I18N-02: prohibido any; validar catálogos e invariantes con Zod)",
+      "Núcleo Puro vs. Imperative Shell (src/domain/ 100% puro sin React/DOM/Web APIs; adaptadores en src/adapters/)",
+      "Performance en Temporizador y Escena SVG (RN-UX-01, RN-UX-04: performance.now(), aislar ticks de 100ms, animar con transform/opacity y prefers-reduced-motion)",
+      "Internacionalización (RN-I18N-01) y Cero Emojis (todo texto desde src/i18n/locales/es/*.json; solo íconos SVG)",
+      "Design System y Gate de Mockups (system-and-mockups: consumir design-system/tokens.css y aprobar mockup antes de apply)",
+      "Higiene de Git y Commits (Conventional Commits sin Co-Authored-By de IA, .atl/ en .gitignore)"
+    ]
+  }
+}

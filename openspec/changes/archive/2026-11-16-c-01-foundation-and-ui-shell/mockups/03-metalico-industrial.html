@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Propuesta 3: Metálico Industrial &amp; Plano Técnico CAD — C-01</title>
+  <link rel="stylesheet" href="../../../../design-system/tokens.css" />
+  <style>
+    /* ==========================================================================
+     * PROPUESTA 3: WORKSHOP HARDWARE & CAD BLUEPRINT (Metálico Industrial)
+     * - Aluminio cepillado cálido (#D4D1C9 claro / #121519 acero pavonado oscuro)
+     * - Fondo arquitectónico tipo plano técnico CAD con coordenadas y líneas de cota
+     * - Tarjetas tipo placas metálicas mecanizadas con remaches SVG y reflejo satinado
+     * - Dibujos técnicos vectoriales detallados (sección transversal CAD)
+     * - Dial manómetro graduado alrededor del temporizador + botones industriales
+     * ========================================================================== */
+    :root {
+      --bg-canvas: #D5D2CA;
+      --bg-surface: #E4E1DA;
+      --bg-elevated: #C7C3BA;
+      --bg-plate-grad: linear-gradient(180deg, #ECEAE4 0%, #DCD9D1 100%);
+      --bg-glass: rgba(213, 210, 202, 0.92);
+      --text-primary: #17191C;
+      --text-secondary: #41464E;
+      --text-muted: #656C76;
+      --border-subtle: #A7A39A;
+      --border-strong: #7B776F;
+      --accent-primary: #C24D22;
+      --accent-primary-hover: #A63F19;
+      --accent-primary-soft: rgba(194, 77, 34, 0.14);
+      --grid-line: rgba(23, 25, 28, 0.055);
+      --bevel-light: rgba(255, 255, 255, 0.72);
+      --bevel-dark: rgba(0, 0, 0, 0.12);
+      --navbar-height: 64px;
+      --bottom-bar-height: 68px;
+    }
+
+    html[data-theme="dark"] {
+      --bg-canvas: #121519;
+      --bg-surface: #1A1E24;
+      --bg-elevated: #232830;
+      --bg-plate-grad: linear-gradient(180deg, #21262D 0%, #171B20 100%);
+      --bg-glass: rgba(18, 21, 25, 0.94);
+      --text-primary: #ECEAE3;
+      --text-secondary: #B1B7C0;
+      --text-muted: #7C838F;
+      --border-subtle: #323844;
+      --border-strong: #4F5868;
+      --accent-primary: #E0683C;
+      --accent-primary-soft: rgba(224, 104, 60, 0.2);
+      --grid-line: rgba(236, 234, 227, 0.04);
+      --bevel-light: rgba(255, 255, 255, 0.08);
+      --bevel-dark: rgba(0, 0, 0, 0.45);
+    }
+
+    /* Engineering CAD Blueprint Background Grid (with real CAD measurements on top) */
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--bg-canvas);
+      background-image:
+        linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px),
+        radial-gradient(circle at 85% 15%, rgba(194, 77, 34, 0.08), transparent 45%);
+      background-size: 32px 32px, 32px 32px, 100% 100%;
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+    }
+
+    .mockup-bar {
+      background: #17191C;
+      color: #D4D7DD;
+      padding: 8px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12px;
+      border-bottom: 1px solid #323844;
+    }
+    .bar-links { display: flex; flex-wrap: wrap; gap: 6px; }
+    .bar-pill {
+      text-decoration: none;
+      border: 1px solid #323844;
+      background: #20242A;
+      color: #A7ADB7;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .bar-pill[aria-current="true"],
+    .bar-pill[aria-selected="true"] {
+      background: var(--accent-primary);
+      border-color: var(--accent-primary);
+      color: #FFFDF9;
+      font-weight: 700;
+    }
+
+    /* Machined Header */
+    .top-navbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      height: var(--navbar-height);
+      background: var(--bg-glass);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+    @media (min-width: 768px) { .top-navbar { padding: 0 36px; } }
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+    .brand-plate {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      background: var(--bg-plate-grad);
+      border: 1px solid var(--border-strong);
+      box-shadow: inset 0 1px 0 var(--bevel-light), 0 2px 4px var(--bevel-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-primary);
+    }
+    .desktop-nav { display: none; gap: 6px; }
+    @media (min-width: 768px) { .desktop-nav { display: flex; } }
+    .nav-plate-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      padding: 7px 14px;
+      border-radius: 5px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .nav-plate-btn[aria-current="page"] {
+      background: var(--bg-plate-grad);
+      border-color: var(--border-strong);
+      box-shadow: inset 0 1px 0 var(--bevel-light);
+      color: var(--accent-primary);
+    }
+    .theme-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      border: 1px solid var(--border-strong);
+      background: var(--bg-plate-grad);
+      box-shadow: inset 0 1px 0 var(--bevel-light);
+      color: var(--text-primary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .main-wrap {
+      flex: 1;
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px 16px 64px;
+    }
+    @media (min-width: 768px) { .main-wrap { padding: 32px 36px 80px; } }
+
+    .view-section { display: none; }
+    .view-section.active { display: block; }
+
+    /* Machined Metal Plate Component */
+    .metal-plate {
+      position: relative;
+      background: var(--bg-plate-grad);
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      padding: 22px;
+      box-shadow: inset 0 1px 0 var(--bevel-light), inset 0 -1px 0 var(--bevel-dark), 0 8px 20px -10px var(--bevel-dark);
+    }
+    /* Subtle Rivets in corners */
+    .rivet {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-strong);
+      box-shadow: inset 0 1px 0 var(--bevel-light);
+    }
+    .rivet.tl { top: 8px; left: 8px; }
+    .rivet.tr { top: 8px; right: 8px; }
+    .rivet.bl { bottom: 8px; left: 8px; }
+    .rivet.br { bottom: 8px; right: 8px; }
+
+    /* CAD Header Banner */
+    .cad-banner {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    @media (min-width: 820px) {
+      .cad-banner { grid-template-columns: 1.25fr 0.75fr; }
+    }
+
+    /* Method Technical Cards Grid */
+    .cad-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 640px) {
+      .cad-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1000px) {
+      .cad-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .cad-card {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .cad-card:hover { transform: translateY(-2px); }
+
+    .cad-blueprint-box {
+      background: var(--bg-canvas);
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: inset 0 2px 5px var(--bevel-dark);
+    }
+    .cad-code-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 3px 7px;
+      background: var(--text-primary);
+      color: var(--bg-surface);
+      border-radius: 3px;
+      letter-spacing: 0.06em;
+    }
+
+    .spec-table-mini {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+    .spec-cell span { display: block; color: var(--text-muted); font-size: 10px; }
+    .spec-cell strong { color: var(--text-primary); font-size: 13px; }
+
+    /* Brew Station Industrial */
+    .brew-cad-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    @media (min-width: 860px) {
+      .brew-cad-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .metal-toggle-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      background: var(--bg-canvas);
+      padding: 5px;
+      border-radius: 6px;
+      border: 1px solid var(--border-strong);
+      box-shadow: inset 0 2px 4px var(--bevel-dark);
+    }
+    .metal-toggle-btn {
+      min-height: 44px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .metal-toggle-btn[aria-pressed="true"] {
+      background: var(--bg-plate-grad);
+      border-color: var(--border-strong);
+      color: var(--accent-primary);
+      box-shadow: inset 0 1px 0 var(--bevel-light), 0 1px 3px var(--bevel-dark);
+    }
+
+    .gauge-readout-box {
+      background: var(--bg-canvas);
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      padding: 14px;
+      box-shadow: inset 0 2px 6px var(--bevel-dark);
+    }
+
+    /* Full-width Stacked Mercado Libre Pattern Buttons (Industrial Machined Finish) */
+    .action-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+    .btn-primary-full {
+      width: 100%;
+      min-height: 50px;
+      border-radius: 6px;
+      border: 1px solid var(--accent-primary-hover);
+      background: linear-gradient(180deg, var(--accent-primary) 0%, var(--accent-primary-hover) 100%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.28), 0 3px 8px rgba(0,0,0,0.18);
+      color: #FFFDF9;
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-secondary-full {
+      width: 100%;
+      min-height: 50px;
+      border-radius: 6px;
+      border: 1px solid var(--border-strong);
+      background: var(--bg-plate-grad);
+      box-shadow: inset 0 1px 0 var(--bevel-light), 0 2px 4px var(--bevel-dark);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    /* Mobile Bottom Tab Bar */
+    .bottom-tab-bar {
+      display: flex;
+      position: sticky;
+      bottom: 0;
+      z-index: 50;
+      height: var(--bottom-bar-height);
+      background: var(--bg-glass);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid var(--border-strong);
+      justify-content: space-around;
+      align-items: center;
+    }
+    html.full-capture .bottom-tab-bar { position: static; }
+    @media (min-width: 768px) { .bottom-tab-bar { display: none; } }
+    .tab-btn {
+      flex: 1;
+      min-height: 48px;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .tab-btn[aria-selected="true"] {
+      color: var(--accent-primary);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <header class="mockup-bar">
+    <div class="bar-links">
+      <a class="bar-pill" href="01-minimal-beige.html">1. Minimalista Beige</a>
+      <a class="bar-pill" href="02-profesional-barismo.html">2. Profesional Fotográfico</a>
+      <a class="bar-pill" href="03-metalico-industrial.html" aria-current="true">3. Metálico Industrial</a>
+    </div>
+    <div class="bar-links">
+      <button class="bar-pill" aria-selected="true" data-route-btn="view-home">/ (Métodos)</button>
+      <button class="bar-pill" aria-selected="false" data-route-btn="view-brew">/brew/v60</button>
+      <button class="bar-pill" aria-selected="false" data-route-btn="view-wiki">/wiki</button>
+    </div>
+  </header>
+
+  <nav class="top-navbar">
+    <a href="#home" class="brand-link" onclick="event.preventDefault(); showView('view-home')">
+      <div class="brand-plate">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M12 12l4-4M8 16h8"></path>
+        </svg>
+      </div>
+      <div>
+        <div style="font-family: var(--font-mono); font-weight: 700; font-size: 15px; letter-spacing: 0.02em;" data-brand-name="short">ATELIER BREW</div>
+        <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);">SPEC.BENCH // REV-01</div>
+      </div>
+    </a>
+
+    <div class="desktop-nav">
+      <button class="nav-plate-btn" aria-current="page" data-nav="view-home">[01] Métodos</button>
+      <button class="nav-plate-btn" data-nav="view-brew">[02] Estación</button>
+      <button class="nav-plate-btn" data-nav="view-wiki">[03] Wiki</button>
+      <button class="nav-plate-btn" data-nav="view-brew">[04] Rueda SCA</button>
+    </div>
+
+    <button id="theme-toggle" class="theme-btn" aria-label="Alternar acero claro/oscuro">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+      </svg>
+    </button>
+  </nav>
+
+  <main class="main-wrap">
+    <!-- VIEW HOME -->
+    <section id="view-home" class="view-section active">
+      <div class="metal-plate cad-banner">
+        <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+        <div>
+          <h1 style="font-size: clamp(1.75rem, 3.2vw, 2.35rem); font-weight: 800; letter-spacing: -0.03em; margin: 0 0 10px 0;">Calibración Mecánica &amp; Manual de Extracción</h1>
+          <p style="margin: 0; font-size: 14px; color: var(--text-secondary); max-width: 56ch; line-height: 1.55;">
+            Seleccioná el equipo de extracción para inspeccionar cotas de dosis, umbrales hidráulicos y cronómetro de precisión sin bloqueo de pantalla.
+          </p>
+        </div>
+
+        <!-- Technical Schematic CAD Preview -->
+        <div class="cad-blueprint-box" style="justify-content: center; padding: 14px;">
+          <svg viewBox="0 0 240 110" width="100%" height="96" role="img" aria-label="Esquema CAD de extracción V60 y manómetro">
+            <line x1="10" y1="55" x2="230" y2="55" stroke="var(--border-strong)" stroke-dasharray="4 3" stroke-width="1"/>
+            <!-- V60 Cross-section CAD -->
+            <line x1="65" y1="12" x2="65" y2="98" stroke="var(--accent-primary)" stroke-dasharray="3 3" stroke-width="1"/>
+            <polygon points="32,20 98,20 77,68 53,68" fill="none" stroke="var(--text-primary)" stroke-width="1.8"/>
+            <line x1="40" y1="70" x2="90" y2="70" stroke="var(--text-primary)" stroke-width="2.2"/>
+            <text x="103" y="42" fill="var(--accent-primary)" font-family="monospace" font-size="9" font-weight="700">60° CONE</text>
+            <!-- Manometer Dial SVG -->
+            <circle cx="176" cy="55" r="34" fill="none" stroke="var(--text-primary)" stroke-width="1.8"/>
+            <circle cx="176" cy="55" r="27" fill="none" stroke="var(--border-strong)" stroke-dasharray="3 3" stroke-width="1.2"/>
+            <line x1="176" y1="55" x2="196" y2="38" stroke="var(--accent-primary)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="176" cy="55" r="3.5" fill="var(--text-primary)"/>
+            <text x="176" y="76" text-anchor="middle" fill="var(--text-primary)" font-family="monospace" font-size="9" font-weight="700">9.0 BAR</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- 6 Machined CAD Cards -->
+      <div class="cad-grid">
+        <article class="metal-plate cad-card" onclick="showView('view-brew')">
+          <span class="rivet tl"></span><span class="rivet tr"></span>
+          <div class="cad-blueprint-box">
+            <svg width="64" height="54" viewBox="0 0 64 54" fill="none">
+              <line x1="32" y1="4" x2="32" y2="50" stroke="var(--accent-primary)" stroke-dasharray="2 2"/>
+              <polygon points="12,10 52,10 38,38 26,38" stroke="var(--text-primary)" stroke-width="1.75"/>
+              <line x1="18" y1="40" x2="46" y2="40" stroke="var(--text-primary)" stroke-width="2"/>
+            </svg>
+            <div style="text-align: right;">
+              <span class="cad-code-tag">CAD-01 // 60°</span>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-top: 6px;">GRAVEDAD CÓNICA</div>
+            </div>
+          </div>
+          <div>
+            <h2 style="margin: 0 0 4px 0; font-size: 18px;">Hario V60</h2>
+            <p style="margin: 0; font-size: 13px; color: var(--text-secondary);">Estrías helicoidales para flujo abierto y claridad térmica.</p>
+          </div>
+          <div class="spec-table-mini">
+            <div class="spec-cell"><span>RATIO</span><strong>1:16.7</strong></div>
+            <div class="spec-cell"><span>DOSIS</span><strong>15 g</strong></div>
+            <div class="spec-cell"><span>CICLO</span><strong>210 s</strong></div>
+          </div>
+        </article>
+
+        <article class="metal-plate cad-card" onclick="showView('view-brew')">
+          <span class="rivet tl"></span><span class="rivet tr"></span>
+          <div class="cad-blueprint-box">
+            <svg width="64" height="54" viewBox="0 0 64 54" fill="none">
+              <line x1="32" y1="4" x2="32" y2="50" stroke="var(--accent-primary)" stroke-dasharray="2 2"/>
+              <path d="M16 8h32l-9 18 9 20H16l9-20-9-18Z" stroke="var(--text-primary)" stroke-width="1.75"/>
+              <rect x="24" y="23" width="16" height="6" stroke="var(--accent-primary)" stroke-width="1.5"/>
+            </svg>
+            <div style="text-align: right;">
+              <span class="cad-code-tag">CAD-02 // 3X</span>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-top: 6px;">FILTRO GRUESO</div>
+            </div>
+          </div>
+          <div>
+            <h2 style="margin: 0 0 4px 0; font-size: 18px;">Chemex</h2>
+            <p style="margin: 0; font-size: 13px; color: var(--text-secondary);">Retención elevada de aceites pesados para jarra cristalina.</p>
+          </div>
+          <div class="spec-table-mini">
+            <div class="spec-cell"><span>RATIO</span><strong>1:16</strong></div>
+            <div class="spec-cell"><span>DOSIS</span><strong>30 g</strong></div>
+            <div class="spec-cell"><span>CICLO</span><strong>240 s</strong></div>
+          </div>
+        </article>
+
+        <article class="metal-plate cad-card" onclick="showView('view-brew')">
+          <span class="rivet tl"></span><span class="rivet tr"></span>
+          <div class="cad-blueprint-box">
+            <svg width="64" height="54" viewBox="0 0 64 54" fill="none">
+              <line x1="32" y1="4" x2="32" y2="50" stroke="var(--accent-primary)" stroke-dasharray="2 2"/>
+              <polygon points="14,10 50,10 42,40 22,40" stroke="var(--text-primary)" stroke-width="1.75"/>
+              <circle cx="32" cy="40" r="2" fill="var(--accent-primary)"/>
+            </svg>
+            <div style="text-align: right;">
+              <span class="cad-code-tag">CAD-03 // #2</span>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-top: 6px;">TRAPEZOIDAL</div>
+            </div>
+          </div>
+          <div>
+            <h2 style="margin: 0 0 4px 0; font-size: 18px;">Melitta</h2>
+            <p style="margin: 0; font-size: 13px; color: var(--text-secondary);">Orificio calibrado que regula el drenaje y el cuerpo en taza.</p>
+          </div>
+          <div class="spec-table-mini">
+            <div class="spec-cell"><span>RATIO</span><strong>1:16</strong></div>
+            <div class="spec-cell"><span>DOSIS</span><strong>20 g</strong></div>
+            <div class="spec-cell"><span>CICLO</span><strong>210 s</strong></div>
+          </div>
+        </article>
+
+        <article class="metal-plate cad-card" onclick="showView('view-brew')">
+          <span class="rivet tl"></span><span class="rivet tr"></span>
+          <div class="cad-blueprint-box">
+            <svg width="64" height="54" viewBox="0 0 64 54" fill="none">
+              <rect x="20" y="14" width="24" height="32" stroke="var(--text-primary)" stroke-width="1.75"/>
+              <line x1="16" y1="8" x2="48" y2="8" stroke="var(--accent-primary)" stroke-width="2"/>
+              <line x1="32" y1="8" x2="32" y2="26" stroke="var(--accent-primary)" stroke-width="1.75"/>
+              <line x1="22" y1="26" x2="42" y2="26" stroke="var(--accent-primary)" stroke-width="2.5"/>
+            </svg>
+            <div style="text-align: right;">
+              <span class="cad-code-tag">CAD-04 // PISTÓN</span>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-top: 6px;">INMERSIÓN + PRESIÓN</div>
+            </div>
+          </div>
+          <div>
+            <h2 style="margin: 0 0 4px 0; font-size: 18px;">AeroPress</h2>
+            <p style="margin: 0; font-size: 13px; color: var(--text-secondary);">Cámara cilíndrica con émbolo manual y extracción rápida.</p>
+          </div>
+          <div class="spec-table-mini">
+            <div class="spec-cell"><span>RATIO</span><strong>1:15</strong></div>
+            <div class="spec-cell"><span>DOSIS</span><strong>15 g</strong></div>
+            <div class="spec-cell"><span>CICLO</span><strong>120 s</strong></div>
+          </div>
+        </article>
+
+        <article class="metal-plate cad-card" onclick="showView('view-brew')">
+          <span class="rivet tl"></span><span class="rivet tr"></span>
+          <div class="cad-blueprint-box">
+            <svg width="64" height="54" viewBox="0 0 64 54" fill="none">
+              <rect x="18" y="12" width="28" height="34" rx="2" stroke="var(--text-primary)" stroke-width="1.75"/>
+              <line x1="32" y1="4" x2="32" y2="30" stroke="var(--accent-primary)" stroke-width="1.75"/>
+              <line x1="20" y1="30" x2="44" y2="30" stroke="var(--accent-primary)" stroke-dasharray="2 2" stroke-width="2.2"/>
+            </svg>
+            <div style="text-align: right;">
+              <span class="cad-code-tag">CAD-05 // MALLA</span>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-top: 6px;">INMERSIÓN PURA</div>
+            </div>
+          </div>
+          <div>
+            <h2 style="margin: 0 0 4px 0; font-size: 18px;">Prensa Francesa</h2>
+            <p style="margin: 0; font-size: 13px; color: var(--text-secondary);">Émbolo de acero inoxidable sin papel para máxima untuosidad.</p>
+          </div>
+          <div class="spec-table-mini">
+            <div class="spec-cell"><span>RATIO</span><strong>1:15</strong></div>
+            <div class="spec-cell"><span>DOSIS</span><strong>30 g</strong></div>
+            <div class="spec-cell"><span>CICLO</span><strong>270 s</strong></div>
+          </div>
+        </article>
+
+        <article class="metal-plate cad-card" onclick="showView('view-brew')">
+          <span class="rivet tl"></span><span class="rivet tr"></span>
+          <div class="cad-blueprint-box">
+            <svg width="64" height="54" viewBox="0 0 64 54" fill="none">
+              <rect x="16" y="10" width="32" height="10" stroke="var(--text-primary)" stroke-width="1.75"/>
+              <path d="M22 20h20l-4 10H26l-4-10Z" stroke="var(--text-primary)" stroke-width="1.75"/>
+              <line x1="48" y1="15" x2="60" y2="15" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="32" cy="39" r="2.2" fill="var(--accent-primary)"/>
+            </svg>
+            <div style="text-align: right;">
+              <span class="cad-code-tag">CAD-06 // 9 BAR</span>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-top: 6px;">PORTAFILTRO 58MM</div>
+            </div>
+          </div>
+          <div>
+            <h2 style="margin: 0 0 4px 0; font-size: 18px;">Espresso</h2>
+            <p style="margin: 0; font-size: 13px; color: var(--text-secondary);">Cálculo de yield: Ristretto (1:1.5), Normale (1:2), Lungo (1:3).</p>
+          </div>
+          <div class="spec-table-mini">
+            <div class="spec-cell"><span>YIELD</span><strong>1:2.0</strong></div>
+            <div class="spec-cell"><span>DOSIS</span><strong>18 g</strong></div>
+            <div class="spec-cell"><span>TIRO</span><strong>28 s</strong></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- VIEW BREW -->
+    <section id="view-brew" class="view-section">
+      <div style="margin-bottom: 18px;">
+        <button style="background: none; border: none; font-family: var(--font-mono); font-size: 12px; color: var(--accent-primary); font-weight: 700; cursor: pointer; padding: 0 0 8px 0;" onclick="showView('view-home')">← VOLVER A CATÁLOGO [01]</button>
+        <h1 style="font-size: 26px; font-weight: 800; margin: 0;">ESTACIÓN // HARIO V60-02</h1>
+      </div>
+
+      <div class="brew-cad-grid">
+        <div class="metal-plate" style="display: flex; flex-direction: column; gap: 18px;">
+          <span class="rivet tl"></span><span class="rivet tr"></span>
+          <div>
+            <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">SELECTOR DE RATIO [LIVIANO / NORMAL / FUERTE]</div>
+            <div class="metal-toggle-bar">
+              <button class="metal-toggle-btn" aria-pressed="false">1:17</button>
+              <button class="metal-toggle-btn" aria-pressed="true">1:16.7</button>
+              <button class="metal-toggle-btn" aria-pressed="false">1:15</button>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="gauge-readout-box">
+              <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);">DOSIS SECA (IN)</div>
+              <div class="font-mono-tabular" style="font-size: 28px; font-weight: 800;">15.0 <span style="font-size: 13px;">g</span></div>
+            </div>
+            <div class="gauge-readout-box">
+              <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);">AGUA TOTAL (93°C)</div>
+              <div class="font-mono-tabular" style="font-size: 28px; font-weight: 800;">250 <span style="font-size: 13px;">ml</span></div>
+            </div>
+          </div>
+
+          <div style="border-top: 1px solid var(--border-strong); padding-top: 12px; font-family: var(--font-mono); font-size: 12px; display: grid; gap: 8px;">
+            <div style="display: flex; justify-content: space-between;"><span>[01] 0:00–0:45 BLOOM</span><strong>+30 g → 30 g</strong></div>
+            <div style="display: flex; justify-content: space-between;"><span>[02] 0:45–1:15 VERTIDO 60%</span><strong>+120 g → 150 g</strong></div>
+            <div style="display: flex; justify-content: space-between;"><span>[03] 1:15–1:45 VERTIDO 100%</span><strong>+100 g → 250 g</strong></div>
+          </div>
+        </div>
+
+        <!-- Industrial Gauge Dial Timer -->
+        <div class="metal-plate" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px;">
+          <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);">CRONÓMETRO DE EXTRACCIÓN // MONOTÓNICO</div>
+
+          <!-- Manometer Dial SVG + Tabular Timer -->
+          <div style="position: relative; width: 176px; height: 176px; display: flex; align-items: center; justify-content: center;">
+            <svg viewBox="0 0 180 180" width="176" height="176" style="position: absolute; inset: 0;">
+              <circle cx="90" cy="90" r="82" fill="var(--bg-canvas)" stroke="var(--border-strong)" stroke-width="3"/>
+              <circle cx="90" cy="90" r="72" fill="none" stroke="var(--accent-primary)" stroke-width="4" stroke-dasharray="14 6" stroke-opacity="0.35"/>
+              <circle cx="90" cy="90" r="64" fill="none" stroke="var(--border-subtle)" stroke-width="1"/>
+            </svg>
+            <div style="position: relative; z-index: 2;">
+              <div class="font-mono-tabular" style="font-size: 42px; font-weight: 800; letter-spacing: -0.04em;">00:00</div>
+              <div style="font-family: var(--font-mono); font-size: 10px; color: var(--accent-primary); font-weight: 700;">FASE 01 / BLOOM</div>
+            </div>
+          </div>
+
+          <div class="action-stack">
+            <button class="btn-primary-full" type="button">Iniciar ciclo</button>
+            <button class="btn-secondary-full" type="button">Reiniciar 00:00</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW WIKI -->
+    <section id="view-wiki" class="view-section">
+      <div class="metal-plate">
+        <span class="rivet tl"></span><span class="rivet tr"></span>
+        <h1 style="margin: 0 0 8px 0;">ESPECIFICACIONES SENSORIALES // WIKI</h1>
+        <p style="margin: 0; font-size: 14px; color: var(--text-secondary);">Base de datos técnica de orígenes, varietales, procesos y rueda SCA.</p>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-tab-bar">
+    <button class="tab-btn" aria-selected="true" data-tab="view-home">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+      <span>Métodos</span>
+    </button>
+    <button class="tab-btn" aria-selected="false" data-tab="view-brew">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><path d="M12 12l4-4"></path></svg>
+      <span>Estación</span>
+    </button>
+    <button class="tab-btn" aria-selected="false" data-tab="view-wiki">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4zM8 9h8M8 13h8"></path></svg>
+      <span>Wiki</span>
+    </button>
+  </nav>
+
+  <script src="../../../../design-system/brand.js"></script>
+  <script>
+    function showView(id) {
+      document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+      const el = document.getElementById(id);
+      if (el) el.classList.add('active');
+      document.querySelectorAll('[data-route-btn]').forEach(b => b.setAttribute('aria-selected', b.getAttribute('data-route-btn') === id ? 'true' : 'false'));
+      document.querySelectorAll('[data-nav]').forEach(b => b.setAttribute('aria-current', b.getAttribute('data-nav') === id ? 'page' : 'false'));
+      document.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', b.getAttribute('data-tab') === id ? 'true' : 'false'));
+    }
+    document.querySelectorAll('[data-route-btn]').forEach(b => b.addEventListener('click', () => showView(b.getAttribute('data-route-btn'))));
+    document.querySelectorAll('[data-nav]').forEach(b => b.addEventListener('click', () => showView(b.getAttribute('data-nav'))));
+    document.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => showView(b.getAttribute('data-tab'))));
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      if (document.documentElement.getAttribute('data-theme') === 'dark') {
+        document.documentElement.removeAttribute('data-theme');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    });
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('capture') === 'full') document.documentElement.classList.add('full-capture');
+    if (params.get('theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    if (params.get('view')) showView(params.get('view'));
+  </script>
+</body>
+</html>
