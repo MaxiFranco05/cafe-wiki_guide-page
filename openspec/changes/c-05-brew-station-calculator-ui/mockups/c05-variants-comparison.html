@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Variantes C-05 — Contraste, Íconos y Navegación de Fases</title>
+  <link rel="stylesheet" href="../../../../design-system/tokens.css" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 28px 20px 64px;
+      background: #0D0A09;
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+    }
+    .wrap {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+    .page-head {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 16px;
+    }
+    .page-title {
+      margin: 0;
+      font-size: clamp(1.5rem, 2.6vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .page-sub {
+      margin: 0;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    .section-title {
+      margin: 0 0 14px;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent-gold);
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* 1. Icon Sets Showcase */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    @media (min-width: 960px) {
+      .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    }
+    .variant-box {
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid #4A392F;
+      background: #1A1411;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .variant-kicker {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-gold);
+    }
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .stat-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 13px;
+      border-radius: 10px;
+      background: #110D0B;
+      border: 1px solid #4F3E34;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .stat-chip.water {
+      border-color: var(--svg-water-stream);
+      color: var(--svg-water-stream);
+    }
+    .stat-chip.coffee {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    /* 2. Phase Stepper Variants */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    @media (min-width: 900px) {
+      .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    }
+    .stepper-inline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+    }
+    .step-arrow {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      border: 1px solid #5B473B;
+      background: #231B17;
+      color: var(--text-primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .step-arrow:hover {
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+    }
+    .phase-pill {
+      padding: 8px 14px;
+      border-radius: 10px;
+      background: var(--accent-gold-soft);
+      border: 1px solid var(--accent-gold);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-gold);
+      text-align: center;
+    }
+    .stepper-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #3D2F27;
+    }
+    .dots-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #4F3E34;
+    }
+    .dot.active {
+      width: 26px;
+      background: var(--accent-primary);
+    }
+
+    /* 3. Background vs Card Contrast Variants */
+    .contrast-preview {
+      border-radius: 18px;
+      padding: 20px;
+      border: 1px solid #382B23;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .cp-canvas-a { background: #0B0807; }
+    .cp-card-a {
+      background: #1F1814;
+      border: 1px solid #5A463A;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(245, 236, 224, 0.08);
+    }
+    .cp-inner-a {
+      background: #120E0C;
+      border: 1px solid #44352C;
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .cp-canvas-b { background: #0D0B0A; }
+    .cp-card-b {
+      background: #1E1D21;
+      border: 1px solid #4B4852;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    }
+    .cp-inner-b {
+      background: #131215;
+      border: 1px solid #3B3840;
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .cp-canvas-c { background: #100C0A; }
+    .cp-card-c {
+      background: #271F1A;
+      border: 1px solid #685244;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.50), inset 0 1px 0 rgba(245, 236, 224, 0.10);
+    }
+    .cp-inner-c {
+      background: #140F0D;
+      border: 1px solid #4A392F;
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .mini-num {
+      font-family: var(--font-mono);
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-top: 6px;
+    }
+    .mini-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="page-head">
+      <h1 class="page-title">Variantes C-05 — Íconos, Salto de Fases y Contraste de Cards</h1>
+      <p class="page-sub">Elegí tu combinación preferida de cada bloque para aplicarla en el diseño final y el código.</p>
+    </header>
+
+    <!-- 1. ICON VARIANTS -->
+    <section>
+      <h2 class="section-title">1. Variantes de Íconos (Café · Agua · Ratio) en Timer Panel</h2>
+      <div class="grid-3">
+        <!-- Set 1 -->
+        <div class="variant-box">
+          <span class="variant-kicker">VARIANTE 1A · CLÁSICO BARISTA (Grano + Gota + Balanza)</span>
+          <div class="pill-row">
+            <span class="stat-chip coffee">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <ellipse cx="12" cy="12" rx="6.5" ry="9" transform="rotate(-24 12 12)" />
+                <path d="M9.5 4.8c2.2 4.3 2.8 9.2 5 14.4" />
+              </svg>
+              <span>15 g</span>
+            </span>
+            <span class="stat-chip water">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 3.2S6 10.4 6 14.5a6 6 0 0 0 12 0c0-4.1-6-11.3-6-11.3Z" />
+              </svg>
+              <span>250 ml</span>
+            </span>
+            <span class="stat-chip">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 4v16M6 8h12M4 15l2-7 2 7a2 2 0 0 1-4 0ZM16 15l2-7 2 7a2 2 0 0 1-4 0Z" />
+              </svg>
+              <span>1:16.7</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Set 2 -->
+        <div class="variant-box">
+          <span class="variant-kicker">VARIANTE 1B · TÉCNICO / LABORATORIO (Cuchara + Vaso + Dial)</span>
+          <div class="pill-row">
+            <span class="stat-chip coffee">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 15h8a3 3 0 0 0 3-3V9H4v3a3 3 0 0 0 0 3Z" />
+                <path d="M15 11h6" />
+              </svg>
+              <span>15 g</span>
+            </span>
+            <span class="stat-chip water">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M7 4h10l-1.5 16h-7L7 4Z" />
+                <path d="M8.2 12h7.6" />
+              </svg>
+              <span>250 ml</span>
+            </span>
+            <span class="stat-chip">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 12l4-4" />
+              </svg>
+              <span>1:16.7</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Set 3 -->
+        <div class="variant-box">
+          <span class="variant-kicker">VARIANTE 1C · GEOMÉTRICO SÓLIDO (Grano Sólido + Flujo + Probeta)</span>
+          <div class="pill-row">
+            <span class="stat-chip coffee">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M15.8 3.6c-3.5-1.4-8.1 1-10.2 5.4-2.1 4.4-1 9.1 2.4 10.6.4-.8 1.2-2.9 1.6-5.2.5-2.8 1.6-4.4 2.7-6 .7-1 1.6-2.2 3.5-4.8Zm2 1.2c-.8 1.7-1.7 3-2.5 4.2-1.1 1.6-1.9 2.9-2.4 5.4-.4 2.2-1 4.1-1.5 5.4 3.4-.3 6.9-2.8 8.5-6.4 1.6-3.5.7-7.1-2.1-8.6Z" />
+              </svg>
+              <span>15 g</span>
+            </span>
+            <span class="stat-chip water">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 3s5 5.6 5 9a5 5 0 0 1-10 0c0-3.4 5-9 5-9Z" fill="currentColor" fill-opacity="0.25" />
+                <path d="M4 19c2.5-1.5 5 1.5 8 0s5.5-1.5 8 0" />
+              </svg>
+              <span>250 ml</span>
+            </span>
+            <span class="stat-chip">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="4" y="5" width="16" height="14" rx="2" />
+                <path d="M9 12h6M12 9v6" />
+              </svg>
+              <span>1:16.7</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. STEPPER VARIANTS -->
+    <section>
+      <h2 class="section-title">2. Variantes de Flechas [&lt;] [&gt;] para Moverse Entre Fases (Sin Bloqueo)</h2>
+      <div class="grid-2">
+        <!-- Location A -->
+        <div class="variant-box" style="align-items: center; text-align: center;">
+          <span class="variant-kicker">VARIANTE 2A · FLANQUEANDO EL BADGE DE FASE (Sobre el Reloj)</span>
+          <div class="stepper-inline">
+            <button type="button" class="step-arrow" aria-label="Fase anterior">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div class="phase-pill">FASE 1 DE 4 · BLOOM (0:45)</div>
+            <button type="button" class="step-arrow" aria-label="Fase siguiente">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+          <div style="font-family:var(--font-mono);font-size:48px;font-weight:800;line-height:1;">03:30</div>
+          <p style="margin:0;font-size:13px;color:var(--text-secondary);">Simple y directo sobre el reloj: saltás a cualquier fase o volvés a revisar la anterior sin trabas.</p>
+        </div>
+
+        <!-- Location B -->
+        <div class="variant-box" style="align-items: center; text-align: center;">
+          <span class="variant-kicker">VARIANTE 2B · BARRA SUPERIOR + PUNTOS DE FASE (Arriba del Escenario SVG)</span>
+          <div class="stepper-header-bar">
+            <button type="button" class="step-arrow" aria-label="Fase anterior">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+              <span style="font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--accent-gold);">FASE 1 DE 4 · BLOOM</span>
+              <div class="dots-row">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+              </div>
+            </div>
+            <button type="button" class="step-arrow" aria-label="Fase siguiente">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+          <p style="margin:0;font-size:13px;color:var(--text-secondary);">Muestra progreso visual de pasos arriba de la animación y permite saltar tocando `&lt;` / `&gt;` o los puntos.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. BACKGROUND VS CARD CONTRAST VARIANTS -->
+    <section>
+      <h2 class="section-title">3. Variantes de Contraste: Fondo vs. Cards</h2>
+      <div class="grid-3">
+        <!-- Contrast A -->
+        <div class="contrast-preview cp-canvas-a">
+          <span class="variant-kicker">VARIANTE 3A · FONDO CARBÓN (#0B0807) + CARD TINTA CÁLIDA (#1F1814)</span>
+          <div class="cp-card-a">
+            <div class="mini-label" style="margin-bottom:10px;color:var(--text-primary);">Panel Calculadora</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div class="cp-inner-a">
+                <div class="mini-label">Café seco</div>
+                <div class="mini-num" style="color:var(--text-on-accent);">15 g</div>
+              </div>
+              <div class="cp-inner-a">
+                <div class="mini-label">Agua total</div>
+                <div class="mini-num" style="color:var(--svg-water-stream);">250 ml</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contrast B -->
+        <div class="contrast-preview cp-canvas-b">
+          <span class="variant-kicker">VARIANTE 3B · FONDO ESPRESSO (#0D0B0A) + CARD GRAFITO PIZARRA (#1E1D21)</span>
+          <div class="cp-card-b">
+            <div class="mini-label" style="margin-bottom:10px;color:var(--text-primary);">Panel Calculadora</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div class="cp-inner-b">
+                <div class="mini-label">Café seco</div>
+                <div class="mini-num" style="color:var(--text-on-accent);">15 g</div>
+              </div>
+              <div class="cp-inner-b">
+                <div class="mini-label">Agua total</div>
+                <div class="mini-num" style="color:var(--svg-water-stream);">250 ml</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contrast C -->
+        <div class="contrast-preview cp-canvas-c">
+          <span class="variant-kicker">VARIANTE 3C · ALTO RELIEVE CÁLIDO (#271F1A) + SUB-CAJAS HUNDIDAS (#140F0D)</span>
+          <div class="cp-card-c">
+            <div class="mini-label" style="margin-bottom:10px;color:var(--text-primary);">Panel Calculadora</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div class="cp-inner-c">
+                <div class="mini-label">Café seco</div>
+                <div class="mini-num" style="color:var(--text-on-accent);">15 g</div>
+              </div>
+              <div class="cp-inner-c">
+                <div class="mini-label">Agua total</div>
+                <div class="mini-num" style="color:var(--svg-water-stream);">250 ml</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

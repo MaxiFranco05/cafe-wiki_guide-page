@@ -19,6 +19,42 @@
       "main": "Navegación principal",
       "mobile": "Navegación móvil",
       "brand": "Ir al inicio de Atelier Brew"
+    },
+    "search": {
+      "placeholder": "Buscar cafetera, grano, cata...",
+      "ariaLabel": "Buscar en toda la guía de café",
+      "clearAriaLabel": "Limpiar búsqueda",
+      "resultsAriaLabel": "Resultados de búsqueda",
+      "noResults": "Sin resultados para \"{query}\"",
+      "groups": {
+        "methods": "Métodos de Preparación",
+        "wiki": "Wiki Sensorial",
+        "wheel": "Cata SCA"
+      },
+      "entries": {
+        "wiki": {
+          "indexSubtitle": "Catálogo completo de orígenes, procesos y agua",
+          "granos": {
+            "subtitle": "Bourbon, Geisha, Caturra y altitudes de origen"
+          },
+          "procesos": {
+            "subtitle": "Beneficio lavado, natural, honey y fermentación"
+          },
+          "molienda": {
+            "subtitle": "Calibración fina, media-fina, media y gruesa"
+          },
+          "agua": {
+            "subtitle": "Alcalinidad, dureza y mineralización recomendada"
+          },
+          "extraccion": {
+            "subtitle": "Solubilidad, sobre-extracción y sub-extracción"
+          }
+        },
+        "wheel": {
+          "subtitle": "Anillos aromáticos floral, frutal, cacao y especias",
+          "keywords": "rueda sca cata sabores aromas floral frutal cacao especias acidez"
+        }
+      }
     }
   },
   "methods": {

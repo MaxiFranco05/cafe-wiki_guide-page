@@ -1,0 +1,2295 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark" data-layout="c" data-font="2" data-nav-hover="2">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>UI Mockup — C-05: Estación de Preparación (Variantes Layout & Fuentes)</title>
+  <link rel="icon" href="../../../../design-system/assets/logo.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700;800&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../../../../design-system/tokens.css" />
+  <style>
+    /* ==========================================================================
+     * C-05 BREW STATION — CONTRASTE 3A + ANTI-AI-SLOP LAYOUTS + FONT PAIRING
+     * - Propuesta de tokens Rev 4 (Contraste 3A confirmado por usuario)
+     * - Variantes full-page de Estación: ?layout=a | b | c
+     * - Variantes tipográficas reales (Webfont + @fontsource ready): ?font=1 | 2 | 3
+     * - Tooltips estilo HeroUI v3 (React Aria + Tailwind v4) en íconos y stepper
+     * ========================================================================== */
+    :root {
+      --navbar-height: 64px;
+      --bottom-bar-height: 68px;
+
+      /* Contraste 3A Confirmado (Tinta Cálida Elevada sobre Espresso Profundo) */
+      --bg-canvas: #0B0807;
+      --bg-surface: #1F1814;
+      --bg-dark-card: #1F1814;
+      --bg-elevated: #120E0C;
+      --bg-tooltip: #261E19;
+      --bg-glass: rgba(11, 8, 7, 0.90);
+
+      --border-subtle: #3B2E26;
+      --border-strong: #5A463A;
+      --border-recessed: #44352C;
+
+      --surface-highlight: inset 0 1px 0 rgba(245, 236, 224, 0.08);
+      --tooltip-shadow: 0 12px 28px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--border-strong);
+
+      /* Active Font Tokens (default Font 1) */
+      --active-font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+      --active-font-mono: "JetBrains Mono", monospace;
+    }
+
+    html[data-font="1"] {
+      --active-font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+      --active-font-mono: "JetBrains Mono", monospace;
+    }
+    html[data-font="2"] {
+      --active-font-sans: "Outfit", system-ui, sans-serif;
+      --active-font-mono: "IBM Plex Mono", monospace;
+    }
+    html[data-font="3"] {
+      --active-font-sans: "DM Sans", system-ui, sans-serif;
+      --active-font-mono: "Space Mono", monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-canvas);
+      color: var(--text-primary);
+      font-family: var(--active-font-sans);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Reviewer Toolbar */
+    .mockup-bar {
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      padding: 8px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .bar-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+    .bar-label {
+      font-family: var(--active-font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent-gold);
+      margin-right: 2px;
+    }
+    .bar-pill {
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-elevated);
+      color: var(--text-secondary);
+      padding: 5px 10px;
+      border-radius: 7px;
+      font-family: var(--active-font-mono);
+      font-size: 11px;
+      cursor: pointer;
+      transition: transform 0.14s var(--ease-out), border-color 0.15s ease, background 0.15s ease;
+    }
+    .bar-pill:hover {
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+    }
+    .bar-pill[aria-pressed="true"] {
+      background: var(--accent-primary);
+      border-color: var(--accent-primary);
+      color: var(--text-on-accent);
+      font-weight: 700;
+    }
+    .bar-divider {
+      width: 1px;
+      height: 18px;
+      background: var(--border-subtle);
+      margin: 0 4px;
+    }
+
+    /* AppShell Top Navbar */
+    .top-navbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      height: var(--navbar-height);
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    html.full-capture .top-navbar { position: static; }
+    .top-navbar-inner {
+      max-width: 1200px;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    @media (min-width: 768px) {
+      .top-navbar-inner { padding: 0 36px; }
+    }
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-primary);
+      min-height: 44px;
+      flex-shrink: 0;
+    }
+    .brand-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--bg-surface);
+      color: var(--accent-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-strong);
+    }
+    .brand-title {
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: var(--tracking-tight);
+      line-height: 1.15;
+    }
+    .brand-subtitle {
+      display: none;
+      font-family: var(--active-font-mono);
+      font-size: 10px;
+      color: var(--text-secondary);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+    }
+    @media (min-width: 640px) { .brand-subtitle { display: block; } }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .desktop-nav {
+      display: none;
+      align-items: center;
+      gap: 6px;
+    }
+    @media (min-width: 768px) { .desktop-nav { display: flex; } }
+    .nav-btn {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      background: transparent;
+      border: 1px solid transparent;
+      min-height: 40px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-family: var(--active-font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      cursor: pointer;
+      transition: color 0.3s ease, border-color 0.35s ease, transform 0.14s var(--ease-out);
+    }
+    .nav-btn:not([aria-current="page"]) {
+      border-color: rgba(90, 70, 58, 0.38);
+    }
+    .nav-btn:active { transform: scale(0.97); }
+    .nav-btn-label {
+      position: relative;
+      z-index: 2;
+    }
+    .nav-btn[aria-current="page"] {
+      background: var(--accent-primary);
+      border-color: var(--accent-primary);
+      color: var(--text-on-accent);
+    }
+
+    /* ------------------------------------------------------------------------
+     * NAVBAR HOVER "LIQUID FILL" — TÉCNICA EXACTA ::before/::after ROTATIVOS
+     * El bloque .nav-fill-layer sube y baja lentamente (top: 46px <-> -6px..4px)
+     * mientras ::before y ::after giran infinito con border-radius 40%/45%.
+     * ------------------------------------------------------------------------ */
+    @keyframes liquidWaveRotate {
+      0% { transform: translate(-50%, -88%) rotate(0deg); }
+      100% { transform: translate(-50%, -88%) rotate(360deg); }
+    }
+    @keyframes liquidWaveRotateRev {
+      0% { transform: translate(-50%, -88%) rotate(360deg); }
+      100% { transform: translate(-50%, -88%) rotate(0deg); }
+    }
+
+    .nav-fill-layer {
+      position: absolute;
+      left: 0;
+      top: 48px;
+      width: 100%;
+      height: 220px;
+      z-index: 1;
+      pointer-events: none;
+      transition: top 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .nav-btn[aria-current="page"] .nav-fill-layer { display: none; }
+
+    .nav-fill-layer::before,
+    .nav-fill-layer::after {
+      content: "";
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -88%);
+      pointer-events: none;
+    }
+    .nav-fill-layer::before {
+      border-radius: 45%;
+      background: #0B0807;
+      animation: liquidWaveRotate 5.5s linear infinite;
+    }
+    .nav-fill-layer::after {
+      border-radius: 40%;
+      background: rgba(11, 8, 7, 0.55);
+      animation: liquidWaveRotate 9.5s linear infinite;
+    }
+
+    /* Variante 1: Espresso Intenso (~86% lleno, doble ola arriba como botón izq.) */
+    html[data-nav-hover="1"] .nav-btn:not([aria-current="page"]) .nav-fill-layer {
+      background: #422112;
+    }
+    html[data-nav-hover="1"] .nav-btn:not([aria-current="page"]):hover,
+    html[data-nav-hover="1"] .nav-btn:not([aria-current="page"]):focus-visible,
+    html[data-nav-hover="1"] .nav-btn:not([aria-current="page"]).is-demo-hover {
+      color: var(--text-on-accent);
+      border-color: #7D4427;
+    }
+    html[data-nav-hover="1"] .nav-btn:not([aria-current="page"]):hover .nav-fill-layer,
+    html[data-nav-hover="1"] .nav-btn:not([aria-current="page"]):focus-visible .nav-fill-layer,
+    html[data-nav-hover="1"] .nav-btn:not([aria-current="page"]).is-demo-hover .nav-fill-layer {
+      top: -6px;
+    }
+
+    /* Variante 2: Ristretto Ola Visible (~66% lleno, ola pronunciada al centro) */
+    html[data-nav-hover="2"] .nav-btn:not([aria-current="page"]) .nav-fill-layer {
+      background: #4F2816;
+    }
+    html[data-nav-hover="2"] .nav-btn:not([aria-current="page"]):hover,
+    html[data-nav-hover="2"] .nav-btn:not([aria-current="page"]):focus-visible,
+    html[data-nav-hover="2"] .nav-btn:not([aria-current="page"]).is-demo-hover {
+      color: var(--text-on-accent);
+      border-color: var(--accent-primary);
+    }
+    html[data-nav-hover="2"] .nav-btn:not([aria-current="page"]):hover .nav-fill-layer,
+    html[data-nav-hover="2"] .nav-btn:not([aria-current="page"]):focus-visible .nav-fill-layer,
+    html[data-nav-hover="2"] .nav-btn:not([aria-current="page"]).is-demo-hover .nav-fill-layer {
+      top: 4px;
+    }
+
+    /* Variante 3: Café Negro Profundo (~80% lleno, tono más sobrio y oscuro) */
+    html[data-nav-hover="3"] .nav-btn:not([aria-current="page"]) .nav-fill-layer {
+      background: #2C160C;
+    }
+    html[data-nav-hover="3"] .nav-btn:not([aria-current="page"]) .nav-fill-layer::after {
+      background: rgba(24, 14, 10, 0.55);
+    }
+    html[data-nav-hover="3"] .nav-btn:not([aria-current="page"]):hover,
+    html[data-nav-hover="3"] .nav-btn:not([aria-current="page"]):focus-visible,
+    html[data-nav-hover="3"] .nav-btn:not([aria-current="page"]).is-demo-hover {
+      color: var(--text-on-accent);
+      border-color: rgba(223, 158, 82, 0.45);
+    }
+    html[data-nav-hover="3"] .nav-btn:not([aria-current="page"]):hover .nav-fill-layer,
+    html[data-nav-hover="3"] .nav-btn:not([aria-current="page"]):focus-visible .nav-fill-layer,
+    html[data-nav-hover="3"] .nav-btn:not([aria-current="page"]).is-demo-hover .nav-fill-layer {
+      top: -2px;
+    }
+
+    /* Variante 4: Doble Vaivén Opuesto (giros contrarios en ::before y ::after) */
+    html[data-nav-hover="4"] .nav-btn:not([aria-current="page"]) .nav-fill-layer {
+      background: linear-gradient(180deg, #542B18 0%, #2E170D 32%, #1C0E08 100%);
+    }
+    html[data-nav-hover="4"] .nav-btn:not([aria-current="page"]) .nav-fill-layer::after {
+      animation: liquidWaveRotateRev 7.5s linear infinite;
+    }
+    html[data-nav-hover="4"] .nav-btn:not([aria-current="page"]):hover,
+    html[data-nav-hover="4"] .nav-btn:not([aria-current="page"]):focus-visible,
+    html[data-nav-hover="4"] .nav-btn:not([aria-current="page"]).is-demo-hover {
+      color: var(--text-on-accent);
+      border-color: rgba(216, 156, 98, 0.5);
+    }
+    html[data-nav-hover="4"] .nav-btn:not([aria-current="page"]):hover .nav-fill-layer,
+    html[data-nav-hover="4"] .nav-btn:not([aria-current="page"]):focus-visible .nav-fill-layer,
+    html[data-nav-hover="4"] .nav-btn:not([aria-current="page"]).is-demo-hover .nav-fill-layer {
+      top: -1px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .nav-fill-layer { transition: none; }
+      .nav-fill-layer::before, .nav-fill-layer::after { animation: none; }
+    }
+    .search-box {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      width: 158px;
+      border-radius: 10px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      padding: 0 10px;
+      gap: 8px;
+      color: var(--text-secondary);
+    }
+    @media (min-width: 640px) { .search-box { width: 210px; } }
+    .search-input {
+      width: 100%;
+      min-width: 0;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-primary);
+      font-family: var(--active-font-sans);
+      font-size: 12px;
+    }
+    .search-input::placeholder { color: var(--text-muted); }
+
+    /* Main Workspace */
+    .main-wrap {
+      flex: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px 88px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    @media (min-width: 768px) {
+      .main-wrap { padding: 30px 36px 56px; }
+    }
+
+    /* Station Header (clean, zero em-dash suffix, minimal metadata) */
+    .station-header {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    @media (min-width: 768px) {
+      .station-header {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 36px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-primary);
+      text-decoration: none;
+      margin-bottom: 4px;
+    }
+    .station-title-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .station-vessel-badge {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      box-shadow: var(--surface-highlight);
+      color: var(--svg-vessel-stroke);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .station-title {
+      margin: 0;
+      font-size: clamp(1.55rem, 2.7vw, 2.05rem);
+      font-weight: 700;
+      letter-spacing: var(--tracking-tight);
+      line-height: 1.12;
+      color: var(--text-primary);
+    }
+    .station-subtitle {
+      margin: 4px 0 0;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    .header-meta-inline {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--active-font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .meta-temp {
+      color: var(--accent-gold);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .meta-sep {
+      width: 4px;
+      height: 4px;
+      border-radius: 999px;
+      background: var(--border-strong);
+      flex-shrink: 0;
+    }
+    #author-badge {
+      white-space: nowrap;
+      display: inline-block;
+    }
+    @keyframes softBlurSwap {
+      0% { opacity: 0.2; filter: blur(3px); transform: translateY(-2px); }
+      100% { opacity: 1; filter: blur(0px); transform: translateY(0); }
+    }
+    .is-soft-swap {
+      animation: softBlurSwap 0.19s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Mobile-First Workspace Grid:
+     *   Mobile (< 920px): 1. Controls (Cantidades) -> 2. Timer Panel -> 3. Grind & Extended Phases
+     *   Desktop (>= 920px): Col 1 = Controls + Details unified, Col 2 = Timer Panel
+     */
+    .station-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .calc-controls-part { order: 1; }
+    .timer-panel        { order: 2; }
+    .calc-details-part  { order: 3; }
+
+    /* Elevated Warm Ink Surface (Contrast 3A) */
+    .calc-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      box-shadow: var(--surface-highlight), 0 18px 40px rgba(0, 0, 0, 0.45);
+      border-radius: 18px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    @media (max-width: 919px) {
+      .calc-details-part .grind-row {
+        border-top: none;
+        padding-top: 0;
+      }
+    }
+    @media (min-width: 640px) { .calc-panel { padding: 24px; } }
+
+    @media (min-width: 920px) {
+      .station-grid {
+        grid-template-columns: 1.06fr 0.94fr;
+        grid-template-rows: auto 1fr;
+        gap: 0 24px;
+      }
+      .calc-controls-part {
+        grid-column: 1;
+        grid-row: 1;
+        order: initial;
+        border-bottom: none;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        padding-bottom: 11px;
+        box-shadow: var(--surface-highlight);
+      }
+      .calc-details-part {
+        grid-column: 1;
+        grid-row: 2;
+        order: initial;
+        border-top: none;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        padding-top: 11px;
+        box-shadow: 0 18px 34px rgba(0, 0, 0, 0.4);
+      }
+      .timer-panel {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        order: initial;
+      }
+    }
+
+    .section-label-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-secondary);
+    }
+    .section-hint {
+      font-family: var(--active-font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-gold);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Unified Segmented Intensity Control (no 3 disconnected pills) */
+    .intensity-segment {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      padding: 4px;
+      gap: 4px;
+      border-radius: 12px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-recessed);
+    }
+    .intensity-btn {
+      min-height: 48px;
+      padding: 6px 10px;
+      border-radius: 9px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: var(--active-font-sans);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1px;
+      cursor: pointer;
+      transition: background 0.16s ease, border-color 0.16s ease, transform 0.12s var(--ease-out);
+    }
+    .intensity-btn:hover { color: var(--text-primary); }
+    .intensity-btn:active { transform: scale(0.97); }
+    .intensity-btn[aria-pressed="true"] {
+      background: var(--bg-surface);
+      border-color: var(--accent-gold);
+      color: var(--text-primary);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    }
+    .intensity-name { font-size: 13px; font-weight: 700; }
+    .intensity-ratio {
+      font-family: var(--active-font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 11px;
+      color: var(--accent-gold);
+    }
+
+    /* Recessed Dose Wells (Clean, fewer sub-badges) */
+    .inputs-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    @media (min-width: 480px) { .inputs-grid { grid-template-columns: 1fr 1fr; } }
+    .inputs-grid.single-col { grid-template-columns: 1fr; margin-top: 0; }
+
+    .dose-well {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-recessed);
+      border-radius: 14px;
+      padding: 15px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .dose-well:focus-within {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(223, 107, 62, 0.18);
+    }
+    .dose-well.is-water:focus-within {
+      border-color: var(--svg-water-stream);
+      box-shadow: 0 0 0 3px rgba(104, 176, 216, 0.18);
+    }
+    .dose-well.has-error { border-color: var(--status-danger); }
+
+    .well-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .well-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    .well-meta {
+      font-family: var(--active-font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 12px;
+      color: var(--accent-gold);
+      white-space: nowrap;
+    }
+    .dose-well.is-water .well-meta { color: var(--svg-water-stream); }
+
+    .well-input-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .numeric-input {
+      width: 100%;
+      min-width: 0;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-on-accent);
+      font-family: var(--active-font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(1.85rem, 4.5vw, 2.35rem);
+      font-weight: 800;
+      line-height: 1.05;
+      -moz-appearance: textfield;
+    }
+    .numeric-input::-webkit-outer-spin-button,
+    .numeric-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .dose-well.is-water .numeric-input { color: var(--svg-water-stream); }
+    .well-unit {
+      font-family: var(--active-font-mono);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+    .well-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Espresso 3-Style Unified Strip */
+    .espresso-strip {
+      display: grid;
+      grid-template-columns: 1fr;
+      border-radius: 14px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-recessed);
+      overflow: hidden;
+    }
+    @media (min-width: 560px) {
+      .espresso-strip { grid-template-columns: repeat(3, 1fr); }
+    }
+    .espresso-cell {
+      text-align: left;
+      padding: 14px 16px;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      font-family: var(--active-font-sans);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      transition: background 0.16s ease;
+    }
+    @media (min-width: 560px) {
+      .espresso-cell { border-bottom: none; border-right: 1px solid var(--border-subtle); }
+      .espresso-cell:last-child { border-right: none; }
+    }
+    .espresso-cell:hover { background: rgba(245, 236, 224, 0.03); }
+    .espresso-cell[aria-pressed="true"] {
+      background: var(--accent-primary-soft);
+      box-shadow: inset 0 2px 0 var(--accent-primary);
+    }
+    .espresso-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .espresso-ratio {
+      font-family: var(--active-font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 12px;
+      color: var(--accent-gold);
+    }
+    .espresso-yield {
+      font-family: var(--active-font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(1.35rem, 2.3vw, 1.85rem);
+      font-weight: 800;
+      color: var(--svg-water-stream);
+      white-space: nowrap;
+    }
+    .espresso-cell[aria-pressed="true"] .espresso-yield { color: var(--text-on-accent); }
+    .espresso-window {
+      font-family: var(--active-font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* Warnings (GPU-safe smooth entry) */
+    @keyframes bannerReveal {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .warning-banner, .danger-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.45;
+      animation: bannerReveal 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .warning-banner {
+      background: var(--status-warning-bg);
+      border: 1px solid var(--status-warning-border);
+      color: var(--text-primary);
+    }
+    .danger-banner {
+      background: var(--status-danger-bg);
+      border: 1px solid var(--status-danger);
+      color: var(--text-primary);
+    }
+    .warning-banner[hidden], .danger-banner[hidden] { display: none; }
+    .warning-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--status-warning);
+      margin-bottom: 2px;
+    }
+
+    /* ========================================================================
+     * ANTI-AI-SLOP EDITORIAL ROWS (Grind + Timeline separated by hairlines)
+     * Zero nested boxes inside boxes!
+     * ======================================================================== */
+    .grind-row {
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .grind-glyph {
+      color: var(--accent-gold);
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .grind-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 3px;
+    }
+    .grind-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .grind-status {
+      font-family: var(--active-font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--status-optimal);
+    }
+    .grind-status.is-adjusted { color: var(--accent-primary); }
+    .grind-tip {
+      margin: 0;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      min-height: calc(1.5em * 2);
+    }
+
+    .timeline-section {
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .phase-list {
+      list-style: none;
+      margin: 4px 0 0;
+      padding: 0;
+    }
+    .phase-row {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border-subtle);
+      border-left: 2px solid transparent;
+      padding: 12px 10px 12px 12px;
+      color: inherit;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: background 0.18s ease, border-color 0.18s ease;
+    }
+    .phase-row:last-child { border-bottom: none; }
+    .phase-row:hover { background: rgba(245, 236, 224, 0.03); }
+    .phase-row.is-active {
+      border-left-color: var(--accent-primary);
+      background: rgba(223, 107, 62, 0.08);
+    }
+    .phase-row-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .phase-row-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .phase-time-text {
+      font-family: var(--active-font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-gold);
+      flex-shrink: 0;
+      min-width: 34px;
+    }
+    .phase-name-text {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      min-width: 0;
+      overflow-wrap: break-word;
+    }
+    .phase-weights-text {
+      font-family: var(--active-font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(12px, 3vw, 14px);
+      font-weight: 700;
+      color: var(--accent-gold);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .phase-delta { color: var(--svg-water-stream); margin-right: 5px; }
+    .phase-instr-text {
+      margin: 0;
+      padding-left: 44px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    @media (min-width: 640px) {
+      .phase-instr-text { min-height: calc(1.5em * 2); }
+    }
+
+    /* ========================================================================
+     * RIGHT PANEL: MOODY TIMER STAGE (Contrast 3A + Zero Nested Card Clutter)
+     * ======================================================================== */
+    .timer-panel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      padding: 26px 24px;
+      background: var(--bg-dark-card);
+      border: 1px solid var(--border-strong);
+      box-shadow: var(--surface-highlight), 0 18px 40px rgba(0, 0, 0, 0.45);
+      color: var(--text-on-photo);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    @media (min-width: 640px) { .timer-panel { padding: 30px 28px; } }
+    .timer-bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.22;
+      filter: saturate(1.2) contrast(1.06);
+      pointer-events: none;
+    }
+    .timer-bg-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(31, 24, 20, 0.72) 0%, rgba(11, 8, 7, 0.92) 100%);
+      pointer-events: none;
+    }
+    .timer-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* Borderless Integrated SVG Stage */
+    .svg-stage-open {
+      width: 100%;
+      min-height: 176px;
+      padding: 10px 8px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: radial-gradient(ellipse 68% 60% at 50% 48%, rgba(223, 158, 82, 0.08) 0%, transparent 72%);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .svg-stage-caption {
+      font-family: var(--active-font-mono);
+      font-size: 12px;
+      color: var(--text-secondary);
+      letter-spacing: 0.02em;
+    }
+    @keyframes pourStreamDrop {
+      0%, 100% { transform: translateY(-4px); opacity: 0.55; }
+      50% { transform: translateY(4px); opacity: 1; }
+    }
+    @keyframes drawdownDrip {
+      0% { transform: translateY(-3px); opacity: 0; }
+      45% { opacity: 1; }
+      100% { transform: translateY(14px); opacity: 0; }
+    }
+    @keyframes stepSlideFwd {
+      from { opacity: 0; transform: translateX(14px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes stepSlideBack {
+      from { opacity: 0; transform: translateX(-14px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes clockTickPop {
+      0% { opacity: 0.65; transform: scale(0.96); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes recalcPulse {
+      0% { opacity: 0.6; transform: scale(0.97); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .anim-stream { animation: pourStreamDrop 1.8s ease-in-out infinite; }
+    .anim-drip { animation: drawdownDrip 1.25s ease-in infinite; }
+    .is-stepping-fwd { animation: stepSlideFwd 0.24s cubic-bezier(0.16, 1, 0.3, 1); }
+    .is-stepping-back { animation: stepSlideBack 0.24s cubic-bezier(0.16, 1, 0.3, 1); }
+    .is-clock-pop { animation: clockTickPop 0.22s cubic-bezier(0.16, 1, 0.3, 1); }
+    .is-recalc { animation: recalcPulse 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+
+    /* Persistent SVG liquid transition (GPU transform only) */
+    .svg-liquid-rect {
+      transform-box: fill-box;
+      transform-origin: center bottom;
+      transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .svg-meniscus-line {
+      transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .svg-stream-layer, .svg-drip-layer {
+      transition: opacity 0.22s ease, transform 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .anim-stream, .anim-drip,
+      .is-stepping-fwd, .is-stepping-back, .is-clock-pop, .is-recalc, .is-soft-swap,
+      .warning-banner, .danger-banner { animation: none; }
+      .svg-liquid-rect, .svg-meniscus-line, .svg-stream-layer, .svg-drip-layer, .phase-dot { transition: none; }
+    }
+
+    /* Stepper Arrow Buttons (< / >) */
+    .step-arrow-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(18, 14, 12, 0.65);
+      color: var(--text-primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform 0.12s var(--ease-out), border-color 0.15s ease, background 0.15s ease;
+    }
+    .step-arrow-btn:hover:not(:disabled) {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+      background: rgba(223, 158, 82, 0.12);
+    }
+    .step-arrow-btn:active:not(:disabled) { transform: scale(0.95); }
+    .step-arrow-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    /* Layout-Specific Phase Navigation Bars */
+    .phase-bar-a, .phase-bar-b, .phase-label-c { display: none; }
+
+    html[data-layout="a"] .phase-bar-a {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    html[data-layout="b"] .phase-bar-b {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    html[data-layout="c"] .phase-label-c {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .phase-kicker-text {
+      font-family: var(--active-font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      line-height: 1.35;
+      color: var(--accent-gold);
+      min-height: 2.8em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    @media (min-width: 520px) {
+      .phase-kicker-text { min-height: 1.5em; }
+    }
+    .phase-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .phase-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      border: none;
+      padding: 0;
+      background: var(--border-strong);
+      cursor: pointer;
+      transition: width 0.28s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.22s ease, transform 0.2s ease;
+    }
+    .phase-dot:hover { transform: scale(1.2); }
+    .phase-dot[aria-current="step"] {
+      width: 24px;
+      background: var(--accent-gold);
+    }
+
+    /* Clock Row (supports Layout C flanking arrows) */
+    .clock-row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+    .clock-arrow-c { display: none; }
+    html[data-layout="c"] .clock-arrow-c {
+      display: inline-flex;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+    }
+    .timer-clock {
+      font-family: var(--active-font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(3.5rem, 5.5vw, 4.65rem);
+      font-weight: 800;
+      letter-spacing: var(--tracking-tight);
+      line-height: 1;
+      color: var(--text-on-accent);
+      min-width: 5.2ch;
+      text-align: center;
+    }
+
+    /* ========================================================================
+     * CONFIRMED ICON METRICS STRIP (1C Grano + 1A Agua + 1B Ratio)
+     * + HeroUI v3 Style Interactive Tooltip (hover, focus, click + CSS Arrow)
+     * ======================================================================== */
+    .metrics-strip {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 4px 0;
+    }
+    html[data-layout="c"] .metrics-strip {
+      width: 100%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-recessed);
+      border-radius: 12px;
+      padding: 6px 4px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: center;
+      gap: 0;
+    }
+    .metric-sep {
+      width: 1px;
+      height: 18px;
+      background: var(--border-subtle);
+    }
+    html[data-layout="c"] .metric-sep { height: 22px; }
+
+    .tooltip-host {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .metric-trigger {
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 6px 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-family: var(--active-font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(12.5px, 2.8vw, 14px);
+      font-weight: 700;
+      color: var(--text-primary);
+      white-space: nowrap;
+      cursor: help;
+      transition: background 0.14s ease, border-color 0.14s ease;
+    }
+    .metric-trigger:hover,
+    .metric-trigger:focus-visible,
+    .tooltip-host.is-open .metric-trigger {
+      background: rgba(245, 236, 224, 0.06);
+      border-color: var(--border-strong);
+      outline: none;
+    }
+    .metric-trigger.is-coffee svg { color: var(--accent-primary); }
+    .metric-trigger.is-water { color: var(--svg-water-stream); }
+    .metric-trigger.is-ratio { color: var(--accent-gold); }
+
+    /* HeroUI v3 Tooltip Content Surface + Arrow (bottom placement so clock is never occluded) */
+    .heroui-tooltip {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-4px) scale(0.95);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 30;
+      width: max-content;
+      max-width: 220px;
+      padding: 7px 11px;
+      border-radius: 10px;
+      background: var(--bg-tooltip);
+      color: var(--text-primary);
+      box-shadow: var(--tooltip-shadow);
+      font-family: var(--active-font-sans);
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.35;
+      text-align: center;
+      transition: opacity 0.16s ease, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .heroui-tooltip strong {
+      color: var(--accent-gold);
+      font-weight: 700;
+    }
+    .heroui-tooltip::after {
+      content: "";
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%) rotate(45deg);
+      margin-bottom: -5px;
+      width: 9px;
+      height: 9px;
+      background: var(--bg-tooltip);
+      border-left: 1px solid var(--border-strong);
+      border-top: 1px solid var(--border-strong);
+    }
+    .tooltip-host:hover .heroui-tooltip,
+    .tooltip-host:focus-within .heroui-tooltip,
+    .tooltip-host.is-open .heroui-tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
+
+    .timer-instruction {
+      margin: 0 0 4px;
+      font-size: 15px;
+      color: var(--text-on-photo);
+      max-width: 38ch;
+      min-height: calc(1.55em * 3);
+      line-height: 1.55;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .action-stack {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .btn-primary-full, .btn-secondary-full {
+      width: 100%;
+      min-height: 50px;
+      border-radius: 12px;
+      font-family: var(--active-font-sans);
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.12s var(--ease-out), background 0.15s ease;
+    }
+    .btn-primary-full:active:not(:disabled),
+    .btn-secondary-full:active:not(:disabled) {
+      transform: scale(0.985);
+    }
+    .btn-primary-full {
+      border: none;
+      background: var(--accent-primary);
+      color: var(--text-on-accent);
+      font-size: 16px;
+      box-shadow: 0 6px 20px rgba(223, 107, 62, 0.25);
+    }
+    .btn-primary-full:hover:not(:disabled) { background: var(--accent-primary-hover); }
+    .btn-primary-full:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-secondary-full {
+      border: 1px solid var(--border-strong);
+      background: rgba(18, 14, 12, 0.55);
+      color: var(--accent-gold);
+      font-size: 15px;
+    }
+    .btn-secondary-full:hover { background: rgba(223, 158, 82, 0.12); }
+
+    /* Mobile Bottom Tab Bar */
+    .bottom-tab-bar {
+      display: flex;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      height: var(--bottom-bar-height);
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-subtle);
+      justify-content: space-around;
+      align-items: center;
+    }
+    html.full-capture .bottom-tab-bar { position: static; }
+    @media (min-width: 768px) { .bottom-tab-bar { display: none; } }
+    .tab-btn {
+      flex: 1;
+      min-height: 48px;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      font-family: var(--active-font-sans);
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .tab-btn[aria-selected="true"] { color: var(--accent-primary); font-weight: 700; }
+  </style>
+</head>
+<body>
+  <!-- Reviewer Switcher Bar -->
+  <header class="mockup-bar" aria-label="Controles de variantes">
+    <div class="bar-group">
+      <span class="bar-label">Nav Fill</span>
+      <button type="button" class="bar-pill" data-set-nav-hover="1" aria-pressed="false">1 · Espresso Alto</button>
+      <button type="button" class="bar-pill" data-set-nav-hover="2" aria-pressed="true">2 · Ola Media</button>
+      <button type="button" class="bar-pill" data-set-nav-hover="3" aria-pressed="false">3 · Café Negro</button>
+      <button type="button" class="bar-pill" data-set-nav-hover="4" aria-pressed="false">4 · Vaivén Doble</button>
+      <span class="bar-divider" aria-hidden="true"></span>
+      <span class="bar-label">Layout</span>
+      <button type="button" class="bar-pill" data-set-layout="a" aria-pressed="false">A</button>
+      <button type="button" class="bar-pill" data-set-layout="b" aria-pressed="false">B</button>
+      <button type="button" class="bar-pill" data-set-layout="c" aria-pressed="true">C</button>
+      <span class="bar-divider" aria-hidden="true"></span>
+      <span class="bar-label">Fuente</span>
+      <button type="button" class="bar-pill" data-set-font="1" aria-pressed="false">1 · Jakarta</button>
+      <button type="button" class="bar-pill" data-set-font="2" aria-pressed="true">2 · Outfit</button>
+      <button type="button" class="bar-pill" data-set-font="3" aria-pressed="false">3 · DM Sans</button>
+    </div>
+    <div class="bar-group">
+      <button type="button" class="bar-pill" data-demo-method="v60" aria-pressed="true">Hario V60</button>
+      <button type="button" class="bar-pill" data-demo-method="espresso" aria-pressed="false">Espresso</button>
+      <button type="button" class="bar-pill" id="toggle-tooltip-demo" aria-pressed="false">Ver Tooltip</button>
+    </div>
+  </header>
+
+  <!-- AppShell Top Navigation -->
+  <header class="top-navbar">
+    <div class="top-navbar-inner">
+      <a href="#top" class="brand-link">
+        <div class="brand-badge" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 5h14l-5 12h-4L5 5Z" />
+            <circle cx="12" cy="20" r="1.5" fill="currentColor" />
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title" data-brand-name="short">Atelier Brew</div>
+          <div class="brand-subtitle">BARISMO DE ESPECIALIDAD · TBD</div>
+        </div>
+      </a>
+
+      <div class="nav-right">
+        <nav class="desktop-nav" aria-label="Navegación principal">
+          <button type="button" class="nav-btn">
+            <span class="nav-fill-layer" aria-hidden="true"></span>
+            <span class="nav-btn-label">Métodos</span>
+          </button>
+          <button type="button" class="nav-btn" aria-current="page">
+            <span class="nav-btn-label">Estación de Preparación</span>
+          </button>
+          <button type="button" class="nav-btn">
+            <span class="nav-fill-layer" aria-hidden="true"></span>
+            <span class="nav-btn-label">Wiki &amp; Orígenes</span>
+          </button>
+          <button type="button" class="nav-btn">
+            <span class="nav-fill-layer" aria-hidden="true"></span>
+            <span class="nav-btn-label">Rueda SCA</span>
+          </button>
+        </nav>
+
+        <div class="search-box">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input class="search-input" type="search" aria-label="Buscar en toda la guía" placeholder="Buscar cafetera, grano..." />
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <main class="main-wrap">
+    <!-- Clean Station Header (no em-dash, Author • Temp fixed on right) -->
+    <section class="station-header">
+      <div>
+        <a href="#catalog" class="back-link">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="19" y1="12" x2="5" y2="12" />
+            <polyline points="12 19 5 12 12 5" />
+          </svg>
+          <span>Volver al catálogo</span>
+        </a>
+        <div class="station-title-row">
+          <div class="station-vessel-badge" id="station-vessel-icon" aria-hidden="true"></div>
+          <div>
+            <h1 class="station-title" id="station-heading">Hario V60</h1>
+            <p class="station-subtitle">Ajustá intensidad o dosis; cada pulso se recalcula con exactitud de balanza.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-meta-inline">
+        <span id="author-badge">James Hoffmann</span>
+        <span class="meta-sep" aria-hidden="true"></span>
+        <span class="meta-temp" id="temp-badge">93 °C (90–96 °C)</span>
+      </div>
+    </section>
+
+    <!-- Dual Panel Workspace (Mobile-First: Controls -> Timer -> Grind & Extended Steps) -->
+    <section class="station-grid">
+      <!-- Part 1: Controls & Alerts -->
+      <div class="calc-panel calc-controls-part">
+        <!-- Mode A: Filter / Immersion Controls -->
+        <div id="filter-controls-block">
+          <div class="section-label-row">
+            <span class="section-label">Perfil de Intensidad</span>
+            <span class="section-hint" id="active-ratio-badge">Ratio 1:16.7</span>
+          </div>
+
+          <div class="intensity-segment" id="intensity-pills" role="group" aria-label="Perfil de Intensidad">
+            <button type="button" class="intensity-btn" data-profile="light" aria-pressed="false">
+              <span class="intensity-name">Liviano</span>
+              <span class="intensity-ratio">1:17</span>
+            </button>
+            <button type="button" class="intensity-btn" data-profile="normal" aria-pressed="true">
+              <span class="intensity-name">Normal</span>
+              <span class="intensity-ratio">1:16.7</span>
+            </button>
+            <button type="button" class="intensity-btn" data-profile="strong" aria-pressed="false">
+              <span class="intensity-name">Fuerte</span>
+              <span class="intensity-ratio">1:15</span>
+            </button>
+          </div>
+
+          <div class="inputs-grid">
+            <div class="dose-well" id="coffee-field-card">
+              <div class="well-top">
+                <label class="well-label" for="coffee-input">Café seco</label>
+                <span class="well-meta" id="tbsp-badge">~2 cdas</span>
+              </div>
+              <div class="well-input-row">
+                <input id="coffee-input" class="numeric-input" type="number" min="1" max="2000" step="0.1" value="15" />
+                <span class="well-unit">g</span>
+              </div>
+              <span class="well-hint">Rango sugerido: 10–36 g</span>
+            </div>
+
+            <div class="dose-well is-water" id="water-field-card">
+              <div class="well-top">
+                <label class="well-label" for="water-input">Agua total</label>
+                <span class="well-meta" id="water-temp-inline">93 °C</span>
+              </div>
+              <div class="well-input-row">
+                <input id="water-input" class="numeric-input" type="number" min="1" max="2000" step="0.1" value="250" />
+                <span class="well-unit">ml</span>
+              </div>
+              <span class="well-hint">Rango sugerido: 150–600 ml</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mode B: Espresso -->
+        <div id="espresso-controls-block" hidden>
+          <div class="inputs-grid single-col">
+            <div class="dose-well" id="espresso-dose-card">
+              <div class="well-top">
+                <label class="well-label" for="espresso-dose-input">Dosis en portafiltro</label>
+                <span class="well-meta" id="espresso-tbsp-badge">~2.4 cdas · 93 °C</span>
+              </div>
+              <div class="well-input-row">
+                <input id="espresso-dose-input" class="numeric-input" type="number" min="1" max="2000" step="0.1" value="18" />
+                <span class="well-unit">g</span>
+              </div>
+              <span class="well-hint">Canasta doble estándar 58 mm: 14–22 g</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 16px;">
+            <div class="section-label-row">
+              <span class="section-label">Rendimiento en Taza (Yield)</span>
+              <span class="section-hint">9 bar · 3 estilos</span>
+            </div>
+            <div class="espresso-strip" id="espresso-yield-cards" role="group" aria-label="Estilos de Espresso"></div>
+          </div>
+        </div>
+
+        <!-- Warning & Validation Banners -->
+        <div id="range-warning-banner" class="warning-banner" role="status" aria-live="polite" hidden>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--status-warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
+            <line x1="12" y1="9" x2="12" y2="13" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
+          <div>
+            <div class="warning-title">Aviso físico de capacidad</div>
+            <div id="range-warning-text"></div>
+          </div>
+        </div>
+
+        <div id="invalid-input-banner" class="danger-banner" role="alert" hidden>
+          <span>Ingresá una cantidad válida mayor a 0 g/ml para iniciar.</span>
+        </div>
+      </div>
+
+      <!-- Part 2 (Mobile order 3 / Desktop Left bottom): Grind + Extended Steps -->
+      <div class="calc-panel calc-details-part">
+        <!-- Open Editorial Grind Row (no nested card inside card) -->
+        <div class="grind-row">
+          <svg class="grind-glyph" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" />
+            <circle cx="12" cy="12" r="3" />
+            <path d="M12 3v3M12 18v3M3 12h3M18 12h3" />
+          </svg>
+          <div>
+            <div class="grind-head">
+              <span class="grind-title" id="grind-base-label">Molienda: Media-fina (sal de mesa)</span>
+              <span class="grind-status" id="grind-adjustment-pill">· Estándar</span>
+            </div>
+            <p class="grind-tip" id="grind-tip-text">Mantené la molienda estándar recomendada para este método.</p>
+          </div>
+        </div>
+
+        <!-- Open Hairline Phase Timeline (Clickable to jump to any phase!) -->
+        <div class="timeline-section">
+          <div class="section-label-row" style="margin-bottom: 0;">
+            <span class="section-label">Fases · Tocá una fila para previsualizar</span>
+            <span class="section-hint" id="timeline-total-badge">3:30 · 250 g</span>
+          </div>
+          <ol class="phase-list" id="phase-timeline-list"></ol>
+        </div>
+      </div>
+
+      <!-- Right Panel: Moody Timer & Stage -->
+      <aside class="timer-panel" aria-label="Panel de extracción">
+        <img id="timer-moody-photo" class="timer-bg-img" src="../../../../public/images/coffee/v60-moody.jpg" alt="" aria-hidden="true" />
+        <div class="timer-bg-scrim" aria-hidden="true"></div>
+
+        <div class="timer-content">
+          <!-- Layout B Top Progress Stepper -->
+          <div class="phase-bar-b">
+            <button type="button" class="step-arrow-btn js-prev-phase" aria-label="Fase anterior" title="Fase anterior">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6" /></svg>
+            </button>
+            <div>
+              <div class="phase-kicker-text js-kicker-text">FASE 1 DE 4 · BLOOM (0:45)</div>
+              <div class="phase-dots js-phase-dots" aria-label="Selector rápido de fase"></div>
+            </div>
+            <button type="button" class="step-arrow-btn js-next-phase" aria-label="Siguiente fase" title="Siguiente fase">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
+            </button>
+          </div>
+
+          <!-- Open SVG Animation Stage (no dashed box) -->
+          <div class="svg-stage-open" aria-label="Escena animada de extracción">
+            <div id="svg-stage-illustration" style="display:flex;align-items:center;justify-content:center;width:100%;"></div>
+            <span class="svg-stage-caption" id="svg-stage-caption">Vertido en espiral · +50 g agua · Nivel 20%</span>
+          </div>
+
+          <!-- Layout A Inline Stepper Header -->
+          <div class="phase-bar-a">
+            <button type="button" class="step-arrow-btn js-prev-phase" aria-label="Fase anterior" title="Fase anterior">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6" /></svg>
+            </button>
+            <div>
+              <div class="phase-kicker-text js-kicker-text">FASE 1 DE 4 · BLOOM (0:45)</div>
+              <div class="phase-dots js-phase-dots"></div>
+            </div>
+            <button type="button" class="step-arrow-btn js-next-phase" aria-label="Siguiente fase" title="Siguiente fase">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
+            </button>
+          </div>
+
+          <!-- Layout C Header -->
+          <div class="phase-label-c">
+            <div class="phase-kicker-text js-kicker-text">FASE 1 DE 4 · BLOOM (0:45)</div>
+            <div class="phase-dots js-phase-dots"></div>
+          </div>
+
+          <!-- Clock (with Layout C Flanking Phase Skip Arrows) -->
+          <div class="clock-row">
+            <button type="button" class="step-arrow-btn clock-arrow-c js-prev-phase" aria-label="Fase anterior" title="Fase anterior">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6" /></svg>
+            </button>
+            <div class="timer-clock" id="timer-clock-display">03:30</div>
+            <button type="button" class="step-arrow-btn clock-arrow-c js-next-phase" aria-label="Siguiente fase" title="Siguiente fase">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
+            </button>
+          </div>
+
+          <!-- Confirmed Icon Metric Strip (1C Grano · 1A Agua · 1B Ratio) + HeroUI Tooltips -->
+          <div class="metrics-strip">
+            <!-- Café (1C Solid Bean) -->
+            <div class="tooltip-host" id="tip-host-coffee">
+              <button type="button" class="metric-trigger is-coffee" aria-describedby="tip-coffee">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M15.8 3.6c-3.5-1.4-8.1 1-10.2 5.4-2.1 4.4-1 9.1 2.4 10.6.4-.8 1.2-2.9 1.6-5.2.5-2.8 1.6-4.4 2.7-6 .7-1 1.6-2.2 3.5-4.8Zm2 1.2c-.8 1.7-1.7 3-2.5 4.2-1.1 1.6-1.9 2.9-2.4 5.4-.4 2.2-1 4.1-1.5 5.4 3.4-.3 6.9-2.8 8.5-6.4 1.6-3.5.7-7.1-2.1-8.6Z" />
+                </svg>
+                <span id="timer-stat-dose">15 g</span>
+              </button>
+              <div role="tooltip" id="tip-coffee" class="heroui-tooltip">
+                <strong>Café seco</strong> · Dosis molida en filtro
+              </div>
+            </div>
+
+            <span class="metric-sep" aria-hidden="true"></span>
+
+            <!-- Agua (1A Drop) -->
+            <div class="tooltip-host" id="tip-host-water">
+              <button type="button" class="metric-trigger is-water" aria-describedby="tip-water">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.95" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 3.2S6 10.4 6 14.5a6 6 0 0 0 12 0c0-4.1-6-11.3-6-11.3Z" />
+                </svg>
+                <span id="timer-stat-target">250 ml</span>
+              </button>
+              <div role="tooltip" id="tip-water" class="heroui-tooltip">
+                <strong>Agua total</strong> · Objetivo en balanza
+              </div>
+            </div>
+
+            <span class="metric-sep" aria-hidden="true"></span>
+
+            <!-- Ratio (1B Dial) -->
+            <div class="tooltip-host" id="tip-host-ratio">
+              <button type="button" class="metric-trigger is-ratio" aria-describedby="tip-ratio">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.95" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 12l4-4" />
+                </svg>
+                <span id="timer-stat-ratio">1:16.7</span>
+              </button>
+              <div role="tooltip" id="tip-ratio" class="heroui-tooltip">
+                <strong>Ratio activo</strong> · Proporción café / agua
+              </div>
+            </div>
+          </div>
+
+          <p class="timer-instruction" id="timer-instruction-text">
+            Verté 50 g de agua en espiral cubriendo todo el café seco hasta alcanzar 50 g. Dejá desgasificar.
+          </p>
+
+          <div class="action-stack">
+            <button type="button" id="btn-start-brew" class="btn-primary-full">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <polygon points="6 4 20 12 6 20 6 4" />
+              </svg>
+              <span>Iniciar extracción</span>
+            </button>
+            <button type="button" id="btn-reset-brew" class="btn-secondary-full">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="1 4 1 10 7 10" />
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+              </svg>
+              <span>Reiniciar reloj</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="bottom-tab-bar" aria-label="Navegación móvil">
+    <button type="button" class="tab-btn" aria-selected="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+        <rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" />
+        <rect x="14" y="14" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" />
+      </svg>
+      <span>Métodos</span>
+    </button>
+    <button type="button" class="tab-btn" aria-selected="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+        <path d="M5 4h14l-5 12h-4L5 4Z" />
+      </svg>
+      <span>Preparar</span>
+    </button>
+    <button type="button" class="tab-btn" aria-selected="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+      </svg>
+      <span>Wiki</span>
+    </button>
+    <button type="button" class="tab-btn" aria-selected="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+        <circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="3" />
+      </svg>
+      <span>Rueda SCA</span>
+    </button>
+  </nav>
+
+  <script src="../../../../design-system/brand.js"></script>
+  <script>
+    (function () {
+      const METHODS = {
+        v60: {
+          id: 'v60',
+          name: 'Hario V60',
+          scalingMode: 'filter_water_ratio',
+          image: '../../../../public/images/coffee/v60-moody.jpg',
+          defaultDose: 15,
+          temp: { min: 90, max: 96, recommended: 93 },
+          baseGrind: 'Media-fina (sal de mesa)',
+          thresholds: {
+            minCoffee: 10, maxCoffee: 36, minWater: 150, maxWater: 600, smallGrind: 12, largeGrind: 30,
+            belowMsg: 'Dosis por debajo de 10 g: la cama es demasiado delgada y canaliza.',
+            aboveMsg: 'Dosis superior a 36 g: supera el cono estándar 02.'
+          },
+          iconSvg: '<svg width="24" height="24" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h18l-6.5 14h-5L7 8Z"/><path d="M11 8l3.5 14" stroke="var(--accent-gold)" stroke-width="1.4"/><path d="M9 22h14"/><circle cx="16" cy="26.5" r="1.5" fill="var(--accent-gold)" stroke="none"/></svg>',
+          profiles: {
+            light: { label: 'Liviano', ratio: 17.0, author: 'Tetsu Kasuya', duration: 210 },
+            normal: { label: 'Normal', ratio: 16.67, author: 'James Hoffmann', duration: 210 },
+            strong: { label: 'Fuerte', ratio: 15.0, author: 'SCA Standard', duration: 210 }
+          },
+          phases: [
+            { title: 'Bloom (Preinfusión)', start: 0, end: 45, share: 0.2, scene: 'bloom', levelPct: 20, tpl: 'Verté {w} g de agua en espiral cubriendo todo el café seco hasta alcanzar {c} g. Dejá desgasificar.' },
+            { title: 'Primer vertido', start: 45, end: 120, share: 0.5, scene: 'spiral', levelPct: 70, tpl: 'Verté {w} g de agua con flujo constante en círculos concéntricos hasta alcanzar {c} g.' },
+            { title: 'Segundo vertido', start: 120, end: 165, share: 0.3, scene: 'center', levelPct: 95, tpl: 'Verté los {w} g finales hacia el centro con calma hasta completar {c} g.' },
+            { title: 'Drenaje final', start: 165, end: 210, share: 0.0, scene: 'drawdown', levelPct: 100, tpl: 'Dejá drenar el líquido por gravedad a través del cono hasta que la cama quede plana.' }
+          ]
+        },
+        espresso: {
+          id: 'espresso',
+          name: 'Espresso',
+          scalingMode: 'espresso_yield_ratio',
+          image: '../../../../public/images/coffee/espresso-moody.jpg',
+          defaultDose: 18,
+          temp: { min: 90, max: 94, recommended: 93 },
+          baseGrind: 'Muy fina (polvo con ligera aglomeración)',
+          thresholds: {
+            minCoffee: 14, maxCoffee: 22, smallGrind: 15, largeGrind: 20,
+            belowMsg: 'Dosis menor a 14 g: canasta subcargada genera canalización rápida.',
+            aboveMsg: 'Dosis superior a 22 g: sobrecarga la canasta antes de presurizar.'
+          },
+          iconSvg: '<svg width="24" height="24" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 10h11v5a5.5 5.5 0 0 1-11 0v-5Z"/><path d="M17 12h9" stroke="var(--accent-gold)" stroke-width="2.2"/><path d="M9.5 21v4M13.5 21v4" stroke="var(--accent-gold)"/></svg>',
+          profiles: {
+            ristretto: { label: 'Ristretto', ratio: 1.5, window: '20–25 s', author: 'Italian Traditional', duration: 22 },
+            normale: { label: 'Normale', ratio: 2.0, window: '25–30 s', author: 'SCA Standard', duration: 28 },
+            lungo: { label: 'Lungo', ratio: 3.0, window: '30–35 s', author: 'Modern Specialty', duration: 34 }
+          },
+          phases: [
+            { title: 'Preinfusión suave', start: 0, end: 6, share: 0.15, scene: 'espresso', levelPct: 20, tpl: 'Humectá la pastilla compactada y observá las primeras gotas de extracción.' },
+            { title: 'Extracción bajo 9 bar', start: 6, end: 28, share: 0.85, scene: 'espresso', levelPct: 100, tpl: 'Mantené presión constante y cortá la bomba al alcanzar {c} g de bebida en taza.' }
+          ]
+        }
+      };
+
+      const state = {
+        methodId: 'v60',
+        profileId: 'normal',
+        coffeeGrams: 15,
+        waterMl: 250,
+        displayedWaterMl: 250,
+        displayedCoffeeGrams: 15,
+        isInvalid: false,
+        activePhaseIdx: 0,
+        lastPhaseIdx: 0,
+        lastAuthor: '',
+        lastAnimatedMethod: null,
+        stepDirection: 0,
+        recalcTick: false,
+        layout: 'c',
+        font: '2',
+        navHover: '2',
+        tweenIds: {}
+      };
+
+      const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function round1(v) { return Math.round((v + Number.EPSILON) * 10) / 10; }
+      function fmtRatio(v) { const r = round1(v); return Number.isInteger(r) ? String(r) : r.toFixed(1); }
+      function fmtTime(s) { return Math.floor(s / 60) + ':' + String(Math.round(s % 60)).padStart(2, '0'); }
+      function fmtClock(s) { return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(Math.round(s % 60)).padStart(2, '0'); }
+
+      function replayAnim(el, className) {
+        if (!el || prefersReducedMotion) return;
+        el.classList.remove('is-stepping-fwd', 'is-stepping-back', 'is-clock-pop', 'is-recalc', 'is-soft-swap');
+        void el.offsetWidth;
+        el.classList.add(className);
+      }
+
+      function tweenNumber(key, fromVal, toVal, durationMs, isDecimal, onStep) {
+        if (state.tweenIds[key]) cancelAnimationFrame(state.tweenIds[key]);
+        if (prefersReducedMotion || !Number.isFinite(fromVal) || !Number.isFinite(toVal) || fromVal === toVal) {
+          onStep(toVal);
+          return;
+        }
+        const startTs = performance.now();
+        function frame(now) {
+          const t = Math.min(1, (now - startTs) / durationMs);
+          const eased = 1 - Math.pow(1 - t, 3);
+          const cur = fromVal + (toVal - fromVal) * eased;
+          onStep(isDecimal ? round1(cur) : Math.round(cur));
+          if (t < 1) state.tweenIds[key] = requestAnimationFrame(frame);
+          else {
+            delete state.tweenIds[key];
+            onStep(toVal);
+          }
+        }
+        state.tweenIds[key] = requestAnimationFrame(frame);
+      }
+
+      function evaluateThresholds(m, coffee, water) {
+        if (!Number.isFinite(coffee) || coffee <= 0 || (water !== undefined && (!Number.isFinite(water) || water <= 0))) {
+          return { status: 'invalid_input', msg: '' };
+        }
+        const t = m.thresholds;
+        if (coffee < t.minCoffee || (t.minWater !== undefined && water < t.minWater)) return { status: 'below_min', msg: t.belowMsg };
+        if (coffee > t.maxCoffee || (t.maxWater !== undefined && water > t.maxWater)) return { status: 'above_max', msg: t.aboveMsg };
+        return { status: 'ok', msg: '' };
+      }
+
+      function resolveGrind(m, coffee) {
+        if (!Number.isFinite(coffee) || coffee <= 0) return { tag: '· Estándar', adjusted: false, tip: 'Mantené la molienda estándar recomendada para este método.' };
+        if (coffee < m.thresholds.smallGrind) return { tag: '· 1–2 puntos más fina', adjusted: true, tip: 'Dosis pequeña: afiná la molienda para evitar sub-extracción.' };
+        if (coffee > m.thresholds.largeGrind) return { tag: '· 1–2 puntos más gruesa', adjusted: true, tip: 'Dosis grande: engrosá la molienda para evitar saturación.' };
+        return { tag: '· Estándar', adjusted: false, tip: 'Mantené la molienda estándar recomendada para este método.' };
+      }
+
+      function scalePhases(phases, totalAmount, isEspresso) {
+        if (totalAmount <= 0 || !Number.isFinite(totalAmount)) return phases.map((p) => ({ ...p, w: 0, c: 0 }));
+        let lastPour = -1;
+        phases.forEach((p, i) => { if (p.share > 0) lastPour = i; });
+        let prev = 0, cum = 0;
+        return phases.map((p, i) => {
+          let w = 0;
+          if (p.share > 0) {
+            if (i === lastPour) w = isEspresso ? round1(totalAmount - prev) : Math.round(totalAmount - prev);
+            else { w = isEspresso ? round1(totalAmount * p.share) : Math.round(totalAmount * p.share); prev += w; }
+          }
+          cum = isEspresso ? round1(cum + w) : cum + w;
+          return { ...p, w, c: cum };
+        });
+      }
+
+      /* Persistent SVG DOM builder so GPU CSS transitions interpolate across phases! */
+      function ensureSvgStage(isEspresso) {
+        const container = document.getElementById('svg-stage-illustration');
+        const targetType = isEspresso ? 'espresso' : 'v60';
+        if (state.lastAnimatedMethod === targetType && container.firstElementChild) {
+          return container;
+        }
+        state.lastAnimatedMethod = targetType;
+        if (isEspresso) {
+          container.innerHTML =
+            '<svg width="168" height="118" viewBox="0 0 168 118" fill="none" aria-hidden="true">' +
+              '<defs><clipPath id="cup-clip"><path d="M41 64h46l-4.5 34a5 5 0 0 1-5 4H50.5a5 5 0 0 1-5-4L41 64Z"/></clipPath></defs>' +
+              '<rect x="34" y="10" width="60" height="22" rx="4" stroke="var(--svg-vessel-stroke)" stroke-width="2" fill="var(--svg-vessel-glass)"/>' +
+              '<path d="M94 18h46" stroke="var(--accent-gold)" stroke-width="5" stroke-linecap="round"/>' +
+              '<g id="esp-stream" class="svg-stream-layer"><path class="anim-stream" d="M56 32v30M72 32v30" stroke="var(--svg-coffee-crema)" stroke-width="3" stroke-linecap="round"/></g>' +
+              '<g clip-path="url(#cup-clip)">' +
+                '<rect id="esp-liquid-rect" class="svg-liquid-rect" x="38" y="72" width="52" height="34" fill="var(--svg-coffee-liquid)" opacity="0.92" style="transform: scaleY(0.35);"/>' +
+              '</g>' +
+              '<ellipse id="esp-crema" class="svg-meniscus-line" cx="64" cy="96" rx="18" ry="3.5" fill="var(--svg-coffee-crema)"/>' +
+              '<path d="M40 62h48l-5 36a6 6 0 0 1-6 5H51a6 6 0 0 1-6-5l-5-36Z" stroke="var(--svg-vessel-stroke)" stroke-width="2" fill="none"/>' +
+              '<path d="M88 70h8a6 6 0 0 1 0 12h-9" stroke="var(--svg-vessel-stroke)" stroke-width="2"/>' +
+            '</svg>';
+        } else {
+          container.innerHTML =
+            '<svg width="168" height="118" viewBox="0 0 168 118" fill="none" aria-hidden="true">' +
+              '<defs><clipPath id="carafe-clip"><path d="M62 61h44l9.5 40.5a7.5 7.5 0 0 1-7.5 8.5H60a7.5 7.5 0 0 1-7.5-8.5L62 61Z"/></clipPath></defs>' +
+              '<g id="v60-pour-stream" class="svg-stream-layer">' +
+                '<path class="anim-stream" d="M84 4c0 16-4 22-4 34" stroke="var(--svg-water-stream)" stroke-width="3" stroke-linecap="round"/>' +
+                '<circle class="anim-stream" cx="80" cy="43" r="2.2" fill="var(--svg-water-stream)"/>' +
+              '</g>' +
+              '<g id="v60-drawdown-drip" class="svg-drip-layer" style="opacity:0;">' +
+                '<circle class="anim-drip" cx="84" cy="63" r="2.3" fill="var(--svg-coffee-liquid)"/>' +
+              '</g>' +
+              '<path d="M52 22h64L96 58H72L52 22Z" stroke="var(--svg-vessel-stroke)" stroke-width="2" fill="var(--svg-vessel-glass)"/>' +
+              '<path d="M68 48h32l-4 10H72l-4-10Z" fill="var(--svg-coffee-bed)"/>' +
+              '<g clip-path="url(#carafe-clip)">' +
+                '<rect id="v60-liquid-rect" class="svg-liquid-rect" x="48" y="68" width="72" height="44" fill="var(--svg-coffee-liquid)" opacity="0.88" style="transform: scaleY(0.28);"/>' +
+                '<line id="v60-meniscus" class="svg-meniscus-line" x1="50" y1="111" x2="118" y2="111" stroke="var(--accent-gold)" stroke-width="2" style="transform: translateY(-12px);"/>' +
+              '</g>' +
+              '<path d="M62 60h44l10 42a8 8 0 0 1-8 9H60a8 8 0 0 1-8-9l10-42Z" stroke="var(--svg-vessel-stroke)" stroke-width="2" fill="none"/>' +
+            '</svg>';
+        }
+        return container;
+      }
+
+      function updateSvgScene(isEspresso, phase) {
+        ensureSvgStage(isEspresso);
+        if (isEspresso) {
+          const isPre = phase.levelPct <= 30;
+          const liq = document.getElementById('esp-liquid-rect');
+          const crema = document.getElementById('esp-crema');
+          const stream = document.getElementById('esp-stream');
+          if (liq) liq.style.transform = 'scaleY(' + (isPre ? '0.32' : '0.88') + ')';
+          if (crema) crema.style.transform = 'translateY(' + (isPre ? '0px' : '-16px') + ')';
+          if (stream) stream.style.opacity = isPre ? '0.45' : '1';
+          return phase.title + ' · ' + phase.c + ' g crema dorada';
+        }
+        const levelScale = phase.levelPct <= 25 ? 0.28 : (phase.levelPct <= 75 ? 0.68 : (phase.levelPct <= 95 ? 0.88 : 0.96));
+        const meniscusDy = Math.round(-44 * levelScale);
+        const liq = document.getElementById('v60-liquid-rect');
+        const meniscus = document.getElementById('v60-meniscus');
+        const pour = document.getElementById('v60-pour-stream');
+        const drip = document.getElementById('v60-drawdown-drip');
+        if (liq) liq.style.transform = 'scaleY(' + levelScale + ')';
+        if (meniscus) meniscus.style.transform = 'translateY(' + meniscusDy + 'px)';
+        const isDrawdown = phase.scene === 'drawdown';
+        if (pour) {
+          pour.style.opacity = isDrawdown ? '0' : '1';
+          pour.style.transform = isDrawdown ? 'translateY(-6px)' : 'translateY(0)';
+        }
+        if (drip) drip.style.opacity = isDrawdown ? '1' : '0';
+        return (phase.w > 0 ? '+' + phase.w + ' g agua · ' : 'Drenaje por gravedad · ') + 'Acumulado ' + phase.c + ' g';
+      }
+
+      function setLayout(layout) {
+        state.layout = ['a', 'b', 'c'].includes(layout) ? layout : 'c';
+        document.documentElement.setAttribute('data-layout', state.layout);
+        document.querySelectorAll('[data-set-layout]').forEach((b) => {
+          b.setAttribute('aria-pressed', b.getAttribute('data-set-layout') === state.layout ? 'true' : 'false');
+        });
+      }
+
+      function setFont(font) {
+        state.font = ['1', '2', '3'].includes(font) ? font : '2';
+        document.documentElement.setAttribute('data-font', state.font);
+        document.querySelectorAll('[data-set-font]').forEach((b) => {
+          b.setAttribute('aria-pressed', b.getAttribute('data-set-font') === state.font ? 'true' : 'false');
+        });
+      }
+
+      function setNavHover(variant) {
+        state.navHover = ['1', '2', '3', '4'].includes(variant) ? variant : '2';
+        document.documentElement.setAttribute('data-nav-hover', state.navHover);
+        document.querySelectorAll('[data-set-nav-hover]').forEach((b) => {
+          b.setAttribute('aria-pressed', b.getAttribute('data-set-nav-hover') === state.navHover ? 'true' : 'false');
+        });
+      }
+
+      function switchMethod(methodId, optionalProfile) {
+        const m = METHODS[methodId] || METHODS.v60;
+        state.methodId = m.id;
+        state.isInvalid = false;
+        state.activePhaseIdx = 0;
+        state.lastPhaseIdx = 0;
+        state.lastAuthor = '';
+        state.stepDirection = 0;
+        state.coffeeGrams = m.defaultDose;
+        if (m.scalingMode === 'espresso_yield_ratio') {
+          state.profileId = optionalProfile && m.profiles[optionalProfile] ? optionalProfile : 'normale';
+          state.waterMl = round1(m.defaultDose * m.profiles[state.profileId].ratio);
+        } else {
+          state.profileId = optionalProfile && m.profiles[optionalProfile] ? optionalProfile : 'normal';
+          state.waterMl = Math.round(m.defaultDose * m.profiles[state.profileId].ratio);
+        }
+        state.displayedWaterMl = state.waterMl;
+        state.displayedCoffeeGrams = state.coffeeGrams;
+        document.getElementById('coffee-input').value = String(state.coffeeGrams);
+        document.getElementById('water-input').value = String(state.waterMl);
+        document.getElementById('espresso-dose-input').value = String(state.coffeeGrams);
+        render();
+      }
+
+      function render() {
+        const m = METHODS[state.methodId];
+        const isEspresso = m.scalingMode === 'espresso_yield_ratio';
+        const profile = m.profiles[state.profileId];
+
+        document.querySelectorAll('[data-demo-method]').forEach((btn) => {
+          btn.setAttribute('aria-pressed', btn.getAttribute('data-demo-method') === m.id ? 'true' : 'false');
+        });
+
+        document.getElementById('station-vessel-icon').innerHTML = m.iconSvg;
+        document.getElementById('station-heading').textContent = m.name;
+        document.getElementById('temp-badge').textContent = m.temp.recommended + ' °C (' + m.temp.min + '–' + m.temp.max + ' °C)';
+        const authorEl = document.getElementById('author-badge');
+        if (state.lastAuthor && state.lastAuthor !== profile.author) {
+          authorEl.textContent = profile.author;
+          replayAnim(authorEl, 'is-soft-swap');
+        } else {
+          authorEl.textContent = profile.author;
+        }
+        state.lastAuthor = profile.author;
+        document.getElementById('timer-moody-photo').src = m.image;
+
+        document.getElementById('filter-controls-block').hidden = isEspresso;
+        document.getElementById('espresso-controls-block').hidden = !isEspresso;
+
+        const coffee = state.isInvalid ? 0 : state.coffeeGrams;
+        const water = state.isInvalid ? 0 : (isEspresso ? round1(coffee * profile.ratio) : state.waterMl);
+        const tbsp = coffee > 0 ? round1(coffee / 7.5) : 0;
+
+        if (!isEspresso) {
+          document.getElementById('active-ratio-badge').textContent = 'Ratio 1:' + fmtRatio(profile.ratio);
+          document.getElementById('tbsp-badge').textContent = '~' + tbsp + ' cdas';
+          document.getElementById('water-temp-inline').textContent = m.temp.recommended + ' °C';
+          document.querySelectorAll('#intensity-pills [data-profile]').forEach((btn) => {
+            btn.setAttribute('aria-pressed', btn.getAttribute('data-profile') === state.profileId ? 'true' : 'false');
+          });
+        } else {
+          document.getElementById('espresso-tbsp-badge').textContent = '~' + tbsp + ' cdas · ' + m.temp.recommended + ' °C';
+          const cardsWrap = document.getElementById('espresso-yield-cards');
+          cardsWrap.innerHTML = ['ristretto', 'normale', 'lungo'].map((id) => {
+            const p = m.profiles[id];
+            const y = coffee > 0 ? round1(coffee * p.ratio) : 0;
+            const active = state.profileId === id;
+            return '<button type="button" class="espresso-cell" data-espresso-profile="' + id + '" aria-pressed="' + active + '">' +
+              '<div class="espresso-head"><span>' + p.label + '</span><span class="espresso-ratio">1:' + fmtRatio(p.ratio) + '</span></div>' +
+              '<div class="espresso-yield">' + y + ' g</div>' +
+              '<div class="espresso-window">' + p.window + '</div>' +
+            '</button>';
+          }).join('');
+          cardsWrap.querySelectorAll('[data-espresso-profile]').forEach((btn) => {
+            btn.addEventListener('click', () => { state.profileId = btn.getAttribute('data-espresso-profile'); state.recalcTick = true; render(); });
+          });
+        }
+
+        const evalRes = evaluateThresholds(m, coffee, isEspresso ? undefined : water);
+        document.getElementById('invalid-input-banner').hidden = evalRes.status !== 'invalid_input';
+        document.getElementById('range-warning-banner').hidden = evalRes.status !== 'below_min' && evalRes.status !== 'above_max';
+        document.getElementById('range-warning-text').textContent = evalRes.msg;
+        document.getElementById('btn-start-brew').disabled = evalRes.status === 'invalid_input';
+        document.getElementById('coffee-field-card').classList.toggle('has-error', evalRes.status === 'invalid_input');
+        document.getElementById('water-field-card').classList.toggle('has-error', evalRes.status === 'invalid_input');
+        document.getElementById('espresso-dose-card').classList.toggle('has-error', evalRes.status === 'invalid_input');
+
+        const grind = resolveGrind(m, coffee);
+        document.getElementById('grind-base-label').textContent = 'Molienda: ' + m.baseGrind;
+        const grindPill = document.getElementById('grind-adjustment-pill');
+        grindPill.textContent = grind.tag;
+        grindPill.classList.toggle('is-adjusted', grind.adjusted);
+        document.getElementById('grind-tip-text').textContent = grind.tip;
+
+        const basePhases = m.phases;
+        const scaled = scalePhases(basePhases, water, isEspresso);
+        if (state.activePhaseIdx >= scaled.length) state.activePhaseIdx = 0;
+
+        document.getElementById('timeline-total-badge').textContent = fmtTime(profile.duration) + ' · ' + water + (isEspresso ? ' g yield' : ' g agua');
+
+        const listEl = document.getElementById('phase-timeline-list');
+        listEl.innerHTML = scaled.map((p, idx) => {
+          const instr = p.tpl.replace('{w}', String(p.w)).replace('{c}', String(p.c));
+          const weightsHtml = p.w > 0 ? '<span class="phase-delta">+' + p.w + ' g</span>→ ' + p.c + ' g' : '0 g → ' + p.c + ' g';
+          const isAct = idx === state.activePhaseIdx;
+          return '<li>' +
+            '<button type="button" class="phase-row' + (isAct ? ' is-active' : '') + '" data-jump-phase="' + idx + '">' +
+              '<div class="phase-row-top">' +
+                '<div class="phase-row-title-group"><span class="phase-time-text">' + fmtTime(p.start) + '</span><span class="phase-name-text">' + p.title + '</span></div>' +
+                '<span class="phase-weights-text">' + weightsHtml + '</span>' +
+              '</div>' +
+              '<p class="phase-instr-text">' + instr + '</p>' +
+            '</button>' +
+          '</li>';
+        }).join('');
+
+        listEl.querySelectorAll('[data-jump-phase]').forEach((row) => {
+          row.addEventListener('click', () => {
+            const nextIdx = Number(row.getAttribute('data-jump-phase'));
+            state.stepDirection = Math.sign(nextIdx - state.activePhaseIdx);
+            state.activePhaseIdx = nextIdx;
+            render();
+          });
+        });
+
+        const curPhase = scaled[state.activePhaseIdx];
+        const stageCaption = updateSvgScene(isEspresso, curPhase);
+        const captionEl = document.getElementById('svg-stage-caption');
+        captionEl.textContent = stageCaption;
+
+        const kickerStr = 'FASE ' + (state.activePhaseIdx + 1) + ' DE ' + scaled.length + ' · ' + curPhase.title.toUpperCase() + ' (' + fmtTime(curPhase.start) + '–' + fmtTime(curPhase.end) + ')';
+        document.querySelectorAll('.js-kicker-text').forEach((el) => { el.textContent = kickerStr; });
+        document.querySelectorAll('.js-phase-dots').forEach((wrap) => {
+          if (wrap.childElementCount !== scaled.length) {
+            wrap.innerHTML = scaled.map((_, idx) =>
+              '<button type="button" class="phase-dot" data-dot-idx="' + idx + '" aria-label="Ir a fase ' + (idx + 1) + '"' + (idx === state.activePhaseIdx ? ' aria-current="step"' : '') + '></button>'
+            ).join('');
+            wrap.querySelectorAll('[data-dot-idx]').forEach((dot) => {
+              dot.addEventListener('click', () => {
+                const nextIdx = Number(dot.getAttribute('data-dot-idx'));
+                state.stepDirection = Math.sign(nextIdx - state.activePhaseIdx);
+                state.activePhaseIdx = nextIdx;
+                render();
+              });
+            });
+          } else {
+            wrap.querySelectorAll('.phase-dot').forEach((dot, idx) => {
+              if (idx === state.activePhaseIdx) dot.setAttribute('aria-current', 'step');
+              else dot.removeAttribute('aria-current');
+            });
+          }
+        });
+
+        document.querySelectorAll('.js-prev-phase').forEach((b) => { b.disabled = state.activePhaseIdx <= 0; });
+        document.querySelectorAll('.js-next-phase').forEach((b) => { b.disabled = state.activePhaseIdx >= scaled.length - 1; });
+
+        const displaySec = state.activePhaseIdx === 0 ? profile.duration : Math.max(0, profile.duration - curPhase.start);
+        const clockEl = document.getElementById('timer-clock-display');
+        const instrEl = document.getElementById('timer-instruction-text');
+        const targetStatEl = document.getElementById('timer-stat-target');
+        const doseStatEl = document.getElementById('timer-stat-dose');
+        const ratioStatEl = document.getElementById('timer-stat-ratio');
+
+        clockEl.textContent = fmtClock(displaySec);
+        ratioStatEl.textContent = '1:' + fmtRatio(profile.ratio);
+        instrEl.textContent = curPhase.tpl.replace('{w}', String(curPhase.w)).replace('{c}', String(curPhase.c));
+
+        if (state.recalcTick && !state.isInvalid) {
+          const prevW = state.displayedWaterMl;
+          tweenNumber('timerWater', prevW, water, 175, isEspresso, (val) => {
+            targetStatEl.textContent = val + (isEspresso ? ' g' : ' ml');
+          });
+          if (!isEspresso) {
+            const waterInputEl = document.getElementById('water-input');
+            tweenNumber('waterInput', prevW, water, 175, false, (val) => {
+              if (document.activeElement !== waterInputEl) waterInputEl.value = String(val);
+            });
+          }
+          state.displayedWaterMl = water;
+          doseStatEl.textContent = coffee + ' g';
+          state.displayedCoffeeGrams = coffee;
+          replayAnim(document.getElementById('active-ratio-badge'), 'is-soft-swap');
+          replayAnim(ratioStatEl, 'is-soft-swap');
+          document.querySelectorAll('.phase-weights-text').forEach((el) => replayAnim(el, 'is-soft-swap'));
+          state.recalcTick = false;
+        } else {
+          doseStatEl.textContent = coffee + ' g';
+          targetStatEl.textContent = water + (isEspresso ? ' g' : ' ml');
+          state.displayedWaterMl = water;
+          state.displayedCoffeeGrams = coffee;
+        }
+
+        if (state.stepDirection !== 0) {
+          const dirClass = state.stepDirection > 0 ? 'is-stepping-fwd' : 'is-stepping-back';
+          document.querySelectorAll('.js-kicker-text').forEach((el) => replayAnim(el, dirClass));
+          replayAnim(instrEl, dirClass);
+          replayAnim(captionEl, dirClass);
+          replayAnim(clockEl, 'is-clock-pop');
+          state.stepDirection = 0;
+        }
+        state.lastPhaseIdx = state.activePhaseIdx;
+      }
+
+      document.querySelectorAll('[data-set-nav-hover]').forEach((b) => b.addEventListener('click', () => setNavHover(b.getAttribute('data-set-nav-hover'))));
+      document.querySelectorAll('[data-set-layout]').forEach((b) => b.addEventListener('click', () => setLayout(b.getAttribute('data-set-layout'))));
+      document.querySelectorAll('[data-set-font]').forEach((b) => b.addEventListener('click', () => setFont(b.getAttribute('data-set-font'))));
+      document.querySelectorAll('[data-demo-method]').forEach((b) => b.addEventListener('click', () => switchMethod(b.getAttribute('data-demo-method'))));
+
+      document.querySelectorAll('.js-prev-phase').forEach((b) => b.addEventListener('click', () => {
+        if (state.activePhaseIdx > 0) {
+          state.stepDirection = -1;
+          state.activePhaseIdx -= 1;
+          render();
+        }
+      }));
+      document.querySelectorAll('.js-next-phase').forEach((b) => b.addEventListener('click', () => {
+        const len = METHODS[state.methodId].phases.length;
+        if (state.activePhaseIdx < len - 1) {
+          state.stepDirection = 1;
+          state.activePhaseIdx += 1;
+          render();
+        }
+      }));
+
+      document.querySelectorAll('#intensity-pills [data-profile]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.profileId = btn.getAttribute('data-profile');
+          state.recalcTick = true;
+          if (!state.isInvalid) {
+            state.waterMl = Math.max(1, Math.round(state.coffeeGrams * METHODS.v60.profiles[state.profileId].ratio));
+            document.getElementById('water-input').value = String(state.waterMl);
+          }
+          render();
+        });
+      });
+
+      document.getElementById('coffee-input').addEventListener('input', (e) => {
+        const val = parseFloat(e.target.value);
+        if (!Number.isFinite(val) || val <= 0) state.isInvalid = true;
+        else {
+          state.isInvalid = false;
+          state.coffeeGrams = Math.max(0.1, round1(Math.min(val, 2000)));
+          state.waterMl = Math.max(1, Math.round(state.coffeeGrams * METHODS.v60.profiles[state.profileId].ratio));
+          document.getElementById('water-input').value = String(state.waterMl);
+        }
+        render();
+      });
+
+      document.getElementById('water-input').addEventListener('input', (e) => {
+        const val = parseFloat(e.target.value);
+        if (!Number.isFinite(val) || val <= 0) state.isInvalid = true;
+        else {
+          state.isInvalid = false;
+          state.waterMl = Math.max(1, Math.round(Math.min(val, 2000)));
+          state.coffeeGrams = Math.max(0.1, round1(state.waterMl / METHODS.v60.profiles[state.profileId].ratio));
+          document.getElementById('coffee-input').value = String(state.coffeeGrams);
+        }
+        render();
+      });
+
+      document.getElementById('espresso-dose-input').addEventListener('input', (e) => {
+        const val = parseFloat(e.target.value);
+        if (!Number.isFinite(val) || val <= 0) state.isInvalid = true;
+        else {
+          state.isInvalid = false;
+          state.coffeeGrams = Math.max(0.1, round1(Math.min(val, 2000)));
+          state.waterMl = Math.max(0.1, round1(state.coffeeGrams * METHODS.espresso.profiles[state.profileId].ratio));
+        }
+        render();
+      });
+
+      // Touch / click toggle for HeroUI-style tooltips
+      document.querySelectorAll('.tooltip-host .metric-trigger').forEach((trig) => {
+        trig.addEventListener('click', () => {
+          const host = trig.closest('.tooltip-host');
+          const wasOpen = host.classList.contains('is-open');
+          document.querySelectorAll('.tooltip-host.is-open').forEach((h) => h.classList.remove('is-open'));
+          if (!wasOpen) host.classList.add('is-open');
+        });
+      });
+
+      const tooltipDemoBtn = document.getElementById('toggle-tooltip-demo');
+      tooltipDemoBtn.addEventListener('click', () => {
+        const host = document.getElementById('tip-host-water');
+        const next = !host.classList.contains('is-open');
+        document.querySelectorAll('.tooltip-host.is-open').forEach((h) => h.classList.remove('is-open'));
+        host.classList.toggle('is-open', next);
+        tooltipDemoBtn.setAttribute('aria-pressed', next ? 'true' : 'false');
+      });
+
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('capture') === 'full') document.documentElement.classList.add('full-capture');
+      if (params.get('layout')) setLayout(params.get('layout'));
+      if (params.get('font')) setFont(params.get('font'));
+      if (params.get('navhover')) setNavHover(params.get('navhover'));
+      switchMethod(params.get('method') === 'espresso' ? 'espresso' : 'v60', params.get('profile'));
+      if (params.get('phase')) {
+        const pIdx = Number(params.get('phase'));
+        if (Number.isInteger(pIdx) && pIdx >= 0) { state.activePhaseIdx = pIdx; render(); }
+      }
+      if (params.get('tooltip') === 'open') {
+        document.getElementById('tip-host-water').classList.add('is-open');
+        tooltipDemoBtn.setAttribute('aria-pressed', 'true');
+      }
+      if (params.get('demohover') === '1') {
+        const demoNavBtn = document.querySelector('.desktop-nav .nav-btn:not([aria-current="page"])');
+        if (demoNavBtn) demoNavBtn.classList.add('is-demo-hover');
+      }
+    })();
+  </script>
+</body>
+</html>
