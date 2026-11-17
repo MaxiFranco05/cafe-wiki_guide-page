@@ -1,0 +1,268 @@
+{
+  "methods": {
+    "v60": {
+      "name": "Hario V60",
+      "baseGrind": "Media-fina (sal de mesa)",
+      "warnings": {
+        "belowMin": "Dosis por debajo de 10 g: la cama de café es demasiado delgada, generando canalización y sub-extracción.",
+        "aboveMax": "Dosis superior a 36 g: supera la capacidad del cono estándar 02 y requiere múltiples vertidos adicionales."
+      },
+      "profiles": {
+        "light": {
+          "label": "Liviano (Claridad Floral)",
+          "description": "Taza limpia con alta acidez brillante y notas florales delicadas."
+        },
+        "normal": {
+          "label": "Normal (Equilibrado)",
+          "description": "Extracción balanceada con dulzor pronunciado y cuerpo sedoso."
+        },
+        "strong": {
+          "label": "Fuerte (Intenso)",
+          "description": "Mayor concentración y cuerpo pleno para resaltar notas de cacao y frutos secos."
+        }
+      },
+      "phases": {
+        "bloom": {
+          "title": "Bloom (Preinfusión)",
+          "instruction": "Verté {waterGrams} g de agua en espiral cubriendo todo el café seco hasta alcanzar {cumulativeWaterGrams} g. Dejá desgasificar."
+        },
+        "pour1": {
+          "title": "Primer vertido",
+          "instruction": "Verté {waterGrams} g de agua con flujo constante en círculos concéntricos hasta alcanzar {cumulativeWaterGrams} g."
+        },
+        "pour2": {
+          "title": "Segundo vertido",
+          "instruction": "Verté los {waterGrams} g finales hacia el centro con calma hasta completar {cumulativeWaterGrams} g."
+        },
+        "drawdown": {
+          "title": "Drenaje final",
+          "instruction": "Dejá drenar el líquido por gravedad a través del cono hasta que la cama quede plana."
+        }
+      }
+    },
+    "chemex": {
+      "name": "Chemex",
+      "baseGrind": "Media-gruesa (sal marina gruesa)",
+      "warnings": {
+        "belowMin": "Dosis menor a 20 g: el cono ancho provoca un drenaje irregular y contacto insuficiente con el agua.",
+        "aboveMax": "Dosis superior a 55 g: el volumen total de agua puede superar el cuello de madera de la jarra de 6 tazas."
+      },
+      "profiles": {
+        "light": {
+          "label": "Liviano (Delicado)",
+          "description": "Cuerpo muy ligero y cristalino con acidez cítrica refinada gracias al filtro grueso."
+        },
+        "normal": {
+          "label": "Normal (Clásico)",
+          "description": "Taza limpia y redonda con balance perfecto entre dulzor y notas frutales."
+        },
+        "strong": {
+          "label": "Fuerte (Estructurado)",
+          "description": "Sabor concentrado con mayor presencia en boca sin perder la claridad típica del papel grueso."
+        }
+      },
+      "phases": {
+        "bloom": {
+          "title": "Bloom (Preinfusión)",
+          "instruction": "Verté {waterGrams} g de agua sobre el lecho asegurando humectar todo el grano hasta {cumulativeWaterGrams} g."
+        },
+        "pour1": {
+          "title": "Primer vertido continuo",
+          "instruction": "Verté {waterGrams} g de agua en círculos suaves sin tocar los bordes del papel hasta llegar a {cumulativeWaterGrams} g."
+        },
+        "pour2": {
+          "title": "Segundo vertido final",
+          "instruction": "Agregá los últimos {waterGrams} g de agua manteniendo el nivel del agua estable hasta {cumulativeWaterGrams} g."
+        },
+        "drawdown": {
+          "title": "Drenaje y decantación",
+          "instruction": "Esperá la caída completa del líquido y retirá el filtro antes de servir."
+        }
+      }
+    },
+    "melitta": {
+      "name": "Melitta",
+      "baseGrind": "Media (arena fina)",
+      "warnings": {
+        "belowMin": "Dosis menor a 10 g: cama de café demasiado fina que no aprovecha la restricción de los orificios del fondo.",
+        "aboveMax": "Dosis superior a 35 g: el flujo limitado por los orificios produce estancamiento y sobre-extracción amarga."
+      },
+      "profiles": {
+        "light": {
+          "label": "Liviano",
+          "description": "Taza suave y accesible con amargor tenue y notas ligeras a caramelo."
+        },
+        "normal": {
+          "label": "Normal",
+          "description": "Extracción cotidiana constante con cuerpo medio y equilibrio reconfortante."
+        },
+        "strong": {
+          "label": "Fuerte",
+          "description": "Perfil vigoroso con notas tostadas marcadas y retrogusto prolongado."
+        }
+      },
+      "phases": {
+        "bloom": {
+          "title": "Bloom (Preinfusión)",
+          "instruction": "Verté {waterGrams} g de agua de manera uniforme hasta {cumulativeWaterGrams} g y dejá expandir la floración."
+        },
+        "pour1": {
+          "title": "Vertido principal",
+          "instruction": "Verté {waterGrams} g de agua lentamente en el centro del cono hasta alcanzar {cumulativeWaterGrams} g."
+        },
+        "pour2": {
+          "title": "Vertido complementario",
+          "instruction": "Completá con {waterGrams} g de agua hasta llegar a {cumulativeWaterGrams} g."
+        },
+        "drawdown": {
+          "title": "Drenaje",
+          "instruction": "Dejá que el café filtre completamente hacia la taza o jarra."
+        }
+      }
+    },
+    "aeropress": {
+      "name": "AeroPress",
+      "baseGrind": "Fina a media-fina (azúcar común)",
+      "warnings": {
+        "belowMin": "Dosis menor a 11 g: la resistencia hidráulica durante el émbolo es casi nula y resulta en una taza aguada.",
+        "aboveMax": "Dosis superior a 30 g: la capacidad de 260 ml de la cámara no permite disolver adecuadamente tal volumen de grano."
+      },
+      "profiles": {
+        "light": {
+          "label": "Liviano (Taza Limpia)",
+          "description": "Método estándar con extracción corta para resaltar acidez brillante y notas cítricas."
+        },
+        "normal": {
+          "label": "Normal (Equilibrio Dulce)",
+          "description": "Cuerpo medio-alto, dulzor acaramelado y acidez redonda."
+        },
+        "strong": {
+          "label": "Fuerte (Concentrado)",
+          "description": "Dosis densa estilo espresso corto con retrogusto persistente a chocolate negro."
+        }
+      },
+      "phases": {
+        "infusion": {
+          "title": "Infusión y agitación",
+          "instruction": "Verté {waterGrams} g de agua rápidamente hasta {cumulativeWaterGrams} g y agitá con la paleta durante 10 segundos."
+        },
+        "steep": {
+          "title": "Reposo",
+          "instruction": "Colocá el émbolo en la parte superior para crear vacío y dejá infusionar en reposo."
+        },
+        "plunge": {
+          "title": "Presión con émbolo",
+          "instruction": "Presioná suavemente el émbolo hacia abajo durante 30 segundos hasta escuchar el silbido del aire."
+        }
+      }
+    },
+    "frenchPress": {
+      "name": "Prensa Francesa",
+      "baseGrind": "Gruesa (sal de roca o migas)",
+      "warnings": {
+        "belowMin": "Dosis menor a 12 g: contacto insuficiente entre el agua y la malla metálica del émbolo.",
+        "aboveMax": "Dosis superior a 65 g: sobrecarga el espacio del vaso de 1000 ml impidiendo el libre movimiento de partículas."
+      },
+      "profiles": {
+        "light": {
+          "label": "Liviano",
+          "description": "Inmersión rápida con filtrado antes de que predomine el amargor pesado."
+        },
+        "normal": {
+          "label": "Normal (Técnica Hoffmann)",
+          "description": "Rompimiento de costra y decantación para lograr un cuerpo sedoso sin sedimentos arenosos."
+        },
+        "strong": {
+          "label": "Fuerte (Clásico Intenso)",
+          "description": "Textura untuosa, cuerpo denso y notas de chocolate amargo, frutos secos y especias."
+        }
+      },
+      "phases": {
+        "pour": {
+          "title": "Vertido inicial",
+          "instruction": "Verté vigorosamente {waterGrams} g de agua cubriendo todo el grano hasta {cumulativeWaterGrams} g."
+        },
+        "steep": {
+          "title": "Infusión",
+          "instruction": "Dejá reposar sin tocar ni mover la jarra mientras se forma la costra de café."
+        },
+        "break_crust": {
+          "title": "Rompimiento de costra y descarte",
+          "instruction": "Rompé la costra con una cuchara y retirá la espuma superficial con impurezas."
+        },
+        "settle_plunge": {
+          "title": "Asentamiento y filtrado",
+          "instruction": "Colocá el émbolo en la superficie sin presionar hasta el fondo y serví suavemente."
+        }
+      }
+    },
+    "french-press": {
+      "name": "Prensa Francesa",
+      "baseGrind": "Gruesa (sal de roca o migas)",
+      "warnings": {
+        "belowMin": "Dosis menor a 12 g: contacto insuficiente entre el agua y la malla metálica del émbolo.",
+        "aboveMax": "Dosis superior a 65 g: sobrecarga el espacio del vaso de 1000 ml impidiendo el libre movimiento de partículas."
+      },
+      "profiles": {
+        "light": {
+          "label": "Liviano",
+          "description": "Inmersión rápida con filtrado antes de que predomine el amargor pesado."
+        },
+        "normal": {
+          "label": "Normal (Técnica Hoffmann)",
+          "description": "Rompimiento de costra y decantación para lograr un cuerpo sedoso sin sedimentos arenosos."
+        },
+        "strong": {
+          "label": "Fuerte (Clásico Intenso)",
+          "description": "Textura untuosa, cuerpo denso y notas de chocolate amargo, frutos secos y especias."
+        }
+      },
+      "phases": {
+        "pour": {
+          "title": "Vertido inicial",
+          "instruction": "Verté vigorosamente {waterGrams} g de agua cubriendo todo el grano hasta {cumulativeWaterGrams} g."
+        },
+        "steep": {
+          "title": "Infusión",
+          "instruction": "Dejá reposar sin tocar ni mover la jarra mientras se forma la costra de café."
+        },
+        "break_crust": {
+          "title": "Rompimiento de costra y descarte",
+          "instruction": "Rompé la costra con una cuchara y retirá la espuma superficial con impurezas."
+        },
+        "settle_plunge": {
+          "title": "Asentamiento y filtrado",
+          "instruction": "Colocá el émbolo en la superficie sin presionar hasta el fondo y serví suavemente."
+        }
+      }
+    },
+    "espresso": {
+      "name": "Espresso",
+      "baseGrind": "Muy fina (polvo fino con ligera aglomeración)",
+      "warnings": {
+        "belowMin": "Dosis menor a 14 g: canasta doble subcargada provoca canalización inmediata y agua sucia en taza.",
+        "aboveMax": "Dosis superior a 22 g: sobrecarga la canasta y hace contacto contra la ducha del grupo antes de presurizar."
+      },
+      "profiles": {
+        "ristretto": {
+          "label": "Ristretto (1:1.5)",
+          "description": "Extracción corta y viscosa con dulzor concentrado, acidez vibrante y mínimo amargor."
+        },
+        "normale": {
+          "label": "Normale (1:2.0)",
+          "description": "Equilibrio clásico de cafetería de especialidad con crema dorada y persistente."
+        },
+        "lungo": {
+          "label": "Lungo (1:3.0)",
+          "description": "Extracción estirada para granos con tueste muy claro o perfiles más amargos y solubles."
+        }
+      },
+      "phases": {
+        "shot": {
+          "title": "Extracción bajo 9 bar",
+          "instruction": "Accioná la bomba y extraé {waterGrams} g de bebida en taza hasta completar {cumulativeWaterGrams} g."
+        }
+      }
+    }
+  }
+}

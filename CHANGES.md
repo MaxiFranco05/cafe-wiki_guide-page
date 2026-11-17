@@ -117,7 +117,7 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 
 ---
 
-### [C-02] `core-schemas-and-methods-catalog`
+### [x] [C-02] `core-schemas-and-methods-catalog`
 - **Estado**: `[ ]` pendiente
 - **Scope**: Esquemas Zod del dominio de preparación + catálogo estático calibrado de los 6 métodos MVP + diccionarios `es`
   - Esquemas en `src/domain/schemas/brewing.schema.ts`: `BrewMethodSchema`, `RangeThresholdSchema`, `RecipeProfileSchema`, `BrewPhaseSchema`, `SvgStageDirectiveSchema`
