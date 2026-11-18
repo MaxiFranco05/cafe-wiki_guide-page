@@ -123,14 +123,14 @@ export const ProceduralBrewScene = memo(function ProceduralBrewScene({
           />
 
           <linearGradient id={coffeeGradId} x1={80} y1={36} x2={80} y2={146} gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="var(--accent-primary)" stopOpacity={0.95} />
-            <stop offset="48%" stopColor="var(--svg-coffee-liquid)" stopOpacity={0.98} />
-            <stop offset="100%" stopColor="var(--svg-coffee-bed)" />
+            <stop offset="0%" stopColor="var(--svg-coffee-liquid)" stopOpacity={0.95} />
+            <stop offset="32%" stopColor="var(--svg-coffee-bed)" stopOpacity={0.98} />
+            <stop offset="100%" stopColor="var(--bg-timer-deep)" />
           </linearGradient>
 
           <linearGradient id={slurryGradId} x1={80} y1={50} x2={80} y2={86} gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="var(--accent-primary)" stopOpacity={0.78} />
-            <stop offset="100%" stopColor="var(--svg-coffee-bed)" stopOpacity={0.92} />
+            <stop offset="0%" stopColor="var(--svg-coffee-liquid)" stopOpacity={0.82} />
+            <stop offset="100%" stopColor="var(--svg-coffee-bed)" stopOpacity={0.96} />
           </linearGradient>
 
           <linearGradient id={cremaGradId} x1={80} y1={30} x2={80} y2={48} gradientUnits="userSpaceOnUse">

@@ -67,7 +67,7 @@ export function LiquidLevel({
             className="svg-liquid-wave-back"
             d="M -20 39 Q 0 34 20 39 T 60 39 T 100 39 T 140 39 T 180 39 T 220 39 T 260 39 V 185 H -20 Z"
             fill="var(--svg-coffee-crema)"
-            opacity={0.34}
+            opacity={0.18}
           />
           <g className="svg-liquid-wave-front">
             <path
@@ -85,16 +85,16 @@ export function LiquidLevel({
               <path
                 d="M -20 40 Q 0 45 20 40 T 60 40 T 100 40 T 140 40 T 180 40 T 220 40 T 260 40 L 260 47 Q 240 50 220 47 T 180 47 T 140 47 T 100 47 T 60 47 T 20 47 T -20 47 Z"
                 fill={cremaGradientId ? `url(#${cremaGradientId})` : 'var(--svg-coffee-crema)'}
-                opacity={0.28}
+                opacity={0.12}
               />
             )}
             <path
               d="M -20 40 Q 0 45 20 40 T 60 40 T 100 40 T 140 40 T 180 40 T 220 40 T 260 40"
               stroke="var(--svg-coffee-crema)"
-              strokeWidth={2.4}
+              strokeWidth={1.8}
               strokeLinecap="round"
               fill="none"
-              opacity={0.92}
+              opacity={0.78}
             />
           </g>
         </g>
