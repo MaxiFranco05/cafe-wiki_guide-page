@@ -181,8 +181,8 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 
 ---
 
-### [C-05] `brew-station-calculator-ui`
-- **Estado**: `[ ]` pendiente
+### [x] [C-05] `brew-station-calculator-ui`
+- **Estado**: `[x]` completado (`openspec/changes/archive/2026-11-17-c-05-brew-station-calculator-ui/`)
 - **Scope**: Vista interactiva de Estación de Preparación (`/brew/:methodSlug`) con calculadora bidireccional, modo Espresso, alertas de rango y cronograma de fases (`US-002`, `US-003`, `US-004`)
   - Vista `src/features/brewing/views/BrewStationView.tsx` con lectura de query param opcional `?profile=light|normal|strong`
   - Componente `BrewControls.tsx`: selector táctil de 3 intensidades (`Liviano`, `Normal`, `Fuerte`), inputs numéricos bidireccionales `Café (g)` y `Agua (ml)` con sanitización (`min="1"`, `max="2000"`, `step="0.1"`), subtítulo de equivalencia en cucharadas (`~X cdas`, `SU-01`) y badge de temperatura recomendada
@@ -205,8 +205,8 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 
 > Construye las primitivas SVG animadas y los adaptadores de cocina (`Wake Lock` + `Web Audio` + reloj monotónico) para integrarlos en la ejecución en vivo del temporizador en `/brew/:methodSlug`.
 
-### [C-06] `procedural-svg-brew-scene`
-- **Estado**: `[ ]` pendiente
+### [x] [C-06] `procedural-svg-brew-scene`
+- **Estado**: `[x]` completado y archivado (`openspec/changes/archive/2026-11-18-c-06-procedural-svg-brew-scene/`)
 - **Scope**: Sistema de primitivas SVG reutilizables y componente `<ProceduralBrewScene />` sincronizado por fase y dosis (`US-006`, `RN-UX-04`)
   - Primitivas modulares en `src/features/brewing/components/svg-primitives/`:
     - `VesselSilhouette.tsx`: geometrías y máscaras `clipPath` para `cone_v60`, `hourglass_chemex`, `wedge_melitta`, `cylinder_aeropress`, `beaker_french_press` y `portafilter_espresso`
@@ -262,6 +262,9 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
     - Controles táctiles de mesada: **Iniciar**, **Pausar / Reanudar**, **Reiniciar (`00:00`)** y salto manual entre fases (`US-005 CA-3`)
     - Barra de estado Kitchen Mode: badge `"Pantalla activa"` (o aviso discreto si Wake Lock no está soportado) y botón accesible `Silenciar / Activar sonido` persistido en `localStorage` (`US-007 CA-1..3`)
   - Sincronización en vivo de `<ProceduralBrewScene />` con el progreso real del temporizador en los 6 métodos
+  - **Pendiente UX / Navegación (anotado para incluir en C-08 o change previo dedicado)**:
+    - Recordar la última cafetera seleccionada en la sesión (`sessionStorage`/`localStorage`, fallback `v60`) para que **"Estación de Preparación"** / **"Preparar"** en `TopNavbar` y `BottomTabBar` redirija a `/brew/<ultimo-metodo>` y marque el ítem como activo en cualquier `/brew/*`
+    - Agregar selector rápido de cafetera dentro de `BrewStationView` para cambiar entre los 6 métodos sin volver a `/`
   - UI Mockup requerido antes de `apply` (`visual_design.mode = "system-and-mockups"`, Design System Rev 1)
   - Tests: flujo completo Iniciar → avance de fases → Pausar → Reanudar → Reiniciar en `BrewStationView`, actualización de gramos y escena SVG por fase, toggle de Mute persistido y feedback visual de Wake Lock
 - **Dependencias**: C-05, C-06, C-07

@@ -160,7 +160,21 @@
     "intensityLight": "Liviano 1:17",
     "intensityNormal": "Normal 1:16.7",
     "intensityStrong": "Fuerte 1:15",
+    "tiers": {
+      "light": "Liviano",
+      "normal": "Normal",
+      "strong": "Fuerte"
+    },
+    "ratioBadge": "Ratio 1:{ratio}",
+    "ratioInline": "1:{ratio}",
+    "suggestedRange": "Rango sugerido: {min}–{max} {unit}",
+    "tablespoonsEstimate": "~{tbsp} cdas",
+    "waterTempBadge": "{recommended} °C ({min}–{max} °C)",
     "dryCoffee": "Café seco",
+    "dryCoffeeLabel": "Café seco (g)",
+    "waterTotalLabel": "Agua total (ml)",
+    "unitGrams": "g",
+    "unitMl": "ml",
     "water": "Agua (93 °C)",
     "sampleDryCoffee": "15.0 g",
     "sampleWater": "250 ml",
@@ -175,13 +189,63 @@
     "timerZero": "00:00",
     "actionStart": "Iniciar extracción",
     "actionReset": "Reiniciar reloj",
+    "espresso": {
+      "doseLabel": "Dosis en portafiltro (g)",
+      "stylesTitle": "Estilo de extracción",
+      "targetWindow": "{min}–{max} s",
+      "yieldGrams": "{yield} g",
+      "targetShotTitle": "Objetivo en taza",
+      "styles": {
+        "ristretto": "Ristretto",
+        "normale": "Normale",
+        "lungo": "Lungo"
+      }
+    },
     "warnings": {
-      "invalidInput": "Ingresá una cantidad válida mayor a 0 para calcular la receta."
+      "invalidInput": "Ingresá una cantidad válida mayor a 0 para calcular la receta.",
+      "bannerLabel": "Advertencia de rango físico"
+    },
+    "grind": {
+      "prefix": "Molienda:",
+      "labels": {
+        "finer": "Más fina",
+        "standard": "Estándar",
+        "coarser": "Más gruesa"
+      }
     },
     "grindTips": {
       "finer": "Dosis pequeña: ajustá la molienda 1–2 puntos más fina para evitar sub-extracción.",
       "coarser": "Dosis grande: ajustá la molienda 1–2 puntos más gruesa para evitar sobre-extracción y bloqueo.",
       "standard": "Mantené la molienda estándar recomendada para este método."
+    },
+    "timeline": {
+      "title": "Fases · Tocá una fila para previsualizar",
+      "totalWater": "{time} · {water} g agua",
+      "totalYield": "{time} · {water} g bebida",
+      "pourDelta": "+{grams} g",
+      "pourCumulative": "→ {grams} g",
+      "drawdownRelative": "0:00",
+      "drawdownZero": "0 g"
+    },
+    "timer": {
+      "phaseHeader": "FASE {current} DE {total} · {title} ({start}–{end})",
+      "pourSummary": "+{water} g agua · Acumulado {cumulative} g",
+      "shotSummary": "Objetivo {cumulative} g en taza",
+      "prevPhaseAria": "Fase anterior",
+      "nextPhaseAria": "Siguiente fase",
+      "phaseDotAria": "Ir a la fase {index}: {title}",
+      "scene": {
+        "ariaLabel": "Escena procedural de preparación sincronizada con la fase activa",
+        "progressLabel": "Avance de fase",
+        "progressValue": "p = {value}",
+        "fillReadout": "{percent}% nivel",
+        "resetPreview": "Ver final"
+      },
+      "tooltips": {
+        "coffee": "Dosis de café seco en gramos",
+        "water": "Agua total de vertido o rendimiento objetivo",
+        "ratio": "Proporción café : agua del perfil activo"
+      }
     }
   },
   "wiki": {

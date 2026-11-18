@@ -1,0 +1,2626 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mockup C-06 — Escena SVG Procedural y Primitivas Sincronizadas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../../../design-system/tokens.css" />
+  <script src="../../../../design-system/brand.js" defer></script>
+  <style>
+    /* ==========================================================================
+     * BASE & LAYOUT — Rev 4 (Café · Chocolate · Blanco Beige + Fondo 2 Ondas & Granos)
+     * Zero background images (id: 452)
+     * ========================================================================== */
+    html {
+      scrollbar-gutter: stable;
+    }
+
+    body {
+      min-height: 100dvh;
+      background-color: var(--bg-canvas);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      margin: 0;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Fondo 2: Ondas de Crema + Granos de Café Esculpidos en CSS Puro */
+    .app-bg-decor {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 72% 52% at 50% 20%, rgba(148, 78, 41, 0.25) 0%, transparent 68%),
+        linear-gradient(180deg, #1E120B 0%, #160D08 60%, #110905 100%);
+    }
+
+    .css-crema-wave {
+      position: absolute;
+      width: 140vw;
+      height: 140vw;
+      border-radius: 44%;
+      border: 1.5px solid rgba(228, 196, 155, 0.14);
+      background: radial-gradient(circle at 50% 0%, rgba(148, 78, 41, 0.12) 0%, transparent 45%);
+      pointer-events: none;
+    }
+
+    .css-crema-wave--one {
+      top: 38%;
+      left: -24%;
+      transform: rotate(-8deg);
+    }
+
+    .css-crema-wave--two {
+      top: 44%;
+      left: -18%;
+      transform: rotate(6deg);
+      border-color: rgba(148, 78, 41, 0.16);
+    }
+
+    .css-bean {
+      position: absolute;
+      width: 48px;
+      height: 68px;
+      border-radius: 50%;
+      border: 1.8px solid rgba(228, 196, 155, 0.24);
+      background: radial-gradient(circle at 35% 30%, rgba(148, 78, 41, 0.25) 0%, rgba(22, 13, 8, 0.08) 72%);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .css-bean::after {
+      content: '';
+      position: absolute;
+      top: 12%;
+      bottom: 12%;
+      left: 38%;
+      width: 15px;
+      border-right: 1.8px solid rgba(228, 196, 155, 0.26);
+      border-radius: 50%;
+      transform: rotate(12deg);
+    }
+
+    .css-bean--tl { top: 18%; left: 4.5%; transform: rotate(-28deg) scale(1.1); }
+    .css-bean--tr { top: 22%; right: 4.5%; transform: rotate(32deg) scale(0.95); }
+    .css-bean--bl { bottom: 22%; left: 3.5%; transform: rotate(22deg) scale(0.9); }
+    .css-bean--br { bottom: 16%; right: 4%; transform: rotate(-36deg) scale(1.15); }
+
+    /* ==========================================================================
+     * NAVBAR — Variant 2 Liquid Wave (~66%) + Dark Roast Coffee + V60 Hover
+     * ========================================================================== */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .header-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 16px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: var(--tracking-tight);
+    }
+
+    .brand-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--bg-dark-card);
+      border: 1px solid rgba(228, 196, 155, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 240ms var(--ease-out), border-color 220ms ease, box-shadow 220ms ease;
+    }
+
+    .brand-cone-fill {
+      transform-box: fill-box;
+      transform-origin: bottom center;
+      opacity: 0;
+      transform: scaleY(0.15);
+      transition: opacity 220ms ease, transform 320ms var(--ease-out);
+    }
+
+    .brand-steam-1, .brand-steam-2 {
+      opacity: 0.3;
+      transition: opacity 220ms ease;
+    }
+
+    .nav-links {
+      display: none;
+      align-items: center;
+      gap: 6px;
+    }
+
+    @media (min-width: 768px) {
+      .nav-links {
+        display: flex;
+      }
+    }
+
+    @keyframes liquidWaveRotate {
+      0% { transform: translate(-50%, -91%) rotate(0deg); }
+      100% { transform: translate(-50%, -91%) rotate(360deg); }
+    }
+    @keyframes liquidWaveRotateRev {
+      0% { transform: translate(-50%, -91%) rotate(360deg); }
+      100% { transform: translate(-50%, -91%) rotate(0deg); }
+    }
+
+    .nav-btn {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      border: 1px solid rgba(228, 196, 155, 0.18);
+      border-radius: 9999px;
+      padding: 8px 16px;
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.25s ease, border-color 0.25s ease, transform 160ms var(--ease-out);
+    }
+
+    .nav-btn[aria-current="page"],
+    .nav-btn.is-active {
+      color: var(--text-on-accent);
+      background: var(--accent-primary);
+      border-color: var(--accent-primary);
+    }
+
+    .nav-fill-layer {
+      position: absolute;
+      left: 0;
+      top: 48px;
+      width: 100%;
+      height: 220px;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(180deg, #542B18 0%, #3E1F10 55%, #2B150A 100%);
+      transition: top 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .nav-btn.is-active .nav-fill-layer { display: none; }
+
+    .nav-fill-layer::before,
+    .nav-fill-layer::after {
+      content: '';
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -91%);
+      pointer-events: none;
+    }
+
+    .nav-fill-layer::before {
+      border-radius: 45%;
+      background: var(--bg-canvas);
+      animation: liquidWaveRotate 5.5s linear infinite;
+    }
+
+    .nav-fill-layer::after {
+      border-radius: 40%;
+      background: rgba(22, 13, 8, 0.48);
+      animation: liquidWaveRotateRev 7.5s linear infinite;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .brand-link:hover .brand-badge {
+        transform: rotate(-5deg) scale(1.07) translateY(-1px);
+        border-color: var(--accent-gold);
+        box-shadow: 0 0 18px var(--accent-gold-soft);
+      }
+      .brand-link:hover .brand-cone-fill {
+        opacity: 0.85;
+        transform: scaleY(1);
+      }
+      .nav-btn:not(.is-active):hover {
+        color: var(--text-on-accent);
+        border-color: rgba(228, 196, 155, 0.58);
+      }
+      .nav-btn:not(.is-active):hover .nav-fill-layer {
+        top: -1px;
+      }
+    }
+
+    /* ==========================================================================
+     * C-06 SIMULATOR / INSPECTOR BAR (Interactive Review Controls)
+     * ========================================================================== */
+    .simulator-banner {
+      position: relative;
+      z-index: 20;
+      background: rgba(27, 16, 10, 0.94);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 16px;
+    }
+
+    .simulator-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sim-top-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .sim-title-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .sim-pill-tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: var(--accent-primary-soft);
+      color: var(--accent-gold);
+      border: 1px solid rgba(228, 196, 155, 0.3);
+    }
+
+    .sim-method-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .sim-btn {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 7px 12px;
+      min-height: 36px;
+      border-radius: 9px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out), border-color 160ms var(--ease-out), transform 150ms var(--ease-out);
+    }
+
+    .sim-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--border-strong);
+    }
+
+    .sim-btn.is-active {
+      background: var(--accent-primary);
+      color: var(--text-on-accent);
+      border-color: var(--accent-gold);
+    }
+
+    .sim-controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(74, 49, 35, 0.55);
+    }
+
+    .sim-progress-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sim-directive-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+
+    .directive-chip {
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .directive-chip strong {
+      color: var(--accent-gold);
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+     * MAIN CONTAINER & SPLIT RELOJ GRID (Layout C Mobile-First)
+     * ========================================================================== */
+    .main-container {
+      position: relative;
+      z-index: 10;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px 16px 56px;
+    }
+
+    .station-header {
+      margin-bottom: 22px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent-gold);
+      text-decoration: none;
+      margin-bottom: 10px;
+    }
+
+    .station-title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .station-brand {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .method-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--bg-dark-card);
+      border: 1px solid rgba(228, 196, 155, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .station-h1 {
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 700;
+      letter-spacing: var(--tracking-tight);
+      margin: 0;
+      line-height: 1.15;
+    }
+
+    .station-subtitle {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin: 4px 0 0;
+    }
+
+    .station-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+    }
+
+    /* Mobile-First Layout C:
+     * < 920px: Controls (order 1) -> Timer Panel (order 2) -> Grind & Timeline (order 3)
+     * >= 920px: Left Unified Sheet (col 1) + Sticky Right Timer Panel (col 2)
+     */
+    .split-reloj-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .left-sheet-wrapper {
+      display: contents;
+    }
+
+    .panel-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+    }
+
+    .section-controls {
+      order: 1;
+    }
+
+    .section-timer {
+      order: 2;
+    }
+
+    .section-timeline {
+      order: 3;
+    }
+
+    @media (min-width: 920px) {
+      .split-reloj-grid {
+        grid-template-columns: 1.08fr 0.92fr;
+        align-items: start;
+        gap: 24px;
+      }
+
+      .left-sheet-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        grid-column: 1;
+        grid-row: 1;
+        background: var(--bg-surface);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-lg);
+        padding: 24px;
+        box-shadow: var(--shadow-card);
+      }
+
+      .section-controls,
+      .section-timeline {
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        padding: 0;
+      }
+
+      .section-timer {
+        grid-column: 2;
+        grid-row: 1;
+        position: sticky;
+        top: 88px;
+      }
+    }
+
+    /* ==========================================================================
+     * LEFT SHEET — Controls, Grind Badge & Phase Timeline
+     * ========================================================================== */
+    .block-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin: 0 0 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .profile-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .profile-tab {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 10px 8px;
+      min-height: 54px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 4px;
+      transition: border-color 160ms var(--ease-out), background-color 160ms var(--ease-out);
+    }
+
+    .profile-tab.is-selected {
+      background: rgba(148, 78, 41, 0.22);
+      border-color: var(--accent-gold);
+      color: var(--text-primary);
+    }
+
+    .profile-tab-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .profile-tab-ratio {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--accent-gold);
+    }
+
+    .dose-wells-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .dose-well {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-recessed);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+
+    .dose-well-label {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .dose-well-value-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .dose-well-number {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .dose-well-unit {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--accent-gold);
+    }
+
+    .grind-badge {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 16px;
+    }
+
+    .grind-badge-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      margin: 0 0 2px;
+    }
+
+    .grind-badge-desc {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .timeline-row {
+      width: 100%;
+      text-align: left;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 11px 13px;
+      min-height: 56px;
+      cursor: pointer;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      transition: border-color 160ms var(--ease-out), background-color 160ms var(--ease-out), transform 150ms var(--ease-out);
+    }
+
+    .timeline-row:hover {
+      border-color: var(--border-strong);
+    }
+
+    .timeline-row.is-active {
+      background: rgba(148, 78, 41, 0.22);
+      border-color: var(--accent-gold);
+      box-shadow: inset 3px 0 0 var(--accent-gold);
+    }
+
+    .timeline-row-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .timeline-step-index {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: var(--bg-dark-card);
+      border: 1px solid var(--border-subtle);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .timeline-row.is-active .timeline-step-index {
+      background: var(--accent-primary);
+      color: var(--text-on-accent);
+      border-color: var(--accent-gold);
+    }
+
+    .timeline-title {
+      font-size: 0.86rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .timeline-sub {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin: 2px 0 0;
+    }
+
+    .timeline-row-right {
+      text-align: right;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
+
+    .timeline-time {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      display: block;
+    }
+
+    .timeline-water {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--svg-water-stream);
+    }
+
+    /* ==========================================================================
+     * RIGHT TIMER PANEL & <ProceduralBrewScene /> (C-06 Focal Point)
+     * ========================================================================== */
+    .timer-panel-surface {
+      background:
+        radial-gradient(circle at 50% 18%, var(--bg-timer-radial-top), transparent 58%),
+        radial-gradient(circle at 82% 84%, var(--bg-timer-radial-bottom), transparent 52%),
+        linear-gradient(175deg, var(--bg-dark-card) 0%, var(--bg-timer-deep) 55%, var(--bg-canvas) 100%);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 22px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .scene-stage-box {
+      position: relative;
+      background: rgba(22, 13, 8, 0.58);
+      border: 1px solid rgba(107, 73, 53, 0.45);
+      border-radius: 16px;
+      padding: 14px 12px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .scene-top-badges {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+
+    .scene-action-pill {
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(228, 196, 155, 0.12);
+      border: 1px solid rgba(228, 196, 155, 0.3);
+      color: var(--accent-gold);
+      font-weight: 600;
+    }
+
+    /* Procedural SVG Container & GPU-Safe Animations */
+    .procedural-svg-wrapper {
+      width: 168px;
+      height: 176px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 320ms var(--ease-out);
+    }
+
+    .procedural-svg-wrapper.is-swirling {
+      transform-origin: center 81%;
+      animation: vesselSwirlRock 2.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    }
+
+    .svg-liquid-fill-group {
+      transform-box: view-box;
+      transform-origin: 80px 138px;
+      transition: transform 280ms var(--ease-out);
+      will-change: transform;
+    }
+
+    .svg-liquid-wave-back {
+      animation: liquidSurfaceWaveSlide 5.2s linear infinite;
+      will-change: transform;
+    }
+
+    .svg-liquid-wave-front {
+      animation: liquidSurfaceWaveSlideRev 3.6s linear infinite;
+      will-change: transform;
+    }
+
+    @keyframes liquidSurfaceWaveSlide {
+      0% { transform: translateX(0px); }
+      100% { transform: translateX(-80px); }
+    }
+
+    @keyframes liquidSurfaceWaveSlideRev {
+      0% { transform: translateX(-80px); }
+      100% { transform: translateX(0px); }
+    }
+
+    .svg-pour-core {
+      opacity: 0.48;
+    }
+
+    .svg-pour-core--gentle {
+      opacity: 0.42;
+    }
+
+    .svg-pour-shimmer {
+      stroke-dasharray: 12 18;
+      animation: pourStreamFlow 0.95s linear infinite;
+    }
+
+    .svg-pour-shimmer--gentle {
+      stroke-dasharray: 8 24;
+      animation: pourStreamFlow 1.35s linear infinite;
+    }
+
+    .svg-pour-spiral-group {
+      transform-box: view-box;
+      transform-origin: 80px 6px;
+      animation: pourSpiralSway 2.75s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+    }
+
+    .svg-pour-spiral-path {
+      stroke-dasharray: 12 16;
+      animation: pourStreamFlow 0.95s linear infinite;
+    }
+
+    .svg-impact-ripple {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: impactRippleExpand 1.85s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    }
+
+    .svg-impact-ripple--delayed {
+      animation-delay: 0.92s;
+    }
+
+    .svg-bloom-bubble {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: bloomBubbleRise 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    }
+
+    .svg-bloom-bubble--2 {
+      animation-delay: 0.75s;
+    }
+
+    .svg-bloom-bubble--3 {
+      animation-delay: 1.4s;
+    }
+
+    .svg-slurry-particle {
+      animation: slurryOrbit 2.4s var(--ease-in-out) infinite alternate;
+    }
+
+    .svg-spoon-group {
+      transform-box: view-box;
+      transform-origin: 102px 15px;
+      animation: spoonStirOrbit 2.55s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    }
+
+    .svg-spoon-group--immersion {
+      transform-box: view-box;
+      transform-origin: 96px 16px;
+      animation: spoonStirFigure8 2.45s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+    }
+
+    .svg-stir-vortex {
+      transform-box: view-box;
+      animation: stirVortexSpin 2.9s linear infinite;
+    }
+
+    .svg-stir-vortex--inner {
+      transform-box: view-box;
+      animation: stirVortexSpinRev 2.2s linear infinite;
+    }
+
+    .svg-espresso-drop {
+      animation: espressoDropFall 1.25s cubic-bezier(0.4, 0, 0.8, 0.6) infinite;
+    }
+
+    .svg-espresso-drop--delayed {
+      animation-delay: 0.62s;
+    }
+
+    @keyframes pourStreamFlow {
+      0% { stroke-dashoffset: 30; }
+      100% { stroke-dashoffset: 0; }
+    }
+
+    @keyframes pourSpiralSway {
+      0%   { transform: translateX(-3px) scaleX(0.95); }
+      25%  { transform: translateX(0px) scaleX(1.03); }
+      50%  { transform: translateX(3px) scaleX(0.95); }
+      75%  { transform: translateX(0px) scaleX(0.92); }
+      100% { transform: translateX(-3px) scaleX(0.95); }
+    }
+
+    @keyframes impactRippleExpand {
+      0% { transform: scale(0.52); opacity: 0.68; }
+      70% { opacity: 0.25; }
+      100% { transform: scale(1.38); opacity: 0; }
+    }
+
+    @keyframes spoonStirOrbit {
+      0%   { transform: translate(0px, 0px) rotate(0deg); }
+      25%  { transform: translate(2.8px, 0.8px) rotate(-4.2deg); }
+      50%  { transform: translate(0px, 1.5px) rotate(0deg); }
+      75%  { transform: translate(-2.8px, 0.8px) rotate(4.2deg); }
+      100% { transform: translate(0px, 0px) rotate(0deg); }
+    }
+
+    @keyframes spoonStirFigure8 {
+      0%   { transform: translate(0px, 0px) rotate(0deg); }
+      25%  { transform: translate(3.6px, -0.8px) rotate(-5deg); }
+      50%  { transform: translate(0px, 1.2px) rotate(0.5deg); }
+      75%  { transform: translate(-3.6px, -0.8px) rotate(5deg); }
+      100% { transform: translate(0px, 0px) rotate(0deg); }
+    }
+
+    @keyframes stirVortexSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes stirVortexSpinRev {
+      0% { transform: rotate(360deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    @keyframes bloomBubbleRise {
+      0% { transform: translateY(2px) scale(0.78); opacity: 0; }
+      38% { opacity: 0.82; }
+      100% { transform: translateY(-7px) scale(1.06); opacity: 0; }
+    }
+
+    @keyframes slurryOrbit {
+      0% { transform: translate(-2px, 1px); }
+      100% { transform: translate(2px, -2px); }
+    }
+
+    @keyframes vesselSwirlRock {
+      0%, 100% { transform: rotate(0deg) translateX(0); }
+      25% { transform: rotate(-1.9deg) translateX(-1px); }
+      75% { transform: rotate(1.9deg) translateX(1px); }
+    }
+
+    @keyframes espressoDropFall {
+      0% { transform: translateY(-2px) scaleY(0.88); opacity: 0.2; }
+      50% { transform: translateY(5px) scaleY(1.12); opacity: 0.88; }
+      100% { transform: translateY(12px) scaleY(0.95); opacity: 0; }
+    }
+
+    /* Explicit Reduced Motion Support (Prop or OS Media Query) */
+    [data-reduced-motion="true"] .procedural-svg-wrapper.is-swirling,
+    [data-reduced-motion="true"] .svg-liquid-wave-back,
+    [data-reduced-motion="true"] .svg-liquid-wave-front,
+    [data-reduced-motion="true"] .svg-pour-shimmer,
+    [data-reduced-motion="true"] .svg-pour-shimmer--gentle,
+    [data-reduced-motion="true"] .svg-pour-spiral-group,
+    [data-reduced-motion="true"] .svg-pour-spiral-path,
+    [data-reduced-motion="true"] .svg-impact-ripple,
+    [data-reduced-motion="true"] .svg-bloom-bubble,
+    [data-reduced-motion="true"] .svg-slurry-particle,
+    [data-reduced-motion="true"] .svg-spoon-group,
+    [data-reduced-motion="true"] .svg-spoon-group--immersion,
+    [data-reduced-motion="true"] .svg-stir-vortex,
+    [data-reduced-motion="true"] .svg-stir-vortex--inner,
+    [data-reduced-motion="true"] .svg-espresso-drop {
+      animation: none !important;
+    }
+
+    [data-reduced-motion="true"] .svg-liquid-fill-group {
+      transition: none !important;
+    }
+
+    /* Inline Phase Progress Scrubber inside Timer Panel */
+    .phase-scrub-bar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 10px;
+      background: rgba(27, 16, 10, 0.85);
+      border: 1px solid var(--border-subtle);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+
+    .phase-scrub-slider {
+      flex: 1;
+      accent-color: var(--accent-gold);
+      cursor: pointer;
+    }
+
+    /* Timer Readout & Controls */
+    .timer-center-stack {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pour-summary-line {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+    }
+
+    .phase-header-line {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .phase-dots-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 16px;
+    }
+
+    .phase-dot {
+      height: 7px;
+      width: 7px;
+      border-radius: 999px;
+      border: 0;
+      padding: 0;
+      background: var(--border-strong);
+      cursor: pointer;
+      transition: width 200ms var(--ease-out), background-color 200ms var(--ease-out);
+    }
+
+    .phase-dot.is-active {
+      width: 24px;
+      background: var(--accent-gold);
+    }
+
+    .clock-flank-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding-top: 2px;
+    }
+
+    .flank-btn {
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 11px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .flank-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .clock-digits {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(2.65rem, 5vw, 3.35rem);
+      font-weight: 700;
+      letter-spacing: var(--tracking-tight);
+      line-height: 1;
+      color: var(--text-primary);
+    }
+
+    .telemetry-pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .telemetry-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 10px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 0.75rem;
+      color: var(--text-primary);
+    }
+
+    .instruction-copy {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin: 0;
+      min-height: 3em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 6px;
+    }
+
+    .benchtop-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-primary-start {
+      width: 100%;
+      min-height: 50px;
+      border-radius: 12px;
+      border: 0;
+      background: var(--accent-primary);
+      color: var(--text-on-accent);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .btn-secondary-reset {
+      width: 100%;
+      min-height: 50px;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- Pure CSS Fondo 2: Ondas & Granos (Zero background-image url / zero img) -->
+  <div class="app-bg-decor" aria-hidden="true">
+    <div class="css-crema-wave css-crema-wave--one"></div>
+    <div class="css-crema-wave css-crema-wave--two"></div>
+    <div class="css-bean css-bean--tl"></div>
+    <div class="css-bean css-bean--tr"></div>
+    <div class="css-bean css-bean--bl"></div>
+    <div class="css-bean css-bean--br"></div>
+  </div>
+
+  <!-- Sticky AppShell Navbar (Rev 4) -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="#top" class="brand-link pressable">
+        <span class="brand-badge" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path class="brand-steam-1" d="M9 2.5c0 1.2-1 1.8-1 3" stroke="var(--accent-gold)" stroke-width="1.5" stroke-linecap="round" />
+            <path class="brand-steam-2" d="M14.5 2c0 1.2-1 1.8-1 3" stroke="var(--accent-gold)" stroke-width="1.5" stroke-linecap="round" />
+            <path class="brand-cone-fill" d="M6.5 7h11l-3.2 7.5H9.7L6.5 7Z" fill="var(--accent-primary)" />
+            <path d="M5 6.5h14l-4.2 9.5H9.2L5 6.5Z" stroke="var(--text-primary)" stroke-width="1.75" stroke-linejoin="round" />
+            <path d="M7.5 16h9" stroke="var(--accent-gold)" stroke-width="1.75" stroke-linecap="round" />
+            <circle class="brand-drop" cx="12" cy="19.5" r="1.35" fill="var(--accent-gold)" />
+          </svg>
+        </span>
+        <span data-brand-name>Cafetería Wiki & Guide</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Navegación principal">
+        <a href="#brew" class="nav-btn is-active pressable">
+          <span style="position: relative; z-index: 2;">Métodos</span>
+        </a>
+        <a href="#wiki" class="nav-btn pressable">
+          <span class="nav-fill-layer" aria-hidden="true"></span>
+          <span style="position: relative; z-index: 2;">Wiki Sensorial</span>
+        </a>
+        <a href="#wheel" class="nav-btn pressable">
+          <span class="nav-fill-layer" aria-hidden="true"></span>
+          <span style="position: relative; z-index: 2;">Rueda SCA</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- C-06 Interactive Scene Simulator & Directive Telemetry Bar -->
+  <section class="simulator-banner" aria-label="Simulador interactivo de primitivas SVG C-06">
+    <div class="simulator-inner">
+      <div class="sim-top-row">
+        <div class="sim-title-group">
+          <span class="sim-pill-tag">C-06 Mockup</span>
+          <span style="font-size: 0.84rem; font-weight: 600; color: var(--text-primary);">
+            Inspector de Primitivas SVG (<code style="color: var(--accent-gold);">ProceduralBrewScene</code>)
+          </span>
+        </div>
+
+        <div class="sim-method-pills" role="group" aria-label="Selector de recipiente SVG">
+          <button type="button" class="sim-btn is-active pressable" data-method-btn="v60">Hario V60</button>
+          <button type="button" class="sim-btn pressable" data-method-btn="chemex">Chemex</button>
+          <button type="button" class="sim-btn pressable" data-method-btn="melitta">Melitta</button>
+          <button type="button" class="sim-btn pressable" data-method-btn="aeropress">AeroPress</button>
+          <button type="button" class="sim-btn pressable" data-method-btn="french-press">Prensa Francesa</button>
+          <button type="button" class="sim-btn pressable" data-method-btn="espresso">Espresso</button>
+        </div>
+      </div>
+
+      <div class="sim-controls-row">
+        <div class="sim-progress-group">
+          <span style="font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-secondary);">Progreso p:</span>
+          <button type="button" class="sim-btn pressable" data-progress-btn="0">p = 0.0</button>
+          <button type="button" class="sim-btn pressable" data-progress-btn="0.5">p = 0.5</button>
+          <button type="button" class="sim-btn is-active pressable" data-progress-btn="1">p = 1.0</button>
+          <button type="button" class="sim-btn pressable" id="toggle-reduced-motion-btn" aria-pressed="false">
+            Reduced Motion: OFF
+          </button>
+        </div>
+
+        <div class="sim-directive-strip" id="directive-telemetry">
+          <span class="directive-chip">vessel: <strong id="chip-vessel">cone_v60</strong></span>
+          <span class="directive-chip">stream: <strong id="chip-stream">spiral</strong></span>
+          <span class="directive-chip">bed: <strong id="chip-bed">bubbling_bloom</strong></span>
+          <span class="directive-chip">agitator: <strong id="chip-agitator">none</strong></span>
+          <span class="directive-chip">plunger: <strong id="chip-plunger">none</strong></span>
+          <span class="directive-chip">fill: <strong id="chip-fill">0.00 → 0.25 (L=25%)</strong></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main BrewStationView (Layout C: Split Reloj) -->
+  <main class="main-container">
+    <header class="station-header">
+      <a href="#catalog" class="back-link pressable">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Volver al catálogo de métodos</span>
+      </a>
+
+      <div class="station-title-row">
+        <div class="station-brand">
+          <div class="method-icon-box" id="header-method-icon" aria-hidden="true"></div>
+          <div>
+            <h1 class="station-h1" id="station-method-title">Hario V60</h1>
+            <p class="station-subtitle">Estación interactiva con escena SVG procedural sincronizada por fase</p>
+          </div>
+        </div>
+
+        <div class="station-meta">
+          <span id="station-author" style="color: var(--text-secondary);">James Hoffmann</span>
+          <span aria-hidden="true" style="color: var(--text-muted);">•</span>
+          <span id="station-temp" style="color: var(--accent-gold); font-weight: 600;">94 °C (90–96 °C)</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="split-reloj-grid">
+      <!-- Left Unified Sheet on Desktop / Order 1 & 3 on Mobile -->
+      <div class="left-sheet-wrapper">
+        <!-- Section 1: Recipe Controls -->
+        <section class="panel-card section-controls" aria-label="Configuración de dosis e intensidad">
+          <div class="block-label">
+            <span id="profile-section-label">Perfil de Intensidad</span>
+            <span style="font-family: var(--font-mono); color: var(--accent-gold);" id="scaling-mode-badge">Filtro / Inmersión</span>
+          </div>
+
+          <div class="profile-tabs" id="profile-tabs-container" role="radiogroup" aria-label="Perfiles de receta">
+            <button type="button" class="profile-tab pressable">
+              <span class="profile-tab-name">Liviano</span>
+              <span class="profile-tab-ratio">1 : 17</span>
+            </button>
+            <button type="button" class="profile-tab is-selected pressable">
+              <span class="profile-tab-name" id="active-profile-name">Normal</span>
+              <span class="profile-tab-ratio" id="active-profile-ratio">1 : 16.7</span>
+            </button>
+            <button type="button" class="profile-tab pressable">
+              <span class="profile-tab-name">Fuerte</span>
+              <span class="profile-tab-ratio">1 : 15</span>
+            </button>
+          </div>
+
+          <div class="dose-wells-grid">
+            <div class="dose-well">
+              <span class="dose-well-label">Café seco (Dosis)</span>
+              <div class="dose-well-value-row">
+                <span class="dose-well-number" id="dose-coffee-val">15</span>
+                <span class="dose-well-unit">g</span>
+              </div>
+            </div>
+            <div class="dose-well">
+              <span class="dose-well-label" id="dose-water-label">Agua total de infusión</span>
+              <div class="dose-well-value-row">
+                <span class="dose-well-number" id="dose-water-val">250</span>
+                <span class="dose-well-unit" id="dose-water-unit">ml</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 3 on Mobile: Grind Tip + Interactive Phase Timeline -->
+        <section class="panel-card section-timeline" aria-label="Molienda y línea de tiempo por fases">
+          <div class="grind-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"></circle>
+              <circle cx="12" cy="12" r="3"></circle>
+              <line x1="12" y1="3" x2="12" y2="9"></line>
+              <line x1="12" y1="15" x2="12" y2="21"></line>
+            </svg>
+            <div>
+              <p class="grind-badge-title" id="grind-title">Molienda recomendada: Media-fina</p>
+              <p class="grind-badge-desc" id="grind-desc">Dosis estándar dentro del rango óptimo. Seleccioná cualquier fase abajo para previsualizar sus primitivas SVG.</p>
+            </div>
+          </div>
+
+          <div class="block-label">
+            <span>Línea de Tiempo — Vista Previa por Fase</span>
+            <span style="font-family: var(--font-mono); color: var(--accent-gold);" id="timeline-count-label">5 fases</span>
+          </div>
+
+          <div class="timeline-list" id="timeline-list-container"></div>
+        </section>
+      </div>
+
+      <!-- Section 2 on Mobile / Sticky Right Panel on Desktop: Timer & <ProceduralBrewScene /> -->
+      <aside class="section-timer timer-panel-surface" id="timer-panel" data-reduced-motion="false" aria-label="Panel del reloj y escena SVG procedural">
+        <div class="timer-center-stack">
+          <!-- High-Craft Procedural SVG Stage -->
+          <div class="scene-stage-box">
+            <div class="scene-top-badges">
+              <span id="stage-vessel-label">cone_v60</span>
+              <span class="scene-action-pill" id="stage-action-badge">Vertido en espiral · Bloom CO2</span>
+            </div>
+
+            <div class="procedural-svg-wrapper" id="svg-scene-wrapper">
+              <svg
+                id="procedural-brew-svg"
+                width="168"
+                height="176"
+                viewBox="0 0 160 168"
+                fill="none"
+                role="img"
+                aria-label="Escena SVG procedural sincronizada con la fase activa"
+                data-vessel="cone_v60"
+                data-pour-stream="spiral"
+                data-turbulence="bubbling_bloom"
+                data-agitator="none"
+                data-plunger-state="none"
+                data-liquid-level="0.25"
+              >
+                <defs>
+                  <!-- Dynamic Vessel Lower Chamber / Carafe Clip Path -->
+                  <clipPath id="vessel-chamber-clip">
+                    <path id="clip-chamber-path" d="M50 86h60l8 52H42l8-52Z" />
+                  </clipPath>
+
+                  <!-- Upper Pour-Over Filter Cone Clip Path (Coffee Bed + Shallow Slurry Only) -->
+                  <clipPath id="upper-filter-clip">
+                    <path id="clip-upper-filter-path" d="M38 38h84L98 84H62L38 38Z" />
+                  </clipPath>
+
+                  <!-- Subtle Warm Liquid Depth Gradient -->
+                  <linearGradient id="svg-coffee-grad" x1="80" y1="36" x2="80" y2="146" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#8A4622" />
+                    <stop offset="48%" stop-color="var(--svg-coffee-liquid)" />
+                    <stop offset="100%" stop-color="#3E1D0C" />
+                  </linearGradient>
+
+                  <!-- Upper Slurry Infusion Gradient (Shallow Active Pool) -->
+                  <linearGradient id="svg-slurry-grad" x1="80" y1="50" x2="80" y2="86" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="rgba(166, 94, 48, 0.78)" />
+                    <stop offset="100%" stop-color="rgba(88, 42, 18, 0.92)" />
+                  </linearGradient>
+
+                  <!-- Crema / Espresso Foam Cap Gradient -->
+                  <linearGradient id="svg-crema-cap-grad" x1="80" y1="30" x2="80" y2="48" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#F2D7B4" />
+                    <stop offset="55%" stop-color="var(--svg-coffee-crema)" />
+                    <stop offset="100%" stop-color="#B07241" />
+                  </linearGradient>
+
+                  <!-- AeroPress Smoked Inner Plunger Tube Gradient -->
+                  <linearGradient id="svg-aeropress-tube-grad" x1="56" y1="0" x2="104" y2="0" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="rgba(247, 241, 231, 0.16)" />
+                    <stop offset="22%" stop-color="rgba(28, 16, 10, 0.68)" />
+                    <stop offset="78%" stop-color="rgba(20, 12, 7, 0.80)" />
+                    <stop offset="100%" stop-color="rgba(247, 241, 231, 0.12)" />
+                  </linearGradient>
+
+                  <!-- Glass Specular Sheen -->
+                  <linearGradient id="svg-glass-sheen" x1="34" y1="30" x2="126" y2="140" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="rgba(247, 241, 231, 0.14)" />
+                    <stop offset="50%" stop-color="rgba(247, 241, 231, 0.04)" />
+                    <stop offset="100%" stop-color="rgba(247, 241, 231, 0.10)" />
+                  </linearGradient>
+                </defs>
+
+                <!-- 1A. Clipped Upper Filter Cone (Pour-Over Coffee Bed & Shallow Active Slurry Only) -->
+                <g clip-path="url(#upper-filter-clip)">
+                  <g id="primitive-upper-cone-bed"></g>
+                </g>
+
+                <!-- 1B. Clipped Main / Lower Chamber: Glass Tint + LiquidLevel + Immersion CoffeeBed -->
+                <g clip-path="url(#vessel-chamber-clip)">
+                  <!-- Ambient Vessel Glass Tint -->
+                  <rect x="24" y="24" width="112" height="122" fill="url(#svg-glass-sheen)" />
+
+                  <!-- Primitive: LiquidLevel (GPU-translated vertically + dual seamless horizontal waves) -->
+                  <g id="primitive-liquid-level" class="svg-liquid-fill-group" style="transform: translateY(75px);">
+                    <!-- Back Secondary Crema Wave (period = 80px) -->
+                    <path
+                      class="svg-liquid-wave-back"
+                      d="M -20 39 Q 0 34 20 39 T 60 39 T 100 39 T 140 39 T 180 39 T 220 39 T 260 39 V 185 H -20 Z"
+                      fill="var(--svg-coffee-crema)"
+                      opacity="0.34"
+                    />
+                    <!-- Front Main Coffee Wave Body (period = 80px) -->
+                    <g class="svg-liquid-wave-front">
+                      <path
+                        d="M -20 40 Q 0 45 20 40 T 60 40 T 100 40 T 140 40 T 180 40 T 220 40 T 260 40 V 185 H -20 Z"
+                        fill="url(#svg-coffee-grad)"
+                      />
+                      <!-- Expressive Crema Foam Band (extra visible on Espresso, clean rim on Filter) -->
+                      <path
+                        id="liquid-espresso-crema-cap"
+                        d="M -20 40 Q 0 45 20 40 T 60 40 T 100 40 T 140 40 T 180 40 T 220 40 T 260 40 L 260 47 Q 240 50 220 47 T 180 47 T 140 47 T 100 47 T 60 47 T 20 47 T -20 47 Z"
+                        fill="url(#svg-crema-cap-grad)"
+                        opacity="0"
+                      />
+                      <!-- Glowing Top Meniscus Line -->
+                      <path
+                        d="M -20 40 Q 0 45 20 40 T 60 40 T 100 40 T 140 40 T 180 40 T 220 40 T 260 40"
+                        stroke="var(--svg-coffee-crema)"
+                        stroke-width="2.4"
+                        stroke-linecap="round"
+                        fill="none"
+                        opacity="0.92"
+                      />
+                    </g>
+                  </g>
+
+                  <!-- Primitive: CoffeeBed for Immersion Vessels (calm | bubbling_bloom | active_slurry | settled) -->
+                  <g id="primitive-coffee-bed"></g>
+                </g>
+
+                <!-- 2. Primitive: PourStream (none | gentle | steady | spiral) -->
+                <g id="primitive-pour-stream"></g>
+
+                <!-- 3. Primitive: Plunger & PortafilterDrops -->
+                <g id="primitive-plunger"></g>
+
+                <!-- 4. Primitive: VesselSilhouette Wireframe & Editorial Craft Details -->
+                <g id="primitive-vessel-silhouette"></g>
+
+                <!-- 5. Primitive: Agitator (spoon_stir | vessel_swirl) -->
+                <g id="primitive-agitator"></g>
+              </svg>
+            </div>
+
+            <!-- Interactive Phase Progress Scrubber inside Timer Panel -->
+            <div class="phase-scrub-bar">
+              <span>Avance fase (<code id="scrub-p-readout" style="color: var(--accent-gold);">p = 1.00</code>)</span>
+              <input
+                type="range"
+                id="phase-progress-slider"
+                class="phase-scrub-slider"
+                min="0"
+                max="1"
+                step="0.05"
+                value="1"
+                aria-label="Control de avance de la fase activa"
+              />
+              <span id="scrub-fill-readout" style="color: var(--svg-water-stream); font-weight: 600;">25%</span>
+            </div>
+          </div>
+
+          <div class="pour-summary-line" id="timer-pour-summary">
+            Vertido del paso: +45 g • Acumulado en balanza: 45 g
+          </div>
+
+          <div class="phase-header-line" id="timer-phase-header">
+            FASE 1 DE 5: BLOOM • 00:00 – 00:45
+          </div>
+
+          <!-- Smooth Sliding Phase Dots -->
+          <div class="phase-dots-row" id="phase-dots-container" role="tablist" aria-label="Selector rápido de fase"></div>
+
+          <!-- Flanked Tabular Clock -->
+          <div class="clock-flank-row">
+            <button type="button" class="flank-btn pressable" id="prev-phase-btn" aria-label="Fase anterior">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+
+            <div class="clock-digits" id="timer-clock-digits">03:00</div>
+
+            <button type="button" class="flank-btn pressable" id="next-phase-btn" aria-label="Fase siguiente">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Compact Metric Telemetry (1C Coffee Bean, 1A Water Drop, 1B Ratio Gauge) -->
+          <div class="telemetry-pills-row">
+            <span class="telemetry-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-gold)" aria-hidden="true">
+                <path d="M15.8 3.6c-3.5-1.4-8.1 1-10.2 5.4-2.1 4.4-1 9.1 2.4 10.6.4-.8 1.2-2.9 1.6-5.2.5-2.8 1.6-4.4 2.7-6 .7-1 1.6-2.2 3.5-4.8Zm2 1.2c-.8 1.7-1.7 3-2.5 4.2-1.1 1.6-1.9 2.9-2.4 5.4-.4 2.2-1 4.1-1.5 5.4 3.4-.3 6.9-2.8 8.5-6.4 1.6-3.5.7-7.1-2.1-8.6Z" />
+              </svg>
+              <span id="telemetry-coffee">15 g</span>
+            </span>
+
+            <span class="telemetry-pill" style="color: var(--svg-water-stream);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.95" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 3.2S6 10.4 6 14.5a6 6 0 0 0 12 0c0-4.1-6-11.3-6-11.3Z" />
+              </svg>
+              <span id="telemetry-water">250 ml</span>
+            </span>
+
+            <span class="telemetry-pill" style="color: var(--accent-gold);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.95" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 12l4-4" />
+              </svg>
+              <span id="telemetry-ratio">1 : 16.7</span>
+            </span>
+          </div>
+
+          <p class="instruction-copy" id="timer-instruction">
+            Verté 45 g de agua en espiral desde el centro hacia afuera para humedecer toda la cama de café y dejá desgasificar.
+          </p>
+        </div>
+
+        <div class="benchtop-actions">
+          <button type="button" class="btn-primary-start pressable">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <polygon points="6 4 20 12 6 20 6 4"></polygon>
+            </svg>
+            <span>Iniciar preparación</span>
+          </button>
+
+          <button type="button" class="btn-secondary-reset pressable" id="reset-preview-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+              <path d="M3 3v5h5"></path>
+            </svg>
+            <span>Reiniciar vista previa</span>
+          </button>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    // =========================================================================
+    // C-06 PROCEDURAL SVG BREW SCENE CATALOG & PRIMITIVE RENDERERS
+    // =========================================================================
+    const METHODS_DATA = {
+      'v60': {
+        name: 'Hario V60',
+        author: 'James Hoffmann (Ultimate V60)',
+        temp: '94 °C (90–96 °C)',
+        mode: 'Filtro / Pour-Over',
+        profileName: 'Normal',
+        ratio: '1 : 16.7',
+        coffee: '15',
+        water: '250',
+        waterUnit: 'ml',
+        grind: 'Media-fina (tipo sal de mesa fina)',
+        totalClock: '03:00',
+        vesselType: 'cone_v60',
+        phases: [
+          {
+            title: 'Bloom (Pre-infusión)',
+            time: '00:00 – 00:45',
+            waterStep: 45,
+            waterCum: 45,
+            instruction: 'Verté 45 g de agua en espiral desde el centro y girá suavemente el cono para saturar toda la cama.',
+            badge: 'Vertido espiral · Bloom CO2',
+            directive: {
+              vesselType: 'cone_v60',
+              pourStream: 'spiral',
+              agitator: 'none',
+              plungerState: 'none',
+              liquidFillStartRatio: 0.05,
+              liquidFillEndRatio: 0.28,
+              coffeeBedTurbulence: 'bubbling_bloom'
+            }
+          },
+          {
+            title: 'Primer vertido principal (60%)',
+            time: '00:45 – 01:15',
+            waterStep: 105,
+            waterCum: 150,
+            instruction: 'Verté en espiral constante hasta alcanzar 150 g en la balanza manteniendo el cono lleno.',
+            badge: 'Vertido espiral · Slurry activo',
+            directive: {
+              vesselType: 'cone_v60',
+              pourStream: 'spiral',
+              agitator: 'none',
+              plungerState: 'none',
+              liquidFillStartRatio: 0.28,
+              liquidFillEndRatio: 0.68,
+              coffeeBedTurbulence: 'active_slurry'
+            }
+          },
+          {
+            title: 'Segundo vertido hasta volumen final',
+            time: '01:15 – 01:45',
+            waterStep: 100,
+            waterCum: 250,
+            instruction: 'Completá con un vertido central suave hasta llegar a los 250 g totales.',
+            badge: 'Vertido suave · Nivel máximo',
+            directive: {
+              vesselType: 'cone_v60',
+              pourStream: 'gentle',
+              agitator: 'none',
+              plungerState: 'none',
+              liquidFillStartRatio: 0.68,
+              liquidFillEndRatio: 0.92,
+              coffeeBedTurbulence: 'active_slurry'
+            }
+          },
+          {
+            title: 'Giro Rao Spin & Nivelación',
+            time: '01:45 – 02:05',
+            waterStep: 0,
+            waterCum: 250,
+            instruction: 'Realizá un giro circular suave del cono (Rao Spin) para despegar partículas de las paredes del filtro.',
+            badge: 'Vessel Swirl · Nivelación',
+            directive: {
+              vesselType: 'cone_v60',
+              pourStream: 'none',
+              agitator: 'vessel_swirl',
+              plungerState: 'none',
+              liquidFillStartRatio: 0.92,
+              liquidFillEndRatio: 0.86,
+              coffeeBedTurbulence: 'active_slurry'
+            }
+          },
+          {
+            title: 'Drenaje final (Drawdown)',
+            time: '02:05 – 03:00',
+            waterStep: 0,
+            waterCum: 250,
+            instruction: 'Esperá a que el líquido termine de drenar hacia la jarra dejando una cama de café plana.',
+            badge: 'Drenaje · Cama asentada',
+            directive: {
+              vesselType: 'cone_v60',
+              pourStream: 'none',
+              agitator: 'none',
+              plungerState: 'none',
+              liquidFillStartRatio: 0.72,
+              liquidFillEndRatio: 0.95,
+              coffeeBedTurbulence: 'settled'
+            }
+          }
+        ]
+      },
+      'chemex': {
+        name: 'Chemex (6 Tazas)',
+        author: 'SCA / Classic Bonded Filter',
+        temp: '93 °C (91–95 °C)',
+        mode: 'Filtro / Pour-Over',
+        profileName: 'Normal',
+        ratio: '1 : 16',
+        coffee: '30',
+        water: '480',
+        waterUnit: 'ml',
+        grind: 'Media-gruesa (arena gruesa)',
+        totalClock: '04:15',
+        vesselType: 'hourglass_chemex',
+        phases: [
+          {
+            title: 'Bloom de cama profunda',
+            time: '00:00 – 00:45',
+            waterStep: 60,
+            waterCum: 60,
+            instruction: 'Verté 60 g en espiral sobre el cono de papel grueso para liberar el gas retenido.',
+            badge: 'Chemex · Bloom CO2',
+            directive: {
+              vesselType: 'hourglass_chemex',
+              pourStream: 'spiral',
+              agitator: 'none',
+              plungerState: 'none',
+              liquidFillStartRatio: 0.08,
+              liquidFillEndRatio: 0.25,
+              coffeeBedTurbulence: 'bubbling_bloom'
+            }
+          },
+          {
+            title: 'Vertido en espiral principal',
+            time: '00:45 – 02:15',
+            waterStep: 260,
+            waterCum: 320,
+            instruction: 'Verté en espiral firme hasta 320 g evitando tocar los bordes altos del papel.',
+            badge: 'Chemex · Vertido espiral',
+            directive: {
+              vesselType: 'hourglass_chemex',
+              pourStream: 'spiral',
+              agitator: 'none',
+              plungerState: 'none',
+              liquidFillStartRatio: 0.25,
+              liquidFillEndRatio: 0.68,
+              coffeeBedTurbulence: 'active_slurry'
+            }
+          },
+          {
+            title: 'Vertido central y drenaje limpio',
+            time: '02:15 – 04:15',
+            waterStep: 160,
+            waterCum: 480,
+            instruction: 'Completá hasta 480 g con chorro continuo central y dejá drenar por el canal de aire.',
+            badge: 'Chemex · Cama asentada',
+            directive: {
+              vesselType: 'hourglass_chemex',
+              pourStream: 'steady',
+              agitator: 'none',
+              plungerState: 'none',
+              liquidFillStartRatio: 0.68,
+              liquidFillEndRatio: 0.92,
+              coffeeBedTurbulence: 'settled'
+            }
+          }
+        ]
+      },
+      'melitta': {
+        name: 'Melitta (Cono #2 / #4)',
+        author: 'SCA Flat-Wedge Standard',
+        temp: '92 °C (90–94 °C)',
+        mode: 'Filtro / Cuña',
+        profileName: 'Normal',
+        ratio: '1 : 16',
+        coffee: '18',
+        water: '288',
+        waterUnit: 'ml',
+        grind: 'Media (sal de cocina)',
+        totalClock: '03:10',
+        vesselType: 'wedge_melitta',
+        phases: [
+          {
+            title: 'Bloom en cuña trapezoidal',
+            time: '00:00 – 00:40',
+            waterStep: 40,
+            waterCum: 40,
+            instruction: 'Humedecé los 18 g de café con un vertido suave de 40 g.',
+            badge: 'Melitta · Bloom suave',
+            directive: {
+              vesselType: 'wedge_melitta',
+              pourStream: 'gentle',
+              agitator: 'none',
+              plungerState: 'none',
+              liquidFillStartRatio: 0.06,
+              liquidFillEndRatio: 0.24,
+              coffeeBedTurbulence: 'bubbling_bloom'
+            }
+          },
+          {
+            title: 'Vertido continuo y toque de cuchara',
+            time: '00:40 – 02:00',
+            waterStep: 248,
+            waterCum: 288,
+            instruction: 'Verté hasta 288 g y realizá una pasada suave con cuchara para uniformar la infusión.',
+            badge: 'Melitta · Agitación con cuchara',
+            directive: {
+              vesselType: 'wedge_melitta',
+              pourStream: 'steady',
+              agitator: 'spoon_stir',
+              plungerState: 'none',
+              liquidFillStartRatio: 0.24,
+              liquidFillEndRatio: 0.88,
+              coffeeBedTurbulence: 'active_slurry'
+            }
+          },
+          {
+            title: 'Drenaje por doble orificio',
+            time: '02:00 – 03:10',
+            waterStep: 0,
+            waterCum: 288,
+            instruction: 'Permití el drenaje completo hacia la jarra inferior.',
+            badge: 'Melitta · Drenaje final',
+            directive: {
+              vesselType: 'wedge_melitta',
+              pourStream: 'none',
+              agitator: 'none',
+              plungerState: 'none',
+              liquidFillStartRatio: 0.88,
+              liquidFillEndRatio: 0.94,
+              coffeeBedTurbulence: 'settled'
+            }
+          }
+        ]
+      },
+      'aeropress': {
+        name: 'AeroPress (Estándar)',
+        author: 'James Hoffmann (Everyday AeroPress)',
+        temp: '92 °C (85–95 °C)',
+        mode: 'Híbrido / Inmersión + Presión',
+        profileName: 'Normal',
+        ratio: '1 : 18',
+        coffee: '11',
+        water: '200',
+        waterUnit: 'ml',
+        grind: 'Media-fina',
+        totalClock: '02:30',
+        vesselType: 'cylinder_aeropress',
+        phases: [
+          {
+            title: 'Vertido total sin émbolo e hidratación',
+            time: '00:00 – 00:30',
+            waterStep: 200,
+            waterCum: 200,
+            instruction: 'Verté los 200 g de agua en la cámara (sin el émbolo) para hidratar de forma pareja.',
+            badge: 'AeroPress · Vertido libre (sin émbolo)',
+            directive: {
+              vesselType: 'cylinder_aeropress',
+              pourStream: 'steady',
+              agitator: 'none',
+              plungerState: 'none',
+              liquidFillStartRatio: 0.12,
+              liquidFillEndRatio: 0.85,
+              coffeeBedTurbulence: 'active_slurry'
+            }
+          },
+          {
+            title: 'Swirl suave de cámara (02:00)',
+            time: '00:30 – 02:00',
+            waterStep: 0,
+            waterCum: 200,
+            instruction: 'A los 2:00 girá suavemente el cilindro para que la costra superior decante al fondo.',
+            badge: 'AeroPress · Vessel Swirl',
+            directive: {
+              vesselType: 'cylinder_aeropress',
+              pourStream: 'none',
+              agitator: 'vessel_swirl',
+              plungerState: 'up',
+              liquidFillStartRatio: 0.85,
+              liquidFillEndRatio: 0.85,
+              coffeeBedTurbulence: 'active_slurry'
+            }
+          },
+          {
+            title: 'Presión constante del émbolo (Pressing)',
+            time: '02:00 – 02:30',
+            waterStep: 0,
+            waterCum: 200,
+            instruction: 'Presioná el émbolo suavemente durante 30 segundos hasta escuchar el silbido de aire.',
+            badge: 'AeroPress · Presionando émbolo (pressing)',
+            directive: {
+              vesselType: 'cylinder_aeropress',
+              pourStream: 'none',
+              agitator: 'none',
+              plungerState: 'pressing',
+              liquidFillStartRatio: 0.85,
+              liquidFillEndRatio: 0.25,
+              coffeeBedTurbulence: 'settled'
+            }
+          }
+        ]
+      },
+      'french-press': {
+        name: 'Prensa Francesa',
+        author: 'Inmersión Progresiva (Tapa Arriba)',
+        temp: '95 °C (93–96 °C)',
+        mode: 'Inmersión por Etapas',
+        profileName: 'Normal',
+        ratio: '1 : 15',
+        coffee: '30',
+        water: '450',
+        waterUnit: 'ml',
+        grind: 'Gruesa (pimienta quebrada)',
+        totalClock: '09:30',
+        vesselType: 'beaker_french_press',
+        phases: [
+          {
+            title: 'Llenado inicial hasta tapar el café',
+            time: '00:00 – 04:00',
+            waterStep: 140,
+            waterCum: 140,
+            instruction: 'Verté agua caliente solo hasta tapar el café molido (sin tapa) y dejá extraer 3–5 min para liberar todo el sabor.',
+            badge: 'Prensa · Tapar café (sin émbolo)',
+            directive: {
+              vesselType: 'beaker_french_press',
+              pourStream: 'steady',
+              agitator: 'none',
+              plungerState: 'none',
+              liquidFillStartRatio: 0.06,
+              liquidFillEndRatio: 0.32,
+              coffeeBedTurbulence: 'bubbling_bloom'
+            }
+          },
+          {
+            title: 'Rellenar agua restante hasta completar',
+            time: '04:00 – 04:30',
+            waterStep: 310,
+            waterCum: 450,
+            instruction: 'Completá el agua restante hasta 450 g y revolvé suavemente antes de colocar la tapa.',
+            badge: 'Prensa · Rellenado (sin émbolo)',
+            directive: {
+              vesselType: 'beaker_french_press',
+              pourStream: 'steady',
+              agitator: 'spoon_stir',
+              plungerState: 'none',
+              liquidFillStartRatio: 0.32,
+              liquidFillEndRatio: 0.88,
+              coffeeBedTurbulence: 'active_slurry'
+            }
+          },
+          {
+            title: 'Émbolo apenas bajo la superficie (5 min)',
+            time: '04:30 – 09:00',
+            waterStep: 0,
+            waterCum: 450,
+            instruction: 'Colocá la tapa arriba y bajá apenas el émbolo por debajo de la superficie del líquido durante unos 5 minutos.',
+            badge: 'Prensa · Émbolo en superficie (up)',
+            directive: {
+              vesselType: 'beaker_french_press',
+              pourStream: 'none',
+              agitator: 'none',
+              plungerState: 'up',
+              liquidFillStartRatio: 0.88,
+              liquidFillEndRatio: 0.88,
+              coffeeBedTurbulence: 'calm'
+            }
+          },
+          {
+            title: 'Bajar el émbolo al final y servir',
+            time: '09:00 – 09:30',
+            waterStep: 0,
+            waterCum: 450,
+            instruction: 'Presioná suavemente el émbolo hasta el fondo manteniendo la tapa arriba y serví de inmediato.',
+            badge: 'Prensa · Descenso final (pressing)',
+            directive: {
+              vesselType: 'beaker_french_press',
+              pourStream: 'none',
+              agitator: 'none',
+              plungerState: 'pressing',
+              liquidFillStartRatio: 0.88,
+              liquidFillEndRatio: 0.88,
+              coffeeBedTurbulence: 'settled'
+            }
+          }
+        ]
+      },
+      'espresso': {
+        name: 'Espresso (58 mm)',
+        author: 'SCA Modern Specialty Normale',
+        temp: '93 °C (91–94 °C)',
+        mode: 'Presión 9 bar · Yield 1:2',
+        profileName: 'Normale (1:2)',
+        ratio: '1 : 2.0',
+        coffee: '18',
+        water: '36',
+        waterUnit: 'g yield',
+        grind: 'Fina calibrada para 25–30 s',
+        totalClock: '00:28',
+        vesselType: 'portafilter_espresso',
+        phases: [
+          {
+            title: 'Pre-infusión a baja presión',
+            time: '00:00 – 00:07',
+            waterStep: 4,
+            waterCum: 4,
+            instruction: 'Saturación uniforme de la pastilla compactada (puck) hasta asomar las primeras gotas.',
+            badge: 'Portafiltro · Pre-infusión',
+            directive: {
+              vesselType: 'portafilter_espresso',
+              pourStream: 'gentle',
+              agitator: 'none',
+              plungerState: 'none',
+              liquidFillStartRatio: 0.08,
+              liquidFillEndRatio: 0.25,
+              coffeeBedTurbulence: 'calm'
+            }
+          },
+          {
+            title: 'Extracción en taza (Shot 9 bar)',
+            time: '00:07 – 00:28',
+            waterStep: 32,
+            waterCum: 36,
+            instruction: 'Caída continua color avellana/miel desde los picos del portafiltro hasta formar capa de crema con 36 g.',
+            badge: 'Portafiltro · Caída doble con crema',
+            directive: {
+              vesselType: 'portafilter_espresso',
+              pourStream: 'steady',
+              agitator: 'none',
+              plungerState: 'none',
+              liquidFillStartRatio: 0.25,
+              liquidFillEndRatio: 0.84,
+              coffeeBedTurbulence: 'settled'
+            }
+          }
+        ]
+      }
+    };
+
+    // Lower Server / Extraction Chamber ClipPaths (prevents pour-overs from filling up into the upper cone!)
+    const VESSEL_CLIP_PATHS = {
+      cone_v60: 'M50 86h60l8 52H42l8-52Z',
+      hourglass_chemex: 'M65 86h30l21 52H44l21-52Z',
+      wedge_melitta: 'M52 84h56v42c0 8-12 12-28 12s-28-4-28-12V84Z',
+      cylinder_aeropress: 'M52 60h56v70H52V60Z',
+      beaker_french_press: 'M46 56h68v82a6 6 0 0 1-6 6H52a6 6 0 0 1-6-6V56Z',
+      portafilter_espresso: 'M50 96h60v20a22 22 0 0 1-22 22H72a22 22 0 0 1-22-22V96Z'
+    };
+
+    // Upper Cone ClipPaths (strictly for coffee bed + shallow temporary pour slurry)
+    const UPPER_FILTER_CLIP_PATHS = {
+      cone_v60: 'M38 37h84L98 84H62L38 37Z',
+      hourglass_chemex: 'M42 32h76L94 82H66L42 32Z',
+      wedge_melitta: 'M40 36h80l-16 46H56L40 36Z'
+    };
+
+    const VESSEL_CHAMBER_BOUNDS = {
+      cone_v60: { top: 94, bottom: 138 },
+      hourglass_chemex: { top: 96, bottom: 138 },
+      wedge_melitta: { top: 92, bottom: 138 },
+      cylinder_aeropress: { top: 65, bottom: 130 },
+      beaker_french_press: { top: 60, bottom: 144 },
+      portafilter_espresso: { top: 98, bottom: 138 }
+    };
+
+    let currentMethodKey = 'v60';
+    let currentPhaseIndex = 0;
+    let currentProgress = 1.0;
+    let reducedMotion = false;
+
+    function clamp01(val) {
+      if (Number.isNaN(val)) return 0;
+      return Math.max(0, Math.min(1, val));
+    }
+
+    function interpolateLiquidFill(startRatio, endRatio, progress) {
+      const p = clamp01(progress);
+      return startRatio + (endRatio - startRatio) * p;
+    }
+
+    function renderVesselSilhouetteSvg(vesselType) {
+      switch (vesselType) {
+        case 'cone_v60':
+          return `
+            <g stroke="var(--svg-vessel-stroke)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M36 36h88l-25 48H61L36 36Z" />
+              <path d="M52 36l16 48 M68 36l10 48 M94 36l-10 48" stroke="var(--svg-coffee-crema)" stroke-width="1.3" opacity="0.65" />
+              <path d="M44 85h72" stroke="var(--accent-gold)" stroke-width="2.6" />
+              <path d="M116 44h11a6 6 0 0 1 6 6v9a6 6 0 0 1-6 6h-19" stroke-width="1.8" />
+              <path d="M50 86h60l8 52H42l8-52Z" />
+              <path d="M112 96h12a7 7 0 0 1 7 7v16a7 7 0 0 1-7 7h-8" />
+              <path d="M60 104h8 M58 118h10 M56 130h8" stroke="var(--svg-coffee-crema)" stroke-width="1.2" opacity="0.55" />
+            </g>
+          `;
+        case 'hourglass_chemex':
+          return `
+            <g stroke="var(--svg-vessel-stroke)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M48 32l8-10h48l8 10" stroke="var(--svg-coffee-crema)" stroke-width="1.5" stroke-dasharray="3 2" opacity="0.8" />
+              <path d="M42 32h76L94 84l22 54H44l22-54L42 32Z" />
+              <path d="M61 74h38l-4 18H65l-4-18Z" fill="rgba(110, 54, 25, 0.85)" stroke="var(--accent-gold)" stroke-width="1.8" />
+              <path d="M60 83h40" stroke="var(--svg-coffee-bed)" stroke-width="2.8" />
+              <circle cx="80" cy="83" r="4" fill="var(--accent-gold)" stroke="var(--bg-canvas)" stroke-width="1.4" />
+              <path d="M80 87l-3 9 M80 87l3 9" stroke="var(--accent-gold)" stroke-width="1.5" />
+            </g>
+          `;
+        case 'wedge_melitta':
+          return `
+            <g stroke="var(--svg-vessel-stroke)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M40 36h80l-16 46H56L40 36Z" />
+              <path d="M56 36l8 46 M80 36v46 M104 36l-8 46" stroke="var(--svg-coffee-crema)" stroke-width="1.2" opacity="0.55" />
+              <path d="M114 46h10a5 5 0 0 1 5 5v9a5 5 0 0 1-5 5h-16" stroke-width="1.8" />
+              <path d="M46 83h68" stroke="var(--accent-gold)" stroke-width="2.5" />
+              <path d="M52 84h56v42c0 8-12 12-28 12s-28-4-28-12V84Z" />
+              <path d="M108 94h11a6 6 0 0 1 6 6v15a6 6 0 0 1-6 6h-11" />
+            </g>
+          `;
+        case 'cylinder_aeropress':
+          return `
+            <g stroke="var(--svg-vessel-stroke)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Flared Top Collar & Outer Brew Cylinder (y: 60..130) -->
+              <path d="M47 60h66" stroke="var(--accent-gold)" stroke-width="2.6" />
+              <rect x="52" y="60" width="56" height="70" rx="2" />
+              <!-- Numbered Level Rings (1, 2, 3) -->
+              <circle cx="63" cy="116" r="4" stroke="var(--accent-gold)" stroke-width="1.2" opacity="0.72" />
+              <circle cx="63" cy="98" r="4" stroke="var(--accent-gold)" stroke-width="1.2" opacity="0.72" />
+              <circle cx="63" cy="80" r="4" stroke="var(--accent-gold)" stroke-width="1.2" opacity="0.72" />
+              <!-- Hexagonal Base Flange & Threaded Filter Cap -->
+              <path d="M42 130h76" stroke="var(--accent-gold)" stroke-width="3" />
+              <path d="M54 130v5h52v-5" fill="var(--bg-dark-card)" />
+              <!-- Receiving Server Mug Below Cap -->
+              <path d="M52 136h56v13a7 7 0 0 1-7 7H59a7 7 0 0 1-7-7v-13Z" stroke-width="1.8" opacity="0.88" />
+              <path d="M108 139h8a4.5 4.5 0 0 1 4.5 4.5v2a4.5 4.5 0 0 1-4.5 4.5h-8" stroke-width="1.7" opacity="0.88" />
+            </g>
+          `;
+        case 'beaker_french_press':
+          return `
+            <g stroke="var(--svg-vessel-stroke)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Pour Spout Lip & Glass Carafe (y: 56..144, generous top clearance for lid/rod) -->
+              <path d="M41 56h76" stroke="var(--accent-gold)" stroke-width="2.4" />
+              <path d="M46 56h68v82a6 6 0 0 1-6 6H52a6 6 0 0 1-6-6V56Z" />
+              <path d="M46 72h68 M46 128h68" stroke="var(--accent-gold)" stroke-width="1.5" opacity="0.75" />
+              <path d="M114 70h13a7 7 0 0 1 7 7v38a7 7 0 0 1-7 7h-13" />
+            </g>
+          `;
+        case 'portafilter_espresso':
+          return `
+            <g stroke="var(--svg-vessel-stroke)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Machine Grouphead & Dispersion Seal -->
+              <path d="M46 18h68v10H46z" fill="var(--bg-dark-card)" stroke="var(--accent-gold)" stroke-width="1.7" />
+              <path d="M54 28h52v5H54z" fill="var(--accent-primary)" stroke="var(--accent-gold)" stroke-width="1.2" />
+              <!-- 58mm Portafilter Lip + Tapered Chrome Chamber -->
+              <path d="M50 33h60v5H50z" fill="var(--bg-elevated)" stroke="var(--accent-gold)" stroke-width="1.5" />
+              <path d="M55 38h50l-5 15c-2 5-8 8-20 8s-18-3-20-8l-5-15Z" fill="var(--bg-dark-card)" stroke="var(--svg-vessel-stroke)" stroke-width="2" />
+              <!-- Ergonomic Chrome Collar + Angled Walnut Handle -->
+              <path d="M105 42l12 2" stroke="var(--accent-gold)" stroke-width="4.2" />
+              <path d="M117 44l28 5" stroke="var(--accent-primary)" stroke-width="5.6" />
+              <path d="M117 44l28 5" stroke="var(--accent-gold)" stroke-width="1.4" opacity="0.85" />
+              <!-- Diverging Double Y-Spout -->
+              <path d="M77 61v5l-6 7v4 M83 61v5l6 7v4" stroke="var(--accent-gold)" stroke-width="2.1" />
+              <!-- Classic Demitasse Espresso Cup & Saucer -->
+              <path d="M50 96h60v20a22 22 0 0 1-22 22H72a22 22 0 0 1-22-22V96Z" />
+              <path d="M110 101h9a6.5 6.5 0 0 1 6.5 6.5v6a6.5 6.5 0 0 1-6.5 6.5h-9" />
+              <path d="M36 142h88" stroke="var(--accent-gold)" stroke-width="2.4" />
+            </g>
+          `;
+        default:
+          return '';
+      }
+    }
+
+    function isPourOverVessel(vesselType) {
+      return vesselType === 'cone_v60' || vesselType === 'hourglass_chemex' || vesselType === 'wedge_melitta';
+    }
+
+    function renderUpperFilterBedSvg(vesselType, turbulence, pourStream) {
+      if (!isPourOverVessel(vesselType)) return '';
+      const bedY = 69;
+      const showSlurry = pourStream !== 'none' || turbulence === 'bubbling_bloom' || turbulence === 'active_slurry';
+      const slurryTop = turbulence === 'active_slurry' ? 56 : 60;
+
+      let extras = '';
+      if (turbulence === 'bubbling_bloom') {
+        extras = `
+          <circle class="svg-bloom-bubble" cx="70" cy="${slurryTop + 2}" r="2.8" fill="var(--svg-coffee-crema)" opacity="0.88" />
+          <circle class="svg-bloom-bubble svg-bloom-bubble--2" cx="80" cy="${slurryTop - 1}" r="3.4" fill="var(--svg-coffee-crema)" opacity="0.92" />
+          <circle class="svg-bloom-bubble svg-bloom-bubble--3" cx="90" cy="${slurryTop + 2}" r="2.6" fill="var(--svg-coffee-crema)" opacity="0.85" />
+          <path d="M56 ${slurryTop + 2} Q80 ${slurryTop - 4} 104 ${slurryTop + 2}" stroke="var(--svg-coffee-crema)" stroke-width="1.8" fill="none" opacity="0.88" />
+        `;
+      } else if (turbulence === 'active_slurry') {
+        extras = `
+          <g class="svg-slurry-particle" fill="var(--svg-coffee-crema)" opacity="0.78">
+            <circle cx="68" cy="${slurryTop + 5}" r="1.9" />
+            <circle cx="80" cy="${slurryTop + 3}" r="2.1" />
+            <circle cx="91" cy="${slurryTop + 6}" r="1.8" />
+          </g>
+        `;
+      }
+
+      return `
+        <g data-upper-slurry="${showSlurry}" data-turbulence="${turbulence}">
+          ${showSlurry ? `
+            <!-- Shallow Active Upper Cone Slurry (never fills to paper rim!) -->
+            <rect x="34" y="${slurryTop}" width="92" height="${bedY - slurryTop + 2}" fill="url(#svg-slurry-grad)" />
+            <path d="M36 ${slurryTop} Q58 ${slurryTop - 2.5} 80 ${slurryTop} T124 ${slurryTop}" stroke="var(--svg-coffee-crema)" stroke-width="1.8" fill="none" opacity="0.88" />
+          ` : ''}
+          <!-- Settled Wet Coffee Bed in Cone Apex -->
+          <rect x="36" y="${bedY}" width="88" height="17" fill="var(--svg-coffee-bed)" opacity="0.95" />
+          <line x1="48" y1="${bedY}" x2="112" y2="${bedY}" stroke="var(--svg-coffee-crema)" stroke-width="1.6" opacity="0.75" />
+          <circle cx="71" cy="${bedY + 6}" r="1.4" fill="var(--svg-coffee-crema)" opacity="0.45" />
+          <circle cx="80" cy="${bedY + 9}" r="1.5" fill="var(--svg-coffee-crema)" opacity="0.45" />
+          <circle cx="89" cy="${bedY + 5}" r="1.4" fill="var(--svg-coffee-crema)" opacity="0.45" />
+          ${extras}
+        </g>
+      `;
+    }
+
+    function renderCoffeeBedSvg(vesselType, turbulence) {
+      if (vesselType === 'portafilter_espresso' || isPourOverVessel(vesselType)) {
+        return `<g data-turbulence="${turbulence}"></g>`;
+      }
+
+      const bedY = vesselType === 'beaker_french_press' ? 130 : 119;
+      const bedHeight = vesselType === 'beaker_french_press' ? 14 : 12;
+
+      let extras = '';
+      if (turbulence === 'bubbling_bloom') {
+        extras = `
+          <circle class="svg-bloom-bubble" cx="68" cy="${bedY - 2}" r="3.1" fill="var(--svg-coffee-crema)" opacity="0.88" />
+          <circle class="svg-bloom-bubble svg-bloom-bubble--2" cx="80" cy="${bedY - 5}" r="3.8" fill="var(--svg-coffee-crema)" opacity="0.92" />
+          <circle class="svg-bloom-bubble svg-bloom-bubble--3" cx="92" cy="${bedY - 2}" r="2.9" fill="var(--svg-coffee-crema)" opacity="0.85" />
+          <path d="M52 ${bedY} Q80 ${bedY - 7} 108 ${bedY}" stroke="var(--svg-coffee-crema)" stroke-width="2.1" fill="none" opacity="0.85" />
+        `;
+      } else if (turbulence === 'active_slurry') {
+        extras = `
+          <g class="svg-slurry-particle" fill="var(--svg-coffee-crema)" opacity="0.75">
+            <circle cx="64" cy="${bedY - 11}" r="2.0" />
+            <circle cx="78" cy="${bedY - 17}" r="2.3" />
+            <circle cx="94" cy="${bedY - 9}" r="1.9" />
+            <circle cx="85" cy="${bedY - 5}" r="1.7" />
+          </g>
+        `;
+      } else if (turbulence === 'settled') {
+        extras = `<line x1="44" y1="${bedY}" x2="116" y2="${bedY}" stroke="var(--svg-coffee-crema)" stroke-width="1.9" opacity="0.85" />`;
+      }
+
+      return `
+        <g data-turbulence="${turbulence}">
+          <rect x="36" y="${bedY}" width="88" height="${bedHeight}" fill="var(--svg-coffee-bed)" opacity="0.94" />
+          <circle cx="66" cy="${bedY + 6}" r="1.5" fill="var(--svg-coffee-crema)" opacity="0.45" />
+          <circle cx="80" cy="${bedY + 8}" r="1.6" fill="var(--svg-coffee-crema)" opacity="0.45" />
+          <circle cx="94" cy="${bedY + 5}" r="1.5" fill="var(--svg-coffee-crema)" opacity="0.45" />
+          ${extras}
+        </g>
+      `;
+    }
+
+    function renderPourStreamSvg(vesselType, pourStream, surfaceY) {
+      if (pourStream === 'none') return '';
+
+      if (vesselType === 'portafilter_espresso') {
+        return `
+          <g data-pour-stream="${pourStream}">
+            <line class="svg-pour-core" x1="71" y1="78" x2="71" y2="112" stroke="var(--svg-coffee-crema)" stroke-width="2.4" stroke-linecap="round" />
+            <line class="svg-pour-shimmer" x1="71" y1="78" x2="71" y2="112" stroke="var(--text-primary)" stroke-width="1" stroke-linecap="round" opacity="0.65" />
+            <line class="svg-pour-core" x1="89" y1="78" x2="89" y2="112" stroke="var(--svg-coffee-crema)" stroke-width="2.4" stroke-linecap="round" />
+            <line class="svg-pour-shimmer" x1="89" y1="78" x2="89" y2="112" stroke="var(--text-primary)" stroke-width="1" stroke-linecap="round" opacity="0.65" />
+            <circle class="svg-espresso-drop" cx="71" cy="96" r="2.2" fill="var(--accent-gold)" />
+            <circle class="svg-espresso-drop svg-espresso-drop--delayed" cx="89" cy="96" r="2.2" fill="var(--accent-gold)" />
+          </g>
+        `;
+      }
+
+      let targetY = 58;
+      if (vesselType === 'beaker_french_press') {
+        targetY = Math.max(66, Math.min(130, Math.round(surfaceY)));
+      } else if (vesselType === 'cylinder_aeropress') {
+        targetY = Math.max(70, Math.min(118, Math.round(surfaceY)));
+      }
+
+      if (pourStream === 'spiral') {
+        return `
+          <g data-pour-stream="spiral">
+            <g class="svg-pour-spiral-group">
+              <path d="M80 4 C72 15, 88 26, 78 38 C71 47, 87 52, 80 ${targetY}" stroke="var(--svg-water-stream)" stroke-width="3.2" stroke-linecap="round" fill="none" opacity="0.56" />
+              <path class="svg-pour-spiral-path" d="M80 4 C72 15, 88 26, 78 38 C71 47, 87 52, 80 ${targetY}" stroke="var(--text-primary)" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.64" />
+            </g>
+            <ellipse class="svg-impact-ripple" cx="80" cy="${targetY}" rx="12" ry="3.6" stroke="var(--svg-water-stream)" stroke-width="1.3" fill="none" opacity="0.72" />
+            <ellipse class="svg-impact-ripple svg-impact-ripple--delayed" cx="80" cy="${targetY}" rx="9" ry="2.8" stroke="var(--text-primary)" stroke-width="1.0" fill="none" opacity="0.52" />
+          </g>
+        `;
+      }
+
+      const isGentle = pourStream === 'gentle';
+      const width = isGentle ? '2.2' : '3.4';
+      const coreClass = isGentle ? 'svg-pour-core svg-pour-core--gentle' : 'svg-pour-core';
+      const shimmerClass = isGentle ? 'svg-pour-shimmer svg-pour-shimmer--gentle' : 'svg-pour-shimmer';
+      const shimmerOpacity = isGentle ? '0.52' : '0.60';
+      return `
+        <g data-pour-stream="${pourStream}">
+          <!-- Semi-Translucent Water Stream + Soft Shimmer (keeping clean lineal look) -->
+          <path class="${coreClass}" d="M80 4 C79 ${Math.round(targetY * 0.45)}, 81 ${Math.round(targetY * 0.72)}, 80 ${targetY}" stroke="var(--svg-water-stream)" stroke-width="${width}" stroke-linecap="round" fill="none" />
+          <line class="${shimmerClass}" x1="80" y1="4" x2="80" y2="${targetY}" stroke="var(--text-primary)" stroke-width="${isGentle ? '0.95' : '1.15'}" stroke-linecap="round" opacity="${shimmerOpacity}" />
+          <!-- Soft Expanding Dual Concentric Surface Ripples -->
+          <ellipse class="svg-impact-ripple" cx="80" cy="${targetY}" rx="${isGentle ? 10 : 12}" ry="${isGentle ? 3.0 : 3.6}" stroke="var(--svg-water-stream)" stroke-width="1.25" fill="none" opacity="0.72" />
+          <ellipse class="svg-impact-ripple svg-impact-ripple--delayed" cx="80" cy="${targetY}" rx="${isGentle ? 7.2 : 8.5}" ry="${isGentle ? 2.2 : 2.6}" stroke="var(--text-primary)" stroke-width="1.0" fill="none" opacity="0.52" />
+        </g>
+      `;
+    }
+
+    function renderPlungerSvg(vesselType, plungerState, progress) {
+      if (plungerState === 'none') return '';
+      if (vesselType !== 'cylinder_aeropress' && vesselType !== 'beaker_french_press') return '';
+
+      const p = clamp01(progress);
+
+      if (vesselType === 'beaker_french_press') {
+        // Fixed top lid at rim (y = 54), ONLY central shaft + knob + bottom mesh move!
+        // Fixed rod length = 72px: up => mesh at 76 (below liquid surface), knob at 4; down => mesh at 124 (above grounds), knob at 52 (touching lid collar)
+        let meshY = 76;
+        if (plungerState === 'down') {
+          meshY = 124;
+        } else if (plungerState === 'pressing') {
+          meshY = Math.round(76 + (124 - 76) * p);
+        }
+        const knobY = meshY - 72;
+
+        return `
+          <g data-plunger-state="${plungerState}" stroke="var(--svg-coffee-crema)" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Fixed Upper Lid Resting on Carafe Rim -->
+            <path d="M42 54h76v4H42z" fill="var(--bg-dark-card)" stroke="var(--accent-gold)" stroke-width="1.8" />
+            <rect x="74" y="49" width="12" height="5" rx="1.5" fill="var(--accent-gold)" stroke="none" />
+            <!-- Sliding Plunger Knob, Shaft & Mesh Filter -->
+            <circle cx="80" cy="${knobY}" r="4.8" fill="var(--accent-gold)" stroke="var(--bg-canvas)" stroke-width="1.2" />
+            <line x1="80" y1="${knobY + 4}" x2="80" y2="${meshY}" stroke-width="2.2" />
+            <rect x="49" y="${meshY}" width="62" height="5.5" rx="2.5" fill="var(--accent-primary)" stroke="var(--accent-gold)" stroke-width="1.6" />
+            <path d="M54 ${meshY + 2.7}h52" stroke="var(--bg-canvas)" stroke-width="1.2" stroke-dasharray="3 3" />
+          </g>
+        `;
+      }
+
+      // Real AeroPress Telescoping Wide Hollow Cylindrical Plunger + Silicone Rubber Gasket + Receiving Drops
+      // Outer chamber sits at y: 60..130. Plunger body height = 52px:
+      // up => seal at y=70 (top flange y=18), down => seal at y=112 (top flange y=60 resting flush on chamber collar)
+      let sealY = 70;
+      if (plungerState === 'down') {
+        sealY = 112;
+      } else if (plungerState === 'pressing') {
+        sealY = Math.round(70 + (112 - 70) * p);
+      }
+      const capY = sealY - 52;
+
+      return `
+        <g data-plunger-state="${plungerState}" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Wide Hollow Translucent Inner Plunger Cylinder (x: 56..104) -->
+          <rect x="56" y="${capY}" width="48" height="${sealY - capY}" fill="url(#svg-aeropress-tube-grad)" stroke="var(--svg-vessel-stroke)" stroke-width="1.6" />
+          <!-- Inner Tube Specular Rib Lines -->
+          <line x1="63" y1="${capY + 4}" x2="63" y2="${sealY - 2}" stroke="var(--text-primary)" stroke-width="1" opacity="0.24" />
+          <line x1="97" y1="${capY + 4}" x2="97" y2="${sealY - 2}" stroke="var(--accent-gold)" stroke-width="1" opacity="0.28" />
+          <!-- Flared Top Plunger Flange / Hexagonal Grip Cap -->
+          <rect x="50" y="${capY - 5}" width="60" height="5.5" rx="2.5" fill="var(--bg-dark-card)" stroke="var(--accent-gold)" stroke-width="1.8" />
+          <line x1="66" y1="${capY - 2.2}" x2="94" y2="${capY - 2.2}" stroke="var(--svg-coffee-crema)" stroke-width="1.3" opacity="0.72" />
+          <!-- Beveled Silicone Rubber Piston Seal -->
+          <path d="M54.5 ${sealY}h51l1.5 6.5c0 1.3-3.5 2.2-27 2.2s-27-.9-27-2.2L54.5 ${sealY}Z" fill="var(--bg-dark-card)" stroke="var(--accent-gold)" stroke-width="1.7" />
+          <line x1="56" y1="${sealY + 3.2}" x2="104" y2="${sealY + 3.2}" stroke="var(--accent-primary)" stroke-width="1.2" />
+          ${plungerState === 'pressing' ? `
+            <!-- Downward Press Force Arrows + Coffee Drops Entering Mug -->
+            <path d="M38 72v18m0 0l-4-4m4 4l4-4 M122 72v18m0 0l-4-4m4 4l4-4" stroke="var(--accent-gold)" stroke-width="1.7" />
+            <circle class="svg-espresso-drop" cx="76" cy="138" r="1.9" fill="var(--svg-coffee-crema)" />
+            <circle class="svg-espresso-drop svg-espresso-drop--delayed" cx="84" cy="138" r="1.9" fill="var(--svg-coffee-crema)" />
+          ` : ''}
+        </g>
+      `;
+    }
+
+    function renderAgitatorSvg(agitator, vesselType, surfaceY) {
+      if (agitator === 'spoon_stir') {
+        const pourOver = isPourOverVessel(vesselType);
+        const stirY = pourOver
+          ? 56
+          : Math.max(66, Math.min(108, Math.round(surfaceY)));
+        const spoonTipX = pourOver ? 85 : 78;
+        const spoonTipY = pourOver ? stirY + 2 : stirY + 5;
+        const arcR = pourOver ? 13 : 17;
+        const spoonGroupClass = vesselType === 'beaker_french_press' ? 'svg-spoon-group svg-spoon-group--immersion' : 'svg-spoon-group';
+        return `
+          <g data-agitator="spoon_stir">
+            <!-- Smooth Dual Counter-Rotating Vortex Arcs (view-box anchored cleanly at 80, stirY) -->
+            <g class="svg-stir-vortex" style="transform-origin: 80px ${stirY}px;">
+              <path d="M ${80 - arcR} ${stirY} A ${arcR} 4 0 0 1 ${80 + arcR * 0.65} ${stirY - 2.3}" stroke="rgba(229, 200, 161, 0.56)" stroke-width="1.35" stroke-linecap="round" fill="none" />
+              <path d="M ${80 + arcR} ${stirY} A ${arcR} 4 0 0 1 ${80 - arcR * 0.65} ${stirY + 2.3}" stroke="rgba(126, 181, 224, 0.44)" stroke-width="1.15" stroke-linecap="round" fill="none" />
+            </g>
+            <g class="svg-stir-vortex--inner" style="transform-origin: 80px ${stirY}px;">
+              <path d="M ${80 - arcR * 0.55} ${stirY} A ${arcR * 0.55} 2.2 0 0 0 ${80 + arcR * 0.5} ${stirY + 1.3}" stroke="rgba(247, 241, 231, 0.36)" stroke-width="0.95" stroke-linecap="round" fill="none" />
+            </g>
+            <!-- Orbital Pivoted Barista Spoon -->
+            <g class="${spoonGroupClass}">
+              <line x1="${pourOver ? 105 : 98}" y1="15" x2="${spoonTipX + 1.5}" y2="${spoonTipY - 1.2}" stroke="var(--accent-gold)" stroke-width="2.2" stroke-linecap="round" />
+              <ellipse cx="${spoonTipX}" cy="${spoonTipY}" rx="5.4" ry="3.4" transform="rotate(-18 ${spoonTipX} ${spoonTipY})" fill="var(--accent-gold)" stroke="var(--bg-canvas)" stroke-width="0.85" opacity="0.95" />
+            </g>
+          </g>
+        `;
+      }
+      if (agitator === 'vessel_swirl') {
+        return `
+          <g data-agitator="vessel_swirl" stroke="var(--accent-gold)" stroke-width="1.9" stroke-linecap="round" fill="none">
+            <path d="M24 72 C16 84, 24 98, 42 102" />
+            <polyline points="37 97 43 102 36 106" />
+            <path d="M136 72 C144 84, 136 98, 118 102" />
+            <polyline points="123 97 117 102 124 106" />
+          </g>
+        `;
+      }
+      return '';
+    }
+
+    function updateScene() {
+      const method = METHODS_DATA[currentMethodKey];
+      const phase = method.phases[currentPhaseIndex] || method.phases[0];
+      const dir = phase.directive;
+      const level = interpolateLiquidFill(dir.liquidFillStartRatio, dir.liquidFillEndRatio, currentProgress);
+      const levelPct = Math.round(level * 100);
+
+      // Update Header & Controls
+      document.getElementById('station-method-title').textContent = method.name;
+      document.getElementById('station-author').textContent = method.author;
+      document.getElementById('station-temp').textContent = method.temp;
+      document.getElementById('scaling-mode-badge').textContent = method.mode;
+      document.getElementById('active-profile-name').textContent = method.profileName;
+      document.getElementById('active-profile-ratio').textContent = method.ratio;
+      document.getElementById('dose-coffee-val').textContent = method.coffee;
+      document.getElementById('dose-water-val').textContent = method.water;
+      document.getElementById('dose-water-unit').textContent = method.waterUnit;
+      document.getElementById('dose-water-label').textContent =
+        currentMethodKey === 'espresso' ? 'Bebida objetivo en taza (Yield)' : 'Agua total de infusión';
+      document.getElementById('grind-title').textContent = `Molienda recomendada: ${method.grind}`;
+      document.getElementById('timeline-count-label').textContent = `${method.phases.length} fases`;
+
+      // Update Method Mini Icon
+      document.getElementById('header-method-icon').innerHTML = `
+        <svg width="24" height="24" viewBox="0 0 160 168" fill="none" aria-hidden="true">
+          ${renderVesselSilhouetteSvg(dir.vesselType)}
+        </svg>
+      `;
+
+      // Update Top Simulator Method Buttons
+      document.querySelectorAll('[data-method-btn]').forEach((btn) => {
+        btn.classList.toggle('is-active', btn.getAttribute('data-method-btn') === currentMethodKey);
+      });
+
+      // Update Top Simulator Progress Buttons
+      document.querySelectorAll('[data-progress-btn]').forEach((btn) => {
+        const val = parseFloat(btn.getAttribute('data-progress-btn'));
+        btn.classList.toggle('is-active', Math.abs(val - currentProgress) < 0.02);
+      });
+
+      // Update Telemetry Strip
+      document.getElementById('chip-vessel').textContent = dir.vesselType;
+      document.getElementById('chip-stream').textContent = dir.pourStream;
+      document.getElementById('chip-bed').textContent = dir.coffeeBedTurbulence;
+      document.getElementById('chip-agitator').textContent = dir.agitator;
+      document.getElementById('chip-plunger').textContent = dir.plungerState;
+      document.getElementById('chip-fill').textContent =
+        `${dir.liquidFillStartRatio.toFixed(2)} → ${dir.liquidFillEndRatio.toFixed(2)} (L=${levelPct}%)`;
+
+      // Update Timeline Rows
+      const timelineContainer = document.getElementById('timeline-list-container');
+      timelineContainer.innerHTML = method.phases
+        .map((p, idx) => {
+          const isActive = idx === currentPhaseIndex;
+          const unit = currentMethodKey === 'espresso' ? 'g yield' : 'g';
+          return `
+            <button type="button" class="timeline-row ${isActive ? 'is-active' : ''} pressable" data-phase-idx="${idx}">
+              <div class="timeline-row-left">
+                <span class="timeline-step-index">${idx + 1}</span>
+                <div>
+                  <p class="timeline-title">${p.title}</p>
+                  <p class="timeline-sub">${p.badge}</p>
+                </div>
+              </div>
+              <div class="timeline-row-right">
+                <span class="timeline-time">${p.time}</span>
+                <span class="timeline-water">${p.waterStep > 0 ? `+${p.waterStep} g → ` : ''}${p.waterCum} ${unit}</span>
+              </div>
+            </button>
+          `;
+        })
+        .join('');
+
+      timelineContainer.querySelectorAll('[data-phase-idx]').forEach((row) => {
+        row.addEventListener('click', () => {
+          currentPhaseIndex = parseInt(row.getAttribute('data-phase-idx'), 10);
+          updateScene();
+        });
+      });
+
+      // Update Phase Dots
+      const dotsContainer = document.getElementById('phase-dots-container');
+      dotsContainer.innerHTML = method.phases
+        .map((p, idx) => {
+          const isActive = idx === currentPhaseIndex;
+          return `<button type="button" class="phase-dot ${isActive ? 'is-active' : ''}" data-dot-idx="${idx}" aria-label="Fase ${idx + 1}: ${p.title}"></button>`;
+        })
+        .join('');
+
+      dotsContainer.querySelectorAll('[data-dot-idx]').forEach((dot) => {
+        dot.addEventListener('click', () => {
+          currentPhaseIndex = parseInt(dot.getAttribute('data-dot-idx'), 10);
+          updateScene();
+        });
+      });
+
+      // Update SVG Primitives & Attributes
+      const svgEl = document.getElementById('procedural-brew-svg');
+      svgEl.setAttribute('data-vessel', dir.vesselType);
+      svgEl.setAttribute('data-pour-stream', dir.pourStream);
+      svgEl.setAttribute('data-turbulence', dir.coffeeBedTurbulence);
+      svgEl.setAttribute('data-agitator', dir.agitator);
+      svgEl.setAttribute('data-plunger-state', dir.plungerState);
+      svgEl.setAttribute('data-liquid-level', level.toFixed(2));
+
+      const bounds = VESSEL_CHAMBER_BOUNDS[dir.vesselType] || { top: 92, bottom: 138 };
+      const chamberSpan = bounds.bottom - bounds.top;
+      const surfaceY = bounds.bottom - clamp01(level) * chamberSpan;
+      const translateY = Math.round(surfaceY - 40);
+
+      document.getElementById('clip-chamber-path').setAttribute('d', VESSEL_CLIP_PATHS[dir.vesselType]);
+      document.getElementById('clip-upper-filter-path').setAttribute('d', UPPER_FILTER_CLIP_PATHS[dir.vesselType] || 'M0 0');
+      document.getElementById('primitive-liquid-level').style.transform = `translateY(${translateY}px)`;
+      document.getElementById('liquid-espresso-crema-cap').setAttribute(
+        'opacity',
+        dir.vesselType === 'portafilter_espresso' ? '0.96' : '0.28'
+      );
+      document.getElementById('primitive-upper-cone-bed').innerHTML = renderUpperFilterBedSvg(dir.vesselType, dir.coffeeBedTurbulence, dir.pourStream);
+      document.getElementById('primitive-coffee-bed').innerHTML = renderCoffeeBedSvg(dir.vesselType, dir.coffeeBedTurbulence);
+      document.getElementById('primitive-pour-stream').innerHTML = renderPourStreamSvg(dir.vesselType, dir.pourStream, surfaceY);
+      document.getElementById('primitive-plunger').innerHTML = renderPlungerSvg(dir.vesselType, dir.plungerState, currentProgress);
+      document.getElementById('primitive-vessel-silhouette').innerHTML = renderVesselSilhouetteSvg(dir.vesselType);
+      document.getElementById('primitive-agitator').innerHTML = renderAgitatorSvg(dir.agitator, dir.vesselType, surfaceY);
+
+      const wrapperEl = document.getElementById('svg-scene-wrapper');
+      wrapperEl.classList.toggle('is-swirling', dir.agitator === 'vessel_swirl');
+
+      // Update Timer Card Readouts
+      document.getElementById('stage-vessel-label').textContent = dir.vesselType;
+      document.getElementById('stage-action-badge').textContent = phase.badge;
+      document.getElementById('scrub-p-readout').textContent = `p = ${currentProgress.toFixed(2)}`;
+      document.getElementById('phase-progress-slider').value = String(currentProgress);
+      document.getElementById('scrub-fill-readout').textContent = `${levelPct}%`;
+
+      document.getElementById('timer-pour-summary').textContent =
+        currentMethodKey === 'espresso'
+          ? `Extracción objetivo en taza: ${phase.waterCum} g`
+          : `Vertido del paso: +${phase.waterStep} g • Acumulado en balanza: ${phase.waterCum} g`;
+
+      document.getElementById('timer-phase-header').textContent =
+        `FASE ${currentPhaseIndex + 1} DE ${method.phases.length}: ${phase.title.toUpperCase()} • ${phase.time}`;
+
+      document.getElementById('timer-clock-digits').textContent = method.totalClock;
+      document.getElementById('telemetry-coffee').textContent = `${method.coffee} g`;
+      document.getElementById('telemetry-water').textContent = `${method.water} ${method.waterUnit}`;
+      document.getElementById('telemetry-ratio').textContent = method.ratio;
+      document.getElementById('timer-instruction').textContent = phase.instruction;
+
+      document.getElementById('prev-phase-btn').disabled = currentPhaseIndex === 0;
+      document.getElementById('next-phase-btn').disabled = currentPhaseIndex >= method.phases.length - 1;
+    }
+
+    // Bind simulator events
+    document.querySelectorAll('[data-method-btn]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        currentMethodKey = btn.getAttribute('data-method-btn');
+        currentPhaseIndex = 0;
+        updateScene();
+      });
+    });
+
+    document.querySelectorAll('[data-progress-btn]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        currentProgress = parseFloat(btn.getAttribute('data-progress-btn'));
+        updateScene();
+      });
+    });
+
+    document.getElementById('phase-progress-slider').addEventListener('input', (e) => {
+      currentProgress = parseFloat(e.target.value);
+      updateScene();
+    });
+
+    document.getElementById('toggle-reduced-motion-btn').addEventListener('click', (e) => {
+      reducedMotion = !reducedMotion;
+      const btn = e.currentTarget;
+      btn.setAttribute('aria-pressed', String(reducedMotion));
+      btn.textContent = reducedMotion ? 'Reduced Motion: ON' : 'Reduced Motion: OFF';
+      btn.classList.toggle('is-active', reducedMotion);
+      document.getElementById('timer-panel').setAttribute('data-reduced-motion', String(reducedMotion));
+    });
+
+    document.getElementById('prev-phase-btn').addEventListener('click', () => {
+      if (currentPhaseIndex > 0) {
+        currentPhaseIndex -= 1;
+        updateScene();
+      }
+    });
+
+    document.getElementById('next-phase-btn').addEventListener('click', () => {
+      const method = METHODS_DATA[currentMethodKey];
+      if (currentPhaseIndex < method.phases.length - 1) {
+        currentPhaseIndex += 1;
+        updateScene();
+      }
+    });
+
+    document.getElementById('reset-preview-btn').addEventListener('click', () => {
+      currentPhaseIndex = 0;
+      currentProgress = 1.0;
+      updateScene();
+    });
+
+    // Initial render
+    updateScene();
+  </script>
+</body>
+</html>
