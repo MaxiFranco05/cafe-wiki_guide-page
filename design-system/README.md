@@ -1,11 +1,11 @@
 # Design System — Cafetería Wiki & Guide Page
 
 - **Mode:** `system-and-mockups`
-- **Revision:** `3`
-- **Approval:** `approved (2026-11-16, by user — Dark-Only Profesional Fotográfico Moody)`
+- **Revision:** `4`
+- **Approval:** `approved (2026-11-17, by user — Café · Chocolate · Blanco Beige + Fondo 2 Ondas & Granos)`
 
 ## Propósito y Fuentes
-Fundación visual portable del proyecto en **modo oscuro único (Dark-Only Moody Espresso)** para que toda la interfaz (`#120E0C` / `#1B1512`) se integre naturalmente con la fotografía oscura de baja exposición y saturación profunda (`design-system/assets/photos/*.jpg`), evitando el contraste brusco de fondos claros en cocina y garantizando lectura nítida con texto crema (`#F5ECE0`), cobre (`#DF6B3E`) y oro cálido (`#DF9E52`).
+Fundación visual portable del proyecto en **modo oscuro único (Dark-Only Café · Chocolate · Blanco Beige, Rev 4)** para que toda la interfaz (`#160D08` canvas / `#281911` surface / `#1B100A` elevated) combine un fondo orgánico 100% HTML+CSS (`Ondas & Granos`) y fotografía oscura sólo dentro de contenedores acotados de tarjeta/wiki, garantizando lectura nítida con texto crema cálido (`#F7F1E7`), cobre tostado (`#944E29`) y crema dorada (`#E4C49B`).
 
 - **Fuentes de referencia**:
   - [discovery/discovery.md](../discovery/discovery.md)

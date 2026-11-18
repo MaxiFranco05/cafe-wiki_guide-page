@@ -1,40 +1,66 @@
 /**
- * Cafetería Wiki & Guide Page — Design System Tokens (Revision 3)
- * Aesthetic: Dark-Only Specialty Roastery & Moody Low-Exposure Photography
+ * Cafetería Wiki & Guide Page — Design System Tokens (Revision 4)
+ * Aesthetic: Dark-Only Specialty Coffee, Roasted Chocolate & Warm Oat/Cream
  */
 
 :root {
   color-scheme: dark;
 
   /* ==========================================================================
-   * 1. COLOR TOKENS — Dark-Only Moody Espresso & Warm Copper/Gold Accents
+   * 1. COLOR TOKENS — Café · Chocolate · Blanco Beige (Rev 4)
    * ========================================================================== */
-  --bg-canvas: #120E0C;          /* Espresso profundo principal (no #000000 puro) */
-  --bg-surface: #1B1512;         /* Superficie elevada de barra y contenedores */
-  --bg-elevated: #281F1A;        /* Controles secundarios / inputs / chips */
-  --bg-dark-card: #16110E;       /* Tarjetas inmersivas con fotografía moody */
-  --bg-glass: rgba(18, 14, 12, 0.90);
+  --bg-canvas: #160D08;          /* Espresso profundo principal (no #000000 puro) */
+  --bg-surface: #281911;         /* Superficie elevada chocolate tostado */
+  --bg-elevated: #1B100A;        /* Pozos numéricos / inputs hundidos */
+  --bg-dark-card: #24160F;       /* Tarjetas e íconos oscuros */
+  --bg-tooltip: #342117;         /* Popover / tooltip elevado */
+  --bg-glass: rgba(22, 13, 8, 0.92);
+  --bg-timer-radial-top: rgba(148, 78, 41, 0.20);
+  --bg-timer-radial-bottom: rgba(228, 196, 155, 0.08);
+  --bg-timer-deep: #1D110A;
+  --bg-backdrop-glow-1: rgba(148, 78, 41, 0.25);
+  --bg-backdrop-glow-2: rgba(228, 196, 155, 0.10);
+  --bg-beans-top: #1E120B;
+  --bg-beans-deep: #110905;
+  --bg-wave-border: rgba(228, 196, 155, 0.14);
+  --bg-wave-border-warm: rgba(148, 78, 41, 0.16);
+  --bg-wave-fill: rgba(148, 78, 41, 0.12);
+  --bg-bean-border: rgba(228, 196, 155, 0.24);
+  --bg-bean-crease-border: rgba(228, 196, 155, 0.26);
+  --bg-bean-fill: rgba(148, 78, 41, 0.25);
+  --bg-bean-inner: rgba(22, 13, 8, 0.08);
+  --bg-bean-shadow: rgba(0, 0, 0, 0.25);
+  --brand-badge-hover-bg: #2E1C13;
+  --brand-badge-hover-shadow: rgba(148, 78, 41, 0.34);
+  --brand-badge-ring: rgba(228, 196, 155, 0.14);
+  --brand-badge-aura-1: rgba(228, 196, 155, 0.22);
+  --brand-badge-aura-2: rgba(148, 78, 41, 0.14);
+  --nav-liquid-layer: linear-gradient(180deg, #542B18 0%, #3E1F10 55%, #2B150A 100%);
+  --nav-liquid-border-rest: rgba(228, 196, 155, 0.18);
+  --nav-liquid-border-hover: rgba(228, 196, 155, 0.58);
+  --nav-liquid-veil: rgba(22, 13, 8, 0.48);
 
-  --text-primary: #F5ECE0;       /* Crema cálido principal */
-  --text-secondary: #C5B5A2;     /* Crema tostado para etiquetas y contexto */
-  --text-muted: #8E7D6C;         /* Metadatos y pistas secundarias */
-  --text-on-accent: #FFFDF9;
-  --text-on-photo: #F7EFE2;      /* Texto crema cálido sobre fotografía moody */
+  --text-primary: #F7F1E7;       /* Blanco beige crema cálido */
+  --text-secondary: #D9C8B6;     /* Avena / crema tostado */
+  --text-muted: #A9937E;         /* Metadatos y pistas secundarias */
+  --text-on-accent: #FCF8F2;
+  --text-on-photo: #F8F2E8;      /* Texto crema cálido sobre fotografía moody */
 
-  --border-subtle: #352922;
-  --border-strong: #4F3E34;
-  --border-focus: #DF6B3E;
+  --border-subtle: #4A3123;
+  --border-recessed: #543828;
+  --border-strong: #6B4935;
+  --border-focus: #C89B6E;
 
-  /* Singular Primary Accent: Warm Copper Extraction + Gold Highlight */
-  --accent-primary: #DF6B3E;
-  --accent-primary-hover: #EB7F54;
-  --accent-primary-soft: rgba(223, 107, 62, 0.18);
-  --accent-gold: #DF9E52;
-  --accent-gold-soft: rgba(223, 158, 82, 0.16);
+  /* Singular Primary Accent: Roasted Copper + Warm Crema Highlight */
+  --accent-primary: #944E29;
+  --accent-primary-hover: #A85B32;
+  --accent-primary-soft: rgba(148, 78, 41, 0.24);
+  --accent-gold: #E4C49B;
+  --accent-gold-soft: rgba(228, 196, 155, 0.14);
 
   /* Semantic Status (Range Warnings, Wake Lock, Optimal Extraction) */
-  --status-optimal: #4CA378;
-  --status-optimal-bg: rgba(76, 163, 120, 0.15);
+  --status-optimal: #63A882;
+  --status-optimal-bg: rgba(99, 168, 130, 0.16);
   --status-warning: #E5A039;
   --status-warning-bg: rgba(229, 160, 57, 0.15);
   --status-warning-border: rgba(229, 160, 57, 0.40);
@@ -42,12 +68,12 @@
   --status-danger-bg: rgba(224, 99, 84, 0.16);
 
   /* Procedural SVG Brew Scene Tokens */
-  --svg-vessel-stroke: #F5ECE0;
-  --svg-vessel-glass: rgba(245, 236, 224, 0.08);
-  --svg-water-stream: #68B0D8;
-  --svg-coffee-liquid: #A85528;
-  --svg-coffee-crema: #DF9E52;
-  --svg-coffee-bed: #543320;
+  --svg-vessel-stroke: #F7F1E7;
+  --svg-vessel-glass: rgba(247, 241, 231, 0.08);
+  --svg-water-stream: #87B9D4;
+  --svg-coffee-liquid: #6E3619;
+  --svg-coffee-crema: #E4C49B;
+  --svg-coffee-bed: #4B2816;
 
   /* SCA Flavor Wheel Semantic Ring Palette (Desaturated < 80%) */
   --flavor-floral: #D46A84;
@@ -61,10 +87,10 @@
   --flavor-sweet: #D97941;
 
   /* ==========================================================================
-   * 2. TYPOGRAPHY TOKENS — Technical Sans + Tabular Monospace for Scales/Timer
+   * 2. TYPOGRAPHY TOKENS — Outfit Sans + IBM Plex Mono (Bundled Offline)
    * ========================================================================== */
-  --font-sans: "Plus Jakarta Sans", "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", "Source Code Pro", monospace;
+  --font-sans: "Outfit", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", "Source Code Pro", monospace;
 
   --text-xs: 0.75rem;     /* 12px */
   --text-sm: 0.875rem;    /* 14px */

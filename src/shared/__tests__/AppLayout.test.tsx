@@ -35,7 +35,7 @@ describe('AppLayout and Public SPA Routing', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText(/Hario V60 — Estación de Barra/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Hario V60/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /iniciar extracción/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /reiniciar reloj/i })).toBeInTheDocument();
   });

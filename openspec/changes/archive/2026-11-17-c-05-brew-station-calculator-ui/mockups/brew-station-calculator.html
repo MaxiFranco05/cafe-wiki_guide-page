@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="dark" data-layout="c" data-font="2" data-nav-hover="2">
+<html lang="es" data-theme="dark" data-layout="c" data-font="2" data-nav-hover="2" data-bg="1">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -84,6 +84,7 @@
     *, *::before, *::after { box-sizing: border-box; }
 
     body {
+      position: relative;
       margin: 0;
       min-height: 100dvh;
       display: flex;
@@ -92,6 +93,126 @@
       color: var(--text-primary);
       font-family: var(--active-font-sans);
       -webkit-font-smoothing: antialiased;
+    }
+
+    /* ========================================================================
+     * TEMÁTICO COFFEE STUDIO BACKGROUND — 100% HTML + CSS PURO (?bg=1|2|3)
+     * Cero <img>, cero background-image: url(...)
+     * ======================================================================== */
+    .page-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    html.full-capture .page-backdrop {
+      position: absolute;
+    }
+    .mockup-bar, .main-wrap {
+      position: relative;
+      z-index: 2;
+    }
+
+    .bg-layer {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    html[data-bg="1"] .bg-layer-rings { opacity: 1; }
+    html[data-bg="2"] .bg-layer-beans { opacity: 1; }
+    html[data-bg="3"] .bg-layer-studio { opacity: 1; }
+
+    /* Fondo 1: Halo Crema + Aros de Taza de Espresso (100% CSS div + gradients) */
+    .bg-layer-rings {
+      background:
+        radial-gradient(ellipse 68% 48% at 72% 24%, rgba(148, 78, 41, 0.28) 0%, transparent 66%),
+        radial-gradient(ellipse 56% 44% at 20% 76%, rgba(228, 196, 155, 0.12) 0%, transparent 62%),
+        linear-gradient(170deg, #21130C 0%, #160D08 55%, #110905 100%);
+    }
+    .css-aura-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(72px);
+      background: radial-gradient(circle, rgba(168, 91, 50, 0.28) 0%, rgba(148, 78, 41, 0) 70%);
+    }
+    .css-coffee-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1.5px solid rgba(228, 196, 155, 0.17);
+      box-shadow:
+        0 0 0 18px rgba(148, 78, 41, 0.055),
+        inset 0 0 32px rgba(228, 196, 155, 0.045);
+    }
+    .css-coffee-ring.is-dashed {
+      border-style: dashed;
+      border-color: rgba(168, 91, 50, 0.28);
+      box-shadow: none;
+    }
+
+    /* Fondo 2: Ondas de Crema + Granos de Café Esculpidos en CSS Puro */
+    .bg-layer-beans {
+      background:
+        radial-gradient(ellipse 72% 52% at 50% 20%, rgba(148, 78, 41, 0.25) 0%, transparent 68%),
+        linear-gradient(180deg, #1E120B 0%, #160D08 60%, #110905 100%);
+    }
+    .css-crema-wave {
+      position: absolute;
+      width: 140vw;
+      height: 140vw;
+      border-radius: 44%;
+      border: 1.5px solid rgba(228, 196, 155, 0.14);
+      background: radial-gradient(circle at 50% 0%, rgba(148, 78, 41, 0.12) 0%, transparent 45%);
+    }
+    .css-bean {
+      position: absolute;
+      width: 48px;
+      height: 68px;
+      border-radius: 50%;
+      border: 1.8px solid rgba(228, 196, 155, 0.24);
+      background: radial-gradient(circle at 35% 30%, rgba(148, 78, 41, 0.25) 0%, rgba(22, 13, 8, 0.08) 72%);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+    .css-bean::after {
+      content: "";
+      position: absolute;
+      top: 12%;
+      bottom: 12%;
+      left: 38%;
+      width: 15px;
+      border-right: 1.8px solid rgba(228, 196, 155, 0.26);
+      border-radius: 50%;
+      transform: rotate(12deg);
+    }
+
+    /* Fondo 3: Micro-textura de Barra Tostada (Pure CSS Repeating Gradients + Mask) */
+    .bg-layer-studio {
+      background:
+        radial-gradient(ellipse 65% 48% at 75% 28%, rgba(148, 78, 41, 0.26) 0%, transparent 64%),
+        radial-gradient(ellipse 60% 45% at 24% 64%, rgba(228, 196, 155, 0.12) 0%, transparent 60%),
+        var(--bg-canvas);
+    }
+    .css-roast-weave {
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          45deg,
+          rgba(228, 196, 155, 0.055) 0px,
+          rgba(228, 196, 155, 0.055) 1px,
+          transparent 1px,
+          transparent 24px
+        ),
+        repeating-linear-gradient(
+          -45deg,
+          rgba(148, 78, 41, 0.075) 0px,
+          rgba(148, 78, 41, 0.075) 1px,
+          transparent 1px,
+          transparent 24px
+        );
+      -webkit-mask-image: radial-gradient(ellipse 88% 82% at 50% 45%, #000 40%, transparent 96%);
+      mask-image: radial-gradient(ellipse 88% 82% at 50% 45%, #000 40%, transparent 96%);
     }
 
     /* Reviewer Toolbar */
@@ -184,21 +305,109 @@
       flex-shrink: 0;
     }
     .brand-badge {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
       background: var(--bg-surface);
       color: var(--accent-gold);
       display: flex;
       align-items: center;
       justify-content: center;
       border: 1px solid var(--border-strong);
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, box-shadow 0.28s ease, background 0.25s ease;
+    }
+    .brand-badge::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(circle at 50% 65%, rgba(228, 196, 155, 0.22) 0%, rgba(148, 78, 41, 0.14) 55%, transparent 78%);
+      opacity: 0;
+      transition: opacity 0.26s ease;
+      pointer-events: none;
+    }
+    .brand-badge svg {
+      position: relative;
+      z-index: 1;
+      transition: transform 0.34s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .brand-cone-fill {
+      transform-box: fill-box;
+      transform-origin: center bottom;
+      transform: scaleY(0.15);
+      opacity: 0.35;
+      transition: transform 0.36s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+    }
+    .brand-steam {
+      opacity: 0;
+      transform: translateY(3px);
+      transition: opacity 0.24s ease, transform 0.32s ease;
+    }
+    @keyframes brandSteamRise {
+      0%, 100% { transform: translateY(1px); opacity: 0.45; }
+      50% { transform: translateY(-2.5px); opacity: 0.95; }
+    }
+    @keyframes brandDripLoop {
+      0% { transform: translateY(-2.5px) scale(0.8); opacity: 0; }
+      35% { transform: translateY(-0.5px) scale(1); opacity: 1; }
+      85% { transform: translateY(2.2px) scale(0.95); opacity: 0.9; }
+      100% { transform: translateY(3.5px) scale(0.75); opacity: 0; }
+    }
+    .brand-link:hover .brand-badge,
+    .brand-link:focus-visible .brand-badge {
+      transform: scale(1.07) translateY(-1px);
+      border-color: var(--accent-gold);
+      background: #2E1C13;
+      box-shadow: 0 6px 18px rgba(148, 78, 41, 0.34), 0 0 0 3px rgba(228, 196, 155, 0.14);
+    }
+    .brand-link:hover .brand-badge::before,
+    .brand-link:focus-visible .brand-badge::before {
+      opacity: 1;
+    }
+    .brand-link:hover .brand-badge svg,
+    .brand-link:focus-visible .brand-badge svg {
+      transform: rotate(-5deg) scale(1.06);
+    }
+    .brand-link:hover .brand-cone-fill,
+    .brand-link:focus-visible .brand-cone-fill {
+      transform: scaleY(1);
+      opacity: 0.85;
+    }
+    .brand-link:hover .brand-steam-1,
+    .brand-link:focus-visible .brand-steam-1 {
+      opacity: 1;
+      animation: brandSteamRise 1.5s ease-in-out infinite;
+    }
+    .brand-link:hover .brand-steam-2,
+    .brand-link:focus-visible .brand-steam-2 {
+      opacity: 1;
+      animation: brandSteamRise 1.5s ease-in-out infinite 0.35s;
+    }
+    .brand-link:hover .brand-drop,
+    .brand-link:focus-visible .brand-drop {
+      animation: brandDripLoop 1.05s cubic-bezier(0.32, 0, 0.67, 0) infinite;
+    }
+    .brand-link:active .brand-badge {
+      transform: scale(0.96);
     }
     .brand-title {
       font-weight: 700;
       font-size: 16px;
       letter-spacing: var(--tracking-tight);
       line-height: 1.15;
+      transition: color 0.22s ease;
+    }
+    .brand-link:hover .brand-title,
+    .brand-link:focus-visible .brand-title {
+      color: var(--accent-gold);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .brand-badge, .brand-badge::before, .brand-badge svg, .brand-cone-fill, .brand-steam, .brand-title { transition: none; }
+      .brand-link:hover .brand-steam-1,
+      .brand-link:hover .brand-steam-2,
+      .brand-link:hover .brand-drop { animation: none; }
     }
     .brand-subtitle {
       display: none;
@@ -968,20 +1177,13 @@
       text-align: center;
     }
     @media (min-width: 640px) { .timer-panel { padding: 30px 28px; } }
-    .timer-bg-img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.22;
-      filter: saturate(1.2) contrast(1.06);
-      pointer-events: none;
-    }
     .timer-bg-scrim {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(40, 25, 17, 0.72) 0%, rgba(22, 13, 8, 0.92) 100%);
+      background:
+        radial-gradient(ellipse 75% 42% at 50% 18%, rgba(148, 78, 41, 0.24) 0%, transparent 66%),
+        radial-gradient(ellipse 50% 35% at 50% 88%, rgba(228, 196, 155, 0.06) 0%, transparent 70%),
+        linear-gradient(180deg, rgba(40, 25, 17, 0.92) 0%, rgba(22, 13, 8, 0.96) 100%);
       pointer-events: none;
     }
     .timer-content {
@@ -1382,9 +1584,41 @@
   </style>
 </head>
 <body>
+  <!-- Themed Coffee Background Layers — 100% HTML + CSS Puro (?bg=1|2|3) -->
+  <div class="page-backdrop" aria-hidden="true">
+    <!-- Fondo 1: Halo Crema + Aros de Taza de Espresso -->
+    <div class="bg-layer bg-layer-rings">
+      <div class="css-aura-glow" style="width: 560px; height: 420px; top: -60px; right: 6%;"></div>
+      <div class="css-coffee-ring" style="width: 440px; height: 440px; top: -70px; right: -50px;"></div>
+      <div class="css-coffee-ring is-dashed" style="width: 340px; height: 340px; top: -20px; right: 0px;"></div>
+      <div class="css-coffee-ring" style="width: 390px; height: 390px; bottom: -110px; left: -90px;"></div>
+      <div class="css-coffee-ring" style="width: 310px; height: 310px; bottom: -85px; left: -65px; opacity: 0.7;"></div>
+    </div>
+
+    <!-- Fondo 2: Ondas de Crema + Granos CSS -->
+    <div class="bg-layer bg-layer-beans">
+      <div class="css-crema-wave" style="top: 38%; left: -24%; transform: rotate(-8deg);"></div>
+      <div class="css-crema-wave" style="top: 44%; left: -18%; transform: rotate(6deg); border-color: rgba(148, 78, 41, 0.16);"></div>
+      <div class="css-bean" style="top: 18%; left: 4.5%; transform: rotate(-28deg) scale(1.1);"></div>
+      <div class="css-bean" style="top: 22%; right: 4.5%; transform: rotate(32deg) scale(0.95);"></div>
+      <div class="css-bean" style="bottom: 22%; left: 3.5%; transform: rotate(22deg) scale(0.9);"></div>
+      <div class="css-bean" style="bottom: 16%; right: 4%; transform: rotate(-36deg) scale(1.15);"></div>
+    </div>
+
+    <!-- Fondo 3: Micro-textura de Barra Tostada CSS -->
+    <div class="bg-layer bg-layer-studio">
+      <div class="css-roast-weave"></div>
+    </div>
+  </div>
+
   <!-- Reviewer Switcher Bar -->
   <header class="mockup-bar" aria-label="Controles de variantes">
     <div class="bar-group">
+      <span class="bar-label">Fondo CSS</span>
+      <button type="button" class="bar-pill" data-set-bg="1" aria-pressed="true">1 · Aros Espresso</button>
+      <button type="button" class="bar-pill" data-set-bg="2" aria-pressed="false">2 · Ondas &amp; Granos</button>
+      <button type="button" class="bar-pill" data-set-bg="3" aria-pressed="false">3 · Trama Barra</button>
+      <span class="bar-divider" aria-hidden="true"></span>
       <span class="bar-label">Nav Fill</span>
       <button type="button" class="bar-pill" data-set-nav-hover="1" aria-pressed="false">1 · Espresso Alto</button>
       <button type="button" class="bar-pill" data-set-nav-hover="2" aria-pressed="true">2 · Ola Media</button>
@@ -1413,9 +1647,12 @@
     <div class="top-navbar-inner">
       <a href="#top" class="brand-link">
         <div class="brand-badge" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 5h14l-5 12h-4L5 5Z" />
-            <circle cx="12" cy="20" r="1.5" fill="currentColor" />
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path class="brand-steam brand-steam-1" d="M9.5 4.2c0-1 .9-1.4.9-2.4" stroke="var(--accent-gold)" stroke-width="1.35" />
+            <path class="brand-steam brand-steam-2" d="M14.2 4.2c0-1 .9-1.4.9-2.4" stroke="var(--accent-gold)" stroke-width="1.35" />
+            <path class="brand-cone-fill" d="M7.2 10.5h9.6l-2.6 6.2h-4.4l-2.6-6.2Z" fill="var(--accent-primary)" stroke="none" />
+            <path d="M5 6.5h14l-5 10.5h-4L5 6.5Z" />
+            <circle class="brand-drop" cx="12" cy="20.2" r="1.5" fill="currentColor" stroke="none" />
           </svg>
         </div>
         <div>
@@ -1608,7 +1845,6 @@
 
       <!-- Right Panel: Moody Timer & Stage -->
       <aside class="timer-panel" aria-label="Panel de extracción">
-        <img id="timer-moody-photo" class="timer-bg-img" src="../../../../public/images/coffee/v60-moody.jpg" alt="" aria-hidden="true" />
         <div class="timer-bg-scrim" aria-hidden="true"></div>
 
         <div class="timer-content">
@@ -2005,6 +2241,14 @@
         });
       }
 
+      function setBg(variant) {
+        const bg = ['1', '2', '3'].includes(variant) ? variant : '1';
+        document.documentElement.setAttribute('data-bg', bg);
+        document.querySelectorAll('[data-set-bg]').forEach((b) => {
+          b.setAttribute('aria-pressed', b.getAttribute('data-set-bg') === bg ? 'true' : 'false');
+        });
+      }
+
       function switchMethod(methodId, optionalProfile) {
         const m = METHODS[methodId] || METHODS.v60;
         state.methodId = m.id;
@@ -2049,7 +2293,6 @@
           authorEl.textContent = profile.author;
         }
         state.lastAuthor = profile.author;
-        document.getElementById('timer-moody-photo').src = m.image;
 
         document.getElementById('filter-controls-block').hidden = isEspresso;
         document.getElementById('espresso-controls-block').hidden = !isEspresso;
@@ -2208,6 +2451,7 @@
         state.lastPhaseIdx = state.activePhaseIdx;
       }
 
+      document.querySelectorAll('[data-set-bg]').forEach((b) => b.addEventListener('click', () => setBg(b.getAttribute('data-set-bg'))));
       document.querySelectorAll('[data-set-nav-hover]').forEach((b) => b.addEventListener('click', () => setNavHover(b.getAttribute('data-set-nav-hover'))));
       document.querySelectorAll('[data-set-layout]').forEach((b) => b.addEventListener('click', () => setLayout(b.getAttribute('data-set-layout'))));
       document.querySelectorAll('[data-set-font]').forEach((b) => b.addEventListener('click', () => setFont(b.getAttribute('data-set-font'))));
@@ -2300,6 +2544,7 @@
       if (params.get('layout')) setLayout(params.get('layout'));
       if (params.get('font')) setFont(params.get('font'));
       if (params.get('navhover')) setNavHover(params.get('navhover'));
+      if (params.get('bg')) setBg(params.get('bg'));
       switchMethod(params.get('method') === 'espresso' ? 'espresso' : 'v60', params.get('profile'));
       if (params.get('phase')) {
         const pIdx = Number(params.get('phase'));
