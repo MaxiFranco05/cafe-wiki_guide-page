@@ -352,8 +352,8 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 
 ---
 
-### [C-11] `interactive-sca-flavor-wheel-ui`
-- **Estado**: `[ ]` pendiente
+### [x] [C-11] `interactive-sca-flavor-wheel-ui`
+- **Estado**: `[x]` completado y archivado (`openspec/changes/archive/2026-11-20-c-11-interactive-sca-flavor-wheel-ui/`)
 - **Scope**: Visualización interactiva de la Rueda de Sabores SCA en `/flavor-wheel` con vista SVG radial + acordeón móvil y panel de cata (`US-010`)
   - Vista `src/features/flavor-wheel/views/FlavorWheelView.tsx` (`/flavor-wheel`)
   - Componente `SunburstFlavorWheelSvg.tsx`: renderizado geométrico SVG de los 3 anillos concéntricos (`Familia → Subfamilia → Descriptor`) con colores semánticos (`colorHex`), zoom/resaltado al seleccionar un segmento y navegación por teclado/ARIA (`US-010 CA-1`)

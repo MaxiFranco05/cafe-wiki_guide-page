@@ -669,8 +669,79 @@
   "wheel": {
     "tag": "CATA SCA",
     "title": "Rueda de Sabores SCA",
-    "subtitle": "Exploración interactiva de familias aromáticas y descriptores sensoriales según el estándar SCA.",
-    "placeholderDesc": "Placeholder estructural para el anillo interactivo de descriptores y ajuste por método (Change C-09)."
+    "subtitle": "Tocá una familia para acercarte, seguí hasta el descriptor y mirá qué orígenes, varietales y procesos lo suelen tener.",
+    "counts": {
+      "families": "{count} familias",
+      "subfamilies": "{count} subfamilias",
+      "descriptors": "{count} descriptores"
+    },
+    "tiers": {
+      "family": "Familia",
+      "subfamily": "Subfamilia",
+      "descriptor": "Descriptor"
+    },
+    "wheelRegion": "Rueda de sabores",
+    "treeLabel": "Rueda de sabores SCA",
+    "accordionLabel": "Familias de sabor",
+    "detailLabel": "Detalle del sabor",
+    "descriptorCount": "{count} descriptores",
+    "center": {
+      "eyebrow": "SCA",
+      "title": "Familias",
+      "hint": "tocá una",
+      "back": "Rueda completa",
+      "backAria": "Volver a la rueda completa"
+    },
+    "keyboard": {
+      "label": "Atajos de teclado de la rueda",
+      "sideKeys": "← →",
+      "side": "mismo nivel",
+      "downKey": "↓",
+      "down": "entrar",
+      "upKey": "↑",
+      "up": "salir",
+      "enterKey": "Enter",
+      "enter": "elegir",
+      "escKey": "Esc",
+      "esc": "volver"
+    },
+    "returnTo": "Volver a {title}",
+    "close": "Cerrar detalle",
+    "pathLabel": "Ruta del sabor",
+    "childrenTitle": {
+      "family": "Subfamilias",
+      "subfamily": "Descriptores"
+    },
+    "related": {
+      "title": "Dónde aparece en la Wiki",
+      "origin": "Orígenes",
+      "varietal": "Varietales",
+      "process": "Procesos",
+      "empty": "Todavía no hay fichas de la Wiki con este sabor."
+    },
+    "presence": {
+      "one": "Aparece en 1 ficha",
+      "many": "Aparece en {count} fichas",
+      "origin": { "one": "1 origen", "many": "{count} orígenes" },
+      "varietal": { "one": "1 varietal", "many": "{count} varietales" },
+      "process": { "one": "1 proceso", "many": "{count} procesos" }
+    },
+    "guide": {
+      "eyebrow": "Para empezar a catar",
+      "question": "¿Qué sentís en la taza?",
+      "lead": "No hace falta saber de cata. Andá de lo general a lo específico.",
+      "steps": {
+        "general": { "title": "Elegí lo más general.", "body": "¿Te recuerda a fruta, a algo dulce, a tostado?" },
+        "refine": { "title": "Afiná un poco.", "body": "Si es fruta, ¿cítrica, roja, seca?" },
+        "discover": { "title": "Mirá dónde aparece.", "body": "Vas a ver orígenes, varietales y procesos con ese sabor." }
+      },
+      "examplesLabel": "Familias para empezar",
+      "dismiss": "Ocultar guía"
+    }
+  },
+  "footer": {
+    "version": "Versión {version}",
+    "ariaLabel": "Información de la aplicación"
   },
   "notFound": {
     "title": "404 — Ruta no encontrada",

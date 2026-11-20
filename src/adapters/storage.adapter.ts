@@ -29,6 +29,8 @@ export const UserPreferencesSchema = z.object({
   lastSelectedMethodSlug: BrewMethodSlugSchema.optional(),
   methodConfigs: z.record(z.string(), MethodPreferenceConfigSchema),
   customRecipes: z.array(CustomBrewRecipeSchema).default([]),
+  /** C-11: the flavor wheel beginner guide was hidden on this device. A bad value never wipes other preferences. */
+  flavorWheelGuideDismissed: z.boolean().optional().catch(undefined),
 });
 
 export type UserPreferences = z.infer<typeof UserPreferencesSchema>;

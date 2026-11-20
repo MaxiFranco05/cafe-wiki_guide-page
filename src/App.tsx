@@ -6,7 +6,7 @@ import { BrewStationView } from './features/brewing/BrewStationView';
 import { WikiHomeView } from './features/wiki/views/WikiHomeView';
 import { WikiSectionView } from './features/wiki/views/WikiSectionView';
 import { WikiEntryDetailView } from './features/wiki/views/WikiEntryDetailView';
-import { FlavorWheelView } from './features/flavor-wheel/FlavorWheelView';
+import { FlavorWheelView } from './features/flavor-wheel/views/FlavorWheelView';
 import { NotFoundView } from './shared/components/NotFoundView';
 
 export const AppRoutes: React.FC = () => {

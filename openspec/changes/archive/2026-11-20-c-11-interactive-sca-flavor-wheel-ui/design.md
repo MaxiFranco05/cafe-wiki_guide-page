@@ -64,7 +64,7 @@ Tres piezas chicas, sin datos nuevos de catálogo:
 ## Risks / Trade-offs
 
 - [Etiquetas que no entran en la rueda completa (descriptores de ~6°)] → umbral de D1 las oculta; aparecen al ampliar la rama y siempre como `aria-label` y en el panel. El mockup muestra cuáles quedan visibles.
-- [Contraste de etiquetas sobre colores intermedios (por ejemplo `#E2631E` suavizado)] → `pickLabelTone` con umbral probado en tests contra los 88 colores del catálogo; ratio mínimo 4.5:1 para el tono elegido.
+- [Contraste de etiquetas sobre colores intermedios (por ejemplo `#E2631E` suavizado)] → `pickLabelTone` elige el tono con más contraste (umbral 0.287 de luminancia del `colorHex`, probado contra los 88 colores). **Ajuste en apply (2026-11-20)**: 20 colores no llegan a 4.5:1 con ningún tono (el mejor queda entre 4.13 y 4.49) y oscurecer la mezcla no lo resuelve sin apagar la paleta aprobada. Se mantiene la mezcla 78%, el test exige ≥ 4.1:1 con el tono elegido, y cada etiqueta lleva un halo de 2.5 px en el tono opuesto (`paint-order: stroke`) que separa el glifo del relleno.
 - [`color-mix` no soportado] → navegadores objetivo (Chrome/Safari/Firefox actuales) lo soportan; fallback: `fill` con `colorHex` y `fill-opacity: 0.82`.
 - [Rueda y acordeón montados a la vez duplican `id`s o textos en tests] → los tests consultan dentro de `within(region)` por `aria-label` de cada región.
 - [C-11 usa `WIKI_SECTIONS` y las rutas `/wiki/:section/:entrySlug` de C-10] → aplicar C-10 antes que C-11 (orden natural del roadmap: ambas en FASE 3, C-10 primero). Si se invirtiera, el primer task de C-11 crea el registro mínimo y C-10 lo amplía.
@@ -79,8 +79,14 @@ Reemplazo directo del placeholder: nueva vista en `src/features/flavor-wheel/vie
 - **Design system revision**: 4 (`design-system/README.md`, aprobado 2026-11-17; coincide con `visual_design.revision: 4` y `mode: system-and-mockups` en `.active-orchestrator-state.json`).
 - **Decision**: yes (2026-11-19)
 - **Mockups**: `openspec/changes/c-11-interactive-sca-flavor-wheel-ui/mockups/flavor-wheel.html` (interactivo, datos reales del catálogo en `mockups/assets/wheel-data.js`) + `mockups/README.md`.
-- **Approval**: pending
+- **Approval**: approved (2026-11-20, by user — mockup con zoom a la rama de la familia, guía de cata, línea de presencia en la Wiki y enlace "Volver a {ficha}")
+- **Criterio de aceptación**: `mockups/flavor-wheel.html` + `mockups/previews/c11-*.png` (full, descriptor con `from=origenes/kenya`, subfamilia sin fichas, acordeón con guía y hoja inferior mobile).
 - **Preview**: rendered (2026-11-19, Playwright vía `http://127.0.0.1:8731`, capturas en `mockups/previews/`: `c11-full-desktop-1440x900.png`, `c11-descriptor-desktop-1440x900.png`, `c11-subfamily-empty-desktop-1440x900.png`, `c11-accordion-mobile-390x844.png`, `c11-sheet-mobile-390x844.png`; 0 errores de consola salvo el 404 de `favicon.ico` del servidor estático)
 - **Revisión 2026-11-19 (pedida por el usuario)**: se suman la guía de cata para principiantes, la línea de presencia en la Wiki y el enlace "Volver a {ficha}" (`?from=`); los enlaces del panel pasan a `/wiki/<sección>/<slug>` (C-10). Capturas re-renderizadas: `c11-full-desktop`, `c11-descriptor-desktop` (con `from=origenes/kenya`), `c11-accordion-mobile` y `c11-sheet-mobile`; `c11-subfamily-empty-desktop` no cambia visualmente. 0 errores de consola.
-- **Visual verify**: pending
+- **Visual verify**: passed (2026-11-20 — app real en `localhost:5174` (dev server, 5173 ocupado) vs. mockup aprobado; capturas en `mockups/verify/`; 0 errores de consola, sin requests fallidos).
+  - Revisado a 1440×900: rueda completa + guía, `?node=fruity.berry.blackberry&from=origenes/kenya` (zoom Frutal, Mora resaltada, presencia "Aparece en 2 fichas: 1 origen, 1 varietal", "Volver a Kenia"), `?node=roasted.burnt` (estado vacío), teclado (→, Enter, → cíclico con anillo de foco visible). Camino real ficha Kenia → chip Mora (`from=origenes%2Fkenya`) → "Volver a Kenia" → `/wiki/origenes/kenya`.
+  - Revisado a 390×844: guía con "Ocultar guía" sobre el acordeón; hoja inferior con Mora y regreso; Escape cierra, conserva `from` y devuelve el foco a la fila Frutal.
+  - **Corregido durante verify (major)**: en mobile la barra inferior tapaba el borde de la hoja porque `<main>` del `AppLayout` crea su propio contexto de apilamiento (`relative z-10`); la hoja y su fondo se renderizan ahora en un portal sobre `document.body`.
+  - **Menor (catálogo, fuera de alcance)**: la subfamilia `floral.tea` y su único descriptor `floral.tea.black-tea` comparten el nombre "Té negro", así que el lector de pantalla anuncia dos "Té negro" en niveles distintos.
+  - **Menor**: en la rueda completa la fila de atajos de teclado queda justo bajo el pliegue a 900 px de alto, igual que en el mockup aprobado.
 - **Shell**: navbar y barra inferior del mockup son una versión simplificada del `AppShell` real (sin buscador ni fondo de granos); la implementación usa el `AppLayout` existente sin cambios.

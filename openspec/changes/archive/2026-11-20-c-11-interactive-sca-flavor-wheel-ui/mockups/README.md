@@ -1,7 +1,7 @@
 # Mockups — C-11 `interactive-sca-flavor-wheel-ui`
 
 - **Design system revision**: 4
-- **Approval**: pending
+- **Approval**: approved (2026-11-20, by user)
 
 ## Archivos
 
