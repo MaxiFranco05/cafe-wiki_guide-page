@@ -1,0 +1,449 @@
+{
+  "wiki": {
+    "subGroups": {
+      "south_america": "Sudamérica",
+      "central_north_america": "Centro y Norteamérica",
+      "africa": "África",
+      "asia_pacific": "Asia-Pacífico",
+      "bourbon_typica": "Grupo Bourbon y Typica",
+      "ethiopian_heirloom": "Linajes Etíopes y Especialidad",
+      "introgressed_hybrid": "Híbridos Resistentes a Roya",
+      "canephora": "Coffea canephora (Robusta)",
+      "washed_clean": "Lavados limpios",
+      "mucilage_honey": "Con mucílago (Pulped Natural y Honey)",
+      "natural_experimental": "Naturales y fermentación controlada",
+      "decaffeination": "Descafeinados"
+    },
+    "relevance": {
+      "southern_cone_staple": "Clásico en el Cono Sur",
+      "global_specialty": "Especialidad global"
+    },
+    "species": {
+      "arabica": "Coffea arabica",
+      "canephora": "Coffea canephora",
+      "liberica": "Coffea liberica"
+    },
+    "entries": {
+      "brazil": {
+        "title": "Brasil",
+        "summary": "Primer productor mundial de café y base de las cartas del Cono Sur. Sus mesetas entre 800 y 1350 m.s.n.m. producen tazas de baja acidez, cuerpo cremoso y notas dulces de chocolate con leche, avellana y caramelo.",
+        "aliases": "Brasil Santos, Sul de Minas, Cerrado Mineiro, Mogiana, Mantiqueira, Bourbon Santos",
+        "region": "Sul de Minas, Cerrado Mineiro, Mogiana y Mantiqueira de Minas",
+        "harvest": "Mayo a septiembre",
+        "methods": {
+          "espresso": "El perfil Normale (1:2) concentra el cuerpo cremoso y las notas de cacao sin disparar la acidez.",
+          "frenchPress": "La inmersión completa con filtro metálico preserva los aceites y resalta la textura de avellana y caramelo.",
+          "melitta": "El drenaje restringido del cono entrega una taza diaria dulce, redonda y fácil de calibrar."
+        }
+      },
+      "colombia": {
+        "title": "Colombia",
+        "summary": "Tres cordilleras andinas y suelos volcánicos permiten cosechas casi todo el año entre 1400 y 2100 m.s.n.m. Predominan los cafés lavados de acidez cítrica balanceada, dulzor a panela y notas de naranja y cereza.",
+        "aliases": "Colombia Huila, Supremo, Excelso, Nariño, Cauca, Antioquia, Tolima, Eje Cafetero",
+        "region": "Huila, Cauca, Nariño, Tolima y Antioquia",
+        "harvest": "Abril a junio y octubre a diciembre",
+        "methods": {
+          "v60": "El perfil Normal (1:16.7) equilibra la acidez de naranja con el dulzor de panela y un final limpio.",
+          "aeropress": "La extracción híbrida en 2 minutos destaca el cuerpo medio y las notas de cereza y chocolate con leche.",
+          "espresso": "En Normale (1:2) ofrece un espresso moderno, dulce y brillante, muy rendidor también con leche."
+        }
+      },
+      "peru": {
+        "title": "Perú",
+        "summary": "Referente sudamericano en café orgánico de altura (1300 a 2050 m.s.n.m.) y pilar en las tostadurías de Argentina y Chile. Entrega tazas limpias y cálidas con chocolate con leche, miel, nuez y acidez málica suave.",
+        "aliases": "Perú Cajamarca, San Ignacio, Jaén, Villa Rica, Chanchamayo, Cusco, Orgánico de Altura",
+        "region": "Cajamarca (San Ignacio y Jaén), Villa Rica, Amazonas y Cusco",
+        "harvest": "Abril a septiembre",
+        "methods": {
+          "melitta": "El filtro de fondo plano realza el dulzor a miel y cacao con un cuerpo medio muy consistente.",
+          "v60": "A 93 °C en perfil Normal abre las notas de manzana y nuez sin perder redondez en boca."
+        }
+      },
+      "bolivia": {
+        "title": "Bolivia",
+        "summary": "Producción acotada en valles empinados de los Yungas entre 1450 y 2100 m.s.n.m., muy valorada en tostadores del Cono Sur. Produce cafés sedosos con notas de manzanilla, durazno, panela y acidez limpia.",
+        "aliases": "Bolivia Yungas, Caranavi, Samaipata, La Paz",
+        "region": "Los Yungas (Caranavi, Coroico) y Samaipata",
+        "harvest": "Mayo a septiembre",
+        "methods": {
+          "chemex": "El filtro grueso de papel remueve aceites pesados y deja brillar las notas de manzanilla y durazno.",
+          "v60": "Un vertido controlado en perfil Normal sostiene el dulzor alto y la claridad floral."
+        }
+      },
+      "ecuador": {
+        "title": "Ecuador",
+        "summary": "Ubicado sobre la línea ecuatorial, cultiva microlotes de altísima densidad entre 1400 y 2100 m.s.n.m. en la sierra andina y las islas Galápagos. Destaca por notas florales de rosa, frutas tropicales, panela y canela.",
+        "aliases": "Ecuador Loja, Pichincha, Imbabura, Zaruma, Galápagos",
+        "region": "Loja, Pichincha, Imbabura y Galápagos",
+        "harvest": "Junio a septiembre",
+        "methods": {
+          "v60": "El perfil Liviano (1:17) separa los aromas de rosa, mango y especias dulces con máxima nitidez.",
+          "chemex": "Aporta una textura limpia que ordena la acidez intensa de los lotes de alta montaña."
+        }
+      },
+      "guatemala": {
+        "title": "Guatemala",
+        "summary": "Suelos de ceniza volcánica en regiones de altura (1350 a 2000 m.s.n.m.) generan cafés estructurados y densos. Combina chocolate amargo, acidez málica de manzana y un cierre especiado de nuez moscada.",
+        "aliases": "Guatemala Antigua, Huehuetenango, Acatenango, Cobán, SHB",
+        "region": "Antigua, Huehuetenango, Acatenango y Atitlán",
+        "harvest": "Diciembre a abril",
+        "methods": {
+          "v60": "En perfil Normal equilibra la acidez málica con el peso achocolatado del terroir volcánico.",
+          "espresso": "En Normale (1:2) produce un shot estructurado con chocolate amargo y retrogusto especiado."
+        }
+      },
+      "costaRica": {
+        "title": "Costa Rica",
+        "summary": "Pionero centroamericano en microbeneficios y procesos honey entre 1200 y 1900 m.s.n.m. Sus cafés 100 % Arábica ofrecen limpieza notable, dulzor a miel y una acidez brillante de naranja y lima.",
+        "aliases": "Costa Rica Tarrazú, Valle Central, West Valley, Brunca, SHB",
+        "region": "Tarrazú, Valle Central, Valle Occidental y Brunca",
+        "harvest": "Noviembre a marzo",
+        "methods": {
+          "chemex": "Resalta la limpieza de taza y las notas de miel, naranja y manzanilla.",
+          "v60": "Permite marcar la acidez cítrica de lima manteniendo un dulzor sostenido."
+        }
+      },
+      "elSalvador": {
+        "title": "El Salvador",
+        "summary": "Cultivado mayormente bajo sombra en laderas volcánicas (1200 a 1850 m.s.n.m.), es cuna del Pacamara y bastión de Bourbon tradicional. Ofrece tazas muy dulces de cereza, almendra, caramelo y acidez málica amable.",
+        "aliases": "El Salvador Santa Ana, Apaneca-Ilamatepec, Chalatenango, Alotepec",
+        "region": "Apaneca-Ilamatepec, Santa Ana y Chalatenango",
+        "harvest": "Noviembre a marzo",
+        "methods": {
+          "aeropress": "La inmersión corta concentra el dulzor de caramelo y cereza con cuerpo sedoso.",
+          "melitta": "Entrega un balance clásico de almendra y fruta roja sin sobresaltos de acidez."
+        }
+      },
+      "honduras": {
+        "title": "Honduras",
+        "summary": "Principal exportador de café de Centroamérica, con gran presencia de microlotes de altura (1200 a 1800 m.s.n.m.). Se caracteriza por dulzor de jarabe de arce, chocolate con leche, manzana y cuerpo medio-alto.",
+        "aliases": "Honduras Marcala, Copán, Ocotepeque, Montecillos, Comayagua, SHG",
+        "region": "Marcala, Copán, Ocotepeque y Montecillos",
+        "harvest": "Noviembre a abril",
+        "methods": {
+          "melitta": "Resalta la textura cremosa y el dulzor de arce y cacao para consumo cotidiano.",
+          "espresso": "Su cuerpo medio-alto y acidez moderada rinden excelente en espresso Normale y bebidas con leche."
+        }
+      },
+      "nicaragua": {
+        "title": "Nicaragua",
+        "summary": "Lotes cultivados bajo sombra en bosques montañosos del norte (1100 a 1700 m.s.n.m.). Entrega tazas equilibradas de baja astringencia con chocolate con leche, nuez, caramelo y un toque limpio de manzana.",
+        "aliases": "Nicaragua Jinotega, Matagalpa, Nueva Segovia, Dipilto",
+        "region": "Jinotega, Matagalpa y Nueva Segovia",
+        "harvest": "Diciembre a marzo",
+        "methods": {
+          "frenchPress": "Destaca el cuerpo envolvente y los aromas de cacao y nuez tostada.",
+          "melitta": "Mantiene la dulzura acaramelada y el equilibrio frutal en cada extracción."
+        }
+      },
+      "panama": {
+        "title": "Panamá",
+        "summary": "Microclima fresco alrededor del Volcán Barú entre 1450 y 1950 m.s.n.m., mundialmente célebre por sus microlotes de Geisha. Produce tazas sumamente aromáticas con jazmín, bergamota, durazno y cuerpo ligero tipo té.",
+        "aliases": "Panamá Boquete, Volcán Barú, Renacimiento, Tierras Altas",
+        "region": "Boquete, Volcán y Renacimiento (Chiriquí)",
+        "harvest": "Diciembre a abril",
+        "methods": {
+          "v60": "El perfil Liviano (1:17) maximiza la transparencia aromática del jazmín y la bergamota.",
+          "chemex": "Acompaña la textura delicada de té y limpia el retrogusto de durazno."
+        }
+      },
+      "mexico": {
+        "title": "México",
+        "summary": "Producción tradicional en sierras húmedas del sur (1100 a 1750 m.s.n.m.) con fuerte base orgánica y varietales clásicos. Ofrece cuerpo ligero a medio, avellana, canela, chocolate con leche y dulzor de panela.",
+        "aliases": "México Chiapas, Oaxaca, Veracruz, Pluma Hidalgo, Coatepec",
+        "region": "Chiapas, Oaxaca (Pluma) y Veracruz (Coatepec)",
+        "harvest": "Noviembre a marzo",
+        "methods": {
+          "melitta": "Conserva la suavidad especiada de canela y avellana sin sobre-extraer.",
+          "aeropress": "Aporta un punto extra de cuerpo para redondear las notas de panela y cacao."
+        }
+      },
+      "ethiopia": {
+        "title": "Etiopía",
+        "summary": "Centro de origen genético de Coffea arabica, con miles de variedades locales (heirloom) cultivadas entre 1700 y 2200 m.s.n.m. Sus lavados brillan con jazmín, bergamota y té negro; sus naturales explotan en arándano.",
+        "aliases": "Etiopía Yirgacheffe, Sidamo, Guji, Harrar, Limu, Heirloom",
+        "region": "Yirgacheffe, Sidamo, Guji y Harrar",
+        "harvest": "Octubre a febrero",
+        "methods": {
+          "v60": "El ratio abierto Liviano (1:17) expone las capas florales de jazmín, bergamota y frutos rojos.",
+          "chemex": "El filtrado grueso realza la elegancia de té negro y la claridad cítrica."
+        }
+      },
+      "kenya": {
+        "title": "Kenia",
+        "summary": "Suelos rojos volcánicos ricos en fósforo (1500 a 2100 m.s.n.m.) y doble fermentación lavada generan la acidez más intensa y jugosa del mapa. Firma sensorial de mora, pomelo, frambuesa y acidez fosfórica vibrante.",
+        "aliases": "Kenia AA, AB, Nyeri, Kirinyaga, Murang'a, SL28",
+        "region": "Nyeri, Kirinyaga, Kiambu y Murang'a",
+        "harvest": "Noviembre a enero y mayo a julio",
+        "methods": {
+          "v60": "El perfil Liviano (1:17) modula la intensidad ácida y separa con precisión las notas de mora y pomelo.",
+          "aeropress": "En perfil Normal redondea la acidez fosfórica sumando dulzor y cuerpo jugoso."
+        }
+      },
+      "rwanda": {
+        "title": "Ruanda",
+        "summary": "Laderas volcánicas entre 1550 y 2050 m.s.n.m. plantadas mayoritariamente con Bourbon rojo lavado. Entrega una acidez limpia de naranja, dulzor de ciruela pasa, matices vinosos y final de té negro.",
+        "aliases": "Ruanda Kivu, Nyamasheke, Huye, Gakenke, Red Bourbon",
+        "region": "Lago Kivu (Nyamasheke), Huye y Gakenke",
+        "harvest": "Marzo a julio",
+        "methods": {
+          "v60": "En perfil Normal destaca el balance entre naranja fresca, ciruela y textura sedosa.",
+          "chemex": "Acentúa el final de té negro y la limpieza de los lotes lavados."
+        }
+      },
+      "sumatra": {
+        "title": "Indonesia / Sumatra",
+        "summary": "Famoso por el descascarado húmedo (giling basah) entre 1100 y 1650 m.s.n.m., que reduce la acidez y multiplica el peso en boca. Perfil inconfundible de tierra húmeda, cedro, clavo de olor y chocolate amargo.",
+        "aliases": "Sumatra Mandheling, Aceh Gayo, Lintong, Giling Basah, Wet-Hulled",
+        "region": "Aceh Gayo, Mandheling y Lintong (Norte de Sumatra)",
+        "harvest": "Septiembre a diciembre y marzo a mayo",
+        "methods": {
+          "frenchPress": "El perfil Fuerte (1:13) potencia el cuerpo almibarado y las notas especiadas y terrosas.",
+          "espresso": "En Ristretto (1:1.5) entrega una crema espesa y un cacao amargo de gran persistencia."
+        }
+      },
+      "bourbon": {
+        "title": "Bourbon",
+        "summary": "Una de las dos ramas genéticas madre de Coffea arabica, originada en la isla Bourbon (hoy Reunión). Sus frutos maduran en rojo, amarillo o rosado y entregan alta dulzura, caramelo, chocolate con leche y cereza.",
+        "aliases": "Bourbon Rojo, Bourbon Amarillo, Yellow Bourbon, Bourbon Rosado, Pink Bourbon, Brasil Bourbon",
+        "lineage": "Mutación natural de plantas yemeníes introducidas en la isla Bourbon (Reunión)",
+        "discovery": "Isla Reunión (siglo XVIII); consolidado en Brasil, El Salvador y Ruanda",
+        "methods": {
+          "v60": "El perfil Normal extrae el equilibrio clásico entre dulzor de caramelo y acidez de cereza.",
+          "espresso": "Su alta concentración de sacarosa produce espressos cremosos sin amargor agresivo."
+        }
+      },
+      "mundoNovo": {
+        "title": "Mundo Novo",
+        "summary": "Cruce natural entre Bourbon rojo y Typica descubierto en São Paulo en la década de 1940. Es la columna vertebral de gran parte del café de Brasil (incluido Brasil Santos), con taza limpia, dulce, achocolatada y de baja acidez.",
+        "aliases": "Mundo Novo, Brasil Santos, Novo Mundo",
+        "lineage": "Híbrido natural entre Typica (Sumatra) y Bourbon rojo",
+        "discovery": "Municipio de Mundo Novo (actual Urupês), São Paulo, Brasil (1943)",
+        "methods": {
+          "espresso": "Brinda una base estable, dulce y de cuerpo completo ideal para espresso Normale.",
+          "frenchPress": "Acentúa las notas de almendra tostada, caramelo y chocolate con leche."
+        }
+      },
+      "catuai": {
+        "title": "Catuaí",
+        "summary": "Varietal de porte bajo creado en Brasil al cruzar Mundo Novo con Caturra; existe en versiones roja y amarilla. Omnipresente en Sudamérica y Centroamérica por su productividad y taza dulce de almendra, miel y cacao.",
+        "aliases": "Catuaí Rojo, Catuaí Amarillo, Red Catuai, Yellow Catuai",
+        "lineage": "Cruce controlado entre Mundo Novo y Caturra (Instituto Agronómico de Campinas)",
+        "discovery": "Campinas, São Paulo, Brasil (1949; liberado en 1968)",
+        "methods": {
+          "melitta": "Resalta su perfil amigable y dulce con notas de miel y almendra.",
+          "espresso": "Rinde de forma consistente en Normale (1:2) con cuerpo redondo y buena crema."
+        }
+      },
+      "caturra": {
+        "title": "Caturra",
+        "summary": "Mutación natural enana de Bourbon descubierta en Minas Gerais (Brasil) que alcanzó su mayor fama en Colombia y Perú. A mayor altitud desarrolla acidez cítrica viva de naranja, manzana y dulzor a panela.",
+        "aliases": "Caturra Rojo, Caturra Amarillo, Caturra de Altura",
+        "lineage": "Mutación natural de porte bajo derivada de Bourbon rojo",
+        "discovery": "Minas Gerais, Brasil (1915–1937); difundido en Colombia y Centroamérica",
+        "methods": {
+          "v60": "Acompaña la acidez cítrica limpia y el cuerpo medio de los Caturra de altura.",
+          "aeropress": "Realza la jugosidad de manzana y panela en extracciones rápidas."
+        }
+      },
+      "typica": {
+        "title": "Typica",
+        "summary": "Rama ancestral fundadora de la caficultura americana, de porte alto y rendimiento moderado pero excelente calidad en taza. Común en Perú, Bolivia y Jamaica; ofrece claridad, manzanilla, vainilla, limón y panela.",
+        "aliases": "Typica, Criollo, Blue Mountain, Pluma, Pache",
+        "lineage": "Selección ancestral etíope llevada vía Yemen e India hacia Java y América",
+        "discovery": "Yemen y Java (siglo XVII); base histórica en Perú, Bolivia y el Caribe",
+        "methods": {
+          "chemex": "Respeta su cuerpo delicado y exhibe las notas de manzanilla y vainilla.",
+          "v60": "En perfil Normal balancea la acidez cítrica limpia con el dulzor de caña."
+        }
+      },
+      "maragogype": {
+        "title": "Maragogype",
+        "summary": "Mutación natural de Typica conocida como grano elefante por el tamaño inusual de sus semillas y hojas. De bajo rendimiento agrícola, produce una taza aromática de cuerpo ligero con manzanilla, naranja y miel.",
+        "aliases": "Maragogipe, Ojo de Elefante, Elephant Bean, Grano Elefante",
+        "lineage": "Mutación natural gigante derivada de Typica",
+        "discovery": "Maragogipe, estado de Bahía, Brasil (1870)",
+        "methods": {
+          "chemex": "Acompaña su cuerpo ligero y destaca los aromas florales y cítricos.",
+          "v60": "Un ratio Fuerte (1:15) compensa su menor densidad de extracción y refuerza el dulzor a miel."
+        }
+      },
+      "pacas": {
+        "title": "Pacas",
+        "summary": "Mutación natural enana de Bourbon descubierta en El Salvador y uno de los progenitores del Pacamara. Su estructura compacta tolera viento y altura, generando tazas dulces y equilibradas de caramelo, cereza y almendra.",
+        "aliases": "Pacas, Bourbon Enano Salvadoreño",
+        "lineage": "Mutación natural de porte bajo derivada de Bourbon",
+        "discovery": "Finca San Rafael, Santa Ana, El Salvador (1949)",
+        "methods": {
+          "melitta": "Entrega una taza dulce y limpia que resalta el caramelo y la almendra.",
+          "aeropress": "Concentra las notas de cereza madura con cuerpo cremoso."
+        }
+      },
+      "pacamara": {
+        "title": "Pacamara",
+        "summary": "Híbrido de grano grande desarrollado en El Salvador al cruzar Pacas con Maragogype. Muy apreciado en competencias por su complejidad inusual: combina durazno y chocolate amargo con notas herbales y de pimienta negra.",
+        "aliases": "Pacamara, Pacamara Gigante",
+        "lineage": "Cruce controlado entre Pacas y Maragogype (ISIC)",
+        "discovery": "Instituto Salvadoreño de Investigaciones del Café, El Salvador (1958)",
+        "methods": {
+          "v60": "Permite leer por capas su perfil frutal, herbal y especiado.",
+          "aeropress": "En perfil Fuerte potencia su cuerpo denso y el fondo de chocolate amargo."
+        }
+      },
+      "villaSarchi": {
+        "title": "Villa Sarchí",
+        "summary": "Mutación natural de porte bajo derivada de Bourbon, adaptada a suelos volcánicos y vientos fuertes de Costa Rica. Destaca por su acidez refinada de lima y manzana verde acompañada de dulzor limpio a miel.",
+        "aliases": "Villa Sarchí, Sarchí",
+        "lineage": "Mutación natural de porte bajo derivada de Bourbon",
+        "discovery": "Sarchí, Valle Occidental, Costa Rica (década de 1950)",
+        "methods": {
+          "v60": "El perfil Liviano (1:17) ilumina la acidez de lima y manzana verde.",
+          "chemex": "Mantiene una taza cristalina con final prolongado a miel."
+        }
+      },
+      "geisha": {
+        "title": "Geisha / Gesha",
+        "summary": "Varietal originario de los bosques de Gesha en Etiopía que alcanzó fama mundial en Boquete (Panamá) y Colombia. Inconfundible por su intensidad floral de jazmín, bergamota, durazno maduro y textura ligera de té negro.",
+        "aliases": "Geisha, Gesha, Geisha de Boquete, Panamanian Geisha",
+        "lineage": "Landrace etíope recolectada en el monte Gesha (introducida vía CATIE a Panamá)",
+        "discovery": "Región de Gesha, suroeste de Etiopía (1931); consagrada en Panamá (2004)",
+        "methods": {
+          "v60": "El ratio Liviano (1:17) y molienda media-fina maximizan los compuestos florales volátiles.",
+          "chemex": "Resalta la transparencia aromática de jazmín, bergamota y té negro."
+        }
+      },
+      "sl28Sl34": {
+        "title": "SL28 / SL34",
+        "summary": "Selecciones de los Scott Agricultural Laboratories en Kenia durante la década de 1930. Reconocidas mundialmente por su acidez fosfórica chispeante, cuerpo jugoso y notas intensas de mora, grosella y pomelo.",
+        "aliases": "SL28, SL34, Scott Labs, Kenya SL",
+        "lineage": "SL28 (selección tolerante a sequía de Tanganyika) y SL34 (selección de French Mission Bourbon)",
+        "discovery": "Scott Agricultural Laboratories, Kenia (década de 1930)",
+        "methods": {
+          "v60": "El perfil Liviano (1:17) despliega toda la complejidad de mora y pomelo sin astringencia.",
+          "aeropress": "Equilibra la acidez alta agregando dulzor y textura densa."
+        }
+      },
+      "java": {
+        "title": "Java",
+        "summary": "Selección de granos alargados derivada de plantas etíopes llevadas a la isla de Java y luego adoptadas en Colombia y Centroamérica. Entrega tazas elegantes y fragantes con jazmín, cardamomo, anís y té negro.",
+        "aliases": "Java, Java Longberry, Abisinia Java",
+        "lineage": "Selección de landrace etíope (Abisinia) introducida en Java y propagada en Camerún y América",
+        "discovery": "Isla de Java, Indonesia (siglo XIX); popularizada en Colombia y Nicaragua",
+        "methods": {
+          "v60": "En perfil Liviano separa las notas de jazmín, cardamomo y anís con gran nitidez.",
+          "chemex": "Acompaña su cuerpo sedoso y final aromático de té negro."
+        }
+      },
+      "sidra": {
+        "title": "Sidra",
+        "summary": "Varietal de alta competencia popularizado en Ecuador con huella genética ligada a linajes etíopes y Bourbon. Ofrece tazas extremadamente aromáticas con notas de rosa, frutilla madura, mango y acidez sedosa.",
+        "aliases": "Sidra, Bourbon Sidra",
+        "lineage": "Linaje etíope emparentado con selecciones tipo Bourbon y Typica",
+        "discovery": "Pichincha, Ecuador (década de 2010); extendido a Colombia",
+        "methods": {
+          "v60": "El perfil Liviano resalta su perfume de rosa y frutilla sin saturar el paladar.",
+          "aeropress": "Aporta dulzor intenso y textura limpia a los lotes lavados o anaeróbicos."
+        }
+      },
+      "castillo": {
+        "title": "Castillo",
+        "summary": "Varietal colombiano desarrollado por Cenicafé para resistir la roya sin resignar calidad en taza. Muy habitual en lotes de Colombia vendidos en el Cono Sur; brinda dulzor de panela, naranja suave y chocolate con leche.",
+        "aliases": "Castillo, Castillo Rosario, Castillo Naranjal, Cenicafé",
+        "lineage": "Cruce de Caturra con Híbrido de Timor (generación F5 seleccionada por Cenicafé)",
+        "discovery": "Cenicafé, Colombia (liberado en 2005)",
+        "methods": {
+          "melitta": "Resalta su balance accesible de panela, cítrico dulce y cacao.",
+          "v60": "En perfil Normal extrae una taza limpia y pareja en lotes cultivados sobre 1600 m.s.n.m."
+        }
+      },
+      "catimor": {
+        "title": "Catimor",
+        "summary": "Familia de cultivares resistentes a la roya nacidos del cruce entre Caturra y el Híbrido de Timor. Muy extendida en Perú, Honduras y Asia; en altura entrega cuerpo alto, chocolate amargo, nuez y un matiz herbal.",
+        "aliases": "Catimor, T5175, T8667, Costa Rica 95, Lempira",
+        "lineage": "Cruce entre Caturra (Arábica) e Híbrido de Timor (introgresión de Canephora)",
+        "discovery": "Centro de Investigación de la Roya del Café (CIFC), Portugal (1959)",
+        "methods": {
+          "espresso": "Su cuerpo alto y buena producción de crema funcionan muy bien en espresso Normale.",
+          "frenchPress": "Redondea el perfil achocolatado y de nuez en tuestes medios."
+        }
+      },
+      "robustaCanephora": {
+        "title": "Robusta (Coffea canephora)",
+        "summary": "Segunda especie comercial de café del mundo, con casi el doble de cafeína (1.7-2.7 %) y menor contenido de lípidos y azúcares que Arábica. Aporta crema densa, amargor firme, chocolate amargo, grano tostado y madera.",
+        "aliases": "Robusta, Conilon, Coffea canephora, Fine Robusta",
+        "lineage": "Especie botánica Coffea canephora originaria de África central y occidental",
+        "discovery": "Cuenca del Congo, África (siglo XIX); cultivada en Vietnam, Brasil (Conilon) e India",
+        "methods": {
+          "espresso": "En Ristretto (1:1.5) o en blends con Arábica maximiza crema espesa e intensidad de cacao.",
+          "aeropress": "Con agua a menor temperatura (88-90 °C) y perfil Fuerte controla el amargor."
+        }
+      },
+      "washed": {
+        "title": "Lavado (Washed)",
+        "summary": "Proceso de vía húmeda en el que se despulpa la cereza, se fermenta el mucílago en tanques de agua (12-48 h) y se lava el grano antes de secarlo. Produce las tazas más limpias y transparentes, dejando leer el terroir y la acidez.",
+        "aliases": "Lavado, Washed, Vía Húmeda, Fully Washed, Doble Lavado",
+        "mucilage": "Remoción total del mucílago por fermentación en tanque y lavado con agua limpia",
+        "drying": "Secado en camas africanas, patios o secadoras mecánicas hasta 10.5-11.5 % de humedad",
+        "methods": {
+          "v60": "El perfil Liviano (1:17) maximiza la claridad cítrica y la transparencia de los cafés lavados.",
+          "chemex": "El filtro de papel grueso complementa su limpieza estructural y notas de té negro."
+        }
+      },
+      "pulpedNatural": {
+        "title": "Pulped Natural (Cereja Descascada)",
+        "summary": "Proceso icónico de Brasil y habitual en cafés del Cono Sur: se retira la cáscara mecánicamente y el grano se seca de inmediato con parte de su mucílago adherido, sin fermentación en tanque. Aporta dulzor acaramelado, avellana y cuerpo cremoso.",
+        "aliases": "Pulped Natural, Cereja Descascada, CD, Semi-Lavado Brasileño",
+        "mucilage": "Despulpado mecánico conservando una capa controlada de mucílago sin fermentación húmeda",
+        "drying": "Secado rápido en patios al sol con rastrillado frecuente para evitar sobrefermentación",
+        "methods": {
+          "espresso": "El cuerpo cremoso y la baja astringencia lo vuelven ideal para espresso Normale (1:2).",
+          "melitta": "Entrega tazas dulces de caramelo y chocolate con leche con gran repetibilidad."
+        }
+      },
+      "honey": {
+        "title": "Honey (Yellow / Red / Black)",
+        "summary": "Beneficio intermedio originado en Costa Rica donde el grano se seca conservando entre 25 % y 100 % de su mucílago azucarado (Yellow, Red o Black según porcentaje y sombra). Multiplica la sensación de miel, durazno y cuerpo sedoso.",
+        "aliases": "Honey, Yellow Honey, Red Honey, Black Honey, Enmielado, Miel",
+        "mucilage": "Conservación intencional del mucílago (25 % en Yellow hasta 100 % en Black Honey)",
+        "drying": "Secado lento en camas elevadas con volteo frecuente para caramelizar azúcares sin defectos",
+        "methods": {
+          "v60": "En perfil Normal balancea el dulzor elevado de miel con la acidez de fruta de carozo.",
+          "aeropress": "Realza la textura almibarada y el retrogusto a jarabe de arce."
+        }
+      },
+      "natural": {
+        "title": "Natural (Dry)",
+        "summary": "Método más antiguo: la cereza entera se seca al sol con cáscara y pulpa intactas durante 15 a 30 días antes de trillarse. Transfiere azúcares y ésteres del fruto al grano, dando cuerpo denso y notas de arándano, frutilla, pasa y vino.",
+        "aliases": "Natural, Seco, Dry Process, Cereza Entera",
+        "mucilage": "Sin remoción previa; el grano seca dentro del fruto completo en contacto con la pulpa",
+        "drying": "Secado prolongado de 15 a 30 días en camas elevadas o patios con control diario de humedad",
+        "methods": {
+          "frenchPress": "Acompaña el cuerpo pesado y las notas dulces de frutos rojos y pasa de uva.",
+          "espresso": "En Normale produce shots densos, almibarados y con notas frutales intensas."
+        }
+      },
+      "anaerobic": {
+        "title": "Fermentación Anaeróbica",
+        "summary": "Fermentación controlada en tanques herméticos con válvula de escape y sin oxígeno durante 24 a 120 horas, regulando temperatura y pH. Genera perfiles intensos de licor, mango, canela y acidez láctica muy marcada.",
+        "aliases": "Anaeróbico, Maceración Carbónica, Fermentación Anaeróbica, Anaerobic",
+        "mucilage": "Fermentación en ausencia de oxígeno (en cereza entera o despulpado) antes de lavar o secar",
+        "drying": "Secado lento y controlado a la sombra para estabilizar ésteres y compuestos aromáticos volátiles",
+        "methods": {
+          "v60": "El perfil Liviano (1:17) y temperatura algo más baja evitan saturar las notas fermentadas.",
+          "aeropress": "Una extracción corta en perfil Liviano mantiene limpio el perfil tropical y especiado."
+        }
+      },
+      "decaf": {
+        "title": "Descafeinado",
+        "summary": "Extracción selectiva de al menos el 97 % de la cafeína sobre grano verde mediante agua y filtros de carbón (Swiss Water) o acetato de etilo derivado de caña de azúcar (EA, muy común en Colombia). Conserva cacao, vainilla y malta.",
+        "aliases": "Descafeinado, Decaf, Swiss Water, Caña de Azúcar EA, Sugar Cane Decaf",
+        "mucilage": "Descafeinación sobre grano verde ya beneficiado mediante agua (SWP) o acetato de etilo natural (EA)",
+        "drying": "Re-secado controlado hasta ~11 % de humedad; el grano poroso requiere tueste cuidadoso",
+        "methods": {
+          "melitta": "El grano descafeinado extrae más rápido; una molienda apenas más gruesa evita sobre-extracción.",
+          "espresso": "En Normale (1:2) ofrece chocolate con leche y vainilla sin cafeína para la tarde o noche."
+        }
+      }
+    }
+  }
+}
