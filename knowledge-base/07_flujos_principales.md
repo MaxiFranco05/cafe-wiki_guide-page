@@ -108,5 +108,5 @@ Usuario       BrewTimerHook        BrewTimerEngine      WakeLockAdapter     WebA
 **Pasos**:
 1. El usuario toca la familia **Frutal** → subfamilia **Frutos Rojos** → descriptor **Mora / Arándano** en la rueda de sabores SVG.
 2. El panel lateral/inferior muestra la ficha sensorial del descriptor y lista las entradas de Wiki asociadas (ej. Origen: **Kenia** / **Etiopía**, Varietal: **SL28**, Proceso: **Natural**).
-3. El usuario toca la ficha **Kenia** (`/wiki/origin/kenya`), revisa su perfil de acidez brillante y cuerpo medio, y ve la recomendación: *"Ideal en Hario V60 — Perfil Liviano (1:17) para resaltar notas cítricas y de frutos rojos"*.
+3. El usuario toca la ficha **Kenia** (`/wiki/origenes/kenya`), revisa su perfil de acidez brillante y cuerpo medio, y ve la recomendación: *"Ideal en Hario V60 — Perfil Liviano (1:17) para resaltar notas cítricas y de frutos rojos"*.
 4. Con un toque en el botón **"Preparar en V60 (Liviano)"**, navega a `/brew/v60?profile=light` listo para preparar.

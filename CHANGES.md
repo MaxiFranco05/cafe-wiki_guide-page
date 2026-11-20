@@ -329,8 +329,8 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 
 ---
 
-### [C-10] `sensory-wiki-explorer-ui`
-- **Estado**: `[ ]` pendiente
+### [x] [C-10] `sensory-wiki-explorer-ui`
+- **Estado**: `[x]` completado y archivado (`openspec/changes/archive/2026-11-20-c-10-sensory-wiki-explorer-ui/`)
 - **Scope**: Portada de la Wiki (`/wiki`) con una tarjeta por sección, página propia por sección (`/wiki/:section`) y ficha detallada (`/wiki/:section/:entrySlug`) con conexión directa a preparación (`US-009`). Reestructurado el 2026-11-19 a pedido del usuario: cada tema por separado, sin una lista que mezcle orígenes, varietales y procesos
   - Portada `/wiki`: tarjetas de **Orígenes**, **Varietales**, **Procesos**, **Cafeteras** y **Bebidas** con cantidad de fichas
   - Página de sección `/wiki/:section` (`origenes | varietales | procesos | cafeteras | bebidas`): buscador instantáneo y filtros propios de esa sección (perfil en taza, familia SCA, subgrupo), estado en la URL
@@ -456,6 +456,8 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 - **Glosario**: términos de barismo y cata (bloom, crema, canalización, TDS, etc.).
 - **Autores**: baristas y referentes cuyas recetas usa la app (Hoffmann, Kasuya, Rao, etc.).
 - **Asociaciones**: SCA, World Coffee Research, Q Grader y entidades del café de especialidad.
+- **Catálogo editorial (C-16, a definir)**: historia, simbología e hitos con fuentes para las 60 fichas de la Wiki (C-10 ya tiene el capítulo listo y oculto mientras no haya contenido), y fuentes para la tabla origen ↔ varietal (`src/data/wiki/origin-varietals.ts`).
+- **Imágenes para la PWA (C-12)**: convertir las 12 fotos del design system (620–790 KB cada una) a WebP/AVIF con varios tamaños antes de incluirlas en la caché offline.
 
 **Primer change recomendado**: `C-01` (`foundation-and-ui-shell`) — levanta desde el primer paso el esqueleto Vite + React + TypeScript con los tokens del Design System aprobado (`design-system/tokens.css`) y el layout navegable para ir viendo los resultados visuales en el navegador a medida que se avanza.
 

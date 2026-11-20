@@ -30,7 +30,10 @@ describe('GlobalSearch in TopNavbar (Strict TDD)', () => {
 
     const listbox = screen.getByRole('listbox', { name: /resultados de búsqueda/i });
     expect(listbox).toBeInTheDocument();
-    expect(screen.getByRole('option', { name: /Chemex/i })).toBeInTheDocument();
+    // The brew method comes first; the Chemex wiki entry (Cafetera) is also offered.
+    const options = screen.getAllByRole('option', { name: /Chemex/i });
+    expect(options[0]).toHaveTextContent(/Chemex/i);
+    expect(options.some((option) => /cafetera/i.test(option.textContent ?? ''))).toBe(true);
   });
 
   it('finds Wiki entries and SCA Flavor Wheel across all sections', async () => {
@@ -43,7 +46,12 @@ describe('GlobalSearch in TopNavbar (Strict TDD)', () => {
 
     const input = screen.getByRole('searchbox', { name: /buscar en toda la guía de café/i });
     await user.type(input, 'bourbon');
-    expect(screen.getByRole('option', { name: /Granos y Varietales/i })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: /^Bourbon.*Varietal/i })).toBeInTheDocument();
+    expect(screen.queryByRole('option', { name: /Granos y Varietales/i })).toBeNull();
+
+    await user.clear(input);
+    await user.type(input, 'geisha');
+    expect(screen.getByRole('option', { name: /Geisha.*Varietal/i })).toBeInTheDocument();
 
     await user.clear(input);
     await user.type(input, 'floral');
@@ -58,7 +66,7 @@ describe('GlobalSearch in TopNavbar (Strict TDD)', () => {
         <Routes>
           <Route path="/" element={<div>Home</div>} />
           <Route path="/brew/chemex" element={<div>Chemex Destination</div>} />
-          <Route path="/wiki/granos/bourbon" element={<div>Bourbon Destination</div>} />
+          <Route path="/wiki/varietales/bourbon" element={<div>Bourbon Destination</div>} />
         </Routes>
       </MemoryRouter>
     );
@@ -71,7 +79,7 @@ describe('GlobalSearch in TopNavbar (Strict TDD)', () => {
     expect(screen.queryByRole('listbox')).toBeNull();
 
     await user.type(input, 'bourbon');
-    const option = screen.getByRole('option', { name: /Granos y Varietales/i });
+    const option = screen.getByRole('option', { name: /^Bourbon.*Varietal/i });
     await user.click(option);
     expect(screen.getByText('Bourbon Destination')).toBeInTheDocument();
     expect(screen.queryByRole('listbox')).toBeNull();

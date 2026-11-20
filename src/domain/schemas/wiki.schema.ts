@@ -148,6 +148,25 @@ export const WikiEntrySchema = z.discriminatedUnion('category', [
 ]);
 export type WikiEntry = z.infer<typeof WikiEntrySchema>;
 
+const WikiSlugSchema = z.string().regex(KEBAB_SLUG_REGEX, {
+  message: 'Wiki slug must be kebab-case',
+});
+
+/**
+ * Origin -> varietals commonly grown there (C-10). Defined once; the reverse
+ * direction (varietal -> origins) is always derived from this same table.
+ */
+export const OriginVarietalsSchema = z.record(
+  WikiSlugSchema,
+  z
+    .array(WikiSlugSchema)
+    .min(1)
+    .refine((slugs) => new Set(slugs).size === slugs.length, {
+      message: 'Varietal slugs must not repeat within an origin',
+    })
+);
+export type OriginVarietals = z.infer<typeof OriginVarietalsSchema>;
+
 export interface SensoryCatalogIntegrityResult {
   readonly valid: boolean;
   readonly errors: readonly string[];

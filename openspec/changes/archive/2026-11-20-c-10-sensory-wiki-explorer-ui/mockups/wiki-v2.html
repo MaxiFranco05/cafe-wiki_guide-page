@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>C-10 Wiki v2 — Mockup</title>
+  <!-- Approved design system (Rev 4) + compiled CSS of the real app (shell, tokens, utilities) -->
+  <link rel="stylesheet" href="../../../../design-system/tokens.css" />
+  <link rel="stylesheet" href="assets/c10-v2-snapshot.css" />
+  <style>
+    /* ---------- C-10 v2 mockup layer: tokens only, no loose hex ---------- */
+    .w { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 20px; }
+    .w :focus-visible { outline: 2px solid var(--border-focus); outline-offset: 2px; }
+    .w-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-secondary); }
+    .w-crumbs a { color: var(--text-secondary); text-decoration: none; min-height: 32px; display: inline-flex; align-items: center; }
+    .w-crumbs a:hover { color: var(--accent-gold); }
+    .w-crumbs b { color: var(--accent-gold); font-weight: 600; }
+    .w-eyebrow { font: 600 10.5px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); }
+
+    /* Hub */
+    .w-hero { position: relative; display: grid; grid-template-columns: 1.1fr 1fr; overflow: hidden; border-radius: 20px; border: 1px solid var(--border-subtle); background: var(--bg-dark-card); box-shadow: var(--shadow-card); }
+    .w-hero-copy { padding: 28px 32px; display: grid; gap: 10px; align-content: center; z-index: 1; background: linear-gradient(120deg, var(--bg-dark-card), var(--bg-surface)); }
+    .w-hero h1 { margin: 0; font-size: 2rem; letter-spacing: -0.02em; color: var(--text-primary); }
+    .w-hero p { margin: 0; color: var(--text-secondary); font-size: 14.5px; line-height: 1.6; max-width: 48ch; }
+    .w-hero-photo { position: relative; min-height: 170px; max-height: 210px; }
+    .w-hero-photo img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.1) saturate(1.2) brightness(.66); }
+    .w-hero-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--bg-dark-card), transparent 55%); }
+    .w-hub { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+    .w-hub > :nth-child(-n+3) { grid-column: span 2; }
+    .w-hub > :nth-child(n+4) { grid-column: span 3; }
+    .w-sec {
+      display: grid; grid-template-columns: auto 1fr; gap: 14px 16px; align-content: start; padding: 20px; border-radius: 18px; text-decoration: none; color: inherit;
+      background: var(--bg-surface); border: 1px solid var(--border-subtle);
+      transition: border-color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+    }
+    .w-sec:hover { border-color: color-mix(in srgb, var(--accent-gold) 45%, transparent); transform: translateY(-2px); }
+    .w-sec:active { transform: scale(var(--scale-press)); }
+    .w-sec-icon { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; color: var(--accent-gold); background: var(--accent-gold-soft); border: 1px solid color-mix(in srgb, var(--accent-gold) 28%, transparent); }
+    .w-sec h2 { margin: 0; font-size: 19px; color: var(--text-primary); letter-spacing: -0.01em; display: flex; align-items: baseline; gap: 10px; }
+    .w-sec h2 small { font: 600 11px var(--font-mono); color: var(--text-muted); }
+    .w-sec p { margin: 4px 0 0; font-size: 13.5px; color: var(--text-secondary); line-height: 1.5; }
+    .w-sec-samples { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; }
+    .w-sec-samples span { font-size: 12px; color: var(--text-secondary); padding: 4px 9px; border-radius: var(--radius-pill); background: var(--bg-elevated); border: 1px solid var(--border-subtle); }
+    .w-sec-go { grid-column: 1 / -1; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--accent-gold); }
+
+    /* Section page */
+    .w-sechead { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: center; }
+    .w-sechead h1 { margin: 0; font-size: 1.9rem; letter-spacing: -0.02em; color: var(--text-primary); }
+    .w-sechead p { margin: 4px 0 0; color: var(--text-secondary); font-size: 14px; }
+    .w-search { position: relative; }
+    .w-search svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
+    .w-search input { width: 100%; min-height: 50px; padding: 0 44px 0 42px; border-radius: 14px; border: 1px solid var(--border-recessed); background: var(--bg-elevated); color: var(--text-primary); font: 500 15px var(--font-sans); }
+    .w-search input::placeholder { color: var(--text-muted); }
+    .w-search input:focus { outline: none; border-color: var(--accent-gold); box-shadow: var(--shadow-focus); }
+    .w-search .w-clear { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; border-radius: 10px; border: 0; background: transparent; color: var(--text-secondary); cursor: pointer; display: none; place-items: center; }
+    .w-search.has-value .w-clear { display: grid; }
+    .w-toolbar { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; }
+    .w-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .w-chip {
+      min-height: 44px; padding: 0 14px; border-radius: var(--radius-pill); border: 1px solid var(--border-recessed); background: var(--bg-surface);
+      color: var(--text-secondary); font: 600 13px var(--font-sans); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; text-decoration: none;
+      transition: border-color var(--duration-fast) var(--ease-out), background-color var(--duration-fast) var(--ease-out);
+    }
+    .w-chip:hover { border-color: var(--border-strong); color: var(--text-primary); }
+    .w-chip[aria-pressed='true'], .w-chip[aria-checked='true'] { background: var(--accent-gold-soft); border-color: var(--accent-gold); color: var(--accent-gold); }
+    .w-chip i { width: 9px; height: 9px; border-radius: 50%; background: var(--fam); flex-shrink: 0; }
+    .w-chip b { font: 600 11px var(--font-mono); color: var(--text-muted); }
+    .w-chip[aria-checked='true'] b { color: var(--accent-gold); }
+    .w-more { min-height: 50px; padding: 0 16px; border-radius: 14px; border: 1px solid var(--border-recessed); background: var(--bg-elevated); color: var(--text-primary); font: 600 13.5px var(--font-sans); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+    .w-more b { min-width: 20px; height: 20px; border-radius: 10px; background: var(--accent-primary); color: var(--text-on-accent); font: 600 11px var(--font-mono); display: grid; place-items: center; padding: 0 5px; }
+    .w-panel-filters { display: grid; gap: 14px; padding: 16px; border-radius: 16px; background: var(--bg-surface); border: 1px solid var(--border-subtle); }
+    .w-panel-filters[hidden] { display: none; }
+    .w-filter-row { display: grid; gap: 8px; }
+    .w-resultbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 13px; color: var(--text-secondary); min-height: 44px; }
+    .w-resultbar b { color: var(--text-primary); }
+    .w-link-btn { min-height: 44px; border: 0; background: none; color: var(--accent-gold); font: 600 13px var(--font-sans); cursor: pointer; padding: 0 4px; }
+    .w-group { display: grid; gap: 12px; }
+    .w-group h2 { margin: 4px 0 0; display: flex; align-items: baseline; gap: 10px; font-size: 15px; color: var(--text-primary); }
+    .w-group h2 small { font: 600 11px var(--font-mono); color: var(--text-muted); }
+    .w-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+
+    .w-card {
+      display: grid; grid-template-columns: 1fr auto; gap: 10px 12px; align-content: start; padding: 16px; border-radius: 16px; text-decoration: none; color: inherit;
+      background: var(--bg-surface); border: 1px solid var(--border-subtle);
+      transition: border-color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+    }
+    .w-card:hover { border-color: color-mix(in srgb, var(--accent-gold) 45%, transparent); transform: translateY(-2px); }
+    .w-card:active { transform: scale(var(--scale-press)); }
+    .w-card h3 { margin: 0; font-size: 16.5px; color: var(--text-primary); letter-spacing: -0.01em; }
+    .w-card-sub { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
+    .w-card .w-badges { margin-top: 8px; }
+    .w-card-foot { grid-column: 1 / -1; }
+    .w-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+    .w-badge { font: 600 9.5px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; padding: 4px 7px; border-radius: 6px; color: var(--accent-gold); background: var(--accent-gold-soft); border: 1px solid color-mix(in srgb, var(--accent-gold) 30%, transparent); }
+    .w-badge--ok { color: var(--status-optimal); background: var(--status-optimal-bg); border-color: color-mix(in srgb, var(--status-optimal) 35%, transparent); }
+    .w-badge--muted { color: var(--text-secondary); background: var(--bg-elevated); border-color: var(--border-subtle); }
+    .w-notes { display: flex; flex-wrap: wrap; gap: 6px; }
+    .w-note { display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px; border-radius: var(--radius-pill); font-size: 12px; color: var(--text-secondary); background: var(--bg-elevated); border: 1px solid var(--border-subtle); }
+    .w-note i { width: 7px; height: 7px; border-radius: 50%; background: var(--fam); }
+    .w-empty { padding: 34px 20px; text-align: center; border-radius: 16px; border: 1px dashed var(--border-strong); color: var(--text-secondary); display: grid; gap: 10px; justify-items: center; }
+    .w-empty h2 { margin: 0; font-size: 16px; color: var(--text-primary); }
+
+    /* Sensory wheel */
+    .w-wheel { display: block; width: 100%; height: auto; overflow: visible; }
+    .w-wheel .ring { fill: none; stroke: var(--border-recessed); stroke-width: 1; }
+    .w-wheel .ring--outer { stroke: var(--border-strong); stroke-width: 1.5; }
+    .w-wheel .spoke { stroke: var(--border-strong); stroke-width: 1.2; }
+    .w-wheel .fill { fill: url(#wheelFill); }
+    .w-wheel .fill-edge { fill: none; stroke: var(--accent-gold); stroke-width: 1.4; opacity: .85; }
+    .w-wheel text { font: 600 11px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; fill: var(--text-primary); }
+    .w-wheel text.val { font: 600 12px var(--font-mono); fill: var(--accent-gold); letter-spacing: 0; text-transform: none; }
+    .w-wheel text.tick { font: 500 8.5px var(--font-mono); fill: var(--text-muted); letter-spacing: 0; }
+    .w-wheel--mini .ring { stroke-width: 1.2; }
+    .w-wheel--mini .spoke { stroke-width: 1.4; }
+
+    /* Detail */
+    .w-detail { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+    .w-col { display: grid; gap: 16px; }
+    .w-col--side { position: sticky; top: 96px; }
+    .w-panel { padding: 20px; border-radius: 18px; background: var(--bg-surface); border: 1px solid var(--border-subtle); display: grid; gap: 14px; }
+    .w-panel > h2 { margin: 0; font: 600 11px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); }
+    .w-head { padding: 24px; border-radius: 20px; background: linear-gradient(135deg, var(--bg-dark-card), var(--bg-surface)); border: 1px solid var(--border-subtle); box-shadow: var(--shadow-card); display: grid; gap: 12px; }
+    .w-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+    .w-pill { font: 600 10.5px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; padding: 5px 9px; border-radius: 7px; color: var(--text-secondary); background: var(--bg-elevated); border: 1px solid var(--border-subtle); }
+    .w-pill--sec { color: var(--text-on-accent); background: var(--accent-primary); border-color: transparent; }
+    .w-head h1 { margin: 0; font-size: 2.3rem; letter-spacing: -0.025em; color: var(--text-primary); line-height: 1.05; }
+    .w-aliases { font: 500 12.5px var(--font-mono); color: var(--accent-gold); }
+    .w-summary { margin: 0; font-size: 15px; line-height: 1.65; color: var(--text-secondary); max-width: 64ch; }
+    .w-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 0; }
+    .w-meta--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .w-meta div { padding: 12px; border-radius: 12px; background: var(--bg-elevated); border: 1px solid var(--border-subtle); display: grid; gap: 4px; align-content: start; }
+    .w-meta dt { font: 600 10px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); }
+    .w-meta dd { margin: 0; font-size: 14px; color: var(--text-primary); line-height: 1.4; }
+    .w-prose { margin: 0; font-size: 14.5px; line-height: 1.65; color: var(--text-secondary); }
+    .w-prose b { color: var(--text-primary); }
+    .w-note-link { min-height: 44px; padding: 0 14px; font-size: 13.5px; color: var(--text-primary); }
+    .w-note-link svg { color: var(--text-muted); }
+
+    .w-cta {
+      min-height: 50px; border-radius: 12px; border: 0; background: var(--accent-primary); color: var(--text-on-accent); cursor: pointer; text-decoration: none;
+      font: 600 14.5px var(--font-sans); display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: var(--shadow-sm); padding: 0 16px; text-align: center;
+      transition: background-color var(--duration-fast) var(--ease-out), transform var(--duration-press) var(--ease-out);
+    }
+    .w-cta:hover { background: var(--accent-primary-hover); }
+    .w-cta:active { transform: scale(var(--scale-press)); }
+    .w-cta--secondary { background: var(--accent-primary-soft); color: var(--accent-gold); box-shadow: none; border: 1px solid color-mix(in srgb, var(--accent-primary) 45%, transparent); }
+    .w-cta--secondary:hover { background: color-mix(in srgb, var(--accent-primary) 34%, transparent); }
+    .w-method { padding: 14px; border-radius: 14px; background: var(--bg-elevated); border: 1px solid var(--border-subtle); display: grid; gap: 10px; }
+    .w-method-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+    .w-method-head b { font-size: 15px; color: var(--text-primary); }
+    .w-method-head span { font: 600 10.5px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-gold); }
+    .w-method p { margin: 0; font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+
+    .w-tabs { display: inline-grid; grid-auto-flow: column; gap: 4px; padding: 4px; border-radius: 12px; background: var(--bg-elevated); border: 1px solid var(--border-subtle); justify-self: start; }
+    .w-tab { min-height: 40px; padding: 0 14px; border: 0; border-radius: 9px; background: transparent; color: var(--text-secondary); font: 600 13px var(--font-sans); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+    .w-tab b { font: 600 11px var(--font-mono); color: var(--text-muted); }
+    .w-tab[aria-selected='true'] { background: var(--accent-primary); color: var(--text-on-accent); }
+    .w-tab[aria-selected='true'] b { color: var(--text-on-accent); opacity: .8; }
+    .w-recipes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .w-recipe { padding: 16px; border-radius: 14px; background: var(--bg-elevated); border: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 10px; }
+    .w-recipe h3 { margin: 0; font-size: 15.5px; color: var(--text-primary); }
+    .w-recipe-by { font-size: 12.5px; color: var(--accent-gold); font-weight: 600; }
+    .w-recipe-stats { display: flex; flex-wrap: wrap; gap: 6px; }
+    .w-recipe-stats span { font: 600 11px var(--font-mono); color: var(--text-secondary); padding: 4px 8px; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-subtle); }
+    .w-recipe p { margin: 0; font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+    .w-recipe p b { color: var(--text-primary); font-weight: 600; }
+    .w-recipe .w-cta { margin-top: auto; min-height: 46px; font-size: 13.5px; }
+    .w-noted { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 12px; border: 1px dashed var(--border-strong); font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+    .w-noted svg { color: var(--accent-gold); flex-shrink: 0; margin-top: 2px; }
+
+    .w-compo { display: grid; grid-template-columns: 150px 1fr; gap: 18px; align-items: center; }
+    .w-legend { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+    .w-legend li { display: grid; grid-template-columns: 14px 1fr auto; gap: 10px; align-items: center; font-size: 14px; color: var(--text-primary); }
+    .w-legend li i { width: 14px; height: 14px; border-radius: 4px; background: var(--layer); border: 1px solid var(--border-strong); }
+    .w-legend li b { font: 600 13px var(--font-mono); color: var(--text-secondary); white-space: nowrap; }
+    .w-legend li.off { opacity: .4; }
+    .w-variants { display: grid; gap: 10px; }
+    .w-variant { padding: 14px; border-radius: 12px; background: var(--bg-elevated); border: 1px solid var(--border-subtle); display: grid; gap: 4px; }
+    .w-variant b { font-size: 14.5px; color: var(--text-primary); }
+    .w-variant span { font: 600 10.5px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-gold); }
+    .w-variant p { margin: 0; font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+    .w-back { min-height: 44px; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--text-secondary); text-decoration: none; }
+    .w-back:hover { color: var(--text-primary); }
+
+    /* Demo-only toast (not part of the design) */
+    .w-toast { position: fixed; left: 50%; bottom: 96px; transform: translateX(-50%) translateY(20px); opacity: 0; padding: 10px 16px; border-radius: 12px; background: var(--bg-tooltip); border: 1px solid var(--border-strong); color: var(--text-primary); font: 500 13px var(--font-mono); z-index: 80; transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out); pointer-events: none; }
+    .w-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 1023px) {
+      .w-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .w-hub { grid-template-columns: repeat(2, 1fr); }
+      .w-hub > * { grid-column: span 1 !important; }
+      .w-hub > :last-child { grid-column: 1 / -1 !important; }
+      /* Mobile reading order: header -> wheel/CTA -> main content */
+      .w-detail { display: flex; flex-direction: column; align-items: stretch; gap: 16px; }
+      .w-col { display: contents; }
+      .o1 { order: 1; } .o2, .o2b { order: 2; } .o3 { order: 3; } .o4 { order: 4; } .o5 { order: 5; } .o6 { order: 6; } .o7 { order: 7; } .o8 { order: 8; }
+    }
+    @media (max-width: 767px) {
+      .w-hero { grid-template-columns: 1fr; }
+      .w-hero-photo { display: none; }
+      .w-hero-copy { padding: 20px; }
+      .w-hero h1, .w-sechead h1 { font-size: 1.55rem; }
+      .w-hub { grid-template-columns: 1fr; }
+      .w-hub > * { grid-column: auto !important; }
+      .w-grid, .w-recipes, .w-meta, .w-meta--2 { grid-template-columns: 1fr; }
+      .w-chips--scroll { flex-wrap: nowrap; overflow-x: auto; margin: 0 -16px; padding: 0 16px 4px; scrollbar-width: none; }
+      .w-head h1 { font-size: 1.9rem; }
+      .w-compo { grid-template-columns: 96px 1fr; gap: 14px; }
+      .w-legend li { font-size: 13px; gap: 8px; }
+      .w-more span { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .w-card, .w-sec, .w-chip, .w-cta, .w-toast { transition: none; }
+      .w-card:hover, .w-card:active, .w-sec:hover, .w-sec:active, .w-cta:active { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <div class="w-toast" id="toast" role="status"></div>
+
+  <script src="../../../../design-system/brand.js"></script>
+  <script src="assets/c10-v2-snapshot.js"></script>
+  <script>
+  (function () {
+    const D = window.C10_DATA;
+    document.getElementById('app').innerHTML = window.C10_SHELL.replace(/<main([^>]*)>[\s\S]*<\/main>/, '<main$1></main>');
+    const main = document.querySelector('main');
+    main.classList.add('w');
+
+    const SECTIONS = {
+      origenes: { title: 'Orígenes', singular: 'Origen', desc: 'Países y regiones productoras: altitud, cosecha y qué esperar en taza.', groupLabel: 'Región', groupAll: 'Todas las regiones', icon: 'globe' },
+      varietales: { title: 'Varietales', singular: 'Varietal', desc: 'Las plantas detrás del grano: linaje, especie y perfil de cada variedad.', groupLabel: 'Grupo genético', groupAll: 'Todos los grupos', icon: 'leaf' },
+      procesos: { title: 'Procesos', singular: 'Proceso', desc: 'Cómo se beneficia la cereza: lavado, honey, natural y fermentaciones.', groupLabel: 'Familia', groupAll: 'Todas las familias', icon: 'drop' },
+      cafeteras: { title: 'Cafeteras', singular: 'Cafetera', desc: 'Origen e historia de cada cafetera, cómo funciona y sus recetas de autor y tradicionales.', groupLabel: 'Tipo', groupAll: 'Todos los tipos', icon: 'brewer' },
+      bebidas: { title: 'Bebidas', singular: 'Bebida', desc: 'Del espresso al cappuccino: origen, proporciones y variantes de cada bebida.', groupLabel: 'Tipo', groupAll: 'Todos los tipos', icon: 'cup' },
+    };
+    const SENSORY = [['acidity', 'Acidez'], ['sweetness', 'Dulzor'], ['body', 'Cuerpo'], ['bitterness', 'Amargor']];
+    const PROFILE_FILTERS = [
+      { id: 'acidez', label: 'Acidez alta', test: (s) => s.acidity >= 4 },
+      { id: 'dulzor', label: 'Dulzor alto', test: (s) => s.sweetness >= 4 },
+      { id: 'cuerpo', label: 'Cuerpo alto', test: (s) => s.body >= 4 },
+      { id: 'amargor', label: 'Amargor bajo', test: (s) => s.bitterness <= 2 },
+    ];
+    const FAMILY_TOKEN = { fruity: '--flavor-fruity', floral: '--flavor-floral', sweet: '--flavor-sweet', 'nutty-cocoa': '--flavor-nutty-cocoa', spiced: '--flavor-spices', roasted: '--flavor-roasted', 'green-vegetative': '--flavor-green-vegetative', 'sour-fermented': '--flavor-sour-fermented', other: '--flavor-other' };
+    const fam = (id) => `--fam: var(${FAMILY_TOKEN[id] || '--flavor-other'})`;
+    const FERMENTATION = { washed: 'Lavado', natural: 'Natural', pulped_natural: 'Pulped natural', honey: 'Honey', anaerobic: 'Anaeróbico', decaf: 'Descafeinado' };
+    const DIFFICULTY = { universal: 'Fácil', intermediate: 'Intermedia', advanced: 'Avanzada' };
+    const norm = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+    const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const mmss = (s) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
+
+    const ICON = {
+      search: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>',
+      x: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>',
+      arrow: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>',
+      back: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg>',
+      wheel: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="12" y1="15" x2="12" y2="21"/></svg>',
+      sliders: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="9" cy="7" r="2.5" fill="currentColor"/><circle cx="15" cy="17" r="2.5" fill="currentColor"/></svg>',
+      check: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 12.5 10 17 19 7"/></svg>',
+      info: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.8" r=".8" fill="currentColor"/></svg>',
+      globe: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18"/></svg>',
+      leaf: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8 6-14 15-14c0 9-6 15-14 15"/><path d="M5 19l8-8"/></svg>',
+      drop: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="13" rx="6" ry="8"/><path d="M12 5c-1.5 3-1.5 13 0 16"/></svg>',
+      brewer: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14l-5 8h-4z"/><path d="M7 14h10l1 6H6z"/><path d="M12 12v2"/></svg>',
+      cup: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3c0 1.5 1.5 1.5 1.5 3M12 3c0 1.5 1.5 1.5 1.5 3"/></svg>',
+    };
+
+    function toast(text) {
+      const el = document.getElementById('toast');
+      el.textContent = 'Navega a ' + text;
+      el.classList.add('show');
+      clearTimeout(toast.id);
+      toast.id = setTimeout(() => el.classList.remove('show'), 1900);
+    }
+
+    // ---------- Sensory wheel (4 sectors, 5 rings, filled from the centre) ----------
+    function sector(cx, cy, r, a0, a1) {
+      const p = (a) => [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+      const [x0, y0] = p(a0); const [x1, y1] = p(a1);
+      return `M${cx} ${cy}L${x0.toFixed(2)} ${y0.toFixed(2)}A${r} ${r} 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}Z`;
+    }
+    function wheel(s, mini) {
+      const size = mini ? 64 : 300, c = size / 2, R = mini ? 30 : 104, gap = mini ? 0.05 : 0.03;
+      const start = -Math.PI / 2; // first sector starts at 12 o'clock, clockwise
+      const label = SENSORY.map(([k, l]) => `${l} ${s[k]} de 5`).join(', ');
+      let out = `<svg class="w-wheel ${mini ? 'w-wheel--mini' : ''}" viewBox="${mini ? `0 0 ${size} ${size}` : `-40 -10 ${size + 80} ${size + 20}`}" role="img" aria-label="Perfil sensorial: ${label}" ${mini ? 'style="width:64px"' : ''}>
+        <defs><radialGradient id="wheelFill" cx="${c}" cy="${c}" r="${R}" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="var(--accent-primary)" stop-opacity=".95"/><stop offset="100%" stop-color="var(--accent-gold)" stop-opacity=".9"/></radialGradient></defs>`;
+      SENSORY.forEach(([k], i) => {
+        const a0 = start + i * Math.PI / 2 + gap, a1 = start + (i + 1) * Math.PI / 2 - gap;
+        const r = (s[k] / 5) * R;
+        out += `<path class="fill" d="${sector(c, c, r, a0, a1)}"/>`;
+        if (!mini) out += `<path class="fill-edge" d="${sector(c, c, r, a0, a1)}"/>`;
+      });
+      for (let i = 1; i <= 5; i++) out += `<circle class="ring ${i === 5 ? 'ring--outer' : ''}" cx="${c}" cy="${c}" r="${(i / 5) * R}"/>`;
+      for (let i = 0; i < 4; i++) { const a = start + i * Math.PI / 2; out += `<line class="spoke" x1="${c}" y1="${c}" x2="${(c + R * Math.cos(a)).toFixed(2)}" y2="${(c + R * Math.sin(a)).toFixed(2)}"/>`; }
+      if (!mini) {
+        for (let i = 1; i <= 5; i++) out += `<text class="tick" x="${c + 3}" y="${(c - (i / 5) * R + 9).toFixed(1)}">${i}</text>`;
+        SENSORY.forEach(([k, l], i) => {
+          const a = start + (i + 0.5) * Math.PI / 2, lr = R + 30;
+          const x = c + lr * Math.cos(a), y = c + lr * Math.sin(a);
+          const anchor = Math.cos(a) > 0.2 ? 'start' : Math.cos(a) < -0.2 ? 'end' : 'middle';
+          out += `<text x="${x.toFixed(1)}" y="${(y - 2).toFixed(1)}" text-anchor="${anchor}">${l}</text><text class="val" x="${x.toFixed(1)}" y="${(y + 14).toFixed(1)}" text-anchor="${anchor}">${s[k]}/5</text>`;
+        });
+      }
+      return out + '</svg>';
+    }
+
+    // ---------- Drink composition (layered cup) ----------
+    const LAYERS = [['water', 'Agua', 'var(--svg-water-stream)'], ['coffee', 'Café', 'var(--svg-coffee-liquid)'], ['milk', 'Leche', 'color-mix(in srgb, var(--text-primary) 78%, var(--svg-coffee-crema))'], ['foam', 'Espuma', 'var(--text-primary)']];
+    function cup(comp) {
+      const top = 14, bottom = 118, h = bottom - top;
+      let y = bottom, rects = '';
+      LAYERS.forEach(([k, , color]) => {
+        const lh = (comp[k] / 100) * h; if (!lh) return;
+        y -= lh;
+        rects += `<rect x="10" y="${y.toFixed(1)}" width="96" height="${lh.toFixed(1)}" fill="${color}" ${k === 'foam' ? 'opacity=".92"' : ''}/>`;
+      });
+      return `<svg viewBox="0 0 132 132" width="100%" role="img" aria-label="Composición: ${LAYERS.filter(([k]) => comp[k]).map(([k, l]) => `${l} ${comp[k]}%`).join(', ')}">
+        <defs><clipPath id="cupClip"><path d="M10 ${top} H106 L100 112 Q98 ${bottom} 90 ${bottom} H26 Q18 ${bottom} 16 112 Z"/></clipPath></defs>
+        <g clip-path="url(#cupClip)">${rects}</g>
+        <path d="M10 ${top} H106 L100 112 Q98 ${bottom} 90 ${bottom} H26 Q18 ${bottom} 16 112 Z" fill="none" stroke="var(--svg-vessel-stroke)" stroke-width="2"/>
+        <path d="M104 40 h8 a10 10 0 0 1 0 22 h-11" fill="none" stroke="var(--svg-vessel-stroke)" stroke-width="2"/>
+        <line x1="2" y1="124" x2="124" y2="124" stroke="var(--border-strong)" stroke-width="2" stroke-linecap="round"/></svg>`;
+    }
+
+    // ---------- Routing ----------
+    function parse() {
+      const hash = location.hash.replace(/^#/, '') || '/wiki';
+      const [path, query = ''] = hash.split('?');
+      const parts = path.split('/').filter(Boolean); // wiki, section, slug
+      const q = new URLSearchParams(query);
+      return { section: parts[1] || null, slug: parts[2] || null, q: q.get('q') || '', grupo: q.get('grupo') || '', perfil: (q.get('perfil') || '').split(',').filter(Boolean), familia: q.get('familia') || '', filtros: q.get('filtros') === '1' };
+    }
+    function sectionHash(sec, s) {
+      const q = new URLSearchParams();
+      if (s.q) q.set('q', s.q); if (s.grupo) q.set('grupo', s.grupo);
+      if (s.perfil.length) q.set('perfil', s.perfil.join(',')); if (s.familia) q.set('familia', s.familia);
+      if (s.filtros) q.set('filtros', '1');
+      const qs = q.toString();
+      return `#/wiki/${sec}` + (qs ? '?' + qs : '');
+    }
+    const items = (sec) => D.sections[sec];
+    const groupOrder = (sec) => D.groupOrder[sec] || [...new Set(items(sec).map((e) => e.group))];
+
+    // ---------- Hub ----------
+    function renderHub() {
+      const order = ['origenes', 'varietales', 'procesos', 'cafeteras', 'bebidas'];
+      main.innerHTML = `
+        <section class="w-hero">
+          <div class="w-hero-copy"><span class="w-eyebrow">Wiki del Café</span>
+            <h1>Todo sobre el café, por tema</h1>
+            <p>Elegí qué querés conocer: de dónde viene el grano, qué planta es, cómo se procesó, con qué cafetera prepararlo o qué bebida pedir.</p></div>
+          <div class="w-hero-photo"><img src="../../../../design-system/assets/photos/beans-moody.jpg" alt="" /></div>
+        </section>
+        <nav class="w-hub" aria-label="Secciones de la Wiki">
+          ${order.map((k) => {
+            const S = SECTIONS[k], list = items(k);
+            return `<a class="w-sec" href="#/wiki/${k}"><span class="w-sec-icon">${ICON[S.icon]}</span>
+              <div><h2>${S.title} <small>${list.length} fichas</small></h2><p>${S.desc}</p></div>
+              <div class="w-sec-samples" aria-hidden="true">${list.slice(0, 4).map((e) => `<span>${esc(e.title)}</span>`).join('')}</div>
+              <span class="w-sec-go">Explorar ${S.title.toLowerCase()} ${ICON.arrow}</span></a>`;
+          }).join('')}
+        </nav>`;
+    }
+
+    // ---------- Section ----------
+    function filtered(sec, s) {
+      const nq = norm(s.q);
+      return items(sec).filter((e) => {
+        if (s.grupo && e.group !== s.grupo) return false;
+        for (const id of s.perfil) { const f = PROFILE_FILTERS.find((x) => x.id === id); if (f && !f.test(e.sensory)) return false; }
+        if (s.familia && !e.notes.some((n) => n.family === s.familia)) return false;
+        if (nq && !norm([e.slug, e.title, e.aliases, e.summary, ...e.notes.map((n) => n.label)].join(' ')).includes(nq)) return false;
+        return true;
+      });
+    }
+    function cardExtras(sec, e) {
+      if (sec === 'cafeteras') return `<div class="w-badges">${e.methodId ? '<span class="w-badge w-badge--ok">Con estación</span>' : '<span class="w-badge w-badge--muted">Enciclopédica</span>'}${e.recipes.length ? `<span class="w-badge">${e.recipes.length} recetas</span>` : ''}</div>`;
+      if (sec === 'bebidas') return `<div class="w-badges">${e.composition.milk || e.composition.foam ? '<span class="w-badge">Con leche</span>' : ''}<span class="w-badge w-badge--muted">${e.volume.min}–${e.volume.max} ml</span></div>`;
+      return e.relevance === 'southern_cone_staple' ? '<div class="w-badges"><span class="w-badge">Cono Sur</span></div>' : '';
+    }
+    function card(sec, e) {
+      const aria = `${e.title}. ` + SENSORY.map(([k, l]) => `${l} ${e.sensory[k]} de 5`).join(', ');
+      return `<a class="w-card" href="#/wiki/${sec}/${e.slug}" aria-label="${esc(aria)}">
+        <div><h3>${esc(e.title)}</h3><div class="w-card-sub">${esc(e.groupLabel)}</div>${cardExtras(sec, e)}</div>
+        ${wheel(e.sensory, true)}
+        <div class="w-card-foot w-notes">${e.notes.slice(0, 3).map((n) => `<span class="w-note" style="${fam(n.family)}"><i></i>${esc(n.label)}</span>`).join('')}</div></a>`;
+    }
+    function renderSection(sec, s) {
+      const S = SECTIONS[sec], all = items(sec), results = filtered(sec, s);
+      const groups = groupOrder(sec).map((g) => ({ g, list: results.filter((e) => e.group === g) })).filter((x) => x.list.length);
+      const groupCounts = Object.fromEntries(groupOrder(sec).map((g) => [g, filtered(sec, { ...s, grupo: g }).length]));
+      const extraActive = s.perfil.length + (s.familia ? 1 : 0);
+      const anyActive = extraActive + (s.q ? 1 : 0) + (s.grupo ? 1 : 0);
+      const labelFor = (g) => all.find((e) => e.group === g).groupLabel;
+
+      main.innerHTML = `
+        <nav class="w-crumbs" aria-label="Miga de pan"><a href="#/wiki">Wiki</a><span aria-hidden="true">/</span><b aria-current="page">${S.title}</b></nav>
+        <header class="w-sechead"><span class="w-sec-icon">${ICON[S.icon]}</span><div><h1>${S.title}</h1><p>${S.desc}</p></div></header>
+        <div class="w-toolbar">
+          <label class="w-search ${s.q ? 'has-value' : ''}">${ICON.search}<span class="sr-only">Buscar en ${S.title}</span>
+            <input type="search" id="q" value="${esc(s.q)}" placeholder="Buscar en ${S.title.toLowerCase()}" autocomplete="off" />
+            <button class="w-clear" type="button" aria-label="Borrar búsqueda" data-clear>${ICON.x}</button></label>
+          <button class="w-more" type="button" aria-expanded="${s.filtros}" aria-controls="morefilters" data-more>${ICON.sliders}<span>Perfil y sabor</span>${extraActive ? `<b>${extraActive}</b>` : ''}</button>
+        </div>
+        <div class="w-chips w-chips--scroll" role="radiogroup" aria-label="${S.groupLabel}">
+          <button class="w-chip" role="radio" aria-checked="${!s.grupo}" data-grupo="">${S.groupAll} <b>${filtered(sec, { ...s, grupo: '' }).length}</b></button>
+          ${groupOrder(sec).map((g) => `<button class="w-chip" role="radio" aria-checked="${s.grupo === g}" data-grupo="${g}">${esc(labelFor(g))} <b>${groupCounts[g]}</b></button>`).join('')}
+        </div>
+        <div class="w-panel-filters" id="morefilters" ${s.filtros ? '' : 'hidden'}>
+          <div class="w-filter-row"><span class="w-eyebrow">Perfil en taza</span><div class="w-chips">${PROFILE_FILTERS.map((f) => { const on = s.perfil.includes(f.id); return `<button class="w-chip" aria-pressed="${on}" data-perfil="${f.id}">${on ? ICON.check : ''}${f.label}</button>`; }).join('')}</div></div>
+          <div class="w-filter-row"><span class="w-eyebrow">Familia de sabor (rueda SCA)</span><div class="w-chips">${D.families.map((f) => `<button class="w-chip" aria-pressed="${s.familia === f.id}" data-familia="${f.id}" style="${fam(f.id)}"><i></i>${esc(f.label)}</button>`).join('')}</div></div>
+        </div>
+        <div class="w-resultbar" aria-live="polite"><span><b>${results.length}</b> ${results.length === 1 ? 'ficha' : 'fichas'}</span>${anyActive ? '<button class="w-link-btn" data-reset>Limpiar filtros</button>' : ''}</div>
+        ${groups.length ? groups.map(({ g, list }) => `<section class="w-group" aria-labelledby="g-${g}"><h2 id="g-${g}">${esc(labelFor(g))} <small>${list.length}</small></h2><div class="w-grid">${list.map((e) => card(sec, e)).join('')}</div></section>`).join('')
+          : `<div class="w-empty"><h2>No hay ${S.title.toLowerCase()} con esos filtros</h2><p style="margin:0">Probá con otra palabra o quitá algún filtro.</p><button class="w-chip" data-reset>Limpiar búsqueda y filtros</button></div>`}`;
+
+      const go = (next, replace) => { const h = sectionHash(sec, next); replace ? history.replaceState(null, '', h) : history.pushState(null, '', h); render(); };
+      const input = main.querySelector('#q');
+      input.addEventListener('input', () => { const pos = input.selectionStart; go({ ...s, q: input.value }, true); const again = main.querySelector('#q'); again.focus(); again.setSelectionRange(pos, pos); });
+      main.querySelector('[data-clear]').addEventListener('click', () => go({ ...s, q: '' }));
+      main.querySelector('[data-more]').addEventListener('click', () => go({ ...s, filtros: !s.filtros }, true));
+      main.querySelectorAll('[data-grupo]').forEach((b) => b.addEventListener('click', () => go({ ...s, grupo: b.dataset.grupo })));
+      main.querySelectorAll('[data-perfil]').forEach((b) => b.addEventListener('click', () => { const id = b.dataset.perfil; go({ ...s, perfil: s.perfil.includes(id) ? s.perfil.filter((x) => x !== id) : [...s.perfil, id] }); }));
+      main.querySelectorAll('[data-familia]').forEach((b) => b.addEventListener('click', () => go({ ...s, familia: s.familia === b.dataset.familia ? '' : b.dataset.familia })));
+      main.querySelectorAll('[data-reset]').forEach((b) => b.addEventListener('click', () => go({ q: '', grupo: '', perfil: [], familia: '', filtros: s.filtros })));
+    }
+
+    // ---------- Detail ----------
+    const notesPanel = (e, o) => `<section class="w-panel ${o}" aria-labelledby="h-notes"><h2 id="h-notes">Notas de cata · Rueda SCA</h2>
+      <div class="w-chips">${e.notes.map((n) => `<a class="w-chip w-note-link" style="${fam(n.family)}" href="#nav" data-to="/flavor-wheel?node=${n.id}"><i></i>${esc(n.label)} ${ICON.wheel}</a>`).join('')}</div></section>`;
+    const wheelPanel = (e, o) => `<section class="w-panel ${o}" aria-labelledby="h-wheel"><h2 id="h-wheel">Perfil sensorial</h2>${wheel(e.sensory, false)}</section>`;
+    const metaPanel = (title, rows, o) => `<section class="w-panel ${o}"><h2>${title}</h2><dl class="w-meta">${rows.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl></section>`;
+
+    function detailWiki(sec, e) {
+      const rows = e.meta.map(([k, v]) => [k, k === 'Fermentación' ? (FERMENTATION[v] || v) : v]);
+      const methods = `<section class="w-panel o3" aria-labelledby="h-m"><h2 id="h-m">Cómo prepararlo</h2>${e.methods.map((m, i) => `<div class="w-method"><div class="w-method-head"><b>${esc(m.method)}</b><span>${esc(m.profile)}</span></div><p>${esc(m.reason)}</p>
+        <a class="w-cta ${i ? 'w-cta--secondary' : ''}" href="#nav" data-to="/brew/${m.methodId}?profile=${m.profileId}">Preparar en ${esc(m.method)} (${esc(m.profile)}) ${ICON.arrow}</a></div>`).join('')}</section>`;
+      return { main: metaPanel('Características clave', rows, 'o4') + notesPanel(e, 'o5'), side: wheelPanel(e, 'o2') + methods };
+    }
+
+    function detailBrewer(e) {
+      const featured = e.recipes.filter((r) => r.kind === 'author'), traditional = e.recipes.filter((r) => r.kind !== 'author');
+      const recipeCard = (r, primary) => `<article class="w-recipe"><h3>${esc(r.title)}</h3><span class="w-recipe-by">${esc(r.author)}</span>
+        <div class="w-recipe-stats"><span>${DIFFICULTY[r.difficulty] || r.difficulty}</span>${r.temp ? `<span>${esc(r.temp)}</span>` : ''}<span>${mmss(r.duration)} min</span></div>
+        <p>${esc(r.process)}</p><p><b>En taza:</b> ${esc(r.flavor)}</p>
+        <a class="w-cta ${primary ? '' : 'w-cta--secondary'}" href="#nav" data-to="/brew/${e.methodId}?recipe=${r.id}">Preparar esta receta ${ICON.arrow}</a></article>`;
+      const recipes = e.methodId
+        ? `<section class="w-panel o4" aria-labelledby="h-r"><h2 id="h-r">Recetas</h2>
+            <div class="w-tabs" role="tablist" aria-label="Tipo de receta"><button class="w-tab" role="tab" aria-selected="true" data-rt="author">De autor <b>${featured.length}</b></button><button class="w-tab" role="tab" aria-selected="false" data-rt="trad">Tradicionales <b>${traditional.length}</b></button></div>
+            <div class="w-recipes" data-rlist="author">${featured.map((r, i) => recipeCard(r, i === 0)).join('')}</div>
+            <div class="w-recipes" data-rlist="trad" hidden>${traditional.map((r) => recipeCard(r, false)).join('')}</div></section>`
+        : `<section class="w-panel o4"><h2>Preparación tradicional</h2><p class="w-prose">${esc(e.traditional)}</p>
+            <div class="w-noted">${ICON.info}<span>Esta cafetera es solo de consulta: todavía no tiene estación de preparación con temporizador en la app.</span></div></section>`;
+      const history = `<section class="w-panel o3" aria-labelledby="h-h"><h2 id="h-h">Origen e historia</h2>
+        <dl class="w-meta"><div><dt>Creador</dt><dd>${esc(e.history.inventor)}</dd></div><div><dt>Origen</dt><dd>${esc(e.history.country)}</dd></div><div><dt>Época</dt><dd>${esc(e.history.era)}</dd></div></dl>
+        <p class="w-prose"><b>Cómo funciona.</b> ${esc(e.history.howItWorks)}</p></section>`;
+      const drinks = e.drinks.length ? `<section class="w-panel o6"><h2>Bebidas que se preparan con ella</h2><div class="w-chips">${e.drinks.map((d) => `<a class="w-chip" href="#/wiki/bebidas/${d.slug}">${esc(d.title)}</a>`).join('')}</div></section>` : '';
+      const station = e.methodId ? `<section class="w-panel o2b"><h2>Estación de preparación</h2><p class="w-prose" style="font-size:13.5px">Calculadora de dosis y temporizador paso a paso con la receta estándar.</p>
+        <a class="w-cta" href="#nav" data-to="/brew/${e.methodId}">Abrir estación ${esc(e.methodName)} ${ICON.arrow}</a></section>` : '';
+      return { main: history + recipes + notesPanel(e, 'o5') + drinks, side: wheelPanel(e, 'o2') + station };
+    }
+
+    function detailDrink(e) {
+      const compo = `<section class="w-panel o3" aria-labelledby="h-c"><h2 id="h-c">Composición</h2><div class="w-compo">${cup(e.composition)}
+        <ul class="w-legend">${LAYERS.slice().reverse().map(([k, l, color]) => `<li class="${e.composition[k] ? '' : 'off'}" style="--layer:${color}"><i></i>${l}<b>${e.composition[k]}%</b></li>`).join('')}
+        <li style="--layer:transparent"><i style="border-style:dashed"></i>Se sirve en<b>${e.volume.min}–${e.volume.max} ml</b></li></ul></div></section>`;
+      const history = `<section class="w-panel o4" aria-labelledby="h-h"><h2 id="h-h">Origen e historia</h2>
+        <dl class="w-meta w-meta--2"><div><dt>Origen</dt><dd>${esc(e.history.country)}</dd></div><div><dt>Época</dt><dd>${esc(e.history.era)}</dd></div></dl>
+        <p class="w-prose">${esc(e.history.story)}</p></section>`;
+      const prep = `<section class="w-panel o5"><h2>Cómo se prepara</h2><p class="w-prose">${esc(e.history.preparation)}</p>
+        <div class="w-chips"><span class="w-eyebrow" style="align-self:center">Cafetera base</span>${e.baseBrewers.map((b) => `<a class="w-chip" href="#/wiki/cafeteras/${b.slug}">${esc(b.title)}</a>`).join('')}</div></section>`;
+      const variants = e.variants.length ? `<section class="w-panel o6"><h2>Variantes regionales</h2><div class="w-variants">${e.variants.map((v) => `<div class="w-variant"><span>${esc(v.region)}</span><b>${esc(v.name)}</b><p>${esc(v.description)}</p></div>`).join('')}</div></section>` : '';
+      const brew = e.brewLink ? `<section class="w-panel o2b"><h2>Prepararla</h2><p class="w-prose" style="font-size:13.5px">Empezá por la base: el ${esc(e.brewLink.method)} con perfil ${esc(e.brewLink.profile)}.</p>
+        <a class="w-cta" href="#nav" data-to="/brew/${e.brewLink.methodId}?profile=${e.brewLink.profileId}">Preparar la base en ${esc(e.brewLink.method)} (${esc(e.brewLink.profile)}) ${ICON.arrow}</a></section>`
+        : `<section class="w-panel o2b"><h2>Prepararla</h2><div class="w-noted">${ICON.info}<span>No usa una estación de la app: seguí la preparación de esta ficha.</span></div></section>`;
+      return { main: compo + history + prep + variants + notesPanel(e, 'o7'), side: wheelPanel(e, 'o2') + brew };
+    }
+
+    function renderDetail(sec, slug) {
+      const S = SECTIONS[sec], e = items(sec).find((x) => x.slug === slug);
+      if (!e) { main.innerHTML = '<div class="w-empty"><h2>404 — Ruta no encontrada</h2><a class="w-back" href="#/wiki">Volver a la Wiki</a></div>'; return; }
+      const parts = sec === 'cafeteras' ? detailBrewer(e) : sec === 'bebidas' ? detailDrink(e) : detailWiki(sec, e);
+      const back = sessionStorage.getItem('w-last-' + sec) || `#/wiki/${sec}`;
+      main.innerHTML = `
+        <nav class="w-crumbs" aria-label="Miga de pan"><a href="#/wiki">Wiki</a><span aria-hidden="true">/</span><a href="${back}">${S.title}</a><span aria-hidden="true">/</span><b aria-current="page">${esc(e.title)}</b></nav>
+        <div class="w-detail">
+          <div class="w-col">
+            <header class="w-head o1"><div class="w-pills"><span class="w-pill w-pill--sec">${S.singular}</span><span class="w-pill">${esc(e.groupLabel)}</span><span class="w-pill">${esc(e.relevanceLabel)}</span></div>
+              <h1>${esc(e.title)}</h1><div class="w-aliases">${esc(e.aliases)}</div><p class="w-summary">${esc(e.summary)}</p></header>
+            ${parts.main}
+            <a class="w-back o8" href="${back}">${ICON.back} Volver a ${S.title}</a>
+          </div>
+          <div class="w-col w-col--side">${parts.side}</div>
+        </div>`;
+      main.querySelectorAll('[data-to]').forEach((a) => a.addEventListener('click', (ev) => { ev.preventDefault(); toast(a.dataset.to); }));
+      main.querySelectorAll('[data-rt]').forEach((b) => b.addEventListener('click', () => {
+        main.querySelectorAll('[data-rt]').forEach((x) => x.setAttribute('aria-selected', String(x === b)));
+        main.querySelectorAll('[data-rlist]').forEach((l) => { l.hidden = l.dataset.rlist !== b.dataset.rt; });
+      }));
+    }
+
+    function render() {
+      const r = parse();
+      if (!r.section) renderHub();
+      else if (!SECTIONS[r.section]) main.innerHTML = '<div class="w-empty"><h2>404 — Ruta no encontrada</h2><a class="w-back" href="#/wiki">Volver a la Wiki</a></div>';
+      else if (!r.slug) { sessionStorage.setItem('w-last-' + r.section, location.hash); renderSection(r.section, r); }
+      else { renderDetail(r.section, r.slug); window.scrollTo(0, 0); }
+    }
+    window.addEventListener('popstate', render);
+    window.addEventListener('hashchange', render);
+    render();
+  })();
+  </script>
+</body>
+</html>

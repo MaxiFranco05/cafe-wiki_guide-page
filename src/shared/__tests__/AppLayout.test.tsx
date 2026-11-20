@@ -57,34 +57,47 @@ describe('AppLayout and Public SPA Routing', () => {
     });
   });
 
-  it('renders WikiIndexView at route "/wiki"', () => {
+  it('renders WikiHomeView at route "/wiki"', () => {
     render(
       <MemoryRouter initialEntries={['/wiki']}>
         <AppRoutes />
       </MemoryRouter>
     );
 
-    expect(screen.getByText('Wiki de Orígenes y Varietales')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: 'Todo sobre el café, por tema' })).toBeInTheDocument();
+    expect(screen.getByRole('navigation', { name: /secciones de la wiki/i })).toBeInTheDocument();
   });
 
-  it('renders WikiEntryView at route "/wiki/granos/bourbon"', () => {
+  it('renders WikiSectionView at route "/wiki/origenes"', () => {
     render(
-      <MemoryRouter initialEntries={['/wiki/granos/bourbon']}>
+      <MemoryRouter initialEntries={['/wiki/origenes']}>
         <AppRoutes />
       </MemoryRouter>
     );
 
-    expect(screen.getByRole('heading', { name: /bourbon/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: 'Orígenes' })).toBeInTheDocument();
   });
 
-  it('renders NotFoundView when an unknown category is passed to wiki entry', () => {
+  it('renders WikiEntryDetailView at route "/wiki/varietales/bourbon"', () => {
     render(
-      <MemoryRouter initialEntries={['/wiki/categoria-desconocida/bourbon']}>
+      <MemoryRouter initialEntries={['/wiki/varietales/bourbon']}>
         <AppRoutes />
       </MemoryRouter>
     );
 
-    expect(screen.getByText('404 — Ruta no encontrada')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: 'Bourbon' })).toBeInTheDocument();
+  });
+
+  it('renders NotFoundView for an unknown wiki section or an entry of another section', () => {
+    for (const path of ['/wiki/categoria-desconocida/bourbon', '/wiki/granos', '/wiki/procesos/bourbon']) {
+      const { unmount } = render(
+        <MemoryRouter initialEntries={[path]}>
+          <AppRoutes />
+        </MemoryRouter>
+      );
+      expect(screen.getByText('404 — Ruta no encontrada')).toBeInTheDocument();
+      unmount();
+    }
   });
 
   it('renders FlavorWheelView at route "/flavor-wheel"', () => {

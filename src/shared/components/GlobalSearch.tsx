@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { METHODS_CATALOG } from '../../data/methods';
+import { WIKI_SECTIONS } from '../../features/wiki/sections';
 import { t } from '../../i18n';
 
 interface SearchEntry {
@@ -19,14 +20,6 @@ function normalizeSearchText(input: string): string {
     .toLowerCase()
     .trim();
 }
-
-const WIKI_ENTRIES_CONFIG = [
-  { slug: 'granos', sample: 'bourbon', titleKey: 'wiki.categories.granos' },
-  { slug: 'procesos', sample: 'lavado', titleKey: 'wiki.categories.procesos' },
-  { slug: 'molienda', sample: 'media-fina', titleKey: 'wiki.categories.molienda' },
-  { slug: 'agua', sample: 'minerales', titleKey: 'wiki.categories.agua' },
-  { slug: 'extraccion', sample: 'solubilidad', titleKey: 'wiki.categories.extraccion' },
-] as const;
 
 export const GlobalSearch: React.FC = () => {
   const navigate = useNavigate();
@@ -69,17 +62,17 @@ export const GlobalSearch: React.FC = () => {
           `wiki ${t('wiki.title')} ${t('nav.search.entries.wiki.indexSubtitle')}`
         ),
       },
-      ...WIKI_ENTRIES_CONFIG.map((cfg) => {
-        const title = t(cfg.titleKey);
-        const subtitle = t(`nav.search.entries.wiki.${cfg.slug}.subtitle`);
-        return {
-          id: `wiki-${cfg.slug}`,
-          href: `/wiki/${cfg.slug}/${cfg.sample}`,
+      // Real catalog entries of every wiki section (C-10), searchable by title and aliases.
+      ...WIKI_SECTIONS.flatMap((section) => {
+        const subtitle = t(`wiki.ui.sections.${section.slug}.singular`);
+        return section.items.map((item) => ({
+          id: `wiki-${section.slug}-${item.slug}`,
+          href: `/wiki/${section.slug}/${item.slug}`,
           group: wikiGroup,
-          title,
+          title: item.title,
           subtitle,
-          searchBlob: normalizeSearchText(`${cfg.slug} ${cfg.sample} ${title} ${subtitle}`),
-        };
+          searchBlob: normalizeSearchText(`${item.slug} ${item.title} ${item.aliases} ${subtitle}`),
+        }));
       }),
     ];
 

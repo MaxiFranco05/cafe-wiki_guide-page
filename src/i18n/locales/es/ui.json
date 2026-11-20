@@ -33,22 +33,7 @@
       },
       "entries": {
         "wiki": {
-          "indexSubtitle": "Catálogo completo de orígenes, procesos y agua",
-          "granos": {
-            "subtitle": "Bourbon, Geisha, Caturra y altitudes de origen"
-          },
-          "procesos": {
-            "subtitle": "Beneficio lavado, natural, honey y fermentación"
-          },
-          "molienda": {
-            "subtitle": "Calibración fina, media-fina, media y gruesa"
-          },
-          "agua": {
-            "subtitle": "Alcalinidad, dureza y mineralización recomendada"
-          },
-          "extraccion": {
-            "subtitle": "Solubilidad, sobre-extracción y sub-extracción"
-          }
+          "indexSubtitle": "Orígenes, varietales, procesos, cafeteras y bebidas"
         },
         "wheel": {
           "subtitle": "Anillos aromáticos floral, frutal, cacao y especias",
@@ -448,19 +433,237 @@
   "wiki": {
     "title": "Wiki de Orígenes y Varietales",
     "subtitle": "Perfiles sensoriales reales por altitud, proceso y método recomendado.",
-    "heroAlt": "Granos de café y cucharas de cata",
-    "featuredEntryPrefix": "Ver entrada destacada:",
-    "breadcrumbAria": "Miga de pan",
-    "breadcrumbHome": "Wiki",
-    "entryPlaceholderBody": "Ficha técnica y perfil descriptivo para {title}. En la fase C-08 se integrará el catálogo exhaustivo de varietales, altitudes y procesos con referencias cruzadas.",
-    "backToWiki": "← Volver a la enciclopedia",
-    "prepareWithV60": "Preparar con Hario V60 →",
-    "categories": {
-      "granos": "Granos y Varietales",
-      "procesos": "Procesos de Beneficio",
-      "molienda": "Guía de Molienda",
-      "agua": "Química del Agua",
-      "extraccion": "Teoría de Extracción"
+    "ui": {
+      "home": {
+        "eyebrow": "Wiki del Café",
+        "title": "Todo sobre el café, por tema",
+        "desc": "Elegí qué querés conocer: de dónde viene el grano, qué planta es, cómo se procesó, con qué cafetera prepararlo o qué bebida pedir.",
+        "heroAlt": "Granos de café tostado y cucharas de cata",
+        "sectionsAria": "Secciones de la Wiki",
+        "entriesCount": "{count} fichas",
+        "explore": "Explorar {section}"
+      },
+      "sections": {
+        "origenes": {
+          "title": "Orígenes",
+          "singular": "Origen",
+          "desc": "Países y regiones productoras: altitud, cosecha y qué esperar en taza.",
+          "groupLabel": "Región",
+          "groupAll": "Todas las regiones"
+        },
+        "varietales": {
+          "title": "Varietales",
+          "singular": "Varietal",
+          "desc": "Las plantas detrás del grano: linaje, especie y perfil de cada variedad.",
+          "groupLabel": "Grupo genético",
+          "groupAll": "Todos los grupos"
+        },
+        "procesos": {
+          "title": "Procesos",
+          "singular": "Proceso",
+          "desc": "Cómo se beneficia la cereza: lavado, honey, natural y fermentaciones.",
+          "groupLabel": "Familia",
+          "groupAll": "Todas las familias"
+        },
+        "cafeteras": {
+          "title": "Cafeteras",
+          "singular": "Cafetera",
+          "desc": "Origen e historia de cada cafetera, cómo funciona y sus recetas de autor y tradicionales.",
+          "groupLabel": "Tipo",
+          "groupAll": "Todos los tipos"
+        },
+        "bebidas": {
+          "title": "Bebidas",
+          "singular": "Bebida",
+          "desc": "Del espresso al cappuccino: origen, proporciones y variantes de cada bebida.",
+          "groupLabel": "Tipo",
+          "groupAll": "Todos los tipos"
+        }
+      },
+      "section": {
+        "searchLabel": "Buscar en {section}",
+        "clearSearch": "Borrar búsqueda",
+        "moreFilters": "Perfil y sabor",
+        "profileTitle": "Perfil en taza",
+        "familyTitle": "Familia de sabor (rueda SCA)",
+        "resultsOne": "{count} ficha",
+        "resultsOther": "{count} fichas",
+        "clearFilters": "Limpiar filtros",
+        "emptyTitle": "No hay {section} con esos filtros",
+        "emptyDesc": "Probá con otra palabra o quitá algún filtro.",
+        "emptyAction": "Limpiar búsqueda y filtros"
+      },
+      "profileFilters": {
+        "acidez": "Acidez alta",
+        "dulzor": "Dulzor alto",
+        "cuerpo": "Cuerpo alto",
+        "amargor": "Amargor bajo"
+      },
+      "sensory": {
+        "acidity": "Acidez",
+        "sweetness": "Dulzor",
+        "body": "Cuerpo",
+        "bitterness": "Amargor",
+        "valueAria": "{label} {value} de 5",
+        "wheelAria": "Perfil sensorial: {values}",
+        "cardLine": "Predomina:",
+        "summary": "Predomina {attrs} ({value}/5).",
+        "and": "y"
+      },
+      "card": {
+        "station": "Con estación",
+        "encyclopedic": "Enciclopédica",
+        "recipes": "{count} recetas",
+        "withMilk": "Con leche",
+        "noMilk": "Sin leche",
+        "volume": "{min}–{max} ml",
+        "southernCone": "Cono Sur"
+      },
+      "detail": {
+        "breadcrumbAria": "Miga de pan",
+        "breadcrumbHome": "Wiki",
+        "back": "Volver a {section}",
+        "tocTitle": "En esta ficha",
+        "wheelTitle": "Perfil sensorial",
+        "aliasesMore": "y {count} más",
+        "facts": {
+          "altitude": "Altitud",
+          "altitudeValue": "{min}–{max} m s. n. m.",
+          "region": "Región",
+          "harvest": "Cosecha",
+          "species": "Especie",
+          "lineage": "Linaje",
+          "discovery": "Descubrimiento",
+          "fermentation": "Fermentación",
+          "mucilage": "Mucílago",
+          "drying": "Secado",
+          "creator": "Creador / Diseño",
+          "origin": "Origen",
+          "era": "Época",
+          "serving": "Servicio típico",
+          "servingValue": "{min}–{max} ml"
+        }
+      },
+      "fermentation": {
+        "washed": "Lavado",
+        "natural": "Natural",
+        "pulped_natural": "Pulped natural",
+        "honey": "Honey",
+        "anaerobic": "Anaeróbico",
+        "decaf": "Descafeinado"
+      },
+      "chapters": {
+        "story": {
+          "title": "Historia y simbología cultural"
+        },
+        "originStory": {
+          "title": "Origen e historia",
+          "sub": "Cómo nació y cómo se popularizó"
+        },
+        "notes": {
+          "title": "Vocabulario en taza",
+          "sub": "Tocá una nota para ubicarla en la Rueda de Sabores SCA"
+        },
+        "varietals": {
+          "title": "Varietales que se cultivan",
+          "sub": "Las plantas más comunes en {origin}"
+        },
+        "origins": {
+          "title": "Dónde se cultiva",
+          "sub": "Orígenes de la Wiki donde es una variedad habitual"
+        },
+        "coffees": {
+          "title": "Cafés que lucen en esta cafetera",
+          "sub": "Fichas de la Wiki que la recomiendan, con el perfil sugerido",
+          "group": "{section} · {count}"
+        },
+        "recipes": {
+          "title": "Recetas de autor y tradicionales",
+          "sub": "Elegí una y se abre directo en la estación",
+          "tabsAria": "Tipo de receta",
+          "author": "De autor",
+          "traditional": "Tradicionales"
+        },
+        "prepare": {
+          "title": "Cómo se prepara",
+          "sub": "Preparación tradicional paso a paso",
+          "encyclopedicNote": "Esta cafetera es de consulta: todavía no tiene estación con temporizador en la app."
+        },
+        "howItWorks": {
+          "title": "Cómo funciona",
+          "sub": "Principio físico · {family}"
+        },
+        "drinks": {
+          "title": "Bebidas que nacen con esta cafetera",
+          "sub": "Explorá sus proporciones y variantes"
+        },
+        "composition": {
+          "title": "Composición y proporciones",
+          "sub": "Nivel de llenado a escala real según el recipiente",
+          "prepare": "Cómo se prepara.",
+          "baseBrewer": "Cafetera base",
+          "served": "Volumen servido"
+        },
+        "variants": {
+          "title": "Variantes regionales y de barra",
+          "sub": "Cómo se pide y adapta según la cultura cafetera"
+        }
+      },
+      "recipe": {
+        "inCup": "En taza:",
+        "prepare": "Preparar esta receta",
+        "duration": "{time} min",
+        "difficulty": {
+          "universal": "Fácil",
+          "intermediate": "Intermedia",
+          "advanced": "Avanzada"
+        }
+      },
+      "methods": {
+        "title": "Cómo prepararlo",
+        "prepare": "Preparar en {method} ({profile})",
+        "knowBrewer": "Conocer la {brewer}"
+      },
+      "station": {
+        "title": "Estación de preparación",
+        "desc": "Calculadora de dosis y temporizador paso a paso con la receta estándar.",
+        "open": "Abrir estación {method}"
+      },
+      "drinkBrew": {
+        "title": "Prepararla",
+        "desc": "Empezá por la base: el {method} con perfil {profile}.",
+        "cta": "Preparar la base en {method} ({profile})",
+        "none": "No usa una estación de la app: seguí la preparación de esta ficha."
+      },
+      "composition": {
+        "layers": {
+          "water": "Agua",
+          "coffee": "Café",
+          "milk": "Leche",
+          "foam": "Espuma"
+        },
+        "vessels": {
+          "demitasse": "Pocillo",
+          "medium": "Taza mediana",
+          "large": "Taza grande",
+          "tall": "Vaso alto con hielo"
+        },
+        "caption": "{vessel} · escala en ml (máx. {cap})",
+        "aria": "Composición en {vessel} ({min} a {max} ml): {layers}",
+        "layerValue": "{label} {value}%"
+      },
+      "photoCaptions": {
+        "v60": "Hario V60 · Cono a 60° en vidrio borosilicato",
+        "chemex": "Chemex · Jarra reloj de arena con collar de madera",
+        "melitta": "Melitta · Cono trapezoidal con filtro de papel",
+        "aeropress": "AeroPress · Inmersión y presión manual con émbolo",
+        "french-press": "Prensa Francesa · Inmersión total con malla metálica",
+        "espresso-machine": "Máquina de Espresso · Extracción a 9 bares con portafiltro",
+        "moka": "Cafetera Moka · Cuerpo octogonal para hornalla",
+        "siphon": "Sifón Japonés · Dos globos por presión de vapor y vacío",
+        "cezve": "Cezve · Cazo de cobre martillado",
+        "electric-drip": "Filtro Eléctrica · Termosifón y ducha automática"
+      }
     }
   },
   "wheel": {

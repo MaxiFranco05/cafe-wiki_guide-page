@@ -1,7 +1,7 @@
 # Design System — Cafetería Wiki & Guide Page
 
 - **Mode:** `system-and-mockups`
-- **Revision:** `4`
+- **Revision:** `5` (2026-11-20: +7 fotos de cafeteras para la Wiki, sin cambios de tokens)
 - **Approval:** `approved (2026-11-17, by user — Café · Chocolate · Blanco Beige + Fondo 2 Ondas & Granos)`
 
 ## Propósito y Fuentes
@@ -20,7 +20,7 @@ Fundación visual portable del proyecto en **modo oscuro único (Dark-Only Café
 - `design-system/brand.js`: Constante única `BRAND_NAME` y binding automático para `[data-brand-name]`.
 - `design-system/tokens.css`: Variables CSS Dark-Only (`#120E0C` canvas, `#1B1512` surface, `#281F1A` elevated, `#16110E` dark-card, acentos `#DF6B3E` / `#DF9E52`), paleta semántica de 9 anillos SCA, curvas `cubic-bezier` y `@media (prefers-reduced-motion: reduce)`.
 - `design-system/assets/logo.svg`: Isotipo vectorial V60 con etiqueta explícita `PROVISIONAL`.
-- `design-system/assets/photos/*.jpg`: 5 fotografías generadas localmente en la sesión (`pro-machine-moody.jpg`, `v60-moody.jpg`, `espresso-moody.jpg`, `immersion-moody.jpg`, `beans-moody.jpg`).
+- `design-system/assets/photos/*.jpg`: 12 fotografías generadas localmente (espejadas en `public/images/coffee/`). Rev 1–4: `pro-machine-moody.jpg`, `v60-moody.jpg`, `espresso-moody.jpg`, `immersion-moody.jpg` (Chemex), `beans-moody.jpg`. Rev 5 (fichas de cafeteras de la Wiki, C-10): `melitta-moody.jpg`, `aeropress-moody.jpg`, `french-press-moody.jpg`, `moka-moody.jpg`, `siphon-moody.jpg`, `cezve-moody.jpg`, `electric-drip-moody.jpg`. Pendiente para C-12: versiones WebP/AVIF optimizadas (hoy 620–790 KB cada una).
 
 ## Decisiones Abiertas `(TBD)` y Pasos Exactos de Reemplazo
 

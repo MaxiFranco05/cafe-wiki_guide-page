@@ -61,6 +61,8 @@ export {
   type ProcessWikiEntry,
   type WikiEntry,
   type SensoryCatalogIntegrityResult,
+  OriginVarietalsSchema,
+  type OriginVarietals,
 } from './wiki.schema';
 
 export {

@@ -17,7 +17,7 @@ The system SHALL render a responsive layout containing a persistent top navigati
 - **THEN** the bottom tab bar is fixed at the viewport bottom with four accessible navigation items and touch targets of at least 44 by 44 pixels
 
 ### Requirement: Public SPA client-side routing
-The system SHALL support client-side routing across the five canonical public routes (`/`, `/brew/:methodSlug`, `/wiki`, `/wiki/:category/:entrySlug`, `/flavor-wheel`) without page reloads, and provide a user-friendly 404 fallback view for unknown routes or invalid parameters.
+The system SHALL support client-side routing across the canonical public routes (`/`, `/brew/:methodSlug`, `/wiki`, `/wiki/:section`, `/wiki/:section/:entrySlug`, `/flavor-wheel`) without page reloads, and provide a user-friendly 404 fallback view for unknown routes or invalid parameters.
 
 #### Scenario: Navigating between primary routes
 - **WHEN** a user selects a navigation link or tab for a valid route
@@ -26,6 +26,10 @@ The system SHALL support client-side routing across the five canonical public ro
 #### Scenario: Handling invalid routes or parameters
 - **WHEN** a user enters an unrecognized URL or invalid route parameter
 - **THEN** the system renders a friendly 404 fallback view with an action button to return to the home route
+
+#### Scenario: Wiki section and entry routes
+- **WHEN** a user opens `/wiki/origenes` and then `/wiki/origenes/kenya`
+- **THEN** the router renders the Orígenes section page and then the Kenia entry without a full page reload
 
 ### Requirement: Dark-only kitchen theme initialization
 The system SHALL operate exclusively in dark kitchen mode following `design-system/tokens.css` (Revision 3), initializing the root document with `color-scheme: dark` and `[data-theme="dark"]` prior to first paint without a light-mode theme toggle.
