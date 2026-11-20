@@ -23,6 +23,8 @@ export {
 } from './flavor-wheel.schema';
 
 export {
+  KEBAB_SLUG_REGEX,
+  WikiEntryCommonFields,
   WikiCategorySchema,
   RegionalRelevanceSchema,
   OriginMacroRegionSchema,
@@ -92,3 +94,31 @@ export {
   type CustomRecipeDraft,
   type CustomRecipeExportEnvelope,
 } from './recipe.schema';
+
+export {
+  BrewerFamilySchema,
+  BrewerHistorySchema,
+  BrewerEntrySchema,
+  type BrewerFamily,
+  type BrewerHistory,
+  type BrewerEntry,
+} from './brewer.schema';
+
+export {
+  DrinkFamilySchema,
+  DrinkCompositionSchema,
+  DrinkServedVolumeMlSchema,
+  DrinkHistorySchema,
+  DrinkBrewLinkSchema,
+  DrinkRegionalVariantSchema,
+  DrinkEntrySchema,
+  validateBrewersAndDrinksIntegrity,
+  type DrinkFamily,
+  type DrinkComposition,
+  type DrinkServedVolumeMl,
+  type DrinkHistory,
+  type DrinkBrewLink,
+  type DrinkRegionalVariant,
+  type DrinkEntry,
+  type BrewersAndDrinksIntegrityInput,
+} from './drink.schema';

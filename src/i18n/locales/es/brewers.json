@@ -1,0 +1,126 @@
+{
+  "wiki": {
+    "brewerFamilies": {
+      "drip_filter": "Filtro por goteo",
+      "immersion": "Inmersión",
+      "pressure": "Presión",
+      "decoction": "Decocción"
+    },
+    "brewers": {
+      "v60": {
+        "title": "Hario V60",
+        "summary": "Cono de filtrado a 60 grados con nervaduras en espiral y orificio inferior amplio. Entrega tazas limpias, aromáticas y de cuerpo ligero cuyo perfil típico responde directamente al ritmo de vertido y a la molienda.",
+        "aliases": "Hario V60, Cono V60, Pour over cónico, Dripper japonés",
+        "history": {
+          "inventor": "Hario Co., Ltd. (equipo de diseño industrial en Tokio)",
+          "originCountry": "Japón",
+          "era": "2004",
+          "howItWorks": "El agua pasa por gravedad a través de un filtro de papel cónico delgado. Las nervaduras internas en espiral separan el papel de las paredes y permiten que el aire escape hacia arriba, acelerando el drenaje y dejando el control del flujo en manos del barista."
+        }
+      },
+      "chemex": {
+        "title": "Chemex",
+        "summary": "Jarra de vidrio borosilicato en forma de reloj de arena con collar de madera y filtros de papel entre 20 % y 30 % más gruesos que el estándar. Produce un perfil típico cristalino, muy dulce y casi sin aceites en suspensión.",
+        "aliases": "Chemex, Jarra Chemex, Cafetera reloj de arena, Pour over de filtro grueso",
+        "history": {
+          "inventor": "Peter Schlumbohm",
+          "originCountry": "Estados Unidos",
+          "era": "1941",
+          "howItWorks": "Combina un embudo de laboratorio y un matraz Erlenmeyer en una sola pieza de vidrio con canal de aireación frontal. El papel de alta densidad retiene sedimentos finos y gran parte de los aceites, alargando la extracción entre 3:30 y 4:30 minutos."
+        }
+      },
+      "melitta": {
+        "title": "Melitta",
+        "summary": "Cono en forma de cuña de base estrecha con uno o dos orificios pequeños que regulan el paso del agua. Su perfil típico equilibra dulzor, cuerpo medio y acidez moderada con menos sensibilidad a variaciones de vertido.",
+        "aliases": "Melitta, Filtro en cuña, Cono trapezoidal, Filtro 102, Filtro 1x4",
+        "history": {
+          "inventor": "Melitta Bentz",
+          "originCountry": "Alemania",
+          "era": "1908",
+          "howItWorks": "El filtro de papel trapezoidal descansa sobre un canal estrecho con salida restringida. La columna de agua se acumula brevemente sobre la cama de café antes de drenar, generando una combinación estable de percolación e inmersión breve."
+        }
+      },
+      "aeropress": {
+        "title": "AeroPress",
+        "summary": "Cilindro de polímero con émbolo hermético que extrae por inmersión corta y empuje manual a través de un microfiltro de papel o metal. Permite tazas limpias con más cuerpo que un filtro tradicional y alta repetibilidad en viaje o casa.",
+        "aliases": "AeroPress, AeroPress Original, AeroPress Go, Prensa de aire",
+        "history": {
+          "inventor": "Alan Adler",
+          "originCountry": "Estados Unidos",
+          "era": "2005",
+          "howItWorks": "El café permanece sumergido en el cilindro entre 60 y 120 segundos y luego se empuja el émbolo con la mano generando una presión baja (alrededor de 0,5 a 0,7 bares) que fuerza la bebida a través del filtro circular en unos 30 segundos."
+        }
+      },
+      "frenchPress": {
+        "title": "Prensa Francesa",
+        "summary": "Jarra cilíndrica de inmersión total con émbolo y malla metálica fina. Como no usa papel, conserva los aceites naturales y sedimentos microscópicos, generando un perfil típico de cuerpo denso y textura cremosa.",
+        "aliases": "Prensa Francesa, Cafetera de émbolo, Cafetière, Bodum, Cafetera de pistón",
+        "history": {
+          "inventor": "Patentada por Attilio Calimani y Giulio Moneta (sobre diseños franceses previos)",
+          "originCountry": "Francia / Italia",
+          "era": "Siglo XIX (patente moderna en 1929)",
+          "howItWorks": "Todo el café molido grueso se infunde en agua caliente durante 4 minutos o más. Al bajar el émbolo, la malla metálica retiene los granos en el fondo sin filtrar los lípidos del café, que pasan completos a la taza."
+        }
+      },
+      "espressoMachine": {
+        "title": "Máquina de Espresso",
+        "summary": "Equipo de alta presión diseñado para extraer café molido fino en 25 a 35 segundos en forma de bebida concentrada con crema emulsionada. Es la base de toda la carta moderna de bebidas con leche.",
+        "aliases": "Máquina de espresso, Cafetera exprés, Portafiltro, Máquina de 9 bares",
+        "history": {
+          "inventor": "Angelo Moriondo, Luigi Bezzera, Desiderio Pavoni y Achille Gaggia",
+          "originCountry": "Italia",
+          "era": "1884–1948 (de vapor a pistón de alta presión)",
+          "howItWorks": "Una bomba o palanca impulsa agua a 90–94 grados Celsius y cerca de 9 bares de presión a través de una pastilla compactada de café molido fino en el portafiltro, emulsionando aceites y gases en una extracción corta de ratio 1:1,5 a 1:3."
+        }
+      },
+      "moka": {
+        "title": "Cafetera Moka",
+        "summary": "Cafetera octogonal de tres piezas para hornalla que extrae un café concentrado e intenso sin crema de espresso. Muy arraigada en los hogares de Italia, Argentina y Uruguay para beber sola o con leche caliente.",
+        "aliases": "Moka Express, Cafetera Italiana, Bialetti, Volturno, Cafetera de hornalla",
+        "history": {
+          "inventor": "Alfonso Bialetti",
+          "originCountry": "Italia",
+          "era": "1933",
+          "howItWorks": "Al calentar la caldera inferior, el vapor genera entre 1 y 1,5 bares de presión y empuja el agua caliente por un embudo central a través del café molido medio-fino hasta recolectar la infusión en la cámara superior."
+        },
+        "traditionalPreparation": "Llená la base con agua precalentada hasta justo debajo de la válvula de seguridad, cargá el embudo al ras con molienda media-fina sin prensar, enroscá y llevá a fuego mínimo. Retirá del fuego y enfriá la base apenas el flujo se aclare o empiece a borbotear."
+      },
+      "siphon": {
+        "title": "Sifón Japonés (Cafetera de Vacío)",
+        "summary": "Dispositivo de dos globos de vidrio que combina presión de vapor, inmersión controlada y filtrado por succión. Su perfil típico ofrece claridad aromática similar a un té junto con una textura limpia y sedosa.",
+        "aliases": "Sifón, Vacuum pot, Cafetera de vacío, Cona, Hario Technica",
+        "history": {
+          "inventor": "Loeff (primer diseño en Berlín) y patentes francesas de Jeanne Richard y Marie Fanny Amelne Massot",
+          "originCountry": "Alemania / Francia",
+          "era": "Décadas de 1830–1840",
+          "howItWorks": "El calor expande el vapor en el globo inferior y empuja el agua hacia la cámara superior, donde se infunde el café durante 45 a 60 segundos. Al retirar la fuente de calor, la contracción del aire crea vacío y succiona la bebida filtrada por tela o papel de vuelta al globo inferior."
+        },
+        "traditionalPreparation": "Calentá el agua en el globo inferior con el filtro ya colocado en la cámara superior (ratio 1:15, molienda media). Cuando el agua suba y se estabilice cerca de 92 grados, agregá el café, revolvé suave, infundí 60 segundos y retirá el fuego para completar el descenso por vacío."
+      },
+      "cezve": {
+        "title": "Cezve (Café Turco)",
+        "summary": "Pequeño cazo cónico de cobre o latón con mango largo usado para preparar café sin filtrar mediante decocción. Genera una taza corta, densa y aromática con espuma superficial y borra asentada en el fondo.",
+        "aliases": "Cezve, Ibrik, Briki, Café turco, Café griego, Café árabe, Jazve",
+        "history": {
+          "inventor": "Tradición cafetera otomana",
+          "originCountry": "Imperio otomano (actual Turquía y Balcanes)",
+          "era": "Siglo XVI",
+          "howItWorks": "El café molido pulverizado (más fino que espresso) se mezcla en frío con agua en ratio aproximado 1:10 y se calienta despacio sobre fuego bajo o arena caliente hasta justo antes del hervor, formando espuma densa sin hervir la bebida."
+        },
+        "traditionalPreparation": "Mezclá 7 g de café molido pulverizado con 70 ml de agua fría (y azúcar o cardamomo si se desea) dentro del cezve. Llevá a fuego muy bajo sin revolver después del inicio; apenas la espuma suba al borde, retirá del fuego, serví sin colar y esperá 1 a 2 minutos a que decante la borra."
+      },
+      "electricDrip": {
+        "title": "Cafetera de Filtro Eléctrica",
+        "summary": "Equipo automático que calienta agua en un tubo termosifón y la ducha sobre una canasta con filtro de papel o malla. Con buena estabilidad térmica produce tazas limpias y consistentes para varias porciones a la vez.",
+        "aliases": "Cafetera eléctrica de goteo, Cafetera americana, Moccamaster, Wigomat, Batch brewer",
+        "history": {
+          "inventor": "Gottlob Widmann (Wigomat), Gerard Clement Smit (Moccamaster) y Vincent Marotta (Mr. Coffee)",
+          "originCountry": "Alemania / Países Bajos / Estados Unidos",
+          "era": "1954–1972",
+          "howItWorks": "Una resistencia calienta el agua en un conducto estrecho con válvula unidireccional; el vapor impulsa el agua hacia el cabezal superior, donde gotea sobre el portafiltro y cae a la jarra térmica o de vidrio."
+        },
+        "traditionalPreparation": "Usá 60 g de café molido medio por litro de agua (ratio 1:16,7), enjuagá el filtro de papel antes de cargar el café y serví en una jarra térmica apenas termine el goteo para evitar que la placa calefactora queme la bebida."
+      }
+    }
+  }
+}

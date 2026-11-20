@@ -6,7 +6,7 @@ import {
 } from './brewing.schema';
 import type { FlavorWheelNode } from './flavor-wheel.schema';
 
-const KEBAB_SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+export const KEBAB_SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export const WikiCategorySchema = z.enum(['origin', 'varietal', 'process']);
 export type WikiCategory = z.infer<typeof WikiCategorySchema>;
@@ -79,7 +79,7 @@ export const AltitudeRangeMetersSchema = z
   });
 export type AltitudeRangeMeters = z.infer<typeof AltitudeRangeMetersSchema>;
 
-const WikiEntryBaseFields = {
+export const WikiEntryCommonFields = {
   slug: z.string().regex(KEBAB_SLUG_REGEX, {
     message: 'Wiki entry slug must be kebab-case (e.g. costa-rica, sl28-sl34)',
   }),
@@ -89,6 +89,10 @@ const WikiEntryBaseFields = {
   commercialAliasesKey: z.string().min(1),
   sensoryProfile: SensoryProfileSchema,
   flavorNodeIds: z.array(z.string().min(1)).min(1),
+};
+
+const WikiEntryBaseFields = {
+  ...WikiEntryCommonFields,
   recommendedMethods: z.array(RecommendedMethodSchema).min(1),
 };
 

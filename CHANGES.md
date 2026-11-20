@@ -309,8 +309,8 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 
 ---
 
-### [C-15] `wiki-brewers-and-drinks-catalog`
-- **Estado**: `[ ]` pendiente
+### [x] [C-15] `wiki-brewers-and-drinks-catalog`
+- **Estado**: `[x]` completado y archivado (`openspec/changes/archive/2026-11-20-c-15-wiki-brewers-and-drinks-catalog/`)
 - **Origen**: pedido del usuario al revisar el mockup de C-10 (2026-11-19): la Wiki debe separar claramente cada tema y sumar **Cafeteras** y **Bebidas** como secciones propias.
 - **Scope**: Esquemas Zod, catálogo estático y diccionarios `es` para dos nuevas secciones de la Wiki, sin UI
   - **Cafeteras**: una ficha por cafetera con origen e historia (inventor/región/época), cómo funciona y sus recetas destacadas y tradicionales enlazadas por `recipeId` al catálogo de recetas de `C-13` (`src/data/recipes/`), sin duplicarlas; las 6 del MVP enlazadas a su `BrewMethod` (`/brew/:methodSlug`) y posibilidad de cafeteras solo enciclopédicas (p. ej. moka, sifón) sin estación de preparación

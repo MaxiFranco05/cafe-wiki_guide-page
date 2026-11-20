@@ -27,7 +27,10 @@
 
 ## Context
 
-`/wiki` y `/wiki/:category/:entrySlug` existen como rutas (`App.tsx`) pero renderizan placeholders con 5 categorías ficticias. C-09 dejó el catálogo de orígenes, varietales y procesos (`WIKI_CATALOG`, 38 fichas) con selectores puros en `src/data/wiki/index.ts` (`filterWikiEntries`, `getWikiEntryByCategoryAndSlug`, `getWikiEntrySubGroup`, `groupWikiEntriesBySubGroup`) y el árbol SCA en `src/data/flavor-wheel/`. C-15 aportará Cafeteras y Bebidas con selectores de la misma forma. La estación ya resuelve `?profile=` con `resolveInitialProfileId`. `GlobalSearch` indexa entradas wiki falsas.
+`/wiki` y `/wiki/:category/:entrySlug` existen como rutas (`App.tsx`) pero renderizan placeholders con 5 categorías ficticias. C-09 dejó el catálogo de orígenes, varietales y procesos (`WIKI_CATALOG`, 38 fichas) con selectores puros en `src/data/wiki/index.ts` (`filterWikiEntries`, `getWikiEntryByCategoryAndSlug`, `getWikiEntrySubGroup`, `groupWikiEntriesBySubGroup`) y el árbol SCA en `src/data/flavor-wheel/`. C-15 dejó las dos secciones nuevas con el mismo contrato puro y búsqueda compartida (`src/data/wiki/search.ts`: `normalizeSearchText`, `matchesSensoryThresholds`):
+- **Cafeteras (`src/data/wiki-brewers/index.ts`)**: `BREWERS_CATALOG` (10 fichas: 6 con estación + 4 enciclopédicas), `BREWERS_BY_SLUG`, `getBrewerBySlug`, `getBrewerForMethod`, `getBrewerRecipes`, `groupBrewersByFamily` (`drip_filter | immersion | pressure | decoction`) y `filterBrewers` (`family`, `regionalRelevance`, `hasBrewStation`, `query`, `flavorNodeId`, umbrales sensoriales); textos en `src/i18n/locales/es/brewers.json` (`wiki.brewerFamilies.*`, `wiki.brewers.*`).
+- **Bebidas (`src/data/wiki-drinks/index.ts`)**: `DRINKS_CATALOG` (12 fichas con variantes regionales embebidas), `DRINKS_BY_SLUG`, `getDrinkBySlug`, `getDrinksForBrewer`, `groupDrinksByFamily` (`espresso_black | espresso_milk | cold`) y `filterDrinks` (`family`, `regionalRelevance`, `hasMilk`, `query`, `flavorNodeId`, umbrales sensoriales); textos en `src/i18n/locales/es/drinks.json` (`wiki.drinkFamilies.*`, `wiki.drinks.*`).
+La estación ya resuelve `?profile=` con `resolveInitialProfileId`. `GlobalSearch` indexa entradas wiki falsas.
 
 ## Goals / Non-Goals
 
@@ -58,7 +61,11 @@ SVG propio, sin librería: 4 sectores de 90°, 5 anillos concéntricos y radios 
 - *Alternativa descartada*: radar poligonal — con 4 ejes queda un rombo poco legible; los sectores rellenos replican la "rueda de rendimiento" pedida.
 
 ### D5 — Ficha por sección
-`WikiEntryDetailView` resuelve la ficha desde el registro y elige el bloque de metadatos con un `switch` exhaustivo sobre la sección (orígenes, varietales, procesos de C-09; cafeteras y bebidas con los campos de C-15). Los bloques comunes (encabezado, rueda, notas, preparar) se comparten.
+`WikiEntryDetailView` resuelve la ficha desde el registro y elige el bloque de metadatos con un `switch` exhaustivo sobre la sección:
+- **Orígenes, Varietales y Procesos (`WikiEntry`, C-09)**: metadatos propios (`OriginMetadata`, `VarietalMetadata`, `ProcessMetadata`) y `recommendedMethods`.
+- **Cafeteras (`BrewerEntry`, C-15)**: `family`, `history` (`inventorKey`, `originCountryKey`, `eraKey`, `howItWorksKey`), `methodId` (enlace directo a `/brew/:methodId` cuando no es `null`), `recipeIds` resueltas vía `getBrewerRecipes(slug)` (separando destacadas `kind === 'author'` vs tradicionales `standard | classic`), `traditionalPreparationKey` para cafeteras enciclopédicas (`methodId === null`), y bebidas asociadas vía `getDrinksForBrewer(slug)`.
+- **Bebidas (`DrinkEntry`, C-15)**: `family`, `history` (`originCountryKey`, `eraKey`, `historyKey`, `preparationKey`), `composition` (`{ coffee, milk, water, foam }` sumando 100 para el diagrama en capas), `servedVolumeMl` (`{ min, max }`), `baseBrewerSlugs` (enlazables a `/wiki/cafeteras/:slug`), `brewLink` (`{ methodId, profileId } | null` para el CTA de preparación) y `regionalVariants` (`{ id, nameKey, regionKey, descriptionKey }[]`).
+Los bloques comunes (encabezado, rueda sensorial `sensoryProfile`, notas `flavorNodeIds`, preparar) se comparten.
 
 ### D6 — Preparar en un toque
 `RecommendedMethodCard` usa la etiqueta corta del perfil (texto antes de ` (`, p. ej. "Liviano") vía `shortProfileLabel`, y un `<Link to={`/brew/${methodId}?profile=${profileId}`}>` (no `navigate` en handler) para teclado, clic medio y lectores de pantalla.

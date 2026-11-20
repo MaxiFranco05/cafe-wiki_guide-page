@@ -17,8 +17,14 @@ import { t } from '../../i18n';
 import { WIKI_ORIGINS } from './origins';
 import { WIKI_VARIETALS } from './varietals';
 import { WIKI_PROCESSES } from './processes';
+import {
+  matchesSensoryThresholds,
+  normalizeSearchText,
+  type SensoryThresholds,
+} from './search';
 
 export { WIKI_ORIGINS, WIKI_VARIETALS, WIKI_PROCESSES };
+export { matchesSensoryThresholds, normalizeSearchText, type SensoryThresholds };
 
 function freezeEntry<T extends WikiEntry>(entry: T): T {
   Object.freeze(entry.sensoryProfile);
@@ -183,24 +189,12 @@ export function groupWikiEntriesBySubGroup(
   return Object.freeze(frozen);
 }
 
-export interface WikiFilterOptions {
+export interface WikiFilterOptions extends SensoryThresholds {
   readonly category?: WikiCategory | 'all';
   readonly subGroup?: WikiSubGroup;
   readonly regionalRelevance?: RegionalRelevance;
   readonly query?: string;
   readonly flavorNodeId?: string;
-  readonly minAcidity?: number;
-  readonly minSweetness?: number;
-  readonly minBody?: number;
-  readonly maxBitterness?: number;
-}
-
-function normalizeSearchText(value: string): string {
-  return value
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .trim();
 }
 
 function buildSearchableHaystack(entry: WikiEntry): string {
@@ -252,19 +246,14 @@ export function filterWikiEntries(options: WikiFilterOptions = {}): readonly Wik
       return false;
     }
 
-    if (minAcidity !== undefined && entry.sensoryProfile.acidity < minAcidity) {
-      return false;
-    }
-
-    if (minSweetness !== undefined && entry.sensoryProfile.sweetness < minSweetness) {
-      return false;
-    }
-
-    if (minBody !== undefined && entry.sensoryProfile.body < minBody) {
-      return false;
-    }
-
-    if (maxBitterness !== undefined && entry.sensoryProfile.bitterness > maxBitterness) {
+    if (
+      !matchesSensoryThresholds(entry.sensoryProfile, {
+        minAcidity,
+        minSweetness,
+        minBody,
+        maxBitterness,
+      })
+    ) {
       return false;
     }
 

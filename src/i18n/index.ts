@@ -3,6 +3,8 @@ import esMethods from './locales/es/methods.json';
 import esFlavorWheel from './locales/es/flavor-wheel.json';
 import esWiki from './locales/es/wiki.json';
 import esRecipes from './locales/es/recipes.json';
+import esBrewers from './locales/es/brewers.json';
+import esDrinks from './locales/es/drinks.json';
 
 type NestedKeyOf<ObjectType extends object> = {
   [Key in keyof ObjectType & (string | number)]: ObjectType[Key] extends object
@@ -39,12 +41,18 @@ export function deepMerge<T extends Record<string, unknown>, U extends Record<st
 export const esDictionary = deepMerge(
   deepMerge(
     deepMerge(
-      deepMerge(esUi as Record<string, unknown>, esMethods as Record<string, unknown>),
-      esFlavorWheel as Record<string, unknown>
+      deepMerge(
+        deepMerge(
+          deepMerge(esUi as Record<string, unknown>, esMethods as Record<string, unknown>),
+          esFlavorWheel as Record<string, unknown>
+        ),
+        esWiki as Record<string, unknown>
+      ),
+      esRecipes as Record<string, unknown>
     ),
-    esWiki as Record<string, unknown>
+    esBrewers as Record<string, unknown>
   ),
-  esRecipes as Record<string, unknown>
+  esDrinks as Record<string, unknown>
 );
 
 export type TranslationKey =
@@ -52,7 +60,9 @@ export type TranslationKey =
   | NestedKeyOf<typeof esMethods>
   | NestedKeyOf<typeof esFlavorWheel>
   | NestedKeyOf<typeof esWiki>
-  | NestedKeyOf<typeof esRecipes>;
+  | NestedKeyOf<typeof esRecipes>
+  | NestedKeyOf<typeof esBrewers>
+  | NestedKeyOf<typeof esDrinks>;
 
 export type TranslationParams = Record<string, string | number>;
 
@@ -97,4 +107,4 @@ export function interpolate(template: string, params?: TranslationParams): strin
   }, template);
 }
 
-export { esUi, esMethods, esFlavorWheel, esWiki, esRecipes };
+export { esUi, esMethods, esFlavorWheel, esWiki, esRecipes, esBrewers, esDrinks };
