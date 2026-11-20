@@ -27,7 +27,7 @@ describe('MethodCard (C-03 D-02)', () => {
     expect(vesselSvg).toHaveAttribute('aria-hidden', 'true');
 
     expect(screen.getByText('Filtro · Pour-Over')).toBeInTheDocument();
-    expect(screen.getByText('James Hoffmann')).toBeInTheDocument();
+    expect(screen.getByText('Guía Estándar')).toBeInTheDocument();
     expect(screen.getByText('Ratio 1:16.7')).toBeInTheDocument();
     expect(screen.getByText('15 g')).toBeInTheDocument();
     expect(screen.getByText('3:30 min')).toBeInTheDocument();

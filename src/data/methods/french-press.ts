@@ -112,7 +112,7 @@ export const frenchPressMethod: BrewMethod = {
       labelKey: 'methods.frenchPress.profiles.normal.label',
       descriptionKey: 'methods.frenchPress.profiles.normal.description',
       ratio: 15.0,
-      referenceAuthor: 'James Hoffmann',
+      referenceAuthor: 'Guía Estándar',
       totalDurationSeconds: 270,
       phases: [
         {

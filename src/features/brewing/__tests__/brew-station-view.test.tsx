@@ -27,7 +27,7 @@ describe('BrewStationView Integration (C-05 Strict TDD)', () => {
     expect(screen.getByRole('button', { name: /liviano/i })).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByLabelText(/café seco \(g\)/i)).toHaveValue(15);
     expect(screen.getByLabelText(/agua total \(ml\)/i)).toHaveValue(255);
-    expect(screen.getByText(/Tetsu Kasuya/)).toBeInTheDocument();
+    expect(screen.getByText(/Guía Estándar/)).toBeInTheDocument();
 
     unmount();
 

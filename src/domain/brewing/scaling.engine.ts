@@ -1,4 +1,10 @@
-import type { BrewMethod, BrewPhase, RecipeProfile } from '../schemas';
+import type {
+  BrewMethod,
+  BrewPhase,
+  BrewRecipe,
+  BrewRecipePhase,
+  RecipeProfile,
+} from '../schemas';
 import {
   evaluateRangeThresholds,
   resolveGrindTip,
@@ -13,7 +19,7 @@ export interface ScalingInput {
   readonly waterMl?: number;
 }
 
-export interface ScaledBrewPhase extends BrewPhase {
+export interface ScaledBrewPhase extends BrewRecipePhase {
   readonly phaseWaterGrams: number;
   readonly targetCumulativeGrams: number;
 }
@@ -21,6 +27,7 @@ export interface ScaledBrewPhase extends BrewPhase {
 export interface ScaledRecipeResult {
   readonly methodId: BrewMethod['id'];
   readonly profileId: RecipeProfile['id'];
+  readonly recipeId?: string;
   readonly scalingMode: BrewMethod['scalingMode'];
   readonly ratio: number;
   readonly coffeeGrams: number;
@@ -91,8 +98,38 @@ function resolveActiveProfile(
   return fallback;
 }
 
+function resolveRecipeRatio(
+  recipe: BrewRecipe,
+  requestedProfileId: RecipeProfile['id'],
+  isEspresso: boolean
+): { readonly profileId: RecipeProfile['id']; readonly ratio: number } {
+  const ratios = recipe.intensityRatios;
+  if ('ristretto' in ratios) {
+    if (
+      requestedProfileId === 'ristretto' ||
+      requestedProfileId === 'normale' ||
+      requestedProfileId === 'lungo'
+    ) {
+      return { profileId: requestedProfileId, ratio: ratios[requestedProfileId] };
+    }
+    return { profileId: 'normale', ratio: ratios.normale };
+  }
+
+  if (
+    requestedProfileId === 'light' ||
+    requestedProfileId === 'normal' ||
+    requestedProfileId === 'strong'
+  ) {
+    return { profileId: requestedProfileId, ratio: ratios[requestedProfileId] };
+  }
+  return {
+    profileId: isEspresso ? 'normale' : 'normal',
+    ratio: ratios.normal,
+  };
+}
+
 function scalePhasesWithReconciliation(
-  phases: readonly BrewPhase[],
+  phases: readonly (BrewPhase | BrewRecipePhase)[],
   totalAmount: number,
   isEspresso: boolean
 ): readonly ScaledBrewPhase[] {
@@ -149,15 +186,41 @@ function isPositiveFinite(val: number | undefined): val is number {
 }
 
 /**
- * Bidirectionally scales dry coffee <-> water for a method and profile (RN-BR-01..03).
+ * Bidirectionally scales dry coffee <-> water for a method, intensity profile,
+ * and optional catalog/custom BrewRecipe (RN-BR-01..03).
  */
 export function calculateScaledRecipe(
   method: BrewMethod,
   profileId: RecipeProfile['id'],
-  input?: ScalingInput
+  input?: ScalingInput,
+  recipe?: BrewRecipe
 ): ScaledRecipeResult {
-  const profile = resolveActiveProfile(method, profileId);
   const isEspresso = method.scalingMode === 'espresso_yield_ratio';
+
+  let activeProfileId: RecipeProfile['id'];
+  let activeRatio: number;
+  let activePhases: readonly (BrewPhase | BrewRecipePhase)[];
+  let activeDurationSeconds: number;
+  let activeWaterTemp: BrewMethod['waterTempCelsius'];
+  let activeDefaultDose: number;
+
+  if (recipe) {
+    const resolved = resolveRecipeRatio(recipe, profileId, isEspresso);
+    activeProfileId = resolved.profileId;
+    activeRatio = resolved.ratio;
+    activePhases = recipe.phases;
+    activeDurationSeconds = recipe.totalDurationSeconds;
+    activeWaterTemp = recipe.waterTempCelsius ?? method.waterTempCelsius;
+    activeDefaultDose = recipe.defaultDoseGrams ?? method.defaultDoseGrams;
+  } else {
+    const profile = resolveActiveProfile(method, profileId);
+    activeProfileId = profile.id;
+    activeRatio = profile.ratio;
+    activePhases = profile.phases;
+    activeDurationSeconds = profile.totalDurationSeconds;
+    activeWaterTemp = method.waterTempCelsius;
+    activeDefaultDose = method.defaultDoseGrams;
+  }
 
   let coffeeGrams = 0;
   let totalWaterMl = 0;
@@ -169,24 +232,24 @@ export function calculateScaledRecipe(
     if (isPositiveFinite(input.coffeeGrams)) {
       coffeeGrams = roundToOneDecimal(input.coffeeGrams);
       totalWaterMl = isEspresso
-        ? roundToOneDecimal(coffeeGrams * profile.ratio)
-        : Math.round(coffeeGrams * profile.ratio);
+        ? roundToOneDecimal(coffeeGrams * activeRatio)
+        : Math.round(coffeeGrams * activeRatio);
       evalWater = isEspresso ? undefined : totalWaterMl;
     }
   } else if (input && input.waterMl !== undefined) {
     evalWater = input.waterMl;
     if (isPositiveFinite(input.waterMl)) {
       totalWaterMl = isEspresso ? roundToOneDecimal(input.waterMl) : Math.round(input.waterMl);
-      coffeeGrams = roundToOneDecimal(totalWaterMl / profile.ratio);
+      coffeeGrams = roundToOneDecimal(totalWaterMl / activeRatio);
       evalCoffee = coffeeGrams;
     } else {
-      evalCoffee = method.defaultDoseGrams;
+      evalCoffee = activeDefaultDose;
     }
   } else {
-    coffeeGrams = roundToOneDecimal(method.defaultDoseGrams);
+    coffeeGrams = roundToOneDecimal(activeDefaultDose);
     totalWaterMl = isEspresso
-      ? roundToOneDecimal(coffeeGrams * profile.ratio)
-      : Math.round(coffeeGrams * profile.ratio);
+      ? roundToOneDecimal(coffeeGrams * activeRatio)
+      : Math.round(coffeeGrams * activeRatio);
     evalCoffee = coffeeGrams;
     evalWater = isEspresso ? undefined : totalWaterMl;
   }
@@ -197,19 +260,20 @@ export function calculateScaledRecipe(
     totalWaterMl = 0;
   }
 
-  const phases = scalePhasesWithReconciliation(profile.phases, totalWaterMl, isEspresso);
+  const phases = scalePhasesWithReconciliation(activePhases, totalWaterMl, isEspresso);
   const grindTip = resolveGrindTip(method, coffeeGrams);
 
   return {
     methodId: method.id,
-    profileId: profile.id,
+    profileId: activeProfileId,
+    ...(recipe ? { recipeId: recipe.id } : {}),
     scalingMode: method.scalingMode,
-    ratio: profile.ratio,
+    ratio: activeRatio,
     coffeeGrams,
     totalWaterMl,
     tablespoons: estimateTablespoons(coffeeGrams),
-    totalDurationSeconds: profile.totalDurationSeconds,
-    waterTempCelsius: method.waterTempCelsius,
+    totalDurationSeconds: activeDurationSeconds,
+    waterTempCelsius: activeWaterTemp,
     phases,
     thresholdEvaluation,
     grindTip,
@@ -221,7 +285,8 @@ export function calculateScaledRecipe(
  */
 export function calculateEspressoStyles(
   method: BrewMethod,
-  doseGrams: number = method.defaultDoseGrams
+  doseGrams: number = method.defaultDoseGrams,
+  recipe?: BrewRecipe
 ): readonly EspressoStyleResult[] {
   const safeDose = isPositiveFinite(doseGrams) ? roundToOneDecimal(doseGrams) : 0;
   const styleOrder: readonly ('ristretto' | 'normale' | 'lungo')[] = [
@@ -232,18 +297,24 @@ export function calculateEspressoStyles(
 
   return styleOrder.map((styleId) => {
     const profile = resolveActiveProfile(method, styleId);
-    const yieldGrams = safeDose > 0 ? roundToOneDecimal(safeDose * profile.ratio) : 0;
-    const phases = scalePhasesWithReconciliation(profile.phases, yieldGrams, true);
+    const ratio =
+      recipe && 'ristretto' in recipe.intensityRatios
+        ? recipe.intensityRatios[styleId]
+        : profile.ratio;
+    const activePhases = recipe ? recipe.phases : profile.phases;
+    const totalDurationSeconds = recipe ? recipe.totalDurationSeconds : profile.totalDurationSeconds;
+    const yieldGrams = safeDose > 0 ? roundToOneDecimal(safeDose * ratio) : 0;
+    const phases = scalePhasesWithReconciliation(activePhases, yieldGrams, true);
 
     return {
       profileId: styleId,
       labelKey: profile.labelKey,
       descriptionKey: profile.descriptionKey,
-      ratio: profile.ratio,
+      ratio,
       doseGrams: safeDose,
       yieldGrams,
       targetWindowSeconds: ESPRESSO_TARGET_WINDOWS[styleId],
-      totalDurationSeconds: profile.totalDurationSeconds,
+      totalDurationSeconds,
       phases,
     };
   });

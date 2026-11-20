@@ -27,7 +27,7 @@ C-01 foundation-and-ui-shell
         │     ├── C-05 brew-station-calculator-ui ← + C-04 (vista `/brew/:methodSlug`)
         │     │     └── C-08 brew-timer-live-execution-ui ← + C-06 + C-07
         │     │           └── C-12 pwa-offline-and-production-readiness ← + C-10 + C-11
-        │     ├── C-10 sensory-wiki-explorer-ui  ← + C-09 (vistas `/wiki` y detalle)
+        │     ├── C-10 sensory-wiki-explorer-ui  ← + C-09 + C-15 (portada `/wiki`, secciones y fichas)
         │     └── C-11 interactive-sca-flavor-wheel-ui ← + C-09 (vista `/flavor-wheel`)
         │
         ├── C-04 brewing-scaling-and-espresso-engine ← paralelo con C-03, C-06, C-07, C-09
@@ -37,6 +37,7 @@ C-01 foundation-and-ui-shell
         ├── C-07 timer-engine-and-kitchen-adapters ← reloj monotónico + Wake Lock + Web Audio
         │
         └── C-09 wiki-and-flavor-wheel-catalog   ← catálogo Zod de Wiki + Rueda SCA
+              └── C-15 wiki-brewers-and-drinks-catalog ← fichas de Cafeteras y Bebidas para la Wiki (+ C-13 recetas)
 ```
 
 ### Paralelismo por fase
@@ -61,8 +62,13 @@ GATE 3: C-03 + C-04 ✓
   → C-05 brew-station-calculator-ui               [Agente C]
 
 GATE 4: C-03 + C-09 ✓                             ← SEGUNDO FORK (Wiki + Rueda en paralelo)
-  → C-10 sensory-wiki-explorer-ui                 [Agente A]
   → C-11 interactive-sca-flavor-wheel-ui          [Agente B]
+
+GATE 4b: C-09 + C-13 (multi-recipe-catalog-and-custom-recipes-domain) ✓
+  → C-15 wiki-brewers-and-drinks-catalog          [Agente B]
+
+GATE 4c: C-03 + C-09 + C-15 ✓
+  → C-10 sensory-wiki-explorer-ui                 [Agente C]
 
 GATE 5: C-05 + C-06 + C-07 ✓
   → C-08 brew-timer-live-execution-ui             [Agente C]
@@ -303,18 +309,40 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 
 ---
 
+### [C-15] `wiki-brewers-and-drinks-catalog`
+- **Estado**: `[ ]` pendiente
+- **Origen**: pedido del usuario al revisar el mockup de C-10 (2026-11-19): la Wiki debe separar claramente cada tema y sumar **Cafeteras** y **Bebidas** como secciones propias.
+- **Scope**: Esquemas Zod, catálogo estático y diccionarios `es` para dos nuevas secciones de la Wiki, sin UI
+  - **Cafeteras**: una ficha por cafetera con origen e historia (inventor/región/época), cómo funciona y sus recetas destacadas y tradicionales enlazadas por `recipeId` al catálogo de recetas de `C-13` (`src/data/recipes/`), sin duplicarlas; las 6 del MVP enlazadas a su `BrewMethod` (`/brew/:methodSlug`) y posibilidad de cafeteras solo enciclopédicas (p. ej. moka, sifón) sin estación de preparación
+  - **Bebidas**: fichas de bebidas a base de café, incluidas las de barra con leche que `C-13` deja fuera del motor de extracción (p. ej. espresso, ristretto, lungo, americano, cortado, macchiato, cappuccino, flat white, latte, mocha, café con leche, cold brew) con origen e historia, proporciones (café / leche / agua / espuma), método base y variantes regionales (prioridad Cono Sur)
+  - Perfil sensorial `1..5` (acidez, dulzor, cuerpo, amargor) en ambas para la rueda de la ficha, y referencias cruzadas validadas a métodos, perfiles y fichas de la Wiki (`RN-I18N-02`)
+  - Selectores puros por sección (búsqueda, filtros, agrupación) con la misma convención que `src/data/wiki/`
+  - Sin impacto visual directo (`Decision: no (no UI)` en `design.md`)
+  - Tests: esquemas, integridad referencial y 100% de claves i18n definidas
+- **Dependencias**: C-02, C-09, C-13 (`multi-recipe-catalog-and-custom-recipes-domain`)
+- **Governance**: MEDIO
+- **Leer antes**:
+  - `openspec/changes/c-13-multi-recipe-catalog-and-custom-recipes-domain/` (o su spec archivada)
+  - `knowledge-base/04_modelo_de_datos.md` §Entidades (`1. BrewMethod`, `6. WikiEntry`)
+  - `knowledge-base/05_reglas_de_negocio.md` §RN-I18N-01 y §RN-I18N-02
+  - `openspec/specs/wiki-and-flavor-wheel-catalog/spec.md`
+
+---
+
 ### [C-10] `sensory-wiki-explorer-ui`
 - **Estado**: `[ ]` pendiente
-- **Scope**: Vistas del Explorador de Wiki (`/wiki`) y Ficha Detallada (`/wiki/:category/:entrySlug`) con conexión directa a preparación (`US-009`)
-  - Vista `src/features/wiki/views/WikiExplorerView.tsx` (`/wiki`): pestañas por categoría (`Todos`, `Orígenes`, `Varietales`, `Procesos`), buscador instantáneo por texto y filtros rápidos por nota sensorial o nivel de acidez/cuerpo (`US-009 CA-1`)
-  - Vista `src/features/wiki/views/WikiEntryDetailView.tsx` (`/wiki/:category/:entrySlug`):
-    - Medidores visuales (`1..5`) de **Acidez**, **Dulzor**, **Cuerpo** y **Amargor** (`SensoryProfileBars.tsx`)
-    - Metadatos específicos según categoría (altitud y región para orígenes; especie y linaje para varietales; tipo de fermentación para procesos)
-    - Chips interactivos de notas de cata vinculados a `/flavor-wheel?node=...`
-    - Tarjetas de métodos recomendados con botón de 1 toque **"Preparar en {Método} ({Perfil})"** que navega a `/brew/:methodSlug?profile=:profileId` con la intensidad sugerida pre-seleccionada (`US-009 CA-3`)
-  - UI Mockup requerido antes de `apply` (`visual_design.mode = "system-and-mockups"`, Design System Rev 1)
-  - Tests: filtrado por categoría y búsqueda en `/wiki`, renderizado de ficha detallada con barras sensoriales, y navegación en 1 toque hacia `/brew/:methodSlug?profile=...` verificando que se pre-seleccione el perfil indicado
-- **Dependencias**: C-03, C-09
+- **Scope**: Portada de la Wiki (`/wiki`) con una tarjeta por sección, página propia por sección (`/wiki/:section`) y ficha detallada (`/wiki/:section/:entrySlug`) con conexión directa a preparación (`US-009`). Reestructurado el 2026-11-19 a pedido del usuario: cada tema por separado, sin una lista que mezcle orígenes, varietales y procesos
+  - Portada `/wiki`: tarjetas de **Orígenes**, **Varietales**, **Procesos**, **Cafeteras** y **Bebidas** con cantidad de fichas
+  - Página de sección `/wiki/:section` (`origenes | varietales | procesos | cafeteras | bebidas`): buscador instantáneo y filtros propios de esa sección (perfil en taza, familia SCA, subgrupo), estado en la URL
+  - Ficha `/wiki/:section/:entrySlug`:
+    - **Rueda sensorial** radial de 4 sectores (Acidez, Dulzor, Cuerpo, Amargor) con escala `1..5`, estilo "rueda de rendimiento", en lugar de barras
+    - Metadatos específicos según la sección (altitud y región; especie y linaje; fermentación; historia de la cafetera; proporciones de la bebida)
+    - Chips de notas de cata vinculados a `/flavor-wheel?node=...`
+    - Botón de 1 toque **"Preparar en {Método} ({Perfil})"** a `/brew/:methodSlug?profile=:profileId` (`US-009 CA-3`)
+  - Buscador global indexando las fichas reales de todas las secciones
+  - UI Mockup requerido antes de `apply` (`visual_design.mode = "system-and-mockups"`, Design System Rev 4)
+  - Tests: portada con 5 secciones, búsqueda y filtros por sección, ficha con rueda sensorial accesible, navegación en 1 toque a `/brew/:methodSlug?profile=...` con el perfil preseleccionado y 404 para sección o ficha inexistente
+- **Dependencias**: C-03, C-09, C-15
 - **Governance**: BAJO
 - **Leer antes**:
   - `knowledge-base/03_actores_y_roles.md` §Rutas públicas (`/wiki`, `/wiki/:category/:entrySlug`)
@@ -380,9 +408,20 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 | `C-07` | `timer-engine-and-kitchen-adapters` | FASE 2 | `C-02` | ALTO | No (motor timer + Web APIs) |
 | `C-08` | `brew-timer-live-execution-ui` | FASE 2 | `C-05, C-06, C-07` | MEDIO | Sí (Timer en vivo + Kitchen Mode) |
 | `C-09` | `wiki-and-flavor-wheel-catalog` | FASE 3 | `C-02` | MEDIO | No (catálogo Zod Wiki + Rueda SCA) |
-| `C-10` | `sensory-wiki-explorer-ui` | FASE 3 | `C-03, C-09` | BAJO | Sí (Explorador y fichas `/wiki`) |
+| `C-15` | `wiki-brewers-and-drinks-catalog` | FASE 3 | `C-02, C-09, C-13` | MEDIO | No (catálogo Zod Cafeteras + Bebidas) |
+| `C-10` | `sensory-wiki-explorer-ui` | FASE 3 | `C-03, C-09, C-15` | BAJO | Sí (Portada, secciones y fichas `/wiki`) |
 | `C-11` | `interactive-sca-flavor-wheel-ui` | FASE 3 | `C-03, C-09` | MEDIO | Sí (Rueda interactiva `/flavor-wheel`) |
 | `C-12` | `pwa-offline-and-production-readiness` | FASE 4 | `C-08, C-10, C-11` | MEDIO | Sí (Indicador Offline / PWA shell) |
+
+## Backlog futuro (sin change asignado)
+
+> Ideas del usuario (2026-11-19) para convertir la Wiki en una "wikipedia" con foco absoluto en el café. Se convertirán en changes cuando se prioricen.
+
+- **Tueste**: niveles (claro, medio, oscuro), qué cambia en taza y para qué método conviene cada uno.
+- **Molienda**: tamaños con referencias visuales y para qué cafetera sirve cada uno.
+- **Glosario**: términos de barismo y cata (bloom, crema, canalización, TDS, etc.).
+- **Autores**: baristas y referentes cuyas recetas usa la app (Hoffmann, Kasuya, Rao, etc.).
+- **Asociaciones**: SCA, World Coffee Research, Q Grader y entidades del café de especialidad.
 
 **Primer change recomendado**: `C-01` (`foundation-and-ui-shell`) — levanta desde el primer paso el esqueleto Vite + React + TypeScript con los tokens del Design System aprobado (`design-system/tokens.css`) y el layout navegable para ir viendo los resultados visuales en el navegador a medida que se avanza.
 

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { CustomBrewRecipeSchema, type CustomBrewRecipe } from '../domain/schemas';
 
 export const PREFERENCES_STORAGE_KEY = 'cafeteria-wiki:preferences:v1';
 
@@ -17,6 +18,7 @@ export const MethodPreferenceConfigSchema = z.object({
   coffeeGrams: z.number().positive(),
   waterMl: z.number().positive().optional(),
   profileId: z.enum(['light', 'normal', 'strong', 'ristretto', 'normale', 'lungo']),
+  selectedRecipeId: z.string().min(1).optional(),
 });
 
 export type MethodPreferenceConfig = z.infer<typeof MethodPreferenceConfigSchema>;
@@ -26,6 +28,7 @@ export const UserPreferencesSchema = z.object({
   theme: z.enum(['dark']),
   lastSelectedMethodSlug: BrewMethodSlugSchema.optional(),
   methodConfigs: z.record(z.string(), MethodPreferenceConfigSchema),
+  customRecipes: z.array(CustomBrewRecipeSchema).default([]),
 });
 
 export type UserPreferences = z.infer<typeof UserPreferencesSchema>;
@@ -34,6 +37,7 @@ export const DEFAULT_USER_PREFERENCES: UserPreferences = {
   muted: false,
   theme: 'dark',
   methodConfigs: {},
+  customRecipes: [],
 };
 
 export interface StorageLike {
@@ -50,8 +54,13 @@ export interface StorageAdapterDeps {
 export interface StorageAdapter {
   getPreferences(): UserPreferences;
   savePreferences(next: UserPreferences): UserPreferences;
-  updatePreferences(partial: Partial<Omit<UserPreferences, 'methodConfigs'>>): UserPreferences;
+  updatePreferences(
+    partial: Partial<Omit<UserPreferences, 'methodConfigs' | 'customRecipes'>>
+  ): UserPreferences;
   setMethodConfig(slug: BrewMethodSlug, config: MethodPreferenceConfig): UserPreferences;
+  getCustomRecipes(methodId?: BrewMethodSlug): CustomBrewRecipe[];
+  saveCustomRecipe(recipe: CustomBrewRecipe): UserPreferences;
+  deleteCustomRecipe(recipeId: string): UserPreferences;
   clearPreferences(): UserPreferences;
 }
 
@@ -68,7 +77,7 @@ function resolveDefaultStorage(): StorageLike | undefined {
 
 function readValidatedFromStorage(
   storage: StorageLike | undefined,
-  key: string,
+  key: string
 ): UserPreferences | null {
   if (!storage) {
     return null;
@@ -90,8 +99,8 @@ function readValidatedFromStorage(
 }
 
 /**
- * Zod-validated localStorage adapter for kitchen preferences with isolated
- * `structuredClone()` in-memory fallback on QuotaExceededError / SecurityError.
+ * Zod-validated localStorage adapter for kitchen preferences and user custom recipes
+ * with isolated `structuredClone()` in-memory fallback on QuotaExceededError / SecurityError.
  */
 export function createStorageAdapter(deps?: StorageAdapterDeps): StorageAdapter {
   const storage = deps && 'storage' in deps ? deps.storage : resolveDefaultStorage();
@@ -125,11 +134,14 @@ export function createStorageAdapter(deps?: StorageAdapterDeps): StorageAdapter 
       return persist(next);
     },
 
-    updatePreferences(partial: Partial<Omit<UserPreferences, 'methodConfigs'>>): UserPreferences {
+    updatePreferences(
+      partial: Partial<Omit<UserPreferences, 'methodConfigs' | 'customRecipes'>>
+    ): UserPreferences {
       return persist({
         ...memoryMirror,
         ...partial,
         methodConfigs: structuredClone(memoryMirror.methodConfigs),
+        customRecipes: structuredClone(memoryMirror.customRecipes),
       });
     },
 
@@ -140,6 +152,44 @@ export function createStorageAdapter(deps?: StorageAdapterDeps): StorageAdapter 
           ...structuredClone(memoryMirror.methodConfigs),
           [slug]: structuredClone(config),
         },
+        customRecipes: structuredClone(memoryMirror.customRecipes),
+      });
+    },
+
+    getCustomRecipes(methodId?: BrewMethodSlug): CustomBrewRecipe[] {
+      const recipes =
+        methodId === undefined
+          ? memoryMirror.customRecipes
+          : memoryMirror.customRecipes.filter((recipe) => recipe.methodId === methodId);
+      return structuredClone(recipes);
+    },
+
+    saveCustomRecipe(recipe: CustomBrewRecipe): UserPreferences {
+      const parsed = CustomBrewRecipeSchema.safeParse(recipe);
+      if (!parsed.success) {
+        return structuredClone(memoryMirror);
+      }
+      const existingIndex = memoryMirror.customRecipes.findIndex((r) => r.id === parsed.data.id);
+      const nextRecipes = structuredClone(memoryMirror.customRecipes);
+      if (existingIndex >= 0) {
+        nextRecipes[existingIndex] = structuredClone(parsed.data);
+      } else {
+        nextRecipes.push(structuredClone(parsed.data));
+      }
+
+      return persist({
+        ...memoryMirror,
+        methodConfigs: structuredClone(memoryMirror.methodConfigs),
+        customRecipes: nextRecipes,
+      });
+    },
+
+    deleteCustomRecipe(recipeId: string): UserPreferences {
+      const nextRecipes = memoryMirror.customRecipes.filter((r) => r.id !== recipeId);
+      return persist({
+        ...memoryMirror,
+        methodConfigs: structuredClone(memoryMirror.methodConfigs),
+        customRecipes: structuredClone(nextRecipes),
       });
     },
 

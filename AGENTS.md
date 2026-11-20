@@ -89,6 +89,36 @@ Son contrato obligatorio; romper cualquiera de estas reglas es un defecto:
 
 ---
 
+## Stack de Modelos (Plan PRO) y Recomendación por Tarea
+
+> Balancea calidad y las **3 bolsas de cuota semanales independientes** de Antigravity Plan PRO (*Gemini Models*, *Claude & GPT* y *Gemini 4 Argon*).
+> **Regla operativa (al archivar un change y antes de iniciar el siguiente):** el agente **DEBE incluir un bloque compacto** (sin gastar tokens extra en análisis) con:
+> 1. **Próximo change y Stack** (`Backend / Dominio`, `Frontend / UI` o `Mixto` — para elegir familia Gemini vs. Claude Opus/Sonnet).
+> 2. **Nivel de Governance** (`LOW`, `MEDIUM`, `HIGH` o `CRITICAL`, tomado de `CHANGES.md`).
+> 3. **Modelos sugeridos (Principal / Secundario por cuota)** + `Effort` para `/opsx:propose` y `/opsx:apply`.
+> El agente **no puede leer el `/usage` del usuario**; si la bolsa principal está baja, el usuario avisa y se usa el secundario.
+
+| Fase / Tarea | Modelo principal | Effort | Bolsa de cuota | Fallback / Cuándo cambiar |
+|---|---|---|---|---|
+| **Planificación Frontend** *(UI, mockups, Design System, UX)* | **Claude Opus 5.5** *(UI compleja)* / **Claude Sonnet 5.5** *(estándar)* | `Medium` | Claude & GPT | **Gemini 4 Neon (`Medium`)** si se requiere contexto masivo o se agota Claude. |
+| **Planificación Dominio / Backend** *(arquitectura, contratos, `design.md`, `tasks.md`)* | **Gemini 4 Argon** *(estándar, cuota aparte)* | `Medium` / `High` | Gemini 4 Argon | **Gemini 4 Neon (`High`)** en lógica crítica o concurrencia compleja (`Neon` es más capaz que `Argon`); **Neon (`Low`)** en CRUDs simples. |
+| **Coding Frontend — Visual / UI nueva** *(layouts, Tailwind, SVG, responsive)* | **Claude Sonnet 5.5** *(día a día)* / **Claude Opus 5.5** *(pantallas clave)* | `Medium` | Claude & GPT | **Gemini 4 Neon (`Medium`)** si se agota la ventana de 5h de Claude. |
+| **Coding Frontend — Lógica / Estado / Tests** | **Gemini 4 Neon** | `Low` / `Medium` | Gemini Models | **Orchestrator (Neon)** en changes multi-archivo grandes con loops de tests. |
+| **Coding Dominio / Backend / TDD** | **Gemini 4 Neon** | `Low` *(simple)* / `Medium` *(TDD exigente)* | Gemini Models | **Orchestrator (Neon)** para 20+ pasos multi-archivo; **Hydrogen (`Low`)** solo en ediciones triviales. |
+| **Exploración (`/opsx:explore`)** | **Hydrogen (`Low`)** o **Neon (`Low`)** | `Low` | Gemini Models | **Argon (`Medium`)** si es duda pura de arquitectura. |
+| **Debugging — 1° intento** | **Gemini 4 Neon** | `Medium` | Gemini Models | Mejor balance velocidad/precisión (`55 pts`). |
+| **Debugging — Bug bloqueado (2+ fallos)** | **Neon (`High`)** → si persiste: **Opus 5.5 (`Medium`/`High`)** | `High` | Gemini / Claude | Cambiar de familia destraba puntos ciegos. |
+| **Code Review / Auditoría** | **Gemini 4 Argon** | `High` | Gemini 4 Argon | Aprovecha bolsa semanal independiente antes de mergear. |
+| **Cierre (`/opsx:archive`), docs, renombres** | **Gemini 4 Hydrogen** | `Low` | Gemini Models | Máximo ahorro en tareas mecánicas. |
+
+**Reglas anti-desperdicio (Plan PRO):**
+1. No usar `Hydrogen (High)` ni `Hydrogen (xHigh)`: `Neon (Medium)` rinde más por igual o menor costo.
+2. No fijar `Neon (xHigh)`: reservarlo solo para bloqueos extremos (`61` vs `60` en `High` a costo mucho mayor).
+3. No dejar `Opus 5.5` en loops largos de tests o refactors mecánicos: agota la ventana de 5h de Claude; pasar a `Sonnet 5.5` o `Neon`.
+4. Aprovechar las 3 bolsas semanales por separado (descargar UI en **Claude**, reviews/specs estándar en **Argon**, y ejecución pesada en **Neon**).
+
+---
+
 ## Flujo de Trabajo
 
 ```

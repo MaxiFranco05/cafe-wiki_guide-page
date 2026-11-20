@@ -26,7 +26,7 @@ export const v60Method: BrewMethod = {
       labelKey: 'methods.v60.profiles.light.label',
       descriptionKey: 'methods.v60.profiles.light.description',
       ratio: 17.0,
-      referenceAuthor: 'Tetsu Kasuya',
+      referenceAuthor: 'Guía Estándar',
       totalDurationSeconds: 210,
       phases: [
         {
@@ -112,7 +112,7 @@ export const v60Method: BrewMethod = {
       labelKey: 'methods.v60.profiles.normal.label',
       descriptionKey: 'methods.v60.profiles.normal.description',
       ratio: 16.67,
-      referenceAuthor: 'James Hoffmann',
+      referenceAuthor: 'Guía Estándar',
       totalDurationSeconds: 210,
       phases: [
         {

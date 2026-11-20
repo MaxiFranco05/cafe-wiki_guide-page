@@ -112,7 +112,7 @@ export const chemexMethod: BrewMethod = {
       labelKey: 'methods.chemex.profiles.normal.label',
       descriptionKey: 'methods.chemex.profiles.normal.description',
       ratio: 16.0,
-      referenceAuthor: 'James Hoffmann',
+      referenceAuthor: 'Guía Estándar',
       totalDurationSeconds: 240,
       phases: [
         {

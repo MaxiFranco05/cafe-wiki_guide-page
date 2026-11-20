@@ -1,0 +1,410 @@
+{
+  "recipes": {
+    "items": {
+      "v60-standard": {
+        "title": "V60 Estándar (3 Vertidos)",
+        "processSummary": "Bloom de 45 s con agitación suave seguido de dos vertidos continuos en espiral hasta completar en 3:00.",
+        "flavorHighlight": "Taza equilibrada y limpia con dulzor a caramelo y acidez cítrica controlada.",
+        "grindNote": "Molienda media-fina (similar a azúcar común)."
+      },
+      "v60-hoffmann-1cup": {
+        "title": "Better 1-Cup V60",
+        "processSummary": "Cinco pulsos iguales del 20 % con swirl en el bloom y al final para maximizar temperatura y uniformidad en 3:00.",
+        "flavorHighlight": "Alta extracción con dulzor parejo, textura sedosa y final largo sin amargor.",
+        "grindNote": "Molienda media-fina, un punto más fina que en un V60 de jarra."
+      },
+      "v60-kasuya-4-6": {
+        "title": "Método 4:6 (WBrC 2016)",
+        "processSummary": "Cinco vertidos iguales de 45 s dejando drenar la cama entre pulsos: el primer 40 % regula acidez/dulzor y el 60 % final la fuerza.",
+        "flavorHighlight": "Cuerpo jugoso, dulzor pronunciado y separación clara de notas frutales.",
+        "grindNote": "Molienda gruesa (como sal marina o prensa francesa)."
+      },
+      "v60-scott-rao": {
+        "title": "Vertido Único + Rao Spin",
+        "processSummary": "Bloom 3x excavado con cuchara, un solo vertido continuo hasta el 100 % y giro final (Rao Spin) para aplanar la cama.",
+        "flavorHighlight": "Estabilidad térmica alta, extracción pareja y claridad sin astringencia.",
+        "grindNote": "Molienda media-fina uniforme."
+      },
+      "chemex-standard": {
+        "title": "Chemex Estándar Equilibrado",
+        "processSummary": "Bloom de 45 s con swirl y dos vertidos lentos al centro manteniendo altura estable en el cono hasta 4:00.",
+        "flavorHighlight": "Claridad cristalina sin sedimentos ni aceites pesados, ideal para notas florales.",
+        "grindNote": "Molienda media-gruesa para compensar el filtro triple de papel."
+      },
+      "chemex-hoffmann": {
+        "title": "Chemex Equilibrado (Hoffmann)",
+        "processSummary": "Bloom del 15 % con swirl, vertido espiral hasta el 60 % y luego hasta el 100 %, agitación con cuchara y swirl antes del drawdown.",
+        "flavorHighlight": "Taza brillante pero con más dulzor y estructura que un Chemex tradicional.",
+        "grindNote": "Molienda media a media-fina (ajustar si el drenaje supera 4:30)."
+      },
+      "chemex-four-pulse": {
+        "title": "Chemex 4 Pulsos (Alta Claridad)",
+        "processSummary": "Bloom inicial seguido de tres pulsos espaciados sin inundar las paredes del filtro, terminando en 4:15.",
+        "flavorHighlight": "Acidez cítrica definida, cuerpo ligero tipo té y aroma floral limpio.",
+        "grindNote": "Molienda media-gruesa."
+      },
+      "melitta-standard": {
+        "title": "Melitta Estándar Balanceado",
+        "processSummary": "Bloom de 45 s y dos vertidos moderados evitando llenar el cono por completo para que el orificio drene sin estancarse.",
+        "flavorHighlight": "Cuerpo medio redondo, dulzor achocolatado y acidez amable para todos los días.",
+        "grindNote": "Molienda media."
+      },
+      "melitta-controlled-pulses": {
+        "title": "Melitta por Pulsos Controlados",
+        "processSummary": "Bloom seguido de tres pulsos cortos dejando bajar parcialmente el nivel de agua entre vertidos hasta 3:30.",
+        "flavorHighlight": "Mayor definición aromática y limpieza sin perder la dulzura clásica del fondo plano.",
+        "grindNote": "Molienda media a media-fina."
+      },
+      "aeropress-standard": {
+        "title": "AeroPress Estándar Directo",
+        "processSummary": "Vertido completo del agua, agitación suave, sellado con el émbolo para evitar goteo hasta 1:30 y prensado de 30 s.",
+        "flavorHighlight": "Taza dulce, limpia y balanceada con cuerpo medio en dos minutos.",
+        "grindNote": "Molienda media-fina."
+      },
+      "aeropress-hoffmann-ultimate": {
+        "title": "Ultimate AeroPress",
+        "processSummary": "Orientación directa a 95 °C: vertido total, sellado inmediato 2:00, swirl suave, reposo de 30 s y prensado lento de 30 s.",
+        "flavorHighlight": "Claridad de filtro con dulzor redondo; sumamente repetible y difícil de arruinar.",
+        "grindNote": "Molienda fina a media-fina (más fina que un filtrado clásico)."
+      },
+      "aeropress-alan-adler": {
+        "title": "Receta Original a 80 °C",
+        "processSummary": "Agua a 80 °C hasta marca 1, agitación vigorosa de 10 s y prensado suave de 30 s; produce concentrado para diluir al gusto.",
+        "flavorHighlight": "Bajísimo amargor y acidez muy suave en menos de un minuto.",
+        "grindNote": "Molienda fina (similar a sal de mesa)."
+      },
+      "aeropress-inverted": {
+        "title": "AeroPress Invertida (Cuerpo Denso)",
+        "processSummary": "Cámara invertida sin goteo previo: bloom de 30 s con agitación, llenado completo hasta 1:30, volteo cuidadoso y prensado lento.",
+        "flavorHighlight": "Textura almibarada, cuerpo alto y notas intensas de cacao y caramelo.",
+        "grindNote": "Molienda media-fina."
+      },
+      "french-press-standard": {
+        "title": "Prensa Francesa Estándar",
+        "processSummary": "Vertido total del agua, 4:00 de inmersión, rotura suave de la costra con 1:00 de reposo y prensado lento sin agitar el fondo.",
+        "flavorHighlight": "Cuerpo cremoso y dulce con aceites naturales y menos sedimentos que el prensado inmediato.",
+        "grindNote": "Molienda gruesa uniforme."
+      },
+      "french-press-hoffmann": {
+        "title": "Ultimate French Press (Sin Sedimentos)",
+        "processSummary": "Inmersión de 4:00, rotura y limpieza de la costra con cucharas, 5:00 de decantación y servicio apoyando la malla apenas en la superficie.",
+        "flavorHighlight": "La textura más limpia y sedosa posible en prensa francesa, con dulzor prolongado.",
+        "grindNote": "Molienda media-gruesa."
+      },
+      "french-press-classic-quick": {
+        "title": "Inmersión Clásica Rápida (4 min)",
+        "processSummary": "Vertido total con agitación inicial, inmersión de 4:00 y prensado directo para servir al instante.",
+        "flavorHighlight": "Taza intensa, con peso en boca y perfil clásico achocolatado.",
+        "grindNote": "Molienda gruesa."
+      },
+      "espresso-standard": {
+        "title": "Espresso Moderno con Pre-infusión",
+        "processSummary": "Pre-infusión suave de 6 s para saturar la pastilla seguida de extracción estable a 9 bar hasta alcanzar el yield objetivo.",
+        "flavorHighlight": "Balance entre crema densa, dulzor estructurado y acidez integrada.",
+        "grindNote": "Molienda fina calibrada para alcanzar el yield en 25–30 s."
+      },
+      "espresso-turbo-shot": {
+        "title": "Turbo Shot (6 Bar / 15 s)",
+        "processSummary": "Molienda más gruesa y menor presión (6 bar) para una extracción rápida de 12–18 s con ratio largo (1:2.5 a 1:3).",
+        "flavorHighlight": "Cero channeling, alta extracción, dulzor intenso y notas frutales nítidas en tuestes claros.",
+        "grindNote": "Molienda fina-media, notablemente más gruesa que el espresso tradicional."
+      },
+      "espresso-italian-classic": {
+        "title": "Espresso Clásico Italiano",
+        "processSummary": "Extracción directa a 9 bar y 91 °C sin pre-infusión prolongada, buscando un yield corto y concentrado en 26 s.",
+        "flavorHighlight": "Crema espesa color avellana, cacao amargo intenso y gran cuerpo para leche.",
+        "grindNote": "Molienda muy fina."
+      }
+    },
+    "phases": {
+      "v60-standard_bloom": {
+        "title": "Bloom",
+        "instruction": "Verté {{waterGrams}} g en espiral, agitá suavemente el cono y dejá desgasificar hasta 0:45."
+      },
+      "v60-standard_pour1": {
+        "title": "Vertido 1",
+        "instruction": "Verté {{waterGrams}} g en círculos constantes hasta alcanzar {{cumulativeWaterGrams}} g."
+      },
+      "v60-standard_pour2": {
+        "title": "Vertido 2",
+        "instruction": "Agregá los últimos {{waterGrams}} g suave hasta {{cumulativeWaterGrams}} g y hacé un swirl leve."
+      },
+      "v60-standard_drawdown": {
+        "title": "Drawdown",
+        "instruction": "Dejá drenar completamente hasta obtener una cama plana en 3:00."
+      },
+      "v60-hoffmann-1cup_bloom": {
+        "title": "Pulso 1 (Bloom)",
+        "instruction": "Verté {{waterGrams}} g en 10 s, hacé un swirl suave y dejá reposar hasta 0:45."
+      },
+      "v60-hoffmann-1cup_pulse2": {
+        "title": "Pulso 2",
+        "instruction": "Verté {{waterGrams}} g en espiral hasta {{cumulativeWaterGrams}} g y dejá bajar un poco el nivel."
+      },
+      "v60-hoffmann-1cup_pulse3": {
+        "title": "Pulso 3",
+        "instruction": "Verté {{waterGrams}} g constantes hasta alcanzar {{cumulativeWaterGrams}} g."
+      },
+      "v60-hoffmann-1cup_pulse4": {
+        "title": "Pulso 4",
+        "instruction": "Agregá {{waterGrams}} g con caudal parejo hasta {{cumulativeWaterGrams}} g."
+      },
+      "v60-hoffmann-1cup_pulse5": {
+        "title": "Pulso 5 + Swirl",
+        "instruction": "Verté los últimos {{waterGrams}} g hasta {{cumulativeWaterGrams}} g y girá suavemente el V60."
+      },
+      "v60-hoffmann-1cup_drawdown": {
+        "title": "Drawdown",
+        "instruction": "Esperá el drenaje completo sobre una cama nivelada alrededor de 3:00."
+      },
+      "v60-kasuya-4-6_pour1": {
+        "title": "Vertido 1 (40% · Base)",
+        "instruction": "Verté {{waterGrams}} g y dejá drenar por completo hasta 0:45."
+      },
+      "v60-kasuya-4-6_pour2": {
+        "title": "Vertido 2 (40% · Balance)",
+        "instruction": "Verté {{waterGrams}} g hasta {{cumulativeWaterGrams}} g completando el 40 % inicial."
+      },
+      "v60-kasuya-4-6_pour3": {
+        "title": "Vertido 3 (60% · Fuerza)",
+        "instruction": "Verté {{waterGrams}} g hasta {{cumulativeWaterGrams}} g una vez seca la superficie."
+      },
+      "v60-kasuya-4-6_pour4": {
+        "title": "Vertido 4 (60% · Fuerza)",
+        "instruction": "Agregá {{waterGrams}} g hasta {{cumulativeWaterGrams}} g y esperá drenaje completo."
+      },
+      "v60-kasuya-4-6_pour5": {
+        "title": "Vertido 5 (Cierre)",
+        "instruction": "Verté los últimos {{waterGrams}} g hasta {{cumulativeWaterGrams}} g y dejá terminar en 3:30."
+      },
+      "v60-scott-rao_bloom": {
+        "title": "Bloom + Excavación",
+        "instruction": "Verté {{waterGrams}} g y remové suavemente con cuchara para eliminar bolsas secas."
+      },
+      "v60-scott-rao_main-pour": {
+        "title": "Vertido Único",
+        "instruction": "Verté {{waterGrams}} g en flujo continuo hasta {{cumulativeWaterGrams}} g manteniendo la cama inmersa."
+      },
+      "v60-scott-rao_spin": {
+        "title": "Agitación + Rao Spin",
+        "instruction": "Remové una vuelta suave por las paredes y aplicá un Rao Spin para nivelar la cama."
+      },
+      "v60-scott-rao_drawdown": {
+        "title": "Drawdown",
+        "instruction": "Dejá drenar sin tocar el filtro hasta completar en 3:00."
+      },
+      "chemex-standard_bloom": {
+        "title": "Bloom",
+        "instruction": "Verté {{waterGrams}} g en espiral sobre todo el café y agitá levemente la jarra."
+      },
+      "chemex-standard_pour1": {
+        "title": "Vertido 1",
+        "instruction": "Verté {{waterGrams}} g de forma lenta y continua hasta {{cumulativeWaterGrams}} g."
+      },
+      "chemex-standard_pour2": {
+        "title": "Vertido 2",
+        "instruction": "Agregá {{waterGrams}} g al centro hasta {{cumulativeWaterGrams}} g sin inundar el borde."
+      },
+      "chemex-standard_drawdown": {
+        "title": "Drawdown",
+        "instruction": "Dejá filtrar completamente a través del papel triple hasta 4:00."
+      },
+      "chemex-hoffmann_bloom": {
+        "title": "Bloom + Swirl",
+        "instruction": "Verté {{waterGrams}} g cubriendo toda la cama, hacé un swirl suave y esperá hasta 0:45."
+      },
+      "chemex-hoffmann_pour60": {
+        "title": "Vertido hasta 60%",
+        "instruction": "Verté {{waterGrams}} g en espiral hasta alcanzar {{cumulativeWaterGrams}} g en 1:15."
+      },
+      "chemex-hoffmann_pour100": {
+        "title": "Vertido hasta 100%",
+        "instruction": "Continuá agregando {{waterGrams}} g en círculos suaves hasta {{cumulativeWaterGrams}} g."
+      },
+      "chemex-hoffmann_stir": {
+        "title": "Agitación con Cuchara",
+        "instruction": "Dá una vuelta en sentido horario y otra antihoraria para despegar granos de las paredes."
+      },
+      "chemex-hoffmann_swirl": {
+        "title": "Swirl Final",
+        "instruction": "Girá suavemente la Chemex para aplanar la cama antes del drenaje."
+      },
+      "chemex-hoffmann_drawdown": {
+        "title": "Drawdown",
+        "instruction": "Esperá a que el filtro drene por completo cerca de los 4:00."
+      },
+      "chemex-four-pulse_bloom": {
+        "title": "Bloom",
+        "instruction": "Verté {{waterGrams}} g uniformemente y dejá desgasificar durante 45 s."
+      },
+      "chemex-four-pulse_pulse1": {
+        "title": "Pulso 1",
+        "instruction": "Verté {{waterGrams}} g en círculos cerrados hasta {{cumulativeWaterGrams}} g."
+      },
+      "chemex-four-pulse_pulse2": {
+        "title": "Pulso 2",
+        "instruction": "Agregá {{waterGrams}} g hasta {{cumulativeWaterGrams}} g manteniendo nivel medio."
+      },
+      "chemex-four-pulse_pulse3": {
+        "title": "Pulso 3",
+        "instruction": "Verté los últimos {{waterGrams}} g hasta {{cumulativeWaterGrams}} g."
+      },
+      "chemex-four-pulse_drawdown": {
+        "title": "Drawdown",
+        "instruction": "Dejá escurrir hasta completar en 4:15."
+      },
+      "melitta-standard_bloom": {
+        "title": "Bloom",
+        "instruction": "Verté {{waterGrams}} g humedeciendo toda la cama y dejá reposar 45 s."
+      },
+      "melitta-standard_pour1": {
+        "title": "Vertido 1",
+        "instruction": "Verté {{waterGrams}} g lento y centrado hasta {{cumulativeWaterGrams}} g."
+      },
+      "melitta-standard_pour2": {
+        "title": "Vertido 2",
+        "instruction": "Completá con {{waterGrams}} g hasta {{cumulativeWaterGrams}} g sin sobrepasar el borde del filtro."
+      },
+      "melitta-standard_drawdown": {
+        "title": "Drawdown",
+        "instruction": "Dejá drenar por el orificio inferior hasta 3:15."
+      },
+      "melitta-controlled-pulses_bloom": {
+        "title": "Bloom",
+        "instruction": "Verté {{waterGrams}} g en espiral y esperá 45 s."
+      },
+      "melitta-controlled-pulses_pulse1": {
+        "title": "Pulso 1",
+        "instruction": "Agregá {{waterGrams}} g hasta {{cumulativeWaterGrams}} g y dejá descender un tercio."
+      },
+      "melitta-controlled-pulses_pulse2": {
+        "title": "Pulso 2",
+        "instruction": "Verté {{waterGrams}} g hasta {{cumulativeWaterGrams}} g con caudal suave."
+      },
+      "melitta-controlled-pulses_pulse3": {
+        "title": "Pulso 3",
+        "instruction": "Completá con {{waterGrams}} g hasta {{cumulativeWaterGrams}} g."
+      },
+      "melitta-controlled-pulses_drawdown": {
+        "title": "Drawdown",
+        "instruction": "Dejá drenar completamente hasta 3:30."
+      },
+      "aeropress-standard_infusion": {
+        "title": "Vertido y Agitación",
+        "instruction": "Verté {{waterGrams}} g de agua (total {{cumulativeWaterGrams}} g), revolvé 3 veces y sellá con el émbolo."
+      },
+      "aeropress-standard_steep": {
+        "title": "Inmersión",
+        "instruction": "Dejá infusionar sin goteo con el émbolo sellado hasta 1:30."
+      },
+      "aeropress-standard_plunge": {
+        "title": "Prensado",
+        "instruction": "Presioná constante durante 30 s y frená al escuchar el silbido."
+      },
+      "aeropress-hoffmann_pour": {
+        "title": "Vertido y Sellado",
+        "instruction": "Verté rápido los {{waterGrams}} g (total {{cumulativeWaterGrams}} g) e insertá el émbolo 1 cm para crear vacío."
+      },
+      "aeropress-hoffmann_steep": {
+        "title": "Inmersión en Reposo",
+        "instruction": "Dejá reposar sin mover la cámara hasta cumplir 2:00."
+      },
+      "aeropress-hoffmann_swirl": {
+        "title": "Swirl y Decantación",
+        "instruction": "Agitá suavemente todo el conjunto con un giro y esperá 30 s a que baje la cama."
+      },
+      "aeropress-hoffmann_plunge": {
+        "title": "Prensado Lento",
+        "instruction": "Presioná suavemente durante 30 s hasta el silbido."
+      },
+      "aeropress-adler_pour": {
+        "title": "Vertido a 80 °C",
+        "instruction": "Verté {{waterGrams}} g de agua a 80 °C (total {{cumulativeWaterGrams}} g) sobre el café fino."
+      },
+      "aeropress-adler_stir": {
+        "title": "Agitación Vigorosa",
+        "instruction": "Revolvé enérgicamente con la paleta durante 10 s."
+      },
+      "aeropress-adler_plunge": {
+        "title": "Prensado y Dilución",
+        "instruction": "Presioná suave 20–30 s y luego diluí el concentrado con agua caliente al gusto."
+      },
+      "aeropress-inverted_bloom": {
+        "title": "Bloom Invertido",
+        "instruction": "Con la cámara invertida, verté {{waterGrams}} g y revolvé suave para saturar todo el café."
+      },
+      "aeropress-inverted_fill": {
+        "title": "Llenado e Inmersión",
+        "instruction": "Completá con {{waterGrams}} g hasta {{cumulativeWaterGrams}} g, colocá la tapa con filtro y esperá hasta 1:30."
+      },
+      "aeropress-inverted_plunge": {
+        "title": "Volteo y Prensado",
+        "instruction": "Volteá con cuidado sobre la taza y presioná parejo durante 30 s."
+      },
+      "french-press-standard_pour": {
+        "title": "Vertido Total",
+        "instruction": "Verté los {{waterGrams}} g de agua (total {{cumulativeWaterGrams}} g) mojando toda la cama."
+      },
+      "french-press-standard_steep": {
+        "title": "Inmersión",
+        "instruction": "Dejá infusionar sin agitar hasta los 4:00."
+      },
+      "french-press-standard_break": {
+        "title": "Romper Costra y Reposo",
+        "instruction": "Rompé la costra superficial con una cuchara y dejá decantar 1 minuto."
+      },
+      "french-press-standard_plunge": {
+        "title": "Prensado Suave",
+        "instruction": "Bajá el émbolo despacio sin comprimir el fondo y serví inmediatamente."
+      },
+      "french-press-hoffmann_pour": {
+        "title": "Vertido Rápido",
+        "instruction": "Verté {{waterGrams}} g de agua recién hervida (total {{cumulativeWaterGrams}} g) en 15 s."
+      },
+      "french-press-hoffmann_steep": {
+        "title": "Inmersión",
+        "instruction": "Dejá reposar 4 minutos sin colocar el émbolo."
+      },
+      "french-press-hoffmann_skim": {
+        "title": "Romper y Limpiar Costra",
+        "instruction": "Revolvé la costra superior y retirá la espuma y granos flotantes con dos cucharas."
+      },
+      "french-press-hoffmann_settle": {
+        "title": "Decantación (5 min)",
+        "instruction": "Colocá la tapa sin bajar el émbolo y esperá 5 minutos para que sedimenten los finos."
+      },
+      "french-press-hoffmann_serve": {
+        "title": "Servir sin Bajar Émbolo",
+        "instruction": "Apoyá la malla apenas debajo de la superficie y serví despacio dejando el sedimento en el fondo."
+      },
+      "french-press-classic_pour": {
+        "title": "Vertido y Agitación",
+        "instruction": "Verté {{waterGrams}} g (total {{cumulativeWaterGrams}} g) y revolvé suavemente 3 segundos."
+      },
+      "french-press-classic_steep": {
+        "title": "Inmersión",
+        "instruction": "Tapá con el émbolo arriba y dejá infusionar hasta 4:00."
+      },
+      "french-press-classic_plunge": {
+        "title": "Prensado Directo",
+        "instruction": "Presioná con firmeza constante y serví de inmediato."
+      },
+      "espresso-standard_preinfusion": {
+        "title": "Pre-infusión",
+        "instruction": "Saturá la pastilla a baja presión durante 6 s hasta ver las primeras gotas ({{waterGrams}} g)."
+      },
+      "espresso-standard_shot": {
+        "title": "Extracción a 9 Bar",
+        "instruction": "Extraé {{waterGrams}} g adicionales hasta alcanzar {{cumulativeWaterGrams}} g en taza."
+      },
+      "espresso-turbo_shot": {
+        "title": "Extracción Turbo (6 Bar)",
+        "instruction": "Extraé {{waterGrams}} g (total {{cumulativeWaterGrams}} g) en flujo rápido continuo de 12–18 s."
+      },
+      "espresso-italian_shot": {
+        "title": "Extracción Clásica (9 Bar)",
+        "instruction": "Extraé directo a 9 bar hasta alcanzar {{cumulativeWaterGrams}} g ({{waterGrams}} g) con crema densa."
+      }
+    }
+  }
+}

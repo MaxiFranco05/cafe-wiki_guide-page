@@ -10,3 +10,13 @@ export {
   type EspressoTargetWindow,
   type EspressoStyleResult,
 } from './scaling.engine';
+
+export {
+  buildCustomRecipe,
+  duplicateRecipeAsDraft,
+  exportCustomRecipeJson,
+  importCustomRecipeJson,
+  type BuildCustomRecipeOptions,
+  type BuildCustomRecipeResult,
+  type ImportCustomRecipeResult,
+} from './custom-recipe.engine';

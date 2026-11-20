@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>C-10 Wiki Explorer — Mockup</title>
+  <!-- Approved design system (Rev 4) + compiled CSS of the real app (shell, tokens, utilities) -->
+  <link rel="stylesheet" href="../../../../design-system/tokens.css" />
+  <link rel="stylesheet" href="assets/c10-app-snapshot.css" />
+  <style>
+    /* ---------- C-10 mockup layer: tokens only, no loose hex ---------- */
+    .c10 { display: grid; gap: 20px; }
+    .c10-hero {
+      position: relative; display: grid; grid-template-columns: 1.15fr 1fr; overflow: hidden;
+      border-radius: 20px; border: 1px solid var(--border-subtle); background: var(--bg-dark-card); box-shadow: var(--shadow-card);
+    }
+    .c10-hero-copy { padding: 26px 30px; display: grid; gap: 8px; align-content: center; z-index: 1;
+      background: linear-gradient(120deg, var(--bg-dark-card), var(--bg-surface)); }
+    .c10-hero h1 { margin: 0; font-size: 1.85rem; letter-spacing: -0.02em; color: var(--text-primary); }
+    .c10-hero p { margin: 0; color: var(--text-secondary); font-size: 14px; line-height: 1.55; max-width: 46ch; }
+    .c10-hero-stats { display: flex; gap: 14px; margin-top: 6px; font: 600 11px var(--font-mono); color: var(--accent-gold); letter-spacing: .06em; text-transform: uppercase; }
+    .c10-hero-photo { position: relative; min-height: 150px; max-height: 190px; }
+    .c10-hero-photo img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.1) saturate(1.2) brightness(.66); }
+    .c10-hero-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--bg-dark-card), transparent 55%); }
+
+    .c10-search { position: relative; }
+    .c10-search svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
+    .c10-search input {
+      width: 100%; min-height: 50px; padding: 0 44px 0 42px; border-radius: 14px; border: 1px solid var(--border-recessed);
+      background: var(--bg-elevated); color: var(--text-primary); font: 500 15px var(--font-sans);
+    }
+    .c10-search input::placeholder { color: var(--text-muted); }
+    .c10-search input:focus { outline: none; border-color: var(--accent-gold); box-shadow: var(--shadow-focus); }
+    .c10-search .c10-clear { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; border-radius: 10px; border: 0; background: transparent; color: var(--text-secondary); cursor: pointer; display: none; }
+    .c10-search.has-value .c10-clear { display: grid; place-items: center; }
+
+    .c10-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 4px; border-radius: 14px; background: var(--bg-elevated); border: 1px solid var(--border-subtle); }
+    .c10-tab {
+      min-height: 44px; border: 0; border-radius: 11px; background: transparent; color: var(--text-secondary); cursor: pointer;
+      font: 600 13.5px var(--font-sans); display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      transition: background-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+    }
+    .c10-tab b { font: 600 11px var(--font-mono); color: var(--text-muted); }
+    .c10-tab[aria-selected='true'] { background: var(--accent-primary); color: var(--text-on-accent); box-shadow: var(--shadow-sm); }
+    .c10-tab[aria-selected='true'] b { color: var(--text-on-accent); opacity: .8; }
+
+    .c10-filter-row { display: grid; gap: 8px; }
+    .c10-filter-label { font: 600 10.5px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); }
+    .c10-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .c10-chip {
+      min-height: 44px; padding: 0 14px; border-radius: var(--radius-pill); border: 1px solid var(--border-recessed);
+      background: var(--bg-surface); color: var(--text-secondary); font: 600 13px var(--font-sans); cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+      transition: border-color var(--duration-fast) var(--ease-out), background-color var(--duration-fast) var(--ease-out);
+    }
+    .c10-chip:hover { border-color: var(--border-strong); color: var(--text-primary); }
+    .c10-chip[aria-pressed='true'] { background: var(--accent-gold-soft); border-color: var(--accent-gold); color: var(--accent-gold); }
+    .c10-chip i { width: 9px; height: 9px; border-radius: 50%; background: var(--fam); flex-shrink: 0; }
+    .c10-chip svg { flex-shrink: 0; }
+
+    .c10-resultbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 13px; color: var(--text-secondary); }
+    .c10-resultbar b { color: var(--text-primary); }
+    .c10-link-btn { min-height: 44px; border: 0; background: none; color: var(--accent-gold); font: 600 13px var(--font-sans); cursor: pointer; padding: 0 4px; }
+
+    .c10-group { display: grid; gap: 12px; }
+    .c10-group h2 { margin: 6px 0 0; display: flex; align-items: baseline; gap: 10px; font-size: 15px; color: var(--text-primary); }
+    .c10-group h2 small { font: 600 11px var(--font-mono); color: var(--text-muted); }
+    .c10-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+
+    .c10-card {
+      display: grid; gap: 12px; align-content: start; padding: 16px; border-radius: 16px; text-decoration: none; color: inherit;
+      background: var(--bg-surface); border: 1px solid var(--border-subtle); cursor: pointer;
+      transition: border-color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+    }
+    .c10-card:hover { border-color: color-mix(in srgb, var(--accent-gold) 45%, transparent); transform: translateY(-2px); }
+    .c10-card:active { transform: scale(var(--scale-press)); }
+    .c10-card-head { display: flex; justify-content: space-between; gap: 8px; align-items: start; }
+    .c10-card h3 { margin: 0; font-size: 16.5px; color: var(--text-primary); letter-spacing: -0.01em; }
+    .c10-card-sub { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
+    .c10-badge { flex-shrink: 0; font: 600 9.5px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; padding: 4px 7px; border-radius: 6px; color: var(--accent-gold); background: var(--accent-gold-soft); border: 1px solid color-mix(in srgb, var(--accent-gold) 30%, transparent); }
+    .c10-mini { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .c10-mini div { display: grid; gap: 5px; }
+    .c10-mini small { font: 600 9.5px var(--font-mono); letter-spacing: .05em; text-transform: uppercase; color: var(--text-muted); }
+    .c10-pips { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
+    .c10-pips span { height: 5px; border-radius: 2px; background: var(--border-recessed); }
+    .c10-pips span.on { background: var(--accent-gold); }
+    .c10-notes { display: flex; flex-wrap: wrap; gap: 6px; }
+    .c10-note { display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px; border-radius: var(--radius-pill); font-size: 12px; color: var(--text-secondary); background: var(--bg-elevated); border: 1px solid var(--border-subtle); }
+    .c10-note i { width: 7px; height: 7px; border-radius: 50%; background: var(--fam); }
+
+    .c10-empty { padding: 34px 20px; text-align: center; border-radius: 16px; border: 1px dashed var(--border-strong); color: var(--text-secondary); display: grid; gap: 10px; justify-items: center; }
+    .c10-empty h2 { margin: 0; font-size: 16px; color: var(--text-primary); }
+
+    /* Variant B: filters in a sticky side panel on desktop */
+    .c10-layout { display: grid; gap: 18px; }
+    .c10-side { display: grid; gap: 16px; align-content: start; }
+    .c10-cat-list { display: none; }
+    @media (min-width: 1024px) {
+      [data-variant='b'] .c10-layout { grid-template-columns: 290px minmax(0, 1fr); align-items: start; }
+      [data-variant='b'] .c10-side { position: sticky; top: 96px; padding: 16px; border-radius: 18px; background: var(--bg-surface); border: 1px solid var(--border-subtle); }
+      [data-variant='b'] .c10-tabs { display: none; }
+      [data-variant='b'] .c10-cat-list { display: grid; gap: 4px; }
+      [data-variant='b'] .c10-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    .c10-cat-item { min-height: 44px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; border-radius: 11px; border: 0; background: transparent; color: var(--text-secondary); font: 600 14px var(--font-sans); cursor: pointer; text-align: left; }
+    .c10-cat-item b { font: 600 11px var(--font-mono); color: var(--text-muted); }
+    .c10-cat-item[aria-selected='true'] { background: var(--accent-primary-soft); color: var(--text-primary); box-shadow: inset 3px 0 0 var(--accent-primary); }
+
+    /* ---------- Detail ---------- */
+    .c10-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-secondary); }
+    .c10-crumbs a { color: var(--text-secondary); text-decoration: none; min-height: 32px; display: inline-flex; align-items: center; }
+    .c10-crumbs a:hover { color: var(--accent-gold); }
+    .c10-crumbs b { color: var(--accent-gold); font-weight: 600; }
+    .c10-detail { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+    .c10-col { display: grid; gap: 16px; }
+    .c10-col--side { position: sticky; top: 96px; }
+    .c10-panel { padding: 20px; border-radius: 18px; background: var(--bg-surface); border: 1px solid var(--border-subtle); display: grid; gap: 14px; }
+    .c10-panel h2 { margin: 0; font: 600 11px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); }
+    .c10-entry-head { padding: 24px; border-radius: 20px; background: linear-gradient(135deg, var(--bg-dark-card), var(--bg-surface)); border: 1px solid var(--border-subtle); box-shadow: var(--shadow-card); display: grid; gap: 12px; }
+    .c10-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+    .c10-pill { font: 600 10.5px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; padding: 5px 9px; border-radius: 7px; color: var(--text-secondary); background: var(--bg-elevated); border: 1px solid var(--border-subtle); }
+    .c10-pill--cat { color: var(--text-on-accent); background: var(--accent-primary); border-color: transparent; }
+    .c10-entry-head h1 { margin: 0; font-size: 2.3rem; letter-spacing: -0.025em; color: var(--text-primary); line-height: 1.05; }
+    .c10-aliases { font: 500 12.5px var(--font-mono); color: var(--accent-gold); }
+    .c10-summary { margin: 0; font-size: 15px; line-height: 1.65; color: var(--text-secondary); max-width: 62ch; }
+
+    .c10-bars { display: grid; gap: 12px; }
+    .c10-bar { display: grid; grid-template-columns: 78px 1fr 34px; align-items: center; gap: 12px; }
+    .c10-bar span { font-size: 13.5px; color: var(--text-primary); font-weight: 600; }
+    .c10-bar b { font: 600 12px var(--font-mono); color: var(--text-secondary); text-align: right; }
+    .c10-seg { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+    .c10-seg i { height: 12px; border-radius: 4px; background: var(--border-recessed); }
+    .c10-seg i.on { background: linear-gradient(90deg, var(--accent-primary), var(--accent-gold)); }
+
+    .c10-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 0; }
+    .c10-meta div { padding: 12px; border-radius: 12px; background: var(--bg-elevated); border: 1px solid var(--border-subtle); display: grid; gap: 4px; }
+    .c10-meta dt { font: 600 10px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); }
+    .c10-meta dd { margin: 0; font-size: 14px; color: var(--text-primary); line-height: 1.35; }
+    .c10-meta dd em { font-style: normal; font-size: 11px; color: var(--text-secondary); margin-left: 3px; }
+
+    .c10-note-link { min-height: 44px; padding: 0 14px; font-size: 13.5px; color: var(--text-primary); text-decoration: none; cursor: pointer; }
+    .c10-note-link:hover { border-color: var(--accent-gold); }
+    .c10-note-link svg { color: var(--text-muted); }
+
+    .c10-method { padding: 14px; border-radius: 14px; background: var(--bg-elevated); border: 1px solid var(--border-subtle); display: grid; gap: 10px; }
+    .c10-method-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+    .c10-method-head b { font-size: 15px; color: var(--text-primary); }
+    .c10-method-head span { font: 600 10.5px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-gold); }
+    .c10-method p { margin: 0; font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+    .c10-prepare {
+      min-height: 50px; border-radius: 12px; border: 0; background: var(--accent-primary); color: var(--text-on-accent); cursor: pointer;
+      font: 600 14.5px var(--font-sans); display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: var(--shadow-sm);
+      transition: background-color var(--duration-fast) var(--ease-out), transform var(--duration-press) var(--ease-out);
+    }
+    .c10-prepare:hover { background: var(--accent-primary-hover); }
+    .c10-prepare:active { transform: scale(var(--scale-press)); }
+    .c10-method--secondary .c10-prepare { background: var(--accent-primary-soft); color: var(--accent-gold); box-shadow: none; border: 1px solid color-mix(in srgb, var(--accent-primary) 45%, transparent); }
+    .c10-back { min-height: 44px; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--text-secondary); text-decoration: none; }
+    .c10-back:hover { color: var(--text-primary); }
+
+    .c10 :focus-visible { outline: 2px solid var(--border-focus); outline-offset: 2px; }
+
+    /* Demo-only toast + variant switcher (not part of the design) */
+    .c10-toast { position: fixed; left: 50%; bottom: 96px; transform: translateX(-50%) translateY(20px); opacity: 0; padding: 10px 16px; border-radius: 12px; background: var(--bg-tooltip); border: 1px solid var(--border-strong); color: var(--text-primary); font: 500 13px var(--font-mono); z-index: 80; transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out); pointer-events: none; }
+    .c10-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .c10-demo { position: fixed; left: 12px; bottom: 12px; z-index: 70; display: flex; gap: 4px; padding: 4px; border-radius: 10px; background: var(--bg-glass); border: 1px solid var(--border-subtle); font: 600 11px var(--font-mono); }
+    .c10-demo button { border: 0; border-radius: 7px; padding: 6px 9px; background: transparent; color: var(--text-secondary); cursor: pointer; font: inherit; }
+    .c10-demo button[aria-pressed='true'] { background: var(--accent-primary); color: var(--text-on-accent); }
+
+    @media (max-width: 1023px) {
+      .c10-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      /* Mobile reading order: header -> sensory profile -> how to brew -> metadata -> notes */
+      .c10-detail { display: flex; flex-direction: column; align-items: stretch; gap: 16px; }
+      .c10-col { display: contents; }
+      .c10-o1 { order: 1; } .c10-o2 { order: 2; } .c10-o3 { order: 3; } .c10-o4 { order: 4; } .c10-o5 { order: 5; } .c10-o6 { order: 6; }
+    }
+    @media (max-width: 767px) {
+      .c10-hero { grid-template-columns: 1fr; }
+      .c10-hero-photo { display: none; }
+      .c10-hero-copy { padding: 20px; }
+      .c10-hero h1 { font-size: 1.5rem; }
+      .c10-tab { font-size: 12.5px; flex-direction: column; gap: 0; min-height: 48px; }
+      .c10-chips--scroll { flex-wrap: nowrap; overflow-x: auto; margin: 0 -16px; padding: 0 16px 4px; scrollbar-width: none; }
+      .c10-grid { grid-template-columns: 1fr; }
+      .c10-entry-head h1 { font-size: 1.85rem; }
+      .c10-meta { grid-template-columns: 1fr; }
+      .c10-demo { bottom: 84px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .c10-card, .c10-tab, .c10-chip, .c10-prepare, .c10-toast { transition: none; }
+      .c10-card:hover, .c10-card:active, .c10-prepare:active { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <div class="c10-toast" id="toast" role="status"></div>
+  <div class="c10-demo" id="demo" aria-label="Variante (solo demo)"></div>
+
+  <script src="../../../../design-system/brand.js"></script>
+  <script src="assets/c10-app-snapshot.js"></script>
+  <script>
+  (function () {
+    const D = window.C10_DATA;
+    const params = new URLSearchParams(location.search);
+    let variant = params.get('variant') === 'b' ? 'b' : 'a';
+
+    // Real app shell (TopNavbar + BottomTabBar) rendered from the app at /wiki.
+    document.getElementById('app').innerHTML = window.C10_SHELL.replace(/<main([^>]*)>[\s\S]*<\/main>/, '<main$1></main>');
+    const main = document.querySelector('main');
+    main.classList.add('c10');
+
+    const CAT_LABEL = { all: 'Todos', origin: 'Orígenes', varietal: 'Varietales', process: 'Procesos' };
+    const CAT_SINGULAR = { origin: 'Origen', varietal: 'Varietal', process: 'Proceso' };
+    const CAT_PARAM = { origin: 'origen', varietal: 'varietal', process: 'proceso' };
+    const SENSORY = [['acidity', 'Acidez'], ['sweetness', 'Dulzor'], ['body', 'Cuerpo'], ['bitterness', 'Amargor']];
+    const PROFILE_FILTERS = [
+      { id: 'acidez', label: 'Acidez alta', test: (s) => s.acidity >= 4 },
+      { id: 'dulzor', label: 'Dulzor alto', test: (s) => s.sweetness >= 4 },
+      { id: 'cuerpo', label: 'Cuerpo alto', test: (s) => s.body >= 4 },
+      { id: 'amargor', label: 'Amargor bajo', test: (s) => s.bitterness <= 2 },
+    ];
+    const FAMILY_TOKEN = {
+      fruity: '--flavor-fruity', floral: '--flavor-floral', sweet: '--flavor-sweet', 'nutty-cocoa': '--flavor-nutty-cocoa',
+      spiced: '--flavor-spices', roasted: '--flavor-roasted', 'green-vegetative': '--flavor-green-vegetative',
+      'sour-fermented': '--flavor-sour-fermented', other: '--flavor-other',
+    };
+    const fam = (id) => `--fam: var(${FAMILY_TOKEN[id] || '--flavor-other'})`;
+    const GROUP_ORDER = ['south_america', 'central_north_america', 'africa', 'asia_pacific', 'bourbon_typica', 'ethiopian_heirloom', 'introgressed_hybrid', 'canephora', 'washed_clean', 'mucilage_honey', 'natural_experimental', 'decaffeination'];
+    const FERMENTATION = { washed: 'Lavado', natural: 'Natural', pulped_natural: 'Pulped natural', honey: 'Honey', anaerobic: 'Anaeróbico', decaf: 'Descafeinado' };
+    const norm = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+    const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+    const ICON = {
+      search: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>',
+      x: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>',
+      arrow: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>',
+      back: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg>',
+      wheel: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="12" y1="15" x2="12" y2="21"/></svg>',
+      check: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 12.5 10 17 19 7"/></svg>',
+    };
+
+    function toast(text) {
+      const el = document.getElementById('toast');
+      el.textContent = text;
+      el.classList.add('show');
+      clearTimeout(toast.id);
+      toast.id = setTimeout(() => el.classList.remove('show'), 1800);
+    }
+
+    // ---- State <-> hash URL (mirrors the real /wiki?cat=&q=&perfil=&familia=) ----
+    function parseRoute() {
+      const hash = location.hash.replace(/^#/, '') || '/wiki';
+      const [path, query = ''] = hash.split('?');
+      const q = new URLSearchParams(query);
+      const detail = path.match(/^\/wiki\/(origin|varietal|process)\/([a-z0-9-]+)$/);
+      if (detail) return { view: 'detail', category: detail[1], slug: detail[2] };
+      const catParam = q.get('cat');
+      const cat = Object.keys(CAT_PARAM).find((k) => CAT_PARAM[k] === catParam) || 'all';
+      return {
+        view: 'explorer', cat, q: q.get('q') || '',
+        perfil: (q.get('perfil') || '').split(',').filter(Boolean),
+        familia: q.get('familia') || '',
+      };
+    }
+    function explorerHash(s) {
+      const q = new URLSearchParams();
+      if (s.cat !== 'all') q.set('cat', CAT_PARAM[s.cat]);
+      if (s.q) q.set('q', s.q);
+      if (s.perfil.length) q.set('perfil', s.perfil.join(','));
+      if (s.familia) q.set('familia', s.familia);
+      const qs = q.toString();
+      return '#/wiki' + (qs ? '?' + qs : '');
+    }
+
+    function filterEntries(s, ignoreCat) {
+      const nq = norm(s.q);
+      return D.entries.filter((e) => {
+        if (!ignoreCat && s.cat !== 'all' && e.category !== s.cat) return false;
+        for (const id of s.perfil) {
+          const f = PROFILE_FILTERS.find((x) => x.id === id);
+          if (f && !f.test(e.sensory)) return false;
+        }
+        if (s.familia && !e.notes.some((n) => n.family === s.familia)) return false;
+        if (nq) {
+          const hay = norm([e.slug, e.title, e.aliases, e.summary, ...e.notes.map((n) => n.label)].join(' '));
+          if (!hay.includes(nq)) return false;
+        }
+        return true;
+      });
+    }
+
+    function pips(v) { return '<div class="c10-pips" aria-hidden="true">' + [1, 2, 3, 4, 5].map((i) => `<span class="${i <= v ? 'on' : ''}"></span>`).join('') + '</div>'; }
+
+    function card(e, showCategory) {
+      const sub = showCategory ? `${CAT_SINGULAR[e.category]} · ${e.subGroupLabel}` : e.subGroupLabel;
+      const staple = e.relevance && e.relevance.indexOf('Cono Sur') >= 0;
+      const aria = `${e.title}. ` + SENSORY.map(([k, l]) => `${l} ${e.sensory[k]} de 5`).join(', ');
+      return `<a class="c10-card" href="#/wiki/${e.category}/${e.slug}" aria-label="${esc(aria)}">
+        <div class="c10-card-head"><div><h3>${esc(e.title)}</h3><div class="c10-card-sub">${esc(sub)}</div></div>
+        ${staple ? '<span class="c10-badge">Cono Sur</span>' : ''}</div>
+        <div class="c10-mini">${SENSORY.map(([k, l]) => `<div><small>${l}</small>${pips(e.sensory[k])}</div>`).join('')}</div>
+        <div class="c10-notes">${e.notes.slice(0, 3).map((n) => `<span class="c10-note" style="${fam(n.family)}"><i></i>${esc(n.label)}</span>`).join('')}</div>
+      </a>`;
+    }
+
+    function renderExplorer(s) {
+      const counts = { all: filterEntries({ ...s, cat: 'all' }, true).length };
+      for (const c of ['origin', 'varietal', 'process']) counts[c] = filterEntries({ ...s, cat: c }).length;
+      const results = filterEntries(s);
+      const groups = GROUP_ORDER.map((g) => ({ g, items: results.filter((e) => e.subGroup === g) })).filter((x) => x.items.length);
+      const active = s.perfil.length + (s.familia ? 1 : 0) + (s.q ? 1 : 0);
+
+      const tabs = `<div class="c10-tabs" role="tablist" aria-label="Categorías de la Wiki">${['all', 'origin', 'varietal', 'process'].map((c) =>
+        `<button class="c10-tab" role="tab" aria-selected="${s.cat === c}" data-cat="${c}">${CAT_LABEL[c]} <b>${counts[c]}</b></button>`).join('')}</div>`;
+      const catList = `<div class="c10-cat-list" role="tablist" aria-label="Categorías de la Wiki">${['all', 'origin', 'varietal', 'process'].map((c) =>
+        `<button class="c10-cat-item" role="tab" aria-selected="${s.cat === c}" data-cat="${c}">${CAT_LABEL[c]} <b>${counts[c]}</b></button>`).join('')}</div>`;
+      const search = `<label class="c10-search ${s.q ? 'has-value' : ''}">${ICON.search}<span class="sr-only">Buscar en la Wiki</span>
+        <input type="search" id="q" value="${esc(s.q)}" placeholder="Buscar (ej. Kenia, mora, geisha)" autocomplete="off" />
+        <button class="c10-clear" type="button" aria-label="Borrar búsqueda" data-clear>${ICON.x}</button></label>`;
+      const profileChips = `<div class="c10-filter-row"><span class="c10-filter-label">Perfil en taza</span><div class="c10-chips c10-chips--scroll">${PROFILE_FILTERS.map((f) => {
+        const on = s.perfil.includes(f.id);
+        return `<button class="c10-chip" aria-pressed="${on}" data-perfil="${f.id}">${on ? ICON.check : ''}${f.label}</button>`;
+      }).join('')}</div></div>`;
+      const famChips = `<div class="c10-filter-row"><span class="c10-filter-label">Familia de sabor (rueda SCA)</span><div class="c10-chips c10-chips--scroll">${D.families.map((f) =>
+        `<button class="c10-chip" aria-pressed="${s.familia === f.id}" data-familia="${f.id}" style="${fam(f.id)}"><i></i>${esc(f.label)}</button>`).join('')}</div></div>`;
+
+      const body = groups.length
+        ? groups.map(({ g, items }) => `<section class="c10-group" aria-labelledby="g-${g}"><h2 id="g-${g}">${esc(items[0].subGroupLabel)} <small>${items.length}</small></h2>
+            <div class="c10-grid">${items.map((e) => card(e, s.cat === 'all')).join('')}</div></section>`).join('')
+        : `<div class="c10-empty"><h2>No hay fichas con esos filtros</h2><p style="margin:0">Probá con otra palabra o quitá algún filtro.</p>
+            <button class="c10-chip" data-reset>Limpiar búsqueda y filtros</button></div>`;
+
+      main.innerHTML = `
+        <section class="c10-hero">
+          <div class="c10-hero-copy">
+            <h1>Wiki del Café</h1>
+            <p>Orígenes, varietales y procesos con su perfil en taza, notas de la rueda SCA y el método ideal para destacarlos.</p>
+            <div class="c10-hero-stats"><span>16 orígenes</span><span>16 varietales</span><span>6 procesos</span></div>
+          </div>
+          <div class="c10-hero-photo"><img src="../../../../design-system/assets/photos/beans-moody.jpg" alt="" /></div>
+        </section>
+        <div class="c10-layout">
+          <div class="c10-side">${search}${catList}${tabs}${profileChips}${famChips}</div>
+          <div class="c10" style="gap:16px">
+            <div class="c10-resultbar"><span><b>${results.length}</b> ${results.length === 1 ? 'ficha' : 'fichas'}${s.cat !== 'all' ? ' en ' + CAT_LABEL[s.cat] : ''}</span>
+              ${active ? '<button class="c10-link-btn" data-reset>Limpiar filtros</button>' : ''}</div>
+            ${body}
+          </div>
+        </div>`;
+      main.dataset.variant = variant;
+
+      const input = main.querySelector('#q');
+      input.addEventListener('input', () => {
+        const pos = input.selectionStart;
+        go({ ...s, q: input.value }, true);
+        const again = main.querySelector('#q');
+        again.focus();
+        again.setSelectionRange(pos, pos);
+      });
+      main.querySelectorAll('[data-cat]').forEach((b) => b.addEventListener('click', () => go({ ...s, cat: b.dataset.cat })));
+      main.querySelectorAll('[data-perfil]').forEach((b) => b.addEventListener('click', () => {
+        const id = b.dataset.perfil;
+        go({ ...s, perfil: s.perfil.includes(id) ? s.perfil.filter((x) => x !== id) : [...s.perfil, id] });
+      }));
+      main.querySelectorAll('[data-familia]').forEach((b) => b.addEventListener('click', () => go({ ...s, familia: s.familia === b.dataset.familia ? '' : b.dataset.familia })));
+      main.querySelectorAll('[data-reset]').forEach((b) => b.addEventListener('click', () => go({ cat: s.cat, q: '', perfil: [], familia: '' })));
+      main.querySelector('[data-clear]').addEventListener('click', () => go({ ...s, q: '' }));
+    }
+
+    function renderDetail(r) {
+      const e = D.entries.find((x) => x.category === r.category && x.slug === r.slug);
+      if (!e) { main.innerHTML = '<div class="c10-empty"><h2>404 — Ruta no encontrada</h2><a class="c10-back" href="#/wiki">Volver a la Wiki</a></div>'; return; }
+      const meta = e.category === 'origin'
+        ? [['Altitud', `${esc(e.meta.altitude)}<em>m s. n. m.</em>`], ['Región', esc(e.meta.region)], ['Cosecha', esc(e.meta.harvest)]]
+        : e.category === 'varietal'
+          ? [['Especie', esc(e.meta.species)], ['Linaje', esc(e.meta.lineage)], ['Descubrimiento', esc(e.meta.discovery)]]
+          : [['Fermentación', esc(FERMENTATION[e.meta.fermentation] || e.meta.fermentation)], ['Mucílago', esc(e.meta.mucilage)], ['Secado', esc(e.meta.drying)]];
+      const back = sessionStorage.getItem('c10-last') || '#/wiki';
+      main.innerHTML = `
+        <nav class="c10-crumbs" aria-label="Miga de pan"><a href="${back}">Wiki</a><span aria-hidden="true">/</span>
+          <a href="#/wiki?cat=${CAT_PARAM[e.category]}">${CAT_LABEL[e.category]}</a><span aria-hidden="true">/</span><b aria-current="page">${esc(e.title)}</b></nav>
+        <div class="c10-detail">
+          <div class="c10-col">
+            <header class="c10-entry-head c10-o1">
+              <div class="c10-pills"><span class="c10-pill c10-pill--cat">${CAT_SINGULAR[e.category]}</span><span class="c10-pill">${esc(e.subGroupLabel)}</span><span class="c10-pill">${esc(e.relevance)}</span></div>
+              <h1>${esc(e.title)}</h1>
+              <div class="c10-aliases">${esc(e.aliases)}</div>
+              <p class="c10-summary">${esc(e.summary)}</p>
+            </header>
+            <section class="c10-panel c10-o4" aria-labelledby="h-meta"><h2 id="h-meta">Características clave</h2>
+              <dl class="c10-meta">${meta.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl></section>
+            <section class="c10-panel c10-o5" aria-labelledby="h-notes"><h2 id="h-notes">Notas de cata · Rueda SCA</h2>
+              <div class="c10-chips">${e.notes.map((n) => `<a class="c10-chip c10-note-link" style="${fam(n.family)}" href="#flavor" data-node="${n.id}"><i></i>${esc(n.label)} ${ICON.wheel}</a>`).join('')}</div></section>
+            <a class="c10-back c10-o6" href="${back}">${ICON.back} Volver a la Wiki</a>
+          </div>
+          <div class="c10-col c10-col--side">
+            <section class="c10-panel c10-o2" aria-labelledby="h-sens"><h2 id="h-sens">Perfil sensorial</h2>
+              <div class="c10-bars">${SENSORY.map(([k, l]) => `<div class="c10-bar" role="img" aria-label="${l} ${e.sensory[k]} de 5"><span>${l}</span>
+                <div class="c10-seg">${[1, 2, 3, 4, 5].map((i) => `<i class="${i <= e.sensory[k] ? 'on' : ''}"></i>`).join('')}</div><b>${e.sensory[k]}/5</b></div>`).join('')}</div></section>
+            <section class="c10-panel c10-o3" aria-labelledby="h-methods"><h2 id="h-methods">Cómo prepararlo</h2>
+              ${e.methods.map((m, i) => `<div class="c10-method ${i > 0 ? 'c10-method--secondary' : ''}">
+                <div class="c10-method-head"><b>${esc(m.method)}</b><span>${esc(m.profile)}</span></div>
+                <p>${esc(m.reason)}</p>
+                <button class="c10-prepare" data-href="/brew/${m.methodId}?profile=${m.profileId}">Preparar en ${esc(m.method)} (${esc(m.profile)}) ${ICON.arrow}</button></div>`).join('')}
+            </section>
+          </div>
+        </div>`;
+      main.querySelectorAll('.c10-prepare').forEach((b) => b.addEventListener('click', () => toast('Navega a ' + b.dataset.href)));
+      main.querySelectorAll('[data-node]').forEach((a) => a.addEventListener('click', (ev) => { ev.preventDefault(); toast('Navega a /flavor-wheel?node=' + a.dataset.node); }));
+    }
+
+    function go(s, replace) {
+      const h = explorerHash(s);
+      if (replace) history.replaceState(null, '', h); else history.pushState(null, '', h);
+      render();
+    }
+
+    function render() {
+      const r = parseRoute();
+      if (r.view === 'explorer') { sessionStorage.setItem('c10-last', location.hash || '#/wiki'); renderExplorer(r); }
+      else { renderDetail(r); window.scrollTo(0, 0); }
+    }
+
+    function renderDemo() {
+      const demo = document.getElementById('demo');
+      demo.innerHTML = ['a', 'b'].map((v) => `<button aria-pressed="${variant === v}" data-v="${v}">Variante ${v.toUpperCase()}</button>`).join('');
+      demo.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => { variant = b.dataset.v; renderDemo(); render(); }));
+      if (params.get('chrome') === '0') demo.style.display = 'none';
+    }
+
+    window.addEventListener('popstate', render);
+    window.addEventListener('hashchange', render);
+    renderDemo();
+    render();
+  })();
+  </script>
+</body>
+</html>

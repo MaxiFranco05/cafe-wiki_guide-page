@@ -26,7 +26,7 @@ export const aeropressMethod: BrewMethod = {
       labelKey: 'methods.aeropress.profiles.light.label',
       descriptionKey: 'methods.aeropress.profiles.light.description',
       ratio: 16.0,
-      referenceAuthor: 'Alan Adler',
+      referenceAuthor: 'Guía Estándar',
       totalDurationSeconds: 120,
       phases: [
         {
