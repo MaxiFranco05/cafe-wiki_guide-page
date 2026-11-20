@@ -77,6 +77,26 @@ describe('Methods Catalog & Physical Thresholds (RN-RG-03)', () => {
     expect(espresso?.thresholds.maxCoffeeGrams).toBe(22);
   });
 
+  it('keeps the pour-over carafe filling (never emptying) during the final drawdown', () => {
+    for (const slug of ['v60', 'chemex', 'melitta']) {
+      const method = getMethodBySlug(slug);
+      expect(method).toBeDefined();
+      for (const profile of method?.profiles ?? []) {
+        const last = profile.phases[profile.phases.length - 1];
+        expect(last, `${slug}/${profile.id} has no phases`).toBeDefined();
+        const { liquidFillStartRatio, liquidFillEndRatio } = last!.svgDirective;
+        expect(liquidFillEndRatio, `${slug}/${profile.id} drawdown must end with a full carafe`).toBe(1);
+        expect(liquidFillEndRatio).toBeGreaterThanOrEqual(liquidFillStartRatio);
+        for (let i = 1; i < profile.phases.length; i += 1) {
+          expect(
+            profile.phases[i]!.svgDirective.liquidFillStartRatio,
+            `${slug}/${profile.id} phase ${i} must continue the previous carafe level`,
+          ).toBe(profile.phases[i - 1]!.svgDirective.liquidFillEndRatio);
+        }
+      }
+    }
+  });
+
   describe('Cross-Reference Integrity with es/methods.json', () => {
     it('resolves 100% of *Key references without falling back to raw keys', () => {
       for (const method of METHODS_CATALOG) {

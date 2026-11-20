@@ -10,6 +10,8 @@ export interface PhaseTimelinePreviewProps {
   readonly isEspresso?: boolean;
   readonly selectedPhaseIndex?: number;
   readonly onSelectPhase?: (index: number) => void;
+  /** Live run state (C-08): highlights the running phase and dims completed ones. */
+  readonly liveState?: { readonly activeIndex: number; readonly completed: boolean } | null;
 }
 
 /**
@@ -23,6 +25,7 @@ export const PhaseTimelinePreview: React.FC<PhaseTimelinePreviewProps> = ({
   isEspresso = false,
   selectedPhaseIndex = 0,
   onSelectPhase,
+  liveState = null,
 }) => {
   const summaryText = t(isEspresso ? 'brew.timeline.totalYield' : 'brew.timeline.totalWater', {
     time: formatMinutesSeconds(totalDurationSeconds),
@@ -42,7 +45,9 @@ export const PhaseTimelinePreview: React.FC<PhaseTimelinePreviewProps> = ({
 
       <div className="divide-y divide-border-subtle border-b border-border-subtle">
         {phases.map((phase, index) => {
-          const isActive = index === selectedPhaseIndex;
+          const isActive = liveState ? index === liveState.activeIndex && !liveState.completed : index === selectedPhaseIndex;
+          const isDone = liveState !== null && (liveState.completed || index < liveState.activeIndex);
+          const liveClass = liveState && isActive ? 'brew-timer-row-live' : isDone ? 'brew-timer-row-done' : '';
           const timeStamp = formatMinutesSeconds(phase.startTimeSeconds);
           const phaseWaterFormatted = formatBrewNumber(phase.phaseWaterGrams);
           const cumulativeFormatted = formatBrewNumber(phase.targetCumulativeGrams);
@@ -60,10 +65,10 @@ export const PhaseTimelinePreview: React.FC<PhaseTimelinePreviewProps> = ({
               onClick={() => onSelectPhase?.(index)}
               aria-current={isActive ? 'step' : undefined}
               className={`w-full text-left py-3 px-2.5 -mx-0.5 flex items-start gap-3 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus ${
-                isActive
+                isActive && !liveState
                   ? 'border-l-[3px] border-l-gold bg-elevated/60'
                   : 'border-l-[3px] border-l-transparent hover:bg-elevated/35'
-              }`}
+              } ${liveClass}`}
             >
               <span className="font-mono font-mono-tabular text-xs font-semibold text-gold pt-0.5 w-10 shrink-0">
                 {timeStamp}

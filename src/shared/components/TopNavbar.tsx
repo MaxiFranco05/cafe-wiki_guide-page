@@ -1,16 +1,22 @@
 import React from 'react';
-import { NavLink, Link } from 'react-router';
+import { NavLink, Link, useMatch } from 'react-router';
 import { t } from '../../i18n';
+import { useLastBrewMethod } from '../hooks/useLastBrewMethod';
 import { GlobalSearch } from './GlobalSearch';
 
+const BREW_NAV_KEY = 'brew';
+
 const DESKTOP_NAV_ITEMS = [
-  { to: '/', labelKey: 'nav.methods', end: true },
-  { to: '/brew/v60', labelKey: 'nav.brewStation', end: false },
-  { to: '/wiki', labelKey: 'nav.wiki', end: false },
-  { to: '/flavor-wheel', labelKey: 'nav.flavorWheel', end: false },
+  { key: 'methods', to: '/', labelKey: 'nav.methods', end: true },
+  { key: BREW_NAV_KEY, to: '/brew/v60', labelKey: 'nav.brewStation', end: false },
+  { key: 'wiki', to: '/wiki', labelKey: 'nav.wiki', end: false },
+  { key: 'flavor-wheel', to: '/flavor-wheel', labelKey: 'nav.flavorWheel', end: false },
 ] as const;
 
 export const TopNavbar: React.FC = () => {
+  const lastBrewSlug = useLastBrewMethod();
+  const isBrewRoute = useMatch('/brew/*') !== null;
+
   return (
     <header className="sticky top-0 z-40 h-16 w-full bg-glass backdrop-blur-md border-b border-border-subtle transition-colors duration-150">
       <div className="max-w-[1200px] mx-auto h-full px-4 md:px-9 flex items-center justify-between gap-3">
@@ -55,27 +61,44 @@ export const TopNavbar: React.FC = () => {
         {/* Desktop Links + Unified Global Search */}
         <div className="flex items-center gap-2.5">
           <nav aria-label={t('nav.aria.main')} className="hidden md:flex items-center gap-2">
-            {DESKTOP_NAV_ITEMS.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                end={item.end}
-                className={({ isActive }) =>
-                  `nav-btn min-h-[44px] min-w-[44px] flex items-center justify-center px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap pressable ${
-                    isActive
-                      ? 'bg-accent border border-accent text-text-on-accent shadow-sm'
-                      : 'text-text-secondary'
-                  }`
-                }
-              >
-                {({ isActive }) => (
-                  <>
-                    {!isActive && <span className="nav-fill-layer" aria-hidden="true" />}
-                    <span className="nav-btn-label relative z-[2]">{t(item.labelKey)}</span>
-                  </>
-                )}
-              </NavLink>
-            ))}
+            {DESKTOP_NAV_ITEMS.map((item) => {
+              const navClass = (isActive: boolean) =>
+                `nav-btn min-h-[44px] min-w-[44px] flex items-center justify-center px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap pressable ${
+                  isActive
+                    ? 'bg-accent border border-accent text-text-on-accent shadow-sm'
+                    : 'text-text-secondary'
+                }`;
+              const navContent = (isActive: boolean) => (
+                <>
+                  {!isActive && <span className="nav-fill-layer" aria-hidden="true" />}
+                  <span className="nav-btn-label relative z-[2]">{t(item.labelKey)}</span>
+                </>
+              );
+
+              if (item.key === BREW_NAV_KEY) {
+                return (
+                  <Link
+                    key={item.key}
+                    to={`/brew/${lastBrewSlug}`}
+                    aria-current={isBrewRoute ? 'page' : undefined}
+                    className={navClass(isBrewRoute)}
+                  >
+                    {navContent(isBrewRoute)}
+                  </Link>
+                );
+              }
+
+              return (
+                <NavLink
+                  key={item.key}
+                  to={item.to}
+                  end={item.end}
+                  className={({ isActive }) => navClass(isActive)}
+                >
+                  {({ isActive }) => navContent(isActive)}
+                </NavLink>
+              );
+            })}
           </nav>
 
           <GlobalSearch />

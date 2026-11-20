@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="es" data-theme="dark" style="color-scheme: dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>C-08 Temporizador en vivo — Variantes</title>
+  <link rel="icon" href="../../../../design-system/assets/logo.svg" type="image/svg+xml" />
+  <!-- CSS real de la app (Tailwind compilado desde src/index.css), luego los tokens aprobados Rev 4 -->
+  <link rel="stylesheet" href="assets/c08-app-snapshot.css" />
+  <link rel="stylesheet" href="../../../../design-system/tokens.css" />
+  <style>
+    /* Fuentes locales (mismos archivos @fontsource que usa la app) */
+    @font-face { font-family: "Outfit"; font-weight: 400; font-display: swap; src: url("../../../../node_modules/@fontsource/outfit/files/outfit-latin-400-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Outfit"; font-weight: 500; font-display: swap; src: url("../../../../node_modules/@fontsource/outfit/files/outfit-latin-500-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Outfit"; font-weight: 600; font-display: swap; src: url("../../../../node_modules/@fontsource/outfit/files/outfit-latin-600-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Outfit"; font-weight: 700; font-display: swap; src: url("../../../../node_modules/@fontsource/outfit/files/outfit-latin-700-normal.woff2") format("woff2"); }
+    @font-face { font-family: "IBM Plex Mono"; font-weight: 500; font-display: swap; src: url("../../../../node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); }
+    @font-face { font-family: "IBM Plex Mono"; font-weight: 600; font-display: swap; src: url("../../../../node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-600-normal.woff2") format("woff2"); }
+    @font-face { font-family: "IBM Plex Mono"; font-weight: 700; font-display: swap; src: url("../../../../node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-700-normal.woff2") format("woff2"); }
+
+    /* =====================================================================
+       C-08 — Panel de temporizador en vivo. Solo variables de tokens.css.
+       Superficies "elevadas" derivadas con color-mix (candidatas a token Rev 5).
+       ===================================================================== */
+    .c08 {
+      --c08-raised: color-mix(in srgb, var(--text-primary) 7%, var(--bg-surface));
+      --c08-raised-strong: color-mix(in srgb, var(--text-primary) 12%, var(--bg-surface));
+      --c08-status: var(--accent-gold);
+      --c08-ink: var(--bg-canvas);
+      padding: 16px 18px; display: flex; flex-direction: column; gap: 10px;
+      font-family: var(--font-sans);
+    }
+    .c08[data-status="running"] { --c08-status: var(--status-optimal); }
+    .c08[data-status="paused"] { --c08-status: var(--status-warning); }
+    .c08[data-status="completed"] { --c08-status: var(--accent-gold); }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+    .c08 .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+    .c08 button { font: inherit; color: inherit; }
+    .c08 :focus-visible { outline: 2px solid var(--border-focus); outline-offset: 2px; }
+
+    /* Franja de estado superior */
+    .c08::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; border-radius: 18px 18px 0 0; background: var(--c08-status); opacity: 0; transition: opacity .3s var(--ease-out); }
+    .c08:not([data-status="idle"])::before { opacity: 1; }
+
+    /* Kitchen bar */
+    .c08-kbar { display: flex; justify-content: space-between; align-items: center; gap: 8px; min-height: 44px; }
+    .c08-badges { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    .c08-pill { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+    .c08-pill--status { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--c08-status); background: color-mix(in srgb, var(--c08-status) 14%, transparent); border: 1px solid color-mix(in srgb, var(--c08-status) 40%, transparent); }
+    .c08-pill--status i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    .c08[data-status="running"] .c08-pill--status i { animation: c08-blink 1.6s ease-in-out infinite; }
+    .c08-pill--wake { color: var(--status-optimal); background: var(--status-optimal-bg); }
+    .c08-pill--nowake { color: var(--text-muted); border: 1px dashed var(--border-strong); font-weight: 500; }
+    .c08-pill--hint { color: var(--text-muted); font-weight: 500; padding-left: 0; }
+    .c08-mute { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; cursor: pointer; background: var(--bg-elevated); border: 1px solid var(--border-subtle); color: var(--accent-gold); flex-shrink: 0; }
+    .c08-mute[aria-pressed="true"] { color: var(--text-muted); border-style: dashed; }
+
+    /* Escenario */
+    .c08-scene svg { width: 140px !important; height: 148px !important; }
+    .c08[data-variant="b"] .c08-scene svg { width: 176px !important; height: 184px !important; }
+    .c08[data-variant="c"] .c08-scene svg { width: 118px !important; height: 124px !important; }
+    .c08-stage { position: relative; border-radius: 14px; background: color-mix(in srgb, var(--bg-canvas) 55%, transparent); border: 1px solid color-mix(in srgb, var(--border-subtle) 70%, transparent); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 8px; min-height: 0; }
+    .c08-scene { display: grid; place-items: center; }
+    .c08-scene svg { display: block; }
+    .c08-scrub { width: 100%; display: none; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 10px; background: color-mix(in srgb, var(--bg-elevated) 85%, transparent); border: 1px solid var(--border-subtle); font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary); }
+    .c08-scrub input { flex: 1; min-width: 0; accent-color: var(--accent-gold); }
+    .c08-scrub b { color: var(--svg-water-stream); font-weight: 600; }
+    .c08[data-status="idle"] .c08-scrub { display: flex; }
+
+    /* Encabezado de fase */
+    .c08-phasehead { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .07em; text-transform: uppercase; }
+    .c08-phasehead b { color: var(--accent-gold); font-weight: 700; }
+    .c08-phasehead span { color: var(--text-muted); }
+
+    /* Reloj */
+    .c08-clockrow { display: grid; grid-template-columns: 48px 1fr 48px; align-items: center; gap: 10px; }
+    .c08-step { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; cursor: pointer; background: color-mix(in srgb, var(--bg-elevated) 85%, transparent); border: 1px solid var(--border-subtle); color: var(--text-secondary); }
+    .c08-step:hover:not(:disabled) { color: var(--text-primary); border-color: var(--border-strong); }
+    .c08-step:disabled { opacity: .3; cursor: not-allowed; }
+    .c08-clock { text-align: center; }
+    .c08-clock small { display: block; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+    .c08-clock > b { display: block; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-weight: 700; font-size: clamp(3.4rem, 9vw, 4.4rem); line-height: .95; letter-spacing: -.035em; color: var(--text-primary); transition: color .2s var(--ease-out), opacity .2s var(--ease-out); }
+    .c08-clock.is-final > b { color: var(--accent-gold); }
+    .c08[data-status="paused"] .c08-clock > b { opacity: .5; }
+    .c08-total { display: flex; justify-content: center; gap: 6px; align-items: baseline; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 13px; color: var(--text-muted); }
+    .c08-total b { color: var(--text-secondary); font-size: 15px; }
+
+    .c08-pbar { height: 6px; border-radius: 6px; background: var(--bg-elevated); overflow: hidden; }
+    .c08-pbar i { display: block; height: 100%; width: 100%; transform-origin: left; transform: scaleX(var(--p, 0)); background: linear-gradient(90deg, var(--accent-primary), var(--accent-gold)); }
+    .c08-dots { display: flex; justify-content: center; gap: 6px; }
+    .c08-dots button { height: 8px; width: 8px; border-radius: 8px; border: 0; padding: 0; cursor: pointer; background: var(--border-strong); transition: width .2s var(--ease-out), background-color .2s var(--ease-out); }
+    .c08-dots button.past { background: var(--text-muted); }
+    .c08-dots button.on { width: 26px; background: var(--accent-gold); }
+
+    /* Tarjeta de instrucción */
+    .c08-card { border-radius: 14px; padding: 14px 16px; background: var(--c08-raised); border: 1px solid var(--border-subtle); box-shadow: inset 3px 0 0 var(--accent-gold); transition: background-color .6s var(--ease-out), border-color .6s var(--ease-out); }
+    .c08-card h2 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: -.01em; color: var(--text-primary); }
+    .c08-card p { margin: 4px 0 0; font-size: 13.5px; line-height: 1.45; color: var(--text-secondary); }
+    .c08-grams { display: grid; grid-template-columns: 1fr 1fr; margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border-subtle); }
+    .c08-grams > div + div { border-left: 1px solid var(--border-subtle); padding-left: 14px; }
+    .c08-grams small { display: block; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+    .c08-grams b { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 28px; font-weight: 700; color: var(--text-primary); }
+    .c08-grams b em { font-style: normal; font-size: 15px; color: var(--text-muted); margin-left: 3px; font-weight: 500; }
+    .c08-grams .is-water b { color: var(--svg-water-stream); }
+    .c08-card.is-flash { background: color-mix(in srgb, var(--accent-gold) 22%, var(--bg-surface)); border-color: var(--accent-gold); }
+
+    .c08-next { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 2px 4px; font-size: 13px; color: var(--text-secondary); }
+    .c08-next small { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); margin-right: 8px; }
+    .c08-next .mono { color: var(--text-muted); }
+
+    .c08-done { display: none; text-align: center; padding: 16px; border-radius: 14px; border: 1px solid var(--status-optimal); background: var(--status-optimal-bg); }
+    .c08-done svg { color: var(--status-optimal); }
+    .c08-done h2 { margin: 6px 0 2px; font-size: 20px; color: var(--text-primary); }
+    .c08-done p { margin: 0; font-size: 13px; color: var(--text-secondary); }
+
+    /* Acciones */
+    .c08-actions { display: grid; gap: 8px; }
+    .c08:not([data-status="idle"]):not([data-status="completed"]) .c08-actions { grid-template-columns: 1fr auto; }
+    .c08:not([data-status="idle"]) .c08-reset { min-height: 52px; padding: 0 16px; }
+    .c08-btn { min-height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; font-size: 15px; cursor: pointer; border: 1px solid transparent; transition: transform .12s var(--ease-out), background-color .2s var(--ease-out); }
+    .c08-btn:active { transform: scale(.97); }
+    .c08-btn--primary { background: var(--accent-primary); color: var(--text-on-accent); box-shadow: var(--shadow-sm); }
+    .c08-btn--primary:hover { background: var(--accent-primary-hover); }
+    .c08[data-status="running"] .c08-btn--primary { background: var(--c08-raised-strong); border-color: var(--border-strong); color: var(--text-primary); }
+    .c08-btn--ghost { background: transparent; border-color: var(--border-subtle); color: var(--text-secondary); min-height: 46px; font-size: 14px; }
+    .c08-btn:disabled { opacity: .45; cursor: not-allowed; }
+
+    /* Visibilidad por estado */
+    .c08[data-status="idle"] .c08-pill--status, .c08[data-status="idle"] .c08-reset { display: none; }
+    .c08[data-status="completed"] .c08-card, .c08[data-status="completed"] .c08-next, .c08[data-status="completed"] .c08-reset { display: none; }
+    .c08[data-status="completed"] .c08-done { display: block; }
+
+    /* ----------------------- Variante B — Anillo de fase ----------------------- */
+    .c08-ring { display: none; position: relative; width: 176px; height: 176px; flex-shrink: 0; }
+    .c08-ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+    .c08-ring .c08-clock { position: absolute; inset: 0; display: grid; place-content: center; }
+    .c08-ring .c08-clock > b { font-size: 2.35rem; }
+    .c08-ring .c08-clock small { font-size: 9.5px; margin-bottom: 2px; max-width: 120px; margin-inline: auto; }
+    .c08-ring .c08-total { font-size: 11px; gap: 4px; }
+    .c08-ring .c08-total b { font-size: 12px; }
+    .c08-ring .c08-total { margin-top: 2px; }
+    .c08[data-variant="b"] .c08-ring { display: block; }
+    .c08[data-variant="b"] .c08-clockrow .c08-clock, .c08[data-variant="b"] > .c08-total, .c08[data-variant="b"] .c08-pbar { display: none; }
+    .c08[data-variant="b"] .c08-stage { flex-direction: row; justify-content: space-evenly; align-items: center; gap: 4px; padding: 12px 8px 10px; flex-wrap: wrap; }
+    .c08[data-variant="b"] .c08-clockrow { grid-template-columns: 1fr 1fr; }
+    .c08[data-variant="b"] .c08-step { width: 100%; }
+    .c08[data-variant="b"] .c08-card { box-shadow: none; border-color: color-mix(in srgb, var(--accent-gold) 35%, var(--border-subtle)); }
+    .c08-ring circle { fill: none; stroke-linecap: round; }
+    .c08-ring .trk { stroke: var(--bg-elevated); }
+    .c08-ring .phase { stroke: var(--accent-gold); }
+    .c08-ring .tot { stroke: var(--accent-primary); }
+    .c08[data-status="paused"] .c08-ring .phase { stroke: var(--status-warning); }
+    .c08-ring.is-flash .phase { filter: drop-shadow(0 0 6px var(--accent-gold)); }
+
+    /* ------------------- Variante C — Tarjeta crema invertida ------------------- */
+    .c08[data-variant="c"] .c08-card { background: var(--text-primary); border-color: var(--text-primary); box-shadow: var(--shadow-card); }
+    .c08[data-variant="c"] .c08-card h2 { color: var(--c08-ink); font-size: 20px; }
+    .c08[data-variant="c"] .c08-card p { color: color-mix(in srgb, var(--c08-ink) 78%, transparent); font-weight: 500; }
+    .c08[data-variant="c"] .c08-grams { border-top-color: color-mix(in srgb, var(--c08-ink) 18%, transparent); }
+    .c08[data-variant="c"] .c08-grams > div + div { border-left-color: color-mix(in srgb, var(--c08-ink) 18%, transparent); }
+    .c08[data-variant="c"] .c08-grams small { color: color-mix(in srgb, var(--c08-ink) 60%, transparent); }
+    .c08[data-variant="c"] .c08-grams b { color: var(--c08-ink); font-size: 34px; }
+    .c08[data-variant="c"] .c08-grams .is-water b { color: var(--accent-primary); }
+    .c08[data-variant="c"] .c08-grams b em { color: color-mix(in srgb, var(--c08-ink) 55%, transparent); }
+    .c08[data-variant="c"] .c08-card.is-flash { background: var(--accent-gold); border-color: var(--accent-gold); }
+    
+    .c08[data-variant="c"] .c08-btn--primary { min-height: 58px; font-size: 16px; }
+
+    /* Panel izquierdo sincronizado (marcadores sobre el markup real) */
+    .c08-row-current { box-shadow: inset 3px 0 0 var(--status-optimal) !important; background: color-mix(in srgb, var(--status-optimal) 8%, transparent) !important; }
+    .c08-row-done { opacity: .45; }
+    .c08-locked input, .c08-locked [aria-pressed] { opacity: .5; pointer-events: none; }
+    .c08-lock-note { display: flex; gap: 8px; align-items: center; font-size: 13px; color: var(--text-secondary); padding: 10px 12px; border-radius: 12px; border: 1px dashed var(--border-strong); }
+    .c08-lock-note svg { color: var(--accent-gold); flex-shrink: 0; }
+    .c08-switcher { position: relative; display: inline-flex; align-items: center; vertical-align: middle; margin-left: 12px; }
+    main h1:has(+ .c08-switcher) { display: inline-block; vertical-align: middle; }
+    .c08-switcher + p { margin-top: 6px !important; }
+    .c08-switcher select { appearance: none; -webkit-appearance: none; width: auto; min-height: 40px; padding: 0 34px 0 12px; border-radius: 11px; background: var(--bg-elevated); border: 1px solid var(--border-recessed); font: 600 13px var(--font-sans); color: var(--text-secondary); cursor: pointer; }
+    .c08-switcher svg { position: absolute; right: 11px; pointer-events: none; color: var(--accent-gold); }
+
+    /* Mobile: en ejecución el temporizador sube primero y las acciones quedan al alcance */
+    @media (max-width: 1023px) {
+      .c08 { position: relative; }
+    }
+    @media (max-width: 767px) {
+      .c08 { padding: 14px; gap: 10px; }
+      .c08[data-variant="b"] .c08-stage { flex-wrap: nowrap; justify-content: space-between; padding: 10px 6px; }
+      .c08[data-variant="b"] .c08-ring { width: 148px; height: 148px; }
+      .c08[data-variant="b"] .c08-ring .c08-clock > b { font-size: 1.95rem; }
+      .c08[data-variant="b"] .c08-ring .c08-clock small { letter-spacing: .03em; font-size: 8px; max-width: 96px; }
+      .c08[data-variant="b"] .c08-ring .c08-total { font-size: 10px; }
+      .c08[data-variant="b"] .c08-ring .c08-total b { font-size: 11px; }
+      .c08[data-variant="b"] .c08-scene svg { width: 150px !important; height: 158px !important; }
+      .c08:not([data-status="idle"]) .c08-actions { position: sticky; bottom: 72px; z-index: 20; margin: 0 -6px; padding: 6px; border-radius: 16px; background: var(--bg-glass); border: 1px solid var(--border-subtle); box-shadow: var(--shadow-card); }
+      .c08:not([data-status="idle"]) .c08-reset span { display: none; }
+    }
+
+    @keyframes c08-blink { 50% { opacity: .35; } }
+    @media (prefers-reduced-motion: reduce) {
+      .c08-card, .c08-dots button, .c08-clock b { transition: none; }
+      .c08[data-status="running"] .c08-pill--status i { animation: none; }
+      .c08-btn:active { transform: none; }
+    }
+    .c08-rm .c08-card, .c08-rm .c08-dots button { transition: none; }
+
+    /* ----------------------- Barra de demo (no es producto) ----------------------- */
+    .demo { position: fixed; left: 16px; bottom: 16px; z-index: 100; width: 300px; padding: 12px; border-radius: 14px; background: var(--bg-tooltip); border: 1px dashed var(--accent-gold); box-shadow: var(--shadow-card); font: 12px var(--font-sans); color: var(--text-secondary); display: grid; gap: 8px; }
+    .demo h3 { margin: 0; font: 700 11px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-gold); display: flex; justify-content: space-between; }
+    .demo h3 button { background: none; border: 0; color: var(--text-muted); cursor: pointer; font: inherit; }
+    .demo .row { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+    .demo .row > span { width: 64px; color: var(--text-muted); }
+    .demo .row button { border: 1px solid var(--border-subtle); background: var(--bg-elevated); color: var(--text-secondary); border-radius: 999px; padding: 4px 9px; cursor: pointer; font: 600 11.5px var(--font-sans); }
+    .demo .row button[aria-pressed="true"] { background: var(--accent-primary); border-color: var(--accent-primary); color: var(--text-on-accent); }
+    .demo p { margin: 0; font-size: 11.5px; line-height: 1.4; color: var(--text-muted); }
+    .demo.is-min > :not(h3) { display: none; }
+    .demo[hidden] { display: none; }
+    @media (max-width: 767px) { .demo { left: 8px; right: 8px; bottom: 76px; width: auto; } }
+  </style>
+</head>
+<body class="bg-canvas text-text-primary antialiased min-h-[100dvh]">
+  <div id="root"></div>
+
+  <aside class="demo" id="demo" aria-label="Controles del mockup">
+    <h3><span>C-08 · Mockup interactivo</span><button type="button" id="demoMin" aria-label="Minimizar">–</button></h3>
+    <div class="row" data-group="variant"><span>Variante</span>
+      <button type="button" data-v="a">A Continuidad</button><button type="button" data-v="b">B Anillo</button><button type="button" data-v="c">C Crema</button>
+    </div>
+    <div class="row" data-group="speed"><span>Velocidad</span>
+      <button type="button" data-s="1">1×</button><button type="button" data-s="4">4×</button><button type="button" data-s="10">10×</button>
+    </div>
+    <div class="row" data-group="sim"><span>Simular</span>
+      <button type="button" id="simWake" aria-pressed="false">Sin Wake Lock</button><button type="button" id="simRm" aria-pressed="false">Movimiento reducido</button>
+    </div>
+    <p>Usá los controles reales del panel: Iniciar, Pausar, saltar fases, silenciar. El sonido 3-2-1 y de cambio de fase es real (Web Audio). Cambiá de cafetera con el selector del encabezado.</p>
+  </aside>
+
+  <script src="assets/c08-app-snapshot.js"></script>
+  <script>
+    // Monta el shell real de la app (navbar, fondo Ondas & Granos, encabezado y panel izquierdo de BrewStationView)
+    (function mount() {
+      const app = window.C08_APP;
+      const params = new URLSearchParams(location.search);
+      const slug = app.methods[params.get('method')] ? params.get('method') : 'v60';
+      document.getElementById('root').innerHTML = app.shellStart + app.methods[slug].mainBefore + '<div id="c08-slot"></div>' + app.methods[slug].mainAfter + app.shellEnd;
+      window.__c08Slug = slug;
+    })();
+  </script>
+  <script src="../../../../design-system/brand.js"></script>
+  <script>
+  (function () {
+    'use strict';
+    const APP = window.C08_APP;
+    const params = new URLSearchParams(location.search);
+    const store = {
+      get(k, d) { try { const v = localStorage.getItem('c08-mock:' + k); return v === null ? d : JSON.parse(v); } catch { return d; } },
+      set(k, v) { try { localStorage.setItem('c08-mock:' + k, JSON.stringify(v)); } catch { /* sin storage */ } },
+    };
+
+    const S = {
+      slug: window.__c08Slug,
+      variant: ['a', 'b', 'c'].includes(params.get('variant')) ? params.get('variant') : store.get('variant', 'b'),
+      speed: Number(params.get('speed')) || 1,
+      status: 'idle',
+      startedAt: null, acc: 0, last: 0,
+      previewIdx: 0, previewP: 1,
+      muted: store.get('muted', false),
+      simNoWake: false, simRm: false,
+      wakeActive: false, wakeSentinel: null,
+      lastIdx: 0, flashTimer: 0, raf: 0, lastPaint: 0,
+    };
+    const R = () => APP.methods[S.slug];
+    const $ = (sel, el = document) => el.querySelector(sel);
+    const mmss = (s) => { s = Math.max(0, Math.floor(s)); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
+    const ms = (s) => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+    const fmt = (n) => (Math.round(n * 10) / 10).toLocaleString('es-AR');
+    const clamp01 = (x) => Math.max(0, Math.min(1, x));
+    const now = () => performance.now();
+
+    // ---------------- Motor (espejo de src/domain/timer/brew-timer.engine.ts) ----------------
+    function elapsedSec() {
+      const e = S.status === 'running' ? S.acc + (now() - S.startedAt) * S.speed : S.acc;
+      return Math.min(R().total * 1000, e) / 1000;
+    }
+    function phaseIndexAt(sec) { const ph = R().phases; for (let i = 0; i < ph.length; i++) if (sec < ph[i].e) return i; return ph.length - 1; }
+
+    // ---------------- Kitchen adapters (Wake Lock + Web Audio) ----------------
+    let ctx = null;
+    function audioUnlock() {
+      try { if (!ctx) { const C = window.AudioContext || window.webkitAudioContext; if (C) ctx = new C(); } if (ctx && ctx.state === 'suspended') ctx.resume(); } catch { ctx = null; }
+    }
+    function tone(freqs, dur, gain) {
+      if (!ctx || S.muted) return;
+      const t0 = ctx.currentTime;
+      freqs.forEach((f, i) => {
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = 'sine'; o.frequency.setValueAtTime(f, t0 + i * 0.06);
+        g.gain.setValueAtTime(0.0001, t0 + i * 0.06);
+        g.gain.exponentialRampToValueAtTime(gain, t0 + i * 0.06 + 0.015);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + i * 0.06 + dur);
+        o.connect(g); g.connect(ctx.destination); o.start(t0 + i * 0.06); o.stop(t0 + i * 0.06 + dur + 0.02);
+      });
+    }
+    const playEvent = (ev) => ({ countdown: () => tone([880], 0.09, 0.18), phase: () => tone([660, 880], 0.35, 0.16), done: () => tone([523, 659, 784], 0.6, 0.14) })[ev]?.();
+    async function wakeOn() {
+      if (S.simNoWake || !('wakeLock' in navigator)) { S.wakeActive = false; return; }
+      try { S.wakeSentinel = await navigator.wakeLock.request('screen'); S.wakeActive = true; S.wakeSentinel.addEventListener?.('release', () => { S.wakeActive = false; paint(true); }); } catch { S.wakeActive = false; }
+      paint(true);
+    }
+    function wakeOff() { try { S.wakeSentinel?.release(); } catch { /* noop */ } S.wakeSentinel = null; S.wakeActive = false; }
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && S.status === 'running') wakeOn(); });
+
+    // ---------------- Acciones ----------------
+    function start() {
+      audioUnlock(); wakeOn();
+      if (S.status === 'completed') S.acc = 0;
+      if (S.status === 'idle') S.acc = 0;
+      S.status = 'running'; S.startedAt = now(); S.last = S.acc / 1000; S.lastIdx = phaseIndexAt(S.last);
+      loop(); paint(true);
+    }
+    function pause() { S.acc = elapsedSec() * 1000; S.status = 'paused'; S.startedAt = null; wakeOff(); paint(true); }
+    function reset() { S.status = 'idle'; S.acc = 0; S.startedAt = null; S.previewIdx = 0; S.previewP = 1; wakeOff(); paint(true); }
+    function jump(i) {
+      const ph = R().phases; i = Math.max(0, Math.min(ph.length - 1, i));
+      if (S.status === 'idle') { S.previewIdx = i; S.previewP = 1; paint(true); return; }
+      if (S.status === 'completed') S.status = 'paused';
+      S.acc = ph[i].s * 1000; S.last = ph[i].s; S.lastIdx = i;
+      if (S.status === 'running') S.startedAt = now();
+      flash(); paint(true);
+    }
+    function complete() { S.acc = R().total * 1000; S.status = 'completed'; S.startedAt = null; wakeOff(); playEvent('done'); paint(true); }
+
+    function loop() {
+      cancelAnimationFrame(S.raf);
+      const step = () => {
+        if (S.status !== 'running') return;
+        const t = now();
+        if (t - S.lastPaint >= 100) { // tope de 100 ms por evaluación (RN-UX-01)
+          S.lastPaint = t;
+          const sec = elapsedSec();
+          if (sec >= R().total) { complete(); return; }
+          const idx = phaseIndexAt(sec);
+          if (idx > S.lastIdx) { playEvent('phase'); flash(); }
+          else {
+            const end = R().phases[idx].e;
+            for (const off of [3, 2, 1]) { const th = end - off; if (th > R().phases[idx].s && S.last < th && sec >= th) { playEvent('countdown'); break; } }
+          }
+          S.lastIdx = idx; S.last = sec;
+          paint(false);
+        }
+        S.raf = requestAnimationFrame(step);
+      };
+      S.raf = requestAnimationFrame(step);
+    }
+    function flash() {
+      const card = $('#c08 .c08-card'), ring = $('#c08 .c08-ring');
+      card?.classList.add('is-flash'); ring?.classList.add('is-flash');
+      clearTimeout(S.flashTimer);
+      S.flashTimer = setTimeout(() => { card?.classList.remove('is-flash'); ring?.classList.remove('is-flash'); }, 700);
+    }
+
+    // ---------------- Escena real (SVG pre-renderizado por fase) ----------------
+    let sceneKey = '';
+    function paintScene(idx, p) {
+      const ph = R().phases[idx];
+      const host = $('#c08 .c08-scene');
+      const key = S.slug + ':' + idx + ':' + S.variant;
+      if (key !== sceneKey) { host.innerHTML = ph.svg0; sceneKey = key; }
+      const a = (ph.svg0.match(/translateY\((-?[\d.]+)px\)/g) || []).map((x) => parseFloat(x.slice(11)));
+      const b = (ph.svg1.match(/translateY\((-?[\d.]+)px\)/g) || []).map((x) => parseFloat(x.slice(11)));
+      host.querySelectorAll('[style*="translateY"]').forEach((el, i) => {
+        if (a[i] === undefined || b[i] === undefined) return;
+        el.style.transform = 'translateY(' + (a[i] + (b[i] - a[i]) * p).toFixed(1) + 'px)';
+      });
+    }
+
+    // ---------------- Render ----------------
+    const ICON = {
+      play: '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>',
+      pause: '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>',
+      reset: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>',
+      sound: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>',
+      muted: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>',
+      prev: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>',
+      next: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>',
+      check: '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="8 12.5 11 15.5 16 9.5"/></svg>',
+      lock: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
+    };
+
+    function buildPanel() {
+      const slot = document.getElementById('c08-slot');
+      const panel = document.createElement('aside');
+      panel.id = 'c08';
+      panel.className = 'order-2 lg:col-start-2 lg:row-start-1 lg:sticky lg:top-24 timer-panel-surface border border-border-subtle rounded-[18px] shadow-xl c08';
+      panel.setAttribute('aria-label', 'Temporizador de preparación');
+      panel.innerHTML = `
+        <div class="c08-kbar"><div class="c08-badges"></div><button type="button" class="c08-mute"></button></div>
+        <div class="c08-stage">
+          <div class="c08-ring" aria-hidden="false">
+            <svg viewBox="0 0 200 200" aria-hidden="true">
+              <circle class="trk" cx="100" cy="100" r="92" stroke-width="5"/>
+              <circle class="tot" cx="100" cy="100" r="92" stroke-width="5" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/>
+              <circle class="trk" cx="100" cy="100" r="78" stroke-width="10"/>
+              <circle class="phase" cx="100" cy="100" r="78" stroke-width="10" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/>
+            </svg>
+            <div class="c08-clock"><small></small><b class="mono">00:00</b><div class="c08-total"></div></div>
+          </div>
+          <div class="c08-scene"></div>
+          <label class="c08-scrub"><span>Avance de fase</span><input type="range" min="0" max="1" step="0.05" aria-label="Avance de fase"><b></b></label>
+        </div>
+        <div class="c08-phasehead"><b></b><span></span></div>
+        <div class="c08-clockrow">
+          <button type="button" class="c08-step" data-act="prev" aria-label="Fase anterior">${ICON.prev}</button>
+          <div class="c08-clock" aria-live="off"><small></small><b class="mono">00:00</b></div>
+          <button type="button" class="c08-step" data-act="next" aria-label="Siguiente fase">${ICON.next}</button>
+        </div>
+        <div class="c08-total"></div>
+        <div class="c08-pbar" aria-hidden="true"><i></i></div>
+        <div class="c08-dots" role="group" aria-label="Fases"></div>
+        <div class="c08-card"><h2></h2><p></p><div class="c08-grams"><div class="g1"><small></small><b></b></div><div class="g2"><small></small><b></b></div></div></div>
+        <div class="c08-next"></div>
+        <div class="c08-done" role="status">${ICON.check}<h2>Preparación lista</h2><p></p></div>
+        <div class="c08-actions"><button type="button" class="c08-btn c08-btn--primary" data-act="primary"></button><button type="button" class="c08-btn c08-btn--ghost c08-reset" data-act="reset">${ICON.reset}<span>Reiniciar a 00:00</span></button></div>
+        <div class="sr-only" aria-live="polite" id="c08-live"></div>`;
+      slot.replaceWith(panel);
+
+      panel.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-act], .c08-mute, .c08-dots button');
+        if (!btn) return;
+        if (btn.classList.contains('c08-mute')) { S.muted = !S.muted; store.set('muted', S.muted); paint(true); return; }
+        if (btn.dataset.idx !== undefined) { jump(Number(btn.dataset.idx)); return; }
+        const idx = S.status === 'idle' ? S.previewIdx : phaseIndexAt(elapsedSec());
+        ({ primary: () => (S.status === 'running' ? pause() : start()), reset, prev: () => jump(idx - 1), next: () => jump(idx + 1) })[btn.dataset.act]?.();
+      });
+      $('.c08-scrub input', panel).addEventListener('input', (e) => { S.previewP = Number(e.target.value); paint(true); });
+
+      // Panel izquierdo real: filas del cronograma, controles, selector de cafetera
+      const grid = panel.parentElement; grid.dataset.c08Grid = '';
+      const rows = timelineRows();
+      rows.forEach((row, i) => row.addEventListener('click', () => jump(i)));
+      const ctrl = grid.querySelector('section.order-1');
+      if (ctrl) { const note = document.createElement('div'); note.className = 'c08-lock-note'; note.hidden = true; note.innerHTML = ICON.lock + '<span>Receta bloqueada durante la preparación · Reiniciá para editar</span>'; ctrl.prepend(note); }
+      const h1 = document.querySelector('main h1');
+      if (h1) {
+        const sw = document.createElement('label'); sw.className = 'c08-switcher';
+        sw.innerHTML = `<span class="sr-only">Cambiar cafetera</span><select aria-label="Cambiar cafetera">${Object.keys(APP.methods).map((k) => `<option value="${k}" ${k === S.slug ? 'selected' : ''}>${APP.methods[k].name}</option>`).join('')}</select><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>`;
+        h1.insertAdjacentElement('afterend', sw);
+        sw.querySelector('select').addEventListener('change', (e) => {
+          const target = e.target.value;
+          if ((S.status === 'running' || S.status === 'paused') && !confirm('Hay una preparación en curso. ¿Cambiar de cafetera y descartarla?')) { e.target.value = S.slug; return; }
+          const q = new URLSearchParams(location.search); q.set('method', target); q.set('variant', S.variant); q.delete('state'); q.delete('at');
+          location.search = q.toString();
+        });
+      }
+    }
+    function timelineRows() {
+      const sec = document.querySelector('section.order-3');
+      if (!sec) return [];
+      const titles = R().phases.map((p) => p.title);
+      return [...sec.querySelectorAll('button')].filter((b) => titles.some((t) => b.textContent.includes(t)));
+    }
+
+    function paint(force) {
+      const P = $('#c08'); if (!P) return;
+      const r = R(), ph = r.phases;
+      const sec = S.status === 'idle' ? 0 : elapsedSec();
+      const idx = S.status === 'idle' ? S.previewIdx : S.status === 'completed' ? ph.length - 1 : phaseIndexAt(sec);
+      const cur = ph[idx], nxt = ph[idx + 1];
+      const pDur = Math.max(0.001, cur.e - cur.s);
+      const p = S.status === 'idle' ? S.previewP : S.status === 'completed' ? 1 : clamp01((sec - cur.s) / pDur);
+      const remain = S.status === 'idle' ? pDur : S.status === 'completed' ? 0 : Math.ceil(cur.e - sec - 1e-6);
+      P.dataset.status = S.status; P.dataset.variant = S.variant;
+      P.classList.toggle('c08-rm', S.simRm);
+
+      // Kitchen bar
+      const label = { running: 'En curso', paused: 'Pausado', completed: 'Lista' }[S.status] || '';
+      const badges = [];
+      if (S.status !== 'idle') badges.push(`<span class="c08-pill c08-pill--status"><i></i>${label}</span>`);
+      if (S.status === 'running' && S.wakeActive) badges.push('<span class="c08-pill c08-pill--wake" role="status">Pantalla activa</span>');
+      if (S.status === 'running' && !S.wakeActive) badges.push('<span class="c08-pill c08-pill--nowake" role="status">La pantalla podría apagarse</span>');
+      if (S.status === 'idle') badges.push('<span class="c08-pill c08-pill--hint">Pantalla activa y avisos al iniciar</span>');
+      const bHtml = badges.join(''); const bHost = $('.c08-badges', P); if (bHost.innerHTML !== bHtml) bHost.innerHTML = bHtml;
+      const mute = $('.c08-mute', P);
+      mute.setAttribute('aria-pressed', String(S.muted)); mute.setAttribute('aria-label', S.muted ? 'Activar sonido' : 'Silenciar alertas');
+      mute.innerHTML = S.muted ? ICON.muted : ICON.sound;
+
+      // Escena
+      paintScene(idx, p);
+      const scrub = $('.c08-scrub', P); scrub.querySelector('input').value = S.previewP;
+      scrub.querySelector('b').textContent = Math.round(p * 100) + '% fase';
+
+      // Fase + relojes
+      $('.c08-phasehead b', P).textContent = `Fase ${idx + 1} de ${ph.length} · ${cur.title}`;
+      $('.c08-phasehead span', P).textContent = `${ms(cur.s)}–${ms(cur.e)}`;
+      P.querySelectorAll('.c08-clock').forEach((c) => {
+        c.querySelector('small').textContent = S.status === 'completed' ? 'Tiempo total' : S.status === 'paused' ? 'Pausado · resta' : 'Resta en esta fase';
+        c.querySelector('b').textContent = S.status === 'completed' ? mmss(r.total) : mmss(remain);
+        c.classList.toggle('is-final', S.status === 'running' && remain <= 3);
+      });
+      P.querySelectorAll('.c08-total').forEach((t) => { t.innerHTML = S.status === 'completed' ? '' : `<span>Total</span><b>${mmss(sec)}</b><span>/ ${mmss(r.total)}</span>`; });
+      $('.c08-pbar i', P).style.setProperty('--p', S.status === 'idle' ? 0 : p.toFixed(3));
+      $('.c08-ring .phase', P).setAttribute('stroke-dashoffset', String(100 - (S.status === 'idle' ? 0 : p) * 100));
+      $('.c08-ring .tot', P).setAttribute('stroke-dashoffset', String(100 - (sec / r.total) * 100));
+
+      // Dots + saltos
+      const dHtml = ph.map((x, i) => `<button type="button" data-idx="${i}" class="${i === idx ? 'on' : i < idx && S.status !== 'idle' ? 'past' : ''}" aria-label="Ir a la fase ${i + 1}: ${x.title}" ${i === idx ? 'aria-current="step"' : ''}></button>`).join('');
+      const dHost = $('.c08-dots', P); if (dHost.innerHTML !== dHtml) dHost.innerHTML = dHtml;
+      $('[data-act="prev"]', P).disabled = idx === 0 || S.status === 'completed';
+      $('[data-act="next"]', P).disabled = !nxt || S.status === 'completed';
+
+      // Tarjeta
+      const card = $('.c08-card', P);
+      card.querySelector('h2').textContent = cur.title;
+      card.querySelector('p').textContent = cur.text;
+      const g1 = card.querySelector('.g1'), g2 = card.querySelector('.g2');
+      if (r.isEspresso) {
+        g1.className = 'g1 is-water'; g1.querySelector('small').textContent = 'Objetivo en taza'; g1.querySelector('b').innerHTML = `${fmt(cur.c)}<em>g</em>`;
+        g2.className = 'g2'; g2.querySelector('small').textContent = 'Dosis'; g2.querySelector('b').innerHTML = `${fmt(r.coffee)}<em>g</em>`;
+      } else {
+        g1.className = 'g1 is-water'; g1.querySelector('small').textContent = 'Este paso'; g1.querySelector('b').innerHTML = cur.g > 0 ? `+${fmt(cur.g)}<em>g</em>` : '—';
+        g2.className = 'g2'; g2.querySelector('small').textContent = 'En balanza'; g2.querySelector('b').innerHTML = `${fmt(cur.c)}<em>g</em>`;
+      }
+      $('.c08-next', P).innerHTML = nxt ? `<div><small>Siguiente</small><b>${nxt.title}</b></div><span class="mono">${ms(nxt.s)} · → ${fmt(nxt.c)} g</span>` : `<div><small>Siguiente</small><b>Último paso</b></div>`;
+      $('.c08-done p', P).textContent = `${mmss(r.total)} · ${fmt(r.water)} ${r.isEspresso ? 'g en taza' : 'ml'} · 1:${r.ratio}. Retirá y serví.`;
+      const live = $('#c08-live'); const msg = `Fase ${idx + 1}: ${cur.title}`; if (live.textContent !== msg && S.status !== 'idle') live.textContent = msg;
+
+      // Acciones
+      const prim = $('[data-act="primary"]', P);
+      const pr = { idle: [ICON.play, 'Iniciar extracción'], running: [ICON.pause, 'Pausar'], paused: [ICON.play, 'Reanudar'], completed: [ICON.play, 'Nueva preparación'] }[S.status];
+      const pHtml = pr[0] + '<span>' + pr[1] + '</span>'; if (prim.innerHTML !== pHtml) prim.innerHTML = pHtml;
+
+      // Panel izquierdo
+      const grid = P.parentElement;
+      grid.classList.toggle('c08-live', S.status !== 'idle');
+      const locked = S.status === 'running' || S.status === 'paused';
+      const ctrl = grid.querySelector('section.order-1');
+      if (ctrl) { ctrl.classList.toggle('c08-locked', locked); ctrl.querySelectorAll('input,button').forEach((el) => { el.disabled = locked; }); const n = ctrl.querySelector('.c08-lock-note'); if (n) n.hidden = !locked; }
+      timelineRows().forEach((row, i) => {
+        row.classList.toggle('c08-row-current', S.status !== 'idle' && S.status !== 'completed' && i === idx);
+        row.classList.toggle('c08-row-done', S.status !== 'idle' && (i < idx || S.status === 'completed'));
+      });
+    }
+
+    // ---------------- Barra de demo ----------------
+    function syncDemo() {
+      document.querySelectorAll('#demo [data-v]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === S.variant)));
+      document.querySelectorAll('#demo [data-s]').forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.s) === S.speed)));
+      document.getElementById('simWake').setAttribute('aria-pressed', String(S.simNoWake));
+      document.getElementById('simRm').setAttribute('aria-pressed', String(S.simRm));
+    }
+    document.getElementById('demo').addEventListener('click', (e) => {
+      const b = e.target.closest('button'); if (!b) return;
+      if (b.id === 'demoMin') { document.getElementById('demo').classList.toggle('is-min'); return; }
+      if (b.dataset.v) { S.variant = b.dataset.v; store.set('variant', S.variant); sceneKey = ''; }
+      if (b.dataset.s) { if (S.status === 'running') { S.acc = elapsedSec() * 1000; S.startedAt = now(); } S.speed = Number(b.dataset.s); }
+      if (b.id === 'simWake') { S.simNoWake = !S.simNoWake; if (S.simNoWake) wakeOff(); else if (S.status === 'running') wakeOn(); }
+      if (b.id === 'simRm') { S.simRm = !S.simRm; }
+      syncDemo(); paint(true);
+    });
+
+    // ---------------- Init (+ parámetros para capturas: state, at, wake, muted, chrome) ----------------
+    buildPanel();
+    if (params.get('muted') === '1') S.muted = true;
+    if (params.get('wake') === '0') S.simNoWake = true;
+    if (params.get('chrome') === '0') document.getElementById('demo').hidden = true;
+    const st = params.get('state'); const at = Number(params.get('at')) || 0;
+    if (st === 'running' || st === 'paused' || st === 'completed') {
+      S.acc = Math.min(at, R().total) * 1000; S.last = at; S.lastIdx = phaseIndexAt(at);
+      if (st === 'completed') { S.status = 'completed'; S.acc = R().total * 1000; }
+      else if (st === 'paused') S.status = 'paused';
+      else { S.status = 'running'; S.startedAt = now(); S.wakeActive = !S.simNoWake; loop(); }
+      if (params.get('flash') === '1') setTimeout(() => { const c = $('#c08 .c08-card'); c?.classList.add('is-flash'); $('#c08 .c08-ring')?.classList.add('is-flash'); }, 0);
+    }
+    syncDemo(); paint(true);
+    window.addEventListener('pagehide', () => { cancelAnimationFrame(S.raf); wakeOff(); });
+  })();
+  </script>
+</body>
+</html>

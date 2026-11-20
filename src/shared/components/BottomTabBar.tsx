@@ -1,8 +1,12 @@
 import React from 'react';
-import { NavLink } from 'react-router';
+import { Link, NavLink, useMatch } from 'react-router';
 import { t } from '../../i18n';
+import { useLastBrewMethod } from '../hooks/useLastBrewMethod';
 
 export const BottomTabBar: React.FC = () => {
+  const lastBrewSlug = useLastBrewMethod();
+  const isBrewRoute = useMatch('/brew/*') !== null;
+
   return (
     <nav
       aria-label={t('nav.aria.mobile')}
@@ -39,13 +43,12 @@ export const BottomTabBar: React.FC = () => {
         </NavLink>
 
         {/* Tab 2: Preparar */}
-        <NavLink
-          to="/brew/v60"
-          className={({ isActive }) =>
-            `flex-1 min-h-[48px] min-w-[44px] flex flex-col items-center justify-center gap-1 text-[11px] pressable transition-colors ${
-              isActive ? 'text-accent font-bold' : 'text-text-secondary hover:text-text-primary'
-            }`
-          }
+        <Link
+          to={`/brew/${lastBrewSlug}`}
+          aria-current={isBrewRoute ? 'page' : undefined}
+          className={`flex-1 min-h-[48px] min-w-[44px] flex flex-col items-center justify-center gap-1 text-[11px] pressable transition-colors ${
+            isBrewRoute ? 'text-accent font-bold' : 'text-text-secondary hover:text-text-primary'
+          }`}
         >
           <svg
             width="20"
@@ -61,7 +64,7 @@ export const BottomTabBar: React.FC = () => {
             <path d="M5 4h14l-5 12h-4L5 4Z" />
           </svg>
           <span>{t('nav.mobile.brew')}</span>
-        </NavLink>
+        </Link>
 
         {/* Tab 3: Wiki */}
         <NavLink

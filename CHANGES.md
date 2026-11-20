@@ -97,7 +97,7 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 > Establece desde el primer change la aplicación corriendo en el navegador con el Design System aprobado y los esquemas base de los 6 métodos.
 
 ### [x] [C-01] `foundation-and-ui-shell`
-- **Estado**: `[ ]` pendiente
+- **Estado**: `[x]` completado y archivado (`openspec/changes/archive/2026-11-16-c-01-foundation-and-ui-shell/`)
 - **Scope**: Scaffolding completo de la SPA + integración de tokens del Design System + AppShell navegable mobile-first
   - Inicialización de proyecto con `Vite 6`, `React 19`, `TypeScript 5.6+ (strict)`, `Tailwind CSS`, `React Router` y `Vitest + Testing Library`
   - Estructura de directorios base: `src/domain/`, `src/data/`, `src/adapters/`, `src/features/{brewing,wiki,flavor-wheel}/`, `src/i18n/locales/es/`, `src/shared/`
@@ -118,7 +118,7 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 ---
 
 ### [x] [C-02] `core-schemas-and-methods-catalog`
-- **Estado**: `[ ]` pendiente
+- **Estado**: `[x]` completado y archivado (`openspec/changes/archive/2026-11-16-c-02-core-schemas-and-methods-catalog/`)
 - **Scope**: Esquemas Zod del dominio de preparación + catálogo estático calibrado de los 6 métodos MVP + diccionarios `es`
   - Esquemas en `src/domain/schemas/brewing.schema.ts`: `BrewMethodSchema`, `RangeThresholdSchema`, `RecipeProfileSchema`, `BrewPhaseSchema`, `SvgStageDirectiveSchema`
   - Invariantes Zod de compilación/test (`RN-I18N-02`): `defaultDoseGrams` dentro de `[minCoffeeGrams, maxCoffeeGrams]`, suma de `waterShare` en fases de vertido = `1.0` (`100%`), contigüidad de `startTimeSeconds`/`endTimeSeconds` igual a `totalDurationSeconds`
@@ -141,7 +141,7 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 > Con C-02 completado, se construyen en paralelo la pantalla principal de selección de métodos (`/`) y el motor matemático puro para habilitar de inmediato la calculadora interactiva en `/brew/:methodSlug`.
 
 ### [x] [C-03] `home-method-selector-ui`
-- **Estado**: `[ ]` pendiente
+- **Estado**: `[x]` completado y archivado (`openspec/changes/archive/2026-11-16-c-03-home-method-selector-ui/`)
 - **Scope**: Pantalla de inicio (`/`) con grilla interactiva de las 6 cafeteras e ilustraciones SVG (`US-001`)
   - Vista `src/features/brewing/views/HomeMethodSelectorView.tsx` conectada al catálogo validado de los 6 métodos
   - Tarjetas interactivas `MethodCard.tsx` con silueta SVG vectorial de cada cafetera (`Hario V60`, `Chemex`, `Melitta`, `AeroPress`, `Prensa Francesa`, `Espresso`), badge de categoría (`Filtro`, `Inmersión`, `Híbrido`, `Presión`), ratio base, dosis sugerida y tiempo estimado
@@ -160,7 +160,7 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 ---
 
 ### [x] [C-04] `brewing-scaling-and-espresso-engine`
-- **Estado**: `[ ]` pendiente
+- **Estado**: `[x]` completado y archivado (`openspec/changes/archive/2026-11-16-c-04-brewing-scaling-and-espresso-engine/`)
 - **Scope**: Motor funcional puro de escalado bidireccional, modo Espresso por *yield*, validación de umbrales y tips de molienda
   - Funciones puras en `src/domain/brewing/scaling.engine.ts`:
     - `calculateScaledRecipe(method, profileId, input: { coffeeGrams?: number; waterMl?: number })`: escalado bidireccional `café ↔ agua` (`RN-BR-01`), cálculo de `phaseWaterGrams` y `targetCumulativeGrams` por fase ajustando redondeo de `±1 g` en el vertido final (`RN-BR-02`), y conservación de tiempos fijos (`RN-BR-03`)
@@ -182,7 +182,7 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 ---
 
 ### [x] [C-05] `brew-station-calculator-ui`
-- **Estado**: `[x]` completado (`openspec/changes/archive/2026-11-17-c-05-brew-station-calculator-ui/`)
+- **Estado**: `[x]` completado y archivado (`openspec/changes/archive/2026-11-17-c-05-brew-station-calculator-ui/`)
 - **Scope**: Vista interactiva de Estación de Preparación (`/brew/:methodSlug`) con calculadora bidireccional, modo Espresso, alertas de rango y cronograma de fases (`US-002`, `US-003`, `US-004`)
   - Vista `src/features/brewing/views/BrewStationView.tsx` con lectura de query param opcional `?profile=light|normal|strong`
   - Componente `BrewControls.tsx`: selector táctil de 3 intensidades (`Liviano`, `Normal`, `Fuerte`), inputs numéricos bidireccionales `Café (g)` y `Agua (ml)` con sanitización (`min="1"`, `max="2000"`, `step="0.1"`), subtítulo de equivalencia en cucharadas (`~X cdas`, `SU-01`) y badge de temperatura recomendada
@@ -229,8 +229,8 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 
 ---
 
-### [C-07] `timer-engine-and-kitchen-adapters`
-- **Estado**: `[ ]` pendiente
+### [x] [C-07] `timer-engine-and-kitchen-adapters`
+- **Estado**: `[x]` completado y archivado (`openspec/changes/archive/2026-11-19-c-07-timer-engine-and-kitchen-adapters/`)
 - **Scope**: Máquina de estados del temporizador monotónico + adaptadores imperativos para `Screen Wake Lock`, `Web Audio API` y `localStorage`
   - Motor puro en `src/domain/timer/brew-timer.engine.ts`:
     - Cálculo de tiempo transcurrido sin deriva mediante deltas de `performance.now()` (`RN-UX-01`)
@@ -252,8 +252,8 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 
 ---
 
-### [C-08] `brew-timer-live-execution-ui`
-- **Estado**: `[ ]` pendiente
+### [x] [C-08] `brew-timer-live-execution-ui`
+- **Estado**: `[x]` completado y archivado (`openspec/changes/archive/2026-11-19-c-08-brew-timer-live-execution-ui/`)
 - **Scope**: Integración del temporizador interactivo paso a paso, escena SVG en tiempo real y controles de Modo Cocina en `/brew/:methodSlug` (`US-005`, `US-007`)
   - Hook `src/features/brewing/hooks/useBrewTimer.ts` que conecta `brew-timer.engine`, `wakeLockAdapter`, `webAudioAdapter` y `storageAdapter` mediante `requestAnimationFrame` / loop de 100 ms
   - Componente `src/features/brewing/components/BrewTimer.tsx`:
@@ -262,7 +262,7 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
     - Controles táctiles de mesada: **Iniciar**, **Pausar / Reanudar**, **Reiniciar (`00:00`)** y salto manual entre fases (`US-005 CA-3`)
     - Barra de estado Kitchen Mode: badge `"Pantalla activa"` (o aviso discreto si Wake Lock no está soportado) y botón accesible `Silenciar / Activar sonido` persistido en `localStorage` (`US-007 CA-1..3`)
   - Sincronización en vivo de `<ProceduralBrewScene />` con el progreso real del temporizador en los 6 métodos
-  - **Pendiente UX / Navegación (anotado para incluir en C-08 o change previo dedicado)**:
+  - **UX / Navegación (resuelto en C-08)**:
     - Recordar la última cafetera seleccionada en la sesión (`sessionStorage`/`localStorage`, fallback `v60`) para que **"Estación de Preparación"** / **"Preparar"** en `TopNavbar` y `BottomTabBar` redirija a `/brew/<ultimo-metodo>` y marque el ítem como activo en cualquier `/brew/*`
     - Agregar selector rápido de cafetera dentro de `BrewStationView` para cambiar entre los 6 métodos sin volver a `/`
   - UI Mockup requerido antes de `apply` (`visual_design.mode = "system-and-mockups"`, Design System Rev 1)
@@ -281,16 +281,16 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 
 > Modela el catálogo de conocimiento sensorial y construye en paralelo las vistas del explorador de Wiki (`/wiki`) y la rueda de sabores interactiva (`/flavor-wheel`), conectadas en 1 toque con la estación de preparación.
 
-### [C-09] `wiki-and-flavor-wheel-catalog`
-- **Estado**: `[ ]` pendiente
-- **Scope**: Esquemas Zod y catálogo estático completo de la Wiki del Café y del árbol jerárquico de la Rueda de Sabores SCA (`RN-I18N-01`, `RN-I18N-02`)
-  - Esquemas en `src/domain/schemas/wiki.schema.ts` y `flavor-wheel.schema.ts`: `WikiEntrySchema` (con `metadata` discriminado por `origin | varietal | process`, perfil sensorial `1..5` y `recommendedMethods`) y `FlavorWheelNodeSchema` (jerarquía recursiva de 3 niveles `tier: 1 | 2 | 3` con `colorHex`)
-  - Catálogo estático en `src/data/wiki/`:
-    - **Orígenes (8)**: Colombia, Etiopía, Brasil, Kenia, Guatemala, Costa Rica, Perú, Sumatra
-    - **Varietales (8)**: Geisha/Gesha, Bourbon, Typica, Caturra, Catuai, SL28/SL34, Pacamara, Castillo
-    - **Procesos (5)**: Lavado (Washed), Natural (Dry), Honey, Fermentación Anaeróbica, Descafeinado
+### [x] [C-09] `wiki-and-flavor-wheel-catalog`
+- **Estado**: `[x]` completado y archivado (`openspec/changes/archive/2026-11-19-c-09-wiki-and-flavor-wheel-catalog/`)
+- **Scope**: Esquemas Zod y catálogo estático completo de la Wiki del Café (38 fichas clasificadas en 2 niveles con prioridad Cono Sur + alias comerciales) y del árbol jerárquico de la Rueda de Sabores SCA (`RN-I18N-01`, `RN-I18N-02`)
+  - Esquemas en `src/domain/schemas/wiki.schema.ts` y `flavor-wheel.schema.ts`: `WikiEntrySchema` (con `regionalRelevance`, `commercialAliasesKey`, `metadata` discriminado por `origin | varietal | process` incluyendo subgrupo taxonómico `macroRegion | geneticGroup | processFamily`, perfil sensorial `1..5` y `recommendedMethods`) y `FlavorWheelNodeSchema` (jerarquía recursiva de 3 niveles `tier: 1 | 2 | 3` con `colorHex`)
+  - Catálogo estático en `src/data/wiki/` (38 fichas):
+    - **Orígenes (16)**: *Sudamérica* (`brazil`, `colombia`, `peru`, `bolivia`, `ecuador`), *Centro/Norteamérica* (`guatemala`, `costa-rica`, `el-salvador`, `honduras`, `nicaragua`, `panama`, `mexico`), *África* (`ethiopia`, `kenya`, `rwanda`), *Asia-Pacífico* (`sumatra`)
+    - **Varietales (16)**: *Grupo Bourbon/Typica* (`bourbon`, `mundo-novo`, `catuai`, `caturra`, `typica`, `maragogype`, `pacas`, `pacamara`, `villa-sarchi`), *Heirloom/Etiopía* (`geisha`, `sl28-sl34`, `java`, `sidra`), *Híbridos introgresados* (`castillo`, `catimor`), *Canephora* (`robusta-canephora`)
+    - **Procesos (6)**: *Lavados limpios* (`washed`), *Mucílago/Honey* (`pulped-natural`, `honey`), *Naturales/Experimentales* (`natural`, `anaerobic`), *Descafeinados* (`decaf`)
   - Catálogo estático en `src/data/flavor-wheel/`: árbol de 3 anillos concéntricos con las 9 grandes familias de nivel 1 (Frutal, Floral, Dulce, Nueces/Cacao, Especiado, Tostado, Vegetal/Herbal, Ácido/Fermentado, Otros), subfamilias de nivel 2 y descriptores de nivel 3
-  - Diccionarios `src/i18n/locales/es/wiki.json` y `src/i18n/locales/es/flavor-wheel.json` + selectores puros de búsqueda y cruce bidireccional (`WikiEntry ↔ FlavorWheelNode ↔ BrewMethod`)
+  - Diccionarios `src/i18n/locales/es/wiki.json` y `src/i18n/locales/es/flavor-wheel.json` + selectores puros de búsqueda (incluyendo alias comerciales como Santos, Sul de Minas, Huila, Cajamarca), agrupación (`groupWikiEntriesBySubGroup`) y cruce bidireccional (`WikiEntry ↔ FlavorWheelNode ↔ BrewMethod`)
   - Sin impacto visual directo (`Decision: no (no UI)` en `design.md`)
   - Tests: validación de integridad referencial (`RN-I18N-02`) verificando que cada `flavorNodeId` y `methodId`/`profileId` citado en `WikiEntry` exista en el catálogo, y que el 100% de las claves de traducción estén definidas en `es`
 - **Dependencias**: C-02

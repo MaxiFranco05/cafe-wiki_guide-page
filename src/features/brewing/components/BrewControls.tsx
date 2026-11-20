@@ -14,6 +14,8 @@ export interface BrewControlsProps {
   readonly onProfileChange: (profileId: RecipeProfile['id']) => void;
   readonly onCoffeeChange: (rawValue: string) => void;
   readonly onWaterChange: (rawValue: string) => void;
+  /** Locks every control while a brew is running or paused (C-08). */
+  readonly disabled?: boolean;
 }
 
 const TIER_LABEL_KEY_BY_ID: Readonly<Record<'light' | 'normal' | 'strong', string>> = {
@@ -32,6 +34,7 @@ export const BrewControls: React.FC<BrewControlsProps> = ({
   onProfileChange,
   onCoffeeChange,
   onWaterChange,
+  disabled = false,
 }) => {
   const coffeeInputId = useId();
   const waterInputId = useId();
@@ -67,6 +70,7 @@ export const BrewControls: React.FC<BrewControlsProps> = ({
 
             return (
               <button
+                disabled={disabled}
                 key={profile.id}
                 type="button"
                 aria-pressed={isSelected}
@@ -113,6 +117,7 @@ export const BrewControls: React.FC<BrewControlsProps> = ({
 
           <div className="flex items-baseline gap-1.5">
             <input
+              disabled={disabled}
               id={coffeeInputId}
               type="number"
               inputMode="decimal"
@@ -159,6 +164,7 @@ export const BrewControls: React.FC<BrewControlsProps> = ({
 
           <div className="flex items-baseline gap-1.5">
             <input
+              disabled={disabled}
               id={waterInputId}
               type="number"
               inputMode="decimal"

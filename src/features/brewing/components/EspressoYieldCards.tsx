@@ -12,6 +12,8 @@ export interface EspressoYieldCardsProps {
   readonly isDoseValid: boolean;
   readonly onDoseChange: (rawValue: string) => void;
   readonly onStyleSelect: (styleId: 'ristretto' | 'normale' | 'lungo') => void;
+  /** Locks every control while a brew is running or paused (C-08). */
+  readonly disabled?: boolean;
 }
 
 const ESPRESSO_STYLE_NAME_KEY: Readonly<Record<'ristretto' | 'normale' | 'lungo', string>> = {
@@ -28,6 +30,7 @@ export const EspressoYieldCards: React.FC<EspressoYieldCardsProps> = ({
   isDoseValid,
   onDoseChange,
   onStyleSelect,
+  disabled = false,
 }) => {
   const doseInputId = useId();
   const errorId = useId();
@@ -59,6 +62,7 @@ export const EspressoYieldCards: React.FC<EspressoYieldCardsProps> = ({
 
         <div className="flex items-baseline gap-2">
           <input
+            disabled={disabled}
             id={doseInputId}
             type="number"
             inputMode="decimal"
@@ -99,6 +103,7 @@ export const EspressoYieldCards: React.FC<EspressoYieldCardsProps> = ({
             const isSelected = style.profileId === selectedStyleId;
             return (
               <button
+                disabled={disabled}
                 key={style.profileId}
                 type="button"
                 aria-pressed={isSelected}

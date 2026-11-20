@@ -235,17 +235,53 @@
       "nextPhaseAria": "Siguiente fase",
       "phaseDotAria": "Ir a la fase {index}: {title}",
       "scene": {
-        "ariaLabel": "Escena procedural de preparación sincronizada con la fase activa",
-        "progressLabel": "Avance de fase",
-        "progressValue": "p = {value}",
-        "fillReadout": "{percent}% nivel",
-        "resetPreview": "Ver final"
+        "ariaLabel": "Escena procedural de preparación sincronizada con la fase activa"
       },
       "tooltips": {
         "coffee": "Dosis de café seco en gramos",
         "water": "Agua total de vertido o rendimiento objetivo",
         "ratio": "Proporción café : agua del perfil activo"
-      }
+      },
+      "status": {
+        "running": "En curso",
+        "paused": "Pausado",
+        "completed": "Lista"
+      },
+      "remainingLabel": "Resta en esta fase",
+      "pausedRemainingLabel": "Pausado · resta",
+      "totalTimeLabel": "Tiempo total",
+      "totalLabel": "Total",
+      "phaseOf": "Fase {current} de {total} · {title}",
+      "phaseRange": "{start}–{end}",
+      "nextLabel": "Siguiente",
+      "lastStep": "Último paso",
+      "nextReadout": "{start} · → {cumulative} g",
+      "stepGramsLabel": "Este paso",
+      "scaleGramsLabel": "En balanza",
+      "cupTargetLabel": "Objetivo en taza",
+      "doseLabel": "Dosis",
+      "actionPause": "Pausar",
+      "actionResume": "Reanudar",
+      "actionRestart": "Nueva preparación (00:00)",
+      "actionResetZero": "Reiniciar a 00:00",
+      "completedTitle": "Preparación lista",
+      "completedSummary": "{total} · {water} {unit} · 1:{ratio}. Retirá y serví.",
+      "phaseAnnouncement": "Fase {index}: {title}",
+      "ringAria": "Avance de la fase: {percent}%",
+      "phasesGroupAria": "Fases de la receta",
+      "panelAria": "Temporizador de preparación"
+    },
+    "kitchen": {
+      "screenOn": "Pantalla activa",
+      "screenUnsupported": "La pantalla podría apagarse",
+      "idleHint": "Pantalla activa y avisos al iniciar",
+      "mute": "Silenciar alertas",
+      "unmute": "Activar sonido"
+    },
+    "recipeLocked": "Receta bloqueada durante la preparación · Reiniciá para editar",
+    "methodSwitcher": {
+      "label": "Cambiar cafetera",
+      "confirmDiscard": "Hay una preparación en curso. ¿Cambiar de cafetera y descartarla?"
     }
   },
   "wiki": {

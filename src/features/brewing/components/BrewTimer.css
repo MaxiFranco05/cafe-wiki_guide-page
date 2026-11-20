@@ -1,0 +1,219 @@
+/* =====================================================================
+   C-08 — Temporizador en vivo (variante B "Anillo de fase", mockup aprobado 2026-11-19).
+   Solo variables de design-system/tokens.css; superficies elevadas vía color-mix.
+   ===================================================================== */
+.brew-timer {
+  --bt-raised: color-mix(in srgb, var(--text-primary) 7%, var(--bg-surface));
+  --bt-raised-strong: color-mix(in srgb, var(--text-primary) 12%, var(--bg-surface));
+  --bt-status: var(--accent-gold);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 18px;
+}
+.brew-timer[data-status='running'] { --bt-status: var(--status-optimal); }
+.brew-timer[data-status='paused'] { --bt-status: var(--status-warning); }
+.brew-timer::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  border-radius: 18px 18px 0 0;
+  background: var(--bt-status);
+  opacity: 0;
+  transition: opacity 300ms var(--ease-out);
+}
+.brew-timer:not([data-status='idle'])::before { opacity: 1; }
+
+.brew-timer-kbar { display: flex; justify-content: space-between; align-items: center; gap: 8px; min-height: 44px; }
+.brew-timer-badges { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.brew-timer-pill {
+  display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px;
+  border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap;
+}
+.brew-timer-pill--status {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--bt-status);
+  background: color-mix(in srgb, var(--bt-status) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--bt-status) 40%, transparent);
+}
+.brew-timer-pill--status i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.brew-timer[data-status='running'] .brew-timer-pill--status i { animation: brewTimerBlink 1.6s ease-in-out infinite; }
+.brew-timer-pill--wake { color: var(--status-optimal); background: var(--status-optimal-bg); }
+.brew-timer-pill--nowake { color: var(--text-muted); border: 1px dashed var(--border-strong); font-weight: 500; }
+.brew-timer-pill--hint { color: var(--text-muted); font-weight: 500; padding-left: 0; white-space: normal; height: auto; }
+.brew-timer-mute {
+  width: 44px; height: 44px; flex-shrink: 0; border-radius: 12px; display: grid; place-items: center;
+  background: var(--bg-elevated); border: 1px solid var(--border-subtle); color: var(--accent-gold); cursor: pointer;
+}
+.brew-timer-mute[aria-pressed='true'] { color: var(--text-muted); border-style: dashed; }
+
+.brew-timer-stage {
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--bg-canvas) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border-subtle) 70%, transparent);
+  padding: 12px 8px 10px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.brew-timer-stage-row { display: flex; align-items: center; justify-content: space-evenly; gap: 4px; }
+.brew-timer-dial { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; }
+.brew-timer-ring { position: relative; width: 176px; height: 176px; }
+.brew-timer-ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+.brew-timer-ring circle { fill: none; stroke-linecap: round; }
+.brew-timer-ring .is-track { stroke: var(--bg-elevated); }
+.brew-timer-ring .is-phase { stroke: var(--accent-gold); }
+.brew-timer-ring .is-total { stroke: var(--accent-primary); }
+.brew-timer[data-status='paused'] .brew-timer-ring .is-phase { stroke: var(--status-warning); }
+.brew-timer-ring.is-flash .is-phase { filter: drop-shadow(0 0 6px var(--accent-gold)); }
+.brew-timer-clock { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+.brew-timer-clock small {
+  display: block; max-width: 112px; margin: 0 auto 2px; font-family: var(--font-mono);
+  font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);
+}
+.brew-timer-clock b {
+  display: block; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-weight: 700;
+  font-size: 2.35rem; line-height: 1; letter-spacing: -0.035em; color: var(--text-primary);
+  transition: color 200ms var(--ease-out), opacity 200ms var(--ease-out);
+}
+.brew-timer-clock.is-final b { color: var(--accent-gold); }
+.brew-timer[data-status='paused'] .brew-timer-clock b { opacity: 0.55; }
+.brew-timer-total {
+  display: flex; gap: 5px; align-items: baseline;
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 12px; color: var(--text-muted);
+}
+.brew-timer-total b { color: var(--text-secondary); font-size: 13px; }
+.brew-timer-scene { width: 176px; height: 184px; }
+
+
+.brew-timer-phasehead {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase;
+}
+.brew-timer-phasehead b { color: var(--accent-gold); font-weight: 700; }
+.brew-timer-phasehead span { color: var(--text-muted); white-space: nowrap; }
+
+.brew-timer-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.brew-timer-step {
+  min-height: 48px; border-radius: 12px; display: grid; place-items: center; cursor: pointer;
+  background: color-mix(in srgb, var(--bg-elevated) 85%, transparent);
+  border: 1px solid var(--border-subtle); color: var(--text-secondary);
+}
+.brew-timer-step:hover:not(:disabled) { color: var(--text-primary); border-color: var(--border-strong); }
+.brew-timer-step:disabled { opacity: 0.3; cursor: not-allowed; }
+.brew-timer-dots { display: flex; justify-content: center; gap: 6px; }
+.brew-timer-dots button {
+  height: 8px; width: 8px; padding: 0; border: 0; border-radius: 8px; cursor: pointer; background: var(--border-strong);
+  transition: width 200ms var(--ease-out), background-color 200ms var(--ease-out);
+}
+.brew-timer-dots button.is-past { background: var(--text-muted); }
+.brew-timer-dots button.is-current { width: 26px; background: var(--accent-gold); }
+
+.brew-timer-card {
+  border-radius: 14px; padding: 14px 16px; background: var(--bt-raised);
+  border: 1px solid color-mix(in srgb, var(--accent-gold) 35%, var(--border-subtle));
+  transition: background-color 600ms var(--ease-out), border-color 600ms var(--ease-out);
+}
+.brew-timer-card.is-flash {
+  background: color-mix(in srgb, var(--accent-gold) 22%, var(--bg-surface));
+  border-color: var(--accent-gold);
+}
+.brew-timer-card h2 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: -0.01em; color: var(--text-primary); }
+.brew-timer-card p { margin: 4px 0 0; font-size: 13.5px; line-height: 1.45; color: var(--text-secondary); }
+.brew-timer-grams {
+  display: grid; grid-template-columns: 1fr 1fr; margin-top: 10px; padding-top: 8px;
+  border-top: 1px solid var(--border-subtle);
+}
+.brew-timer-grams > div + div { border-left: 1px solid var(--border-subtle); padding-left: 14px; }
+.brew-timer-grams small {
+  display: block; font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);
+}
+.brew-timer-grams b { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 28px; font-weight: 700; color: var(--text-primary); }
+.brew-timer-grams b em { font-style: normal; font-size: 15px; font-weight: 500; color: var(--text-muted); margin-left: 3px; }
+.brew-timer-grams .is-water b { color: var(--svg-water-stream); }
+
+.brew-timer-next { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 2px 4px; font-size: 13px; color: var(--text-secondary); }
+.brew-timer-next small {
+  margin-right: 8px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);
+}
+.brew-timer-next span { font-family: var(--font-mono); font-variant-numeric: tabular-nums; color: var(--text-muted); white-space: nowrap; }
+
+.brew-timer-done { text-align: center; padding: 16px; border-radius: 14px; border: 1px solid var(--status-optimal); background: var(--status-optimal-bg); }
+.brew-timer-done svg { color: var(--status-optimal); margin: 0 auto; }
+.brew-timer-done h2 { margin: 6px 0 2px; font-size: 20px; color: var(--text-primary); }
+.brew-timer-done p { margin: 0; font-size: 13px; color: var(--text-secondary); }
+
+.brew-timer-actions { display: flex; flex-direction: column; gap: 8px; }
+.brew-timer-btn {
+  width: 100%; min-height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-size: 15px; font-weight: 600; cursor: pointer; border: 1px solid transparent;
+  transition: transform 120ms var(--ease-out), background-color 200ms var(--ease-out);
+}
+.brew-timer-btn:active:not(:disabled) { transform: scale(0.98); }
+.brew-timer-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+/* Primary: solid copper in every state (Iniciar, Pausar, Reanudar, Nueva preparación). */
+.brew-timer-btn--primary { background: var(--accent-primary); color: var(--text-on-accent); box-shadow: var(--shadow-sm); }
+.brew-timer-btn--primary:hover:not(:disabled) { background: var(--accent-primary-hover); }
+/* Secondary: same width, tinted copper so it reads as a lighter action. */
+.brew-timer-btn--secondary {
+  background: var(--accent-primary-soft);
+  border-color: color-mix(in srgb, var(--accent-primary) 45%, transparent);
+  color: var(--accent-gold);
+}
+.brew-timer-btn--secondary:hover:not(:disabled) { background: color-mix(in srgb, var(--accent-primary) 34%, transparent); }
+
+.brew-timer :focus-visible { outline: 2px solid var(--border-focus); outline-offset: 2px; }
+
+.brew-timer-row-live { box-shadow: inset 3px 0 0 var(--status-optimal); background: color-mix(in srgb, var(--status-optimal) 8%, transparent); }
+.brew-timer-row-done { opacity: 0.45; }
+
+.brew-recipe-lock {
+  display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 12px;
+  border: 1px dashed var(--border-strong); font-size: 13px; color: var(--text-secondary);
+}
+.brew-recipe-lock svg { color: var(--accent-gold); flex-shrink: 0; }
+.brew-recipe-locked { opacity: 0.55; }
+
+.brew-method-switcher { position: relative; display: inline-flex; align-items: center; }
+.brew-method-switcher select {
+  appearance: none; -webkit-appearance: none; min-height: 40px; padding: 0 34px 0 12px; border-radius: 11px;
+  background: var(--bg-elevated); border: 1px solid var(--border-recessed);
+  font: 600 13px var(--font-sans); color: var(--text-secondary); cursor: pointer;
+}
+.brew-method-switcher svg { position: absolute; right: 11px; pointer-events: none; color: var(--accent-gold); }
+
+@media (max-width: 1023px) {
+  .brew-timer { position: relative; }
+}
+@media (max-width: 767px) {
+  .brew-timer { padding: 14px; }
+  .brew-timer-ring { width: 148px; height: 148px; }
+  .brew-timer-clock small { max-width: 96px; font-size: 8px; letter-spacing: 0.03em; }
+  .brew-timer-clock b { font-size: 1.95rem; }
+  .brew-timer-scene { width: 150px; height: 158px; }
+  .brew-timer:not([data-status='idle']):not([data-status='completed']) .brew-timer-actions {
+    position: sticky;
+    bottom: calc(76px + env(safe-area-inset-bottom));
+    z-index: 20;
+    margin: 0 -6px;
+    padding: 6px;
+    border-radius: 16px;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-card);
+  }
+  .brew-timer:not([data-status='idle']):not([data-status='completed']) .brew-timer-btn { min-height: 48px; }
+}
+
+@keyframes brewTimerBlink {
+  50% { opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brew-timer::before,
+  .brew-timer-card,
+  .brew-timer-dots button,
+  .brew-timer-clock b,
+  .brew-timer-btn { transition: none; }
+  .brew-timer-btn:active:not(:disabled) { transform: none; }
+  .brew-timer[data-status='running'] .brew-timer-pill--status i { animation: none; }
+}

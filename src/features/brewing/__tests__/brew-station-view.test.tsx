@@ -123,7 +123,7 @@ describe('BrewStationView Integration (C-05 Strict TDD)', () => {
     expect(startBtn).toBeDisabled();
   });
 
-  it('supports phase preview navigation via arrows, dots, timeline rows, HeroUI tooltip, and Reiniciar reloj', async () => {
+  it('supports idle phase preview navigation via arrows, dots and timeline rows', async () => {
     const user = userEvent.setup();
     renderBrewRoute('/brew/v60');
 
@@ -145,21 +145,8 @@ describe('BrewStationView Integration (C-05 Strict TDD)', () => {
     await user.click(screen.getByRole('button', { name: /^2:45 Drenaje final/i }));
     expect(screen.getByText(/FASE 4 DE 4 · DRENAJE FINAL/i)).toBeInTheDocument();
 
-    // Open HeroUI-style metric tooltip via click and close with Escape
-    await user.click(screen.getByRole('button', { name: /15 g/i }));
-    expect(screen.getByRole('tooltip')).toHaveTextContent(/dosis de café seco en gramos/i);
-    await user.keyboard('{Escape}');
-    expect(screen.queryByRole('tooltip')).toBeNull();
-
-    // Edit dose & change profile then click Reiniciar reloj to restore defaults
-    const coffeeInput = screen.getByLabelText(/café seco \(g\)/i);
-    fireEvent.change(coffeeInput, { target: { value: '24' } });
-    await user.click(screen.getByRole('button', { name: /fuerte/i }));
-    await user.click(screen.getByRole('button', { name: /reiniciar reloj/i }));
-
-    expect(screen.getByLabelText(/café seco \(g\)/i)).toHaveValue(15);
-    expect(screen.getByRole('button', { name: /normal/i })).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getByText(/FASE 1 DE 4 · BLOOM/i)).toBeInTheDocument();
+    // Previewing never starts the timer
+    expect(screen.getByRole('button', { name: /iniciar extracción/i })).toBeInTheDocument();
 
     // Navigate from /brew/v60 to /brew/espresso cleanly resetting session
     await user.click(screen.getByRole('link', { name: /switch to espresso/i }));
@@ -172,7 +159,7 @@ describe('BrewStationView Integration (C-05 Strict TDD)', () => {
     expect(screen.getByText('404 — Ruta no encontrada')).toBeInTheDocument();
   });
 
-  it('integrates ProceduralBrewScene in timer aside with interactive phase sync and progress scrubber', async () => {
+  it('integrates ProceduralBrewScene in timer aside with interactive phase sync and no dev scrubber', async () => {
     const user = userEvent.setup();
     renderBrewRoute('/brew/v60');
 
@@ -196,24 +183,9 @@ describe('BrewStationView Integration (C-05 Strict TDD)', () => {
     expect(sceneSvg?.getAttribute('data-pour-stream')).not.toBe('none');
     await user.click(screen.getByRole('button', { name: /ir a la fase 1: bloom/i }));
 
-    // Inspect interactive phase-progress scrubber (p = 0 -> 1)
-    const scrubber = screen.getByRole('slider', { name: /avance de fase/i });
-    expect(scrubber).toHaveValue('1');
-    const levelAtEnd = Number(sceneSvg?.getAttribute('data-liquid-level') ?? 0);
-
-    fireEvent.change(scrubber, { target: { value: '0' } });
-    expect(scrubber).toHaveValue('0');
-    const levelAtStart = Number(sceneSvg?.getAttribute('data-liquid-level') ?? 0);
-    expect(levelAtStart).toBeLessThan(levelAtEnd);
-
-    // Switching phase or clicking Reiniciar reloj restores previewProgress = 1
-    await user.click(screen.getByRole('button', { name: /siguiente fase/i }));
-    expect(scrubber).toHaveValue('1');
-
-    fireEvent.change(scrubber, { target: { value: '0.25' } });
-    expect(scrubber).toHaveValue('0.25');
-    await user.click(screen.getByRole('button', { name: /reiniciar reloj/i }));
-    expect(scrubber).toHaveValue('1');
+    // Idle preview shows each phase at its end state; the dev-only fill scrubber is gone
+    expect(screen.queryByRole('slider')).toBeNull();
+    expect(Number(sceneSvg?.getAttribute('data-liquid-level'))).toBeGreaterThan(0);
   });
 
   it('renders accurate vessel scenes across all 6 /brew/:methodSlug routes', () => {

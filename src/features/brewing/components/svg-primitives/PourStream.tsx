@@ -20,6 +20,8 @@ export function PourStream({ vesselType, pourStream, surfaceY }: PourStreamProps
 
   if (vesselType === 'portafilter_espresso') {
     const spoutPositions = [71, 89] as const;
+    // Streams end at the cup surface instead of cutting through the coffee already in it.
+    const streamEndY = Math.max(90, Math.min(130, Math.round(surfaceY)));
     return (
       <g data-primitive="pour-stream" data-pour-stream={pourStream}>
         {spoutPositions.map((x) => (
@@ -29,7 +31,7 @@ export function PourStream({ vesselType, pourStream, surfaceY }: PourStreamProps
               x1={x}
               y1={78}
               x2={x}
-              y2={112}
+              y2={streamEndY}
               stroke="var(--svg-coffee-crema)"
               strokeWidth={2.4}
               strokeLinecap="round"
@@ -39,7 +41,7 @@ export function PourStream({ vesselType, pourStream, surfaceY }: PourStreamProps
               x1={x}
               y1={78}
               x2={x}
-              y2={112}
+              y2={streamEndY}
               stroke="var(--text-primary)"
               strokeWidth={1}
               strokeLinecap="round"
@@ -47,11 +49,11 @@ export function PourStream({ vesselType, pourStream, surfaceY }: PourStreamProps
             />
           </g>
         ))}
-        <circle className="svg-espresso-drop" cx={71} cy={96} r={2.2} fill="var(--accent-gold)" />
+        <circle className="svg-espresso-drop" cx={71} cy={84} r={2.2} fill="var(--accent-gold)" />
         <circle
           className="svg-espresso-drop svg-espresso-drop--delayed"
           cx={89}
-          cy={96}
+          cy={84}
           r={2.2}
           fill="var(--accent-gold)"
         />

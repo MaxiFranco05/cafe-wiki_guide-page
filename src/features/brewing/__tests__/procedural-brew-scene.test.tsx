@@ -569,6 +569,84 @@ describe('Block 2 Primitives: PourStream, Agitator & Plunger', () => {
   });
 });
 
+describe('Scene collision guards (C-08 review)', () => {
+  const aeropress = getMethodBySlug('aeropress')!;
+  const frenchPress = getMethodBySlug('french-press')!;
+
+  it('never shows the AeroPress plunger while the chamber is being filled', () => {
+    for (const profile of aeropress.profiles) {
+      for (const phase of profile.phases) {
+        if (phase.svgDirective.pourStream !== 'none') {
+          expect(phase.svgDirective.plungerState).toBe('none');
+        }
+      }
+    }
+  });
+
+  it('pours first and stirs after, so the spoon never crosses the water stream', () => {
+    const fill = aeropress.profiles[0]!.phases[0]!.svgDirective;
+    expect(fill.pourStream).not.toBe('none');
+    expect(fill.agitator).toBe('spoon_stir');
+    for (const progress of [0, 0.3, 0.59, 0.6, 0.8, 1]) {
+      const { container, unmount } = render(<ProceduralBrewScene directive={fill} progress={progress} />);
+      const hasStream = container.querySelector('[data-primitive="pour-stream"]') !== null;
+      const hasSpoon = container.querySelector('[data-primitive="agitator"]') !== null;
+      expect(hasStream && hasSpoon).toBe(false);
+      expect(hasStream || hasSpoon).toBe(true);
+      unmount();
+    }
+  });
+
+  it('keeps the AeroPress seal on the liquid surface while pressing', () => {
+    for (const progress of [0, 0.25, 0.5, 0.75, 1]) {
+      const { container, unmount } = render(
+        <svg viewBox="0 0 160 168">
+          <Plunger vesselType="cylinder_aeropress" plungerState="pressing" progress={progress} />
+        </svg>,
+      );
+      const seal = container.querySelector('[data-aeropress-seal="true"]');
+      const sealBottom = Number(seal?.getAttribute('y')) + Number(seal?.getAttribute('height'));
+      const surfaceY = computeLiquidSurfaceY('cylinder_aeropress', 1 - progress);
+      expect(sealBottom).toBeLessThanOrEqual(surfaceY + 0.01);
+      expect(sealBottom).toBeGreaterThan(surfaceY - 6);
+      unmount();
+    }
+  });
+
+  it('keeps the French press knob inside the frame and above the lid across the whole press', () => {
+    const plunge = frenchPress.profiles[0]!.phases.find((p) => p.svgDirective.plungerState === 'pressing')!;
+    for (const progress of [0, 0.5, 1]) {
+      const { container, unmount } = render(
+        <svg viewBox="0 0 160 168">
+          <Plunger vesselType="beaker_french_press" plungerState={plunge.svgDirective.plungerState} progress={progress} />
+        </svg>,
+      );
+      const knob = container.querySelector('circle');
+      const lidY = Number(container.querySelector('[data-french-press-lid="true"]')?.getAttribute('y'));
+      const top = Number(knob?.getAttribute('cy')) - Number(knob?.getAttribute('r'));
+      const bottom = Number(knob?.getAttribute('cy')) + Number(knob?.getAttribute('r'));
+      expect(top).toBeGreaterThanOrEqual(0);
+      expect(bottom).toBeLessThan(lidY);
+      unmount();
+    }
+  });
+
+  it('ends the espresso streams at the cup surface instead of inside the coffee', () => {
+    for (const level of [0, 0.5, 1]) {
+      const surfaceY = computeLiquidSurfaceY('portafilter_espresso', level);
+      const { container, unmount } = render(
+        <svg viewBox="0 0 160 168">
+          <PourStream vesselType="portafilter_espresso" pourStream="steady" surfaceY={surfaceY} />
+        </svg>,
+      );
+      for (const line of container.querySelectorAll('line')) {
+        expect(Number(line.getAttribute('y2'))).toBeLessThanOrEqual(Math.round(surfaceY));
+      }
+      unmount();
+    }
+  });
+});
+
 describe('Block 3 Container: ProceduralBrewScene & Accessibility prefers-reduced-motion', () => {
   afterEach(() => {
     vi.restoreAllMocks();
@@ -578,7 +656,8 @@ describe('Block 3 Container: ProceduralBrewScene & Accessibility prefers-reduced
     const directive: SvgStageDirective = {
       vesselType: 'beaker_french_press',
       pourStream: 'steady',
-      agitator: 'spoon_stir',
+      // Pour + spoon are sequenced (never together); swirl coexists with the stream.
+      agitator: 'vessel_swirl',
       plungerState: 'pressing',
       liquidFillStartRatio: 0.2,
       liquidFillEndRatio: 0.8,

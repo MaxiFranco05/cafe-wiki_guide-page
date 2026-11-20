@@ -9,9 +9,16 @@ import {
   PourStream,
   VesselClipDefs,
   VesselSilhouette,
+  clamp01,
   computeLiquidSurfaceY,
   interpolateLiquidFill,
 } from './svg-primitives';
+
+/**
+ * A phase that both pours and stirs (AeroPress fill) shows them in sequence, as a barista does:
+ * pour first, then stir. Drawing both at once made the spoon cross the water stream.
+ */
+export const POUR_THEN_STIR_SPLIT = 0.6;
 
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 
@@ -87,7 +94,11 @@ export const ProceduralBrewScene = memo(function ProceduralBrewScene({
     progress,
   );
   const surfaceY = computeLiquidSurfaceY(directive.vesselType, level);
-  const isSwirling = directive.agitator === 'vessel_swirl';
+  const pourAndStir = directive.pourStream !== 'none' && directive.agitator === 'spoon_stir';
+  const isStirring = pourAndStir && clamp01(progress) >= POUR_THEN_STIR_SPLIT;
+  const pourStream = isStirring ? 'none' : directive.pourStream;
+  const agitator = pourAndStir && !isStirring ? 'none' : directive.agitator;
+  const isSwirling = agitator === 'vessel_swirl';
 
   const wrapperClass = [
     'procedural-svg-wrapper',
@@ -109,9 +120,9 @@ export const ProceduralBrewScene = memo(function ProceduralBrewScene({
         aria-label={ariaLabel ?? t('brew.timer.scene.ariaLabel')}
         className="w-full h-full max-w-[168px] max-h-[176px]"
         data-vessel={directive.vesselType}
-        data-pour-stream={directive.pourStream}
+        data-pour-stream={pourStream}
         data-turbulence={directive.coffeeBedTurbulence}
-        data-agitator={directive.agitator}
+        data-agitator={agitator}
         data-plunger-state={directive.plungerState}
         data-liquid-level={level.toFixed(2)}
       >
@@ -177,7 +188,7 @@ export const ProceduralBrewScene = memo(function ProceduralBrewScene({
         <CoffeeBed
           vesselType={directive.vesselType}
           turbulence={directive.coffeeBedTurbulence}
-          pourStream={directive.pourStream}
+          pourStream={pourStream}
           upperClipId={upperClipId}
           chamberClipId={carafeClipId}
           slurryGradientId={slurryGradId}
@@ -185,7 +196,7 @@ export const ProceduralBrewScene = memo(function ProceduralBrewScene({
 
         <PourStream
           vesselType={directive.vesselType}
-          pourStream={directive.pourStream}
+          pourStream={pourStream}
           surfaceY={surfaceY}
         />
 
@@ -199,7 +210,7 @@ export const ProceduralBrewScene = memo(function ProceduralBrewScene({
         <VesselSilhouette vesselType={directive.vesselType} />
 
         <Agitator
-          agitator={directive.agitator}
+          agitator={agitator}
           vesselType={directive.vesselType}
           surfaceY={surfaceY}
         />

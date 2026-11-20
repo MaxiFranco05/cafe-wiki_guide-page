@@ -1,6 +1,13 @@
 import type { SvgStageDirective } from '../../../../domain/schemas/brewing.schema';
 import { clamp01 } from './LiquidLevel';
-import type { BrewVesselType } from './chamber-geometry';
+import { VESSEL_CHAMBER_BOUNDS, type BrewVesselType } from './chamber-geometry';
+
+/** French press: rigid rod length so the knob stays in frame at the top and clears the lid at the bottom. */
+const FRENCH_PRESS_ROD_LENGTH = 77;
+const FRENCH_PRESS_MESH_TOP = 86;
+const FRENCH_PRESS_MESH_BOTTOM = 128;
+/** AeroPress: the seal rides on the liquid surface (4 px above it) so it never cuts into the coffee. */
+const AEROPRESS_SEAL_OFFSET = 4;
 
 export interface PlungerProps {
   readonly vesselType: BrewVesselType;
@@ -27,15 +34,15 @@ export function Plunger({
   const p = clamp01(progress);
 
   if (vesselType === 'beaker_french_press') {
-    let meshY = 76;
+    let meshY = FRENCH_PRESS_MESH_TOP;
     if (plungerState === 'pressing') {
-      meshY = Math.round(76 + p * 48);
+      meshY = FRENCH_PRESS_MESH_TOP + p * (FRENCH_PRESS_MESH_BOTTOM - FRENCH_PRESS_MESH_TOP);
     } else if (plungerState === 'down') {
-      meshY = 124;
+      meshY = FRENCH_PRESS_MESH_BOTTOM;
     }
 
     const lidY = 54;
-    const rodTopY = meshY - 72;
+    const rodTopY = meshY - FRENCH_PRESS_ROD_LENGTH;
     const knobY = rodTopY - 4;
 
     return (
@@ -98,11 +105,15 @@ export function Plunger({
   }
 
   if (vesselType === 'cylinder_aeropress') {
-    let sealY = 70;
+    // The chamber empties linearly while pressing (1 -> 0), so the seal tracks that surface.
+    const chamber = VESSEL_CHAMBER_BOUNDS.cylinder_aeropress;
+    const sealTop = chamber.top - AEROPRESS_SEAL_OFFSET;
+    const sealBottom = chamber.bottom - AEROPRESS_SEAL_OFFSET;
+    let sealY = sealTop;
     if (plungerState === 'pressing') {
-      sealY = Math.round(70 + p * 42);
+      sealY = sealTop + p * (sealBottom - sealTop);
     } else if (plungerState === 'down') {
-      sealY = 112;
+      sealY = sealBottom;
     }
 
     const bodyHeight = 52;

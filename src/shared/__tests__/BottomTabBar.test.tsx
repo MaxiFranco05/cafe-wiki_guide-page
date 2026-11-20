@@ -1,9 +1,16 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { describe, it, expect, beforeEach } from 'vitest';
+import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { BottomTabBar } from '../components/BottomTabBar';
+import { TopNavbar } from '../components/TopNavbar';
+import { rememberBrewMethod, resetLastBrewMethodStore } from '../hooks/useLastBrewMethod';
 
 describe('BottomTabBar Component', () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+    resetLastBrewMethodStore();
+  });
+
   it('renders 4 accessible navigation items for mobile', () => {
     render(
       <MemoryRouter initialEntries={['/']}>
@@ -96,5 +103,36 @@ describe('BottomTabBar Component', () => {
     svgs.forEach((svg) => {
       expect(svg).toHaveAttribute('aria-hidden', 'true');
     });
+  });
+});
+
+describe('Brew station navigation remembers the last method (C-08)', () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+    resetLastBrewMethodStore();
+  });
+
+  it('points "Preparar" and "Estación de Preparación" to the last visited method', () => {
+    act(() => rememberBrewMethod('chemex'));
+    render(
+      <MemoryRouter initialEntries={['/wiki']}>
+        <TopNavbar />
+        <BottomTabBar />
+      </MemoryRouter>
+    );
+    expect(screen.getByRole('link', { name: /preparar/i })).toHaveAttribute('href', '/brew/chemex');
+    expect(screen.getByRole('link', { name: /estación de preparación/i })).toHaveAttribute('href', '/brew/chemex');
+  });
+
+  it('marks the brew items active on any /brew/* route even if it is not the stored method', () => {
+    render(
+      <MemoryRouter initialEntries={['/brew/aeropress']}>
+        <TopNavbar />
+        <BottomTabBar />
+      </MemoryRouter>
+    );
+    expect(screen.getByRole('link', { name: /preparar/i })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('link', { name: /estación de preparación/i })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('link', { name: /preparar/i })).toHaveAttribute('href', '/brew/v60');
   });
 });

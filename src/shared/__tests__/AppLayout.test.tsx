@@ -28,7 +28,7 @@ describe('AppLayout and Public SPA Routing', () => {
     expect(screen.getByText('Prensa Francesa')).toBeInTheDocument();
   });
 
-  it('renders BrewStationView at route "/brew/v60" with dual panels and stacked action buttons', () => {
+  it('renders BrewStationView at route "/brew/v60" with the live timer panel (reset only appears once a run starts)', () => {
     render(
       <MemoryRouter initialEntries={['/brew/v60']}>
         <AppRoutes />
@@ -36,8 +36,9 @@ describe('AppLayout and Public SPA Routing', () => {
     );
 
     expect(screen.getByRole('heading', { name: /Hario V60/i })).toBeInTheDocument();
+    expect(screen.getByRole('complementary', { name: /temporizador de preparación/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /iniciar extracción/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /reiniciar reloj/i })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /reiniciar a 00:00/i })).toBeNull();
   });
 
   it('renders all 6 valid brew method routes without 404', () => {
