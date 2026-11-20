@@ -407,8 +407,8 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 
 ---
 
-### [C-14] `recipe-selector-and-custom-editor-ui`
-- **Estado**: `[ ]` pendiente
+### [x] [C-14] `recipe-selector-and-custom-editor-ui`
+- **Estado**: `[x]` completado y archivado (`openspec/changes/archive/2026-11-20-c-14-recipe-selector-and-custom-editor-ui/`)
 - **Scope**: Selector/modal de recetas en `/brew/:methodSlug` (Estándar universal + Recetas de Autor con descripción de proceso y perfil de sabor + Mis Recetas), editor visual de recetas custom, duplicado desde catálogo y compartir/importar JSON
   - Selector / modal `RecipeSelectorModal.tsx` en `BrewStationView.tsx`: lista agrupada por `Estándar (por defecto)`, `Autores y Clásicas` (mostrando autor, dificultad, resumen del proceso y notas/sabor que destaca) y `Mis Recetas` (custom guardadas en `storageAdapter`)
   - Editor `CustomRecipeEditorModal.tsx`: formulario para crear desde cero o duplicar (`duplicateRecipeAsDraft`) una receta existente, editando nombre, ratio base, temperatura opcional y fases (tipo, título, duración en segundos, agua en ml o peso relativo) usando `buildCustomRecipe`
