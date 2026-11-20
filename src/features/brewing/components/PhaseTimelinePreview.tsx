@@ -2,6 +2,7 @@ import React from 'react';
 import type { ScaledBrewPhase } from '../../../domain/brewing';
 import { t } from '../../../i18n';
 import { formatBrewNumber, formatMinutesSeconds } from '../utils/brew-station.helpers';
+import { resolvePhaseInstruction, resolvePhaseTitle } from '../utils/recipe-display.helpers';
 
 export interface PhaseTimelinePreviewProps {
   readonly phases: readonly ScaledBrewPhase[];
@@ -53,7 +54,7 @@ export const PhaseTimelinePreview: React.FC<PhaseTimelinePreviewProps> = ({
           const cumulativeFormatted = formatBrewNumber(phase.targetCumulativeGrams);
           const hasWaterPour = phase.waterShare > 0;
 
-          const instruction = t(phase.instructionKey, {
+          const instruction = resolvePhaseInstruction(phase, {
             waterGrams: phaseWaterFormatted,
             cumulativeWaterGrams: cumulativeFormatted,
           });
@@ -76,7 +77,7 @@ export const PhaseTimelinePreview: React.FC<PhaseTimelinePreviewProps> = ({
 
               <div className="min-w-0 flex-1 space-y-0.5">
                 <div className="text-sm font-semibold text-text-primary leading-snug">
-                  {t(phase.titleKey)}
+                  {resolvePhaseTitle(phase)}
                 </div>
                 <p className="m-0 text-xs text-text-secondary leading-relaxed">
                   {instruction}

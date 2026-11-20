@@ -16,6 +16,8 @@ export interface BrewControlsProps {
   readonly onWaterChange: (rawValue: string) => void;
   /** Locks every control while a brew is running or paused (C-08). */
   readonly disabled?: boolean;
+  /** Intensity ratios of the active recipe (C-14); falls back to the method profile ratios. */
+  readonly intensityRatios?: Readonly<Partial<Record<RecipeProfile['id'], number>>>;
 }
 
 const TIER_LABEL_KEY_BY_ID: Readonly<Record<'light' | 'normal' | 'strong', string>> = {
@@ -35,6 +37,7 @@ export const BrewControls: React.FC<BrewControlsProps> = ({
   onCoffeeChange,
   onWaterChange,
   disabled = false,
+  intensityRatios,
 }) => {
   const coffeeInputId = useId();
   const waterInputId = useId();
@@ -87,7 +90,9 @@ export const BrewControls: React.FC<BrewControlsProps> = ({
                     isSelected ? 'text-gold' : 'text-text-muted'
                   }`}
                 >
-                  {t('brew.ratioInline', { ratio: formatBrewNumber(profile.ratio) })}
+                  {t('brew.ratioInline', {
+                    ratio: formatBrewNumber(intensityRatios?.[profile.id] ?? profile.ratio),
+                  })}
                 </span>
               </button>
             );
@@ -158,7 +163,7 @@ export const BrewControls: React.FC<BrewControlsProps> = ({
               {t('brew.waterTotalLabel')}
             </label>
             <span className="font-mono font-mono-tabular text-[11px] font-semibold text-[var(--svg-water-stream)] whitespace-nowrap">
-              {`${method.waterTempCelsius.recommended} °C`}
+              {t('brew.recipes.tempSingle', { recommended: recipe.waterTempCelsius.recommended })}
             </span>
           </div>
 
@@ -190,9 +195,9 @@ export const BrewControls: React.FC<BrewControlsProps> = ({
                   unit: t('brew.unitMl'),
                 })
               : t('brew.waterTempBadge', {
-                  recommended: method.waterTempCelsius.recommended,
-                  min: method.waterTempCelsius.min,
-                  max: method.waterTempCelsius.max,
+                  recommended: recipe.waterTempCelsius.recommended,
+                  min: recipe.waterTempCelsius.min,
+                  max: recipe.waterTempCelsius.max,
                 })}
           </div>
         </div>

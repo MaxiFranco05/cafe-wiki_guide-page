@@ -27,6 +27,8 @@ export {
   PREFERENCES_STORAGE_KEY,
   UserPreferencesSchema,
   createStorageAdapter,
+  getSharedStorageAdapter,
+  resetSharedStorageAdapter,
   type BrewMethodSlug,
   type MethodPreferenceConfig,
   type StorageAdapter,

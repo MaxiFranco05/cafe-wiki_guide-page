@@ -78,15 +78,23 @@ export function t(key: TranslationKey | (string & {}), params?: TranslationParam
     return key;
   }
 
+  return interpolate(current, params);
+}
+
+/**
+ * Replaces `{{key}}` and `{key}` placeholders in a free-text template (e.g. user-authored
+ * custom recipe instructions) with the provided parameters.
+ */
+export function interpolate(template: string, params?: TranslationParams): string {
   if (!params) {
-    return current;
+    return template;
   }
 
   return Object.entries(params).reduce((str, [paramKey, paramValue]) => {
     return str
       .replaceAll(`{{${paramKey}}}`, String(paramValue))
       .replaceAll(`{${paramKey}}`, String(paramValue));
-  }, current);
+  }, template);
 }
 
 export { esUi, esMethods, esFlavorWheel, esWiki, esRecipes };

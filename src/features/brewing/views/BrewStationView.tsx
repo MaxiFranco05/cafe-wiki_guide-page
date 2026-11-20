@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router';
-import type { BrewMethod, RecipeProfile } from '../../../domain/schemas';
+import type { BrewMethod, BrewRecipe, RecipeProfile } from '../../../domain/schemas';
 import type { BrewTimerStatus } from '../../../domain/timer';
 import { calculateEspressoStyles, calculateScaledRecipe } from '../../../domain/brewing';
 import { getMethodBySlug } from '../../../data/methods';
@@ -14,6 +14,8 @@ import { GrindRecommendationBadge } from '../components/GrindRecommendationBadge
 import { MethodSwitcher } from '../components/MethodSwitcher';
 import { MethodVesselIcon } from '../components/MethodVesselIcon';
 import { PhaseTimelinePreview } from '../components/PhaseTimelinePreview';
+import { RecipeLibraryControls } from '../components/RecipeLibraryControls';
+import { useRecipeLibrary, type RecipeSessionConfig } from '../hooks/useRecipeLibrary';
 import { RangeWarningBanner } from '../components/RangeWarningBanner';
 import {
   formatBrewNumber,
@@ -25,6 +27,8 @@ import {
 interface BrewStationSessionProps {
   readonly method: BrewMethod;
   readonly initialProfileId: RecipeProfile['id'];
+  /** `?recipe=<id>` deep link (C-14). */
+  readonly queryRecipeId: string | null;
 }
 
 interface BrewSessionState {
@@ -36,11 +40,15 @@ interface BrewSessionState {
 
 function buildDefaultState(
   method: BrewMethod,
-  profileId: RecipeProfile['id']
+  profileId: RecipeProfile['id'],
+  recipe: BrewRecipe
 ): BrewSessionState {
-  const defaultScaled = calculateScaledRecipe(method, profileId, {
-    coffeeGrams: method.defaultDoseGrams,
-  });
+  const defaultScaled = calculateScaledRecipe(
+    method,
+    profileId,
+    { coffeeGrams: method.defaultDoseGrams },
+    recipe
+  );
 
   return {
     profileId,
@@ -70,10 +78,23 @@ const LockIcon: React.FC = () => (
 const BrewStationSession: React.FC<BrewStationSessionProps> = ({
   method,
   initialProfileId,
+  queryRecipeId,
 }) => {
+  // Read lazily by the recipe library when it persists a selection (dose + intensity of this session).
+  const recipeSessionRef = useRef<RecipeSessionConfig>({
+    coffeeGrams: method.defaultDoseGrams,
+    profileId: initialProfileId,
+  });
+  const library = useRecipeLibrary(method, {
+    queryRecipeId,
+    session: () => recipeSessionRef.current,
+  });
+  const recipe = library.activeRecipe;
+  const lockHintId = useId();
   const [state, setState] = useState<BrewSessionState>(() =>
-    buildDefaultState(method, initialProfileId)
+    buildDefaultState(method, initialProfileId, recipe)
   );
+  const [syncedRecipeId, setSyncedRecipeId] = useState(recipe.id);
   // Low-frequency live-run state only (status + phase index); per-tick state stays inside BrewTimer.
   const [timerStatus, setTimerStatus] = useState<BrewTimerStatus>('idle');
   const [livePhaseIndex, setLivePhaseIndex] = useState(0);
@@ -86,17 +107,35 @@ const BrewStationSession: React.FC<BrewStationSessionProps> = ({
   const parsedWater = parseSanitizedBrewInput(state.waterInput);
 
   const activeCoffeeForEval = parsedCoffee.isValid ? parsedCoffee.value : 0;
-  const activeRecipe = calculateScaledRecipe(method, state.profileId, {
-    coffeeGrams: activeCoffeeForEval,
-  });
+  recipeSessionRef.current = {
+    coffeeGrams: parsedCoffee.isValid ? parsedCoffee.value : method.defaultDoseGrams,
+    profileId: state.profileId,
+  };
+
+  // A different recipe became active (select / save / import / delete): keep the dose, recalc water.
+  if (syncedRecipeId !== recipe.id) {
+    setSyncedRecipeId(recipe.id);
+    setState((prev) => ({
+      ...prev,
+      waterInput: parsedCoffee.isValid
+        ? formatBrewNumber(
+            calculateScaledRecipe(method, prev.profileId, { coffeeGrams: parsedCoffee.value }, recipe).totalWaterMl
+          )
+        : prev.waterInput,
+      selectedPhaseIndex: 0,
+    }));
+  }
+
+  const activeRecipe = calculateScaledRecipe(
+    method,
+    state.profileId,
+    { coffeeGrams: activeCoffeeForEval },
+    recipe
+  );
 
   const espressoStyles = isEspresso
-    ? calculateEspressoStyles(method, activeCoffeeForEval)
+    ? calculateEspressoStyles(method, activeCoffeeForEval, recipe)
     : [];
-
-  const activeProfile =
-    method.profiles.find((profile) => profile.id === activeRecipe.profileId) ??
-    method.profiles[0]!;
 
   const safePhaseIndex = Math.min(
     Math.max(0, state.selectedPhaseIndex),
@@ -111,9 +150,12 @@ const BrewStationSession: React.FC<BrewStationSessionProps> = ({
 
   const handleProfileChange = (nextProfileId: RecipeProfile['id']) => {
     const coffeeDose = parsedCoffee.isValid ? parsedCoffee.value : 0;
-    const recalculated = calculateScaledRecipe(method, nextProfileId, {
-      coffeeGrams: coffeeDose,
-    });
+    const recalculated = calculateScaledRecipe(
+      method,
+      nextProfileId,
+      { coffeeGrams: coffeeDose },
+      recipe
+    );
     setState((prev) => ({
       ...prev,
       profileId: nextProfileId,
@@ -134,9 +176,12 @@ const BrewStationSession: React.FC<BrewStationSessionProps> = ({
       return;
     }
 
-    const recalculated = calculateScaledRecipe(method, state.profileId, {
-      coffeeGrams: nextCoffee.value,
-    });
+    const recalculated = calculateScaledRecipe(
+      method,
+      state.profileId,
+      { coffeeGrams: nextCoffee.value },
+      recipe
+    );
     setState((prev) => ({
       ...prev,
       coffeeInput: rawValue,
@@ -154,9 +199,12 @@ const BrewStationSession: React.FC<BrewStationSessionProps> = ({
       return;
     }
 
-    const recalculated = calculateScaledRecipe(method, state.profileId, {
-      waterMl: nextWater.value,
-    });
+    const recalculated = calculateScaledRecipe(
+      method,
+      state.profileId,
+      { waterMl: nextWater.value },
+      recipe
+    );
     setState((prev) => ({
       ...prev,
       waterInput: rawValue,
@@ -208,38 +256,27 @@ const BrewStationSession: React.FC<BrewStationSessionProps> = ({
           <span>{t('brew.backToCatalog')}</span>
         </Link>
 
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
-          <div className="flex items-start gap-3.5">
-            <div className="w-11 h-11 rounded-[12px] bg-dark-card border border-gold/35 flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+        <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+          <div className="flex items-start gap-3.5 min-w-0">
+            <div className="w-11 h-11 rounded-[12px] bg-dark-card border border-gold/35 flex items-center justify-center shrink-0 shadow-sm">
               <MethodVesselIcon vesselType={vesselType} />
             </div>
-            <div>
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-text-primary m-0 leading-tight">
-                  {t(method.nameKey)}
-                </h1>
-                <MethodSwitcher currentSlug={method.id} isBrewInProgress={isRecipeLocked} />
-              </div>
+            <div className="min-w-0">
+              <MethodSwitcher currentSlug={method.id} isBrewInProgress={isRecipeLocked} />
               <p className="text-sm text-text-secondary m-0 mt-1">
                 {t('brew.stationSubtitle')}
               </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 font-mono font-mono-tabular text-xs md:justify-end">
-            <span key={activeProfile.referenceAuthor} className="text-text-secondary soft-blur-swap">
-              {activeProfile.referenceAuthor}
-            </span>
-            <span aria-hidden="true" className="text-text-muted">
-              •
-            </span>
-            <span className="font-semibold text-gold">
-              {t('brew.waterTempBadge', {
-                recommended: method.waterTempCelsius.recommended,
-                min: method.waterTempCelsius.min,
-                max: method.waterTempCelsius.max,
-              })}
-            </span>
+          <div className="min-w-0">
+            <RecipeLibraryControls
+              library={library}
+              method={method}
+              locked={isRecipeLocked}
+              lockedHintId={lockHintId}
+              referenceDoseGrams={parsedCoffee.isValid ? parsedCoffee.value : method.defaultDoseGrams}
+            />
           </div>
         </div>
       </header>
@@ -250,7 +287,7 @@ const BrewStationSession: React.FC<BrewStationSessionProps> = ({
           {/* Controls + Non-Blocking Threshold Warnings */}
           <section className="order-1 bg-surface border border-border-subtle rounded-[18px] p-5 lg:bg-transparent lg:border-0 lg:rounded-none lg:p-0 space-y-4">
             {isRecipeLocked && (
-              <div className="brew-recipe-lock" role="status">
+              <div className="brew-recipe-lock" role="status" id={lockHintId}>
                 <LockIcon />
                 <span>{t('brew.recipeLocked')}</span>
               </div>
@@ -284,6 +321,7 @@ const BrewStationSession: React.FC<BrewStationSessionProps> = ({
                   onCoffeeChange={handleCoffeeChange}
                   onWaterChange={handleWaterChange}
                   disabled={isRecipeLocked}
+                  intensityRatios={recipe.intensityRatios}
                 />
               )}
             </div>
@@ -341,12 +379,14 @@ export const BrewStationView: React.FC = () => {
   }
 
   const initialProfileId = resolveInitialProfileId(method, searchParams.get('profile'));
+  const queryRecipeId = searchParams.get('recipe');
 
   return (
     <BrewStationSession
-      key={`${method.id}:${initialProfileId}`}
+      key={`${method.id}:${initialProfileId}:${queryRecipeId ?? ''}`}
       method={method}
       initialProfileId={initialProfileId}
+      queryRecipeId={queryRecipeId}
     />
   );
 };

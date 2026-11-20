@@ -9,6 +9,7 @@ import {
   formatMinutesSeconds,
   formatPaddedClock,
 } from '../utils/brew-station.helpers';
+import { resolvePhaseInstruction, resolvePhaseTitle } from '../utils/recipe-display.helpers';
 import { ProceduralBrewScene, usePrefersReducedMotion } from './ProceduralBrewScene';
 import { clamp01 } from './svg-primitives';
 import './BrewTimer.css';
@@ -220,7 +221,7 @@ export const BrewTimer: React.FC<BrewTimerProps> = ({
   const unit = isEspresso ? t('brew.unitGrams') : t('brew.unitMl');
   const announcement = isIdle
     ? ''
-    : t('brew.timer.phaseAnnouncement', { index: activeIndex + 1, title: t(phase.titleKey) });
+    : t('brew.timer.phaseAnnouncement', { index: activeIndex + 1, title: resolvePhaseTitle(phase) });
 
   return (
     <aside
@@ -321,7 +322,7 @@ export const BrewTimer: React.FC<BrewTimerProps> = ({
 
       <div className="brew-timer-phasehead">
         <b>
-          {t('brew.timer.phaseOf', { current: activeIndex + 1, total: phases.length, title: t(phase.titleKey) })}
+          {t('brew.timer.phaseOf', { current: activeIndex + 1, total: phases.length, title: resolvePhaseTitle(phase) })}
         </b>
         <span>
           {t('brew.timer.phaseRange', {
@@ -358,7 +359,7 @@ export const BrewTimer: React.FC<BrewTimerProps> = ({
             key={p.id}
             type="button"
             className={idx === activeIndex ? 'is-current' : !isIdle && idx < activeIndex ? 'is-past' : ''}
-            aria-label={t('brew.timer.phaseDotAria', { index: idx + 1, title: t(p.titleKey) })}
+            aria-label={t('brew.timer.phaseDotAria', { index: idx + 1, title: resolvePhaseTitle(p) })}
             aria-current={idx === activeIndex ? 'step' : undefined}
             onClick={() => goTo(idx)}
           />
@@ -381,9 +382,9 @@ export const BrewTimer: React.FC<BrewTimerProps> = ({
       ) : (
         <>
           <div className={`brew-timer-card ${isFlashing ? 'is-flash' : ''}`} data-testid="brew-timer-card">
-            <h2>{t(phase.titleKey)}</h2>
+            <h2>{resolvePhaseTitle(phase)}</h2>
             <p>
-              {t(phase.instructionKey, {
+              {resolvePhaseInstruction(phase, {
                 waterGrams: formatBrewNumber(phase.phaseWaterGrams),
                 cumulativeWaterGrams: formatBrewNumber(phase.targetCumulativeGrams),
               })}
@@ -436,7 +437,7 @@ export const BrewTimer: React.FC<BrewTimerProps> = ({
           <div className="brew-timer-next">
             <div>
               <small>{t('brew.timer.nextLabel')}</small>
-              <b>{nextPhase ? t(nextPhase.titleKey) : t('brew.timer.lastStep')}</b>
+              <b>{nextPhase ? resolvePhaseTitle(nextPhase) : t('brew.timer.lastStep')}</b>
             </div>
             {nextPhase && (
               <span>

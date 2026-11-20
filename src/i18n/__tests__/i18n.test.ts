@@ -1,5 +1,20 @@
 import { describe, it, expect } from 'vitest';
-import { t } from '../index';
+import { interpolate, t } from '../index';
+
+describe('interpolate (C-14 free-text templates)', () => {
+  it('replaces both {{key}} and {key} placeholders in a raw string', () => {
+    expect(
+      interpolate('Verté {{waterGrams}} g hasta alcanzar {cumulativeWaterGrams} g.', {
+        waterGrams: 120,
+        cumulativeWaterGrams: '170',
+      })
+    ).toBe('Verté 120 g hasta alcanzar 170 g.');
+  });
+
+  it('returns the template unchanged without params', () => {
+    expect(interpolate('Drenaje durante 30 s.')).toBe('Drenaje durante 30 s.');
+  });
+});
 
 describe('i18n translation engine', () => {
   it('resolves standard navigation keys in Spanish', () => {

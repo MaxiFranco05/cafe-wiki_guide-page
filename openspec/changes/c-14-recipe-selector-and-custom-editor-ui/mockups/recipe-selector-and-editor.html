@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="es" data-theme="dark" style="color-scheme: dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>C-14 Selector y Editor de Recetas</title>
+  <link rel="icon" href="../../../../design-system/assets/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../../../../design-system/tokens.css" />
+  <script src="../../../../design-system/brand.js"></script>
+  <style>
+    @font-face { font-family: "Outfit"; font-weight: 400; font-display: swap; src: url("../../../../node_modules/@fontsource/outfit/files/outfit-latin-400-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Outfit"; font-weight: 500; font-display: swap; src: url("../../../../node_modules/@fontsource/outfit/files/outfit-latin-500-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Outfit"; font-weight: 600; font-display: swap; src: url("../../../../node_modules/@fontsource/outfit/files/outfit-latin-600-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Outfit"; font-weight: 700; font-display: swap; src: url("../../../../node_modules/@fontsource/outfit/files/outfit-latin-700-normal.woff2") format("woff2"); }
+    @font-face { font-family: "IBM Plex Mono"; font-weight: 500; font-display: swap; src: url("../../../../node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); }
+    @font-face { font-family: "IBM Plex Mono"; font-weight: 600; font-display: swap; src: url("../../../../node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-600-normal.woff2") format("woff2"); }
+
+    /* C-14 — solo variables de design-system/tokens.css (Rev 4). Superficies elevadas por color-mix, igual que C-08. */
+    :root {
+      --c14-raised: color-mix(in srgb, var(--text-primary) 6%, var(--bg-surface));
+      --c14-raised-strong: color-mix(in srgb, var(--text-primary) 11%, var(--bg-surface));
+      --c14-scrim: color-mix(in srgb, var(--bg-canvas) 78%, transparent);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      background: var(--bg-canvas); color: var(--text-primary);
+      font-family: var(--font-sans); font-size: var(--text-base); line-height: 1.45;
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    :focus-visible { outline: 2px solid var(--border-focus); outline-offset: 2px; }
+    .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    svg { flex-shrink: 0; }
+    [hidden] { display: none !important; }
+    details.notes { border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 0 12px; }
+    details.notes > summary { min-height: 44px; display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: var(--text-sm); font-weight: 600; color: var(--text-secondary); list-style: none; }
+    details.notes > summary::-webkit-details-marker { display: none; }
+    details.notes > summary svg { margin-left: auto; transition: transform var(--duration-fast) var(--ease-out); }
+    details.notes[open] > summary svg { transform: rotate(180deg); }
+    details.notes .notes-body { display: grid; gap: 12px; padding-bottom: 12px; }
+
+    /* ---------- App chrome (simplificado) ---------- */
+    .topbar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; background: var(--bg-glass); border-bottom: 1px solid var(--border-subtle); }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: var(--tracking-tight); }
+    .brand img { width: 30px; height: 30px; border-radius: 8px; }
+    .topnav { display: none; gap: 6px; }
+    .topnav span { padding: 8px 14px; border-radius: var(--radius-pill); color: var(--text-secondary); font-size: var(--text-sm); font-weight: 600; }
+    .topnav span.on { background: var(--accent-primary-soft); color: var(--accent-gold); }
+    .page { max-width: 1240px; margin: 0 auto; padding: 20px 16px 96px; }
+    .tabbar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 4; display: flex; justify-content: space-around; padding: 10px 8px 14px; background: var(--bg-glass); border-top: 1px solid var(--border-subtle); font-size: var(--text-xs); color: var(--text-muted); }
+    .tabbar span.on { color: var(--accent-gold); font-weight: 600; }
+    @media (min-width: 1024px) { .topnav { display: flex; } .tabbar { display: none; } .page { padding: 28px 32px 48px; } }
+
+    /* ---------- Encabezado de estación ---------- */
+    .back { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-gold); font-size: var(--text-sm); font-weight: 600; margin-bottom: 10px; }
+    .station-head { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
+    .title-row { display: flex; align-items: flex-start; gap: 14px; }
+    .vessel { width: 44px; height: 44px; border-radius: 12px; background: var(--bg-dark-card); border: 1px solid color-mix(in srgb, var(--accent-gold) 35%, transparent); display: grid; place-items: center; color: var(--accent-gold); }
+    h1 { margin: 0; font-size: var(--text-2xl); letter-spacing: var(--tracking-tight); line-height: 1.1; }
+    .switch-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: var(--radius-pill); border: 1px solid var(--border-strong); color: var(--text-secondary); font-size: var(--text-xs); font-weight: 600; margin-left: 10px; vertical-align: middle; }
+    .subtitle { margin: 4px 0 0; color: var(--text-secondary); font-size: var(--text-sm); }
+
+    /* Disparador de receta (nuevo) */
+    .recipe-trigger {
+      display: flex; align-items: center; gap: 12px; width: 100%; min-height: 60px; padding: 10px 14px;
+      background: var(--c14-raised); border: 1px solid var(--border-strong); border-radius: var(--radius-lg);
+      text-align: left; cursor: pointer; transition: border-color var(--duration-fast) var(--ease-out), transform var(--duration-press) var(--ease-out);
+    }
+    .recipe-trigger:hover { border-color: color-mix(in srgb, var(--accent-gold) 55%, transparent); }
+    .recipe-trigger:active { transform: scale(var(--scale-press)); }
+    .recipe-trigger .ico { width: 36px; height: 36px; border-radius: 10px; background: var(--accent-primary-soft); color: var(--accent-gold); display: grid; place-items: center; }
+    .recipe-trigger .lbl { font-size: var(--text-xs); color: var(--text-muted); text-transform: uppercase; letter-spacing: var(--tracking-wide); font-weight: 600; }
+    .recipe-trigger .name { font-weight: 700; font-size: var(--text-base); line-height: 1.2; }
+    .recipe-trigger .meta { font-size: var(--text-xs); color: var(--text-secondary); }
+    .recipe-trigger .chev { margin-left: auto; color: var(--accent-gold); display: inline-flex; align-items: center; gap: 6px; font-size: var(--text-sm); font-weight: 600; }
+    .recipe-trigger[aria-disabled="true"] { opacity: .55; cursor: not-allowed; }
+    .recipe-trigger[aria-disabled="true"] .chev { color: var(--text-muted); }
+    .lock-note { display: none; margin-top: 8px; align-items: center; gap: 8px; font-size: var(--text-xs); color: var(--status-warning); }
+    [data-locked="1"] .lock-note { display: flex; }
+    @media (min-width: 1024px) {
+      .station-head { flex-direction: row; align-items: flex-end; justify-content: space-between; }
+      .recipe-trigger { width: 400px; }
+      h1 { font-size: var(--text-3xl); }
+    }
+
+    /* Cuerpo de estación (resumen fiel a C-05/C-08, no editable aquí) */
+    .station-grid { display: grid; gap: 18px; }
+    @media (min-width: 1024px) { .station-grid { grid-template-columns: 1.08fr 0.92fr; align-items: start; } }
+    .card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 20px; }
+    .card h2 { margin: 0 0 12px; font-size: var(--text-sm); text-transform: uppercase; letter-spacing: var(--tracking-wide); color: var(--text-muted); }
+    .seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 4px; background: var(--bg-elevated); border-radius: var(--radius-md); margin-bottom: 14px; }
+    .seg span { text-align: center; padding: 10px 4px; border-radius: 9px; font-size: var(--text-sm); font-weight: 600; color: var(--text-secondary); }
+    .seg span.on { background: var(--accent-primary); color: var(--text-on-accent); }
+    .wells { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .well { background: var(--bg-elevated); border: 1px solid var(--border-recessed); border-radius: var(--radius-md); padding: 12px 14px; }
+    .well small { display: block; font-size: var(--text-xs); color: var(--text-muted); }
+    .well b { font-family: var(--font-mono); font-size: var(--text-2xl); font-weight: 600; }
+    .well b i { font-style: normal; font-size: var(--text-sm); color: var(--text-muted); margin-left: 4px; }
+    .tl { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+    .tl li { display: grid; grid-template-columns: 56px 1fr auto; gap: 10px; align-items: baseline; padding: 10px 12px; border-radius: var(--radius-md); background: var(--bg-elevated); }
+    .tl li .t { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); }
+    .tl li .ti { font-weight: 600; font-size: var(--text-sm); }
+    .tl li .in { grid-column: 2 / 4; font-size: var(--text-xs); color: var(--text-secondary); }
+    .tl li .g { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--svg-water-stream); font-weight: 600; }
+    .timer-card { text-align: center; }
+    .ring { width: 190px; height: 190px; margin: 6px auto 12px; position: relative; }
+    .ring .clock { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-mono); font-size: var(--text-3xl); font-weight: 600; }
+    .primary-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 22px; border: 0; border-radius: var(--radius-md); background: var(--accent-primary); color: var(--text-on-accent); font-weight: 700; cursor: pointer; }
+    .primary-btn:hover { background: var(--accent-primary-hover); }
+    .timer-card .primary-btn { width: 100%; }
+
+    /* ---------- Hoja / diálogo ---------- */
+    .scrim { position: fixed; inset: 0; z-index: 20; background: var(--c14-scrim); backdrop-filter: blur(3px); display: none; }
+    .scrim.open { display: block; }
+    .sheet {
+      position: fixed; z-index: 21; left: 0; right: 0; bottom: 0; max-height: 92dvh; display: none; flex-direction: column;
+      background: var(--bg-surface); border: 1px solid var(--border-strong); border-bottom: 0; border-radius: 22px 22px 0 0;
+      box-shadow: var(--shadow-card); animation: sheet-in var(--duration-normal) var(--ease-drawer);
+    }
+    .sheet.open { display: flex; }
+    .sheet.stack2 { z-index: 31; }
+    .scrim.stack2 { z-index: 30; }
+    @keyframes sheet-in { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+    @media (min-width: 768px) {
+      .sheet { left: 50%; right: auto; bottom: auto; top: 50%; width: min(720px, calc(100vw - 48px)); max-height: min(820px, calc(100vh - 64px)); border-radius: var(--radius-xl); border-bottom: 1px solid var(--border-strong); transform: translate(-50%, -50%); animation: dlg-in var(--duration-normal) var(--ease-out); }
+      .sheet.wide { width: min(940px, calc(100vw - 48px)); }
+      .sheet.narrow { width: 440px; }
+      @keyframes dlg-in { from { opacity: 0; transform: translate(-50%, -50%) scale(.97); } to { opacity: 1; transform: translate(-50%, -50%); } }
+    }
+    @media (prefers-reduced-motion: reduce) { .sheet { animation: none !important; } .recipe-trigger:active { transform: none; } }
+    .grab { width: 40px; height: 4px; border-radius: 4px; background: var(--border-strong); margin: 8px auto 0; }
+    @media (min-width: 768px) { .grab { display: none; } }
+    .sheet-head { display: flex; align-items: center; gap: 12px; padding: 14px 18px 12px; border-bottom: 1px solid var(--border-subtle); }
+    .sheet-head h2 { margin: 0; font-size: var(--text-lg); letter-spacing: var(--tracking-normal); }
+    .sheet-head p { margin: 2px 0 0; font-size: var(--text-xs); color: var(--text-muted); }
+    .icon-btn { margin-left: auto; width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--border-subtle); background: transparent; display: grid; place-items: center; cursor: pointer; color: var(--text-secondary); }
+    .icon-btn:hover { color: var(--text-primary); border-color: var(--border-strong); }
+    .sheet-body { overflow-y: auto; padding: 14px 18px 18px; display: grid; gap: 18px; overscroll-behavior: contain; }
+    .sheet-foot { display: flex; gap: 10px; padding: 12px 18px 16px; border-top: 1px solid var(--border-subtle); background: var(--bg-surface); flex-wrap: wrap; }
+    .sheet-foot .grow { flex: 1; }
+
+    .ghost-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: var(--radius-md); border: 1px solid var(--border-strong); background: transparent; color: var(--text-primary); font-weight: 600; font-size: var(--text-sm); cursor: pointer; }
+    .ghost-btn:hover { border-color: color-mix(in srgb, var(--accent-gold) 55%, transparent); color: var(--accent-gold); }
+    .soft-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: var(--radius-md); border: 0; background: var(--accent-primary-soft); color: var(--accent-gold); font-weight: 600; font-size: var(--text-sm); cursor: pointer; }
+    .danger-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: var(--radius-md); border: 1px solid color-mix(in srgb, var(--status-danger) 45%, transparent); background: transparent; color: var(--status-danger); font-weight: 600; font-size: var(--text-sm); cursor: pointer; }
+    .danger-solid { background: var(--status-danger); color: var(--text-on-accent); border: 0; }
+
+    /* Grupos y fichas */
+    .group-h { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 0 0 8px; }
+    .group-h h3 { margin: 0; font-size: var(--text-xs); text-transform: uppercase; letter-spacing: var(--tracking-wide); color: var(--text-muted); }
+    .group-h span { font-size: var(--text-xs); color: var(--text-muted); }
+    .rlist { display: grid; gap: 8px; }
+    .rcard { position: relative; border: 1px solid var(--border-subtle); background: var(--c14-raised); border-radius: var(--radius-lg); padding: 14px; display: grid; gap: 8px; }
+    .rcard.active { border-color: color-mix(in srgb, var(--accent-gold) 70%, transparent); background: color-mix(in srgb, var(--accent-gold) 7%, var(--bg-surface)); }
+    .rcard .top { display: flex; align-items: flex-start; gap: 10px; }
+    .rcard .t { font-weight: 700; line-height: 1.2; }
+    .rcard .by { font-size: var(--text-xs); color: var(--text-secondary); margin-top: 2px; }
+    .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: var(--radius-pill); font-size: 11px; font-weight: 700; letter-spacing: .02em; white-space: nowrap; }
+    .b-std { background: var(--accent-gold-soft); color: var(--accent-gold); }
+    .b-aut { background: var(--accent-primary-soft); color: var(--text-primary); }
+    .b-cls { background: color-mix(in srgb, var(--flavor-other) 22%, transparent); color: var(--text-primary); }
+    .b-mine { background: var(--status-optimal-bg); color: var(--status-optimal); }
+    .b-active { background: var(--accent-gold); color: var(--bg-canvas); }
+    .rcard .badges { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+    .facts { display: flex; flex-wrap: wrap; gap: 6px 14px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary); }
+    .facts b { color: var(--accent-gold); font-weight: 600; }
+    .diff { display: inline-flex; gap: 3px; vertical-align: middle; margin-right: 4px; }
+    .diff i { width: 6px; height: 6px; border-radius: 2px; background: var(--border-strong); }
+    .diff i.on { background: var(--accent-gold); }
+    .proc { font-size: var(--text-sm); color: var(--text-secondary); margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .rcard.expanded .proc { -webkit-line-clamp: unset; }
+    .flav { font-size: var(--text-sm); margin: 0; color: var(--text-primary); }
+    .flav span { color: var(--accent-gold); font-weight: 600; }
+    .rcard .acts { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 2px; }
+    .rcard .acts .use { flex: 1 1 140px; }
+    .more { background: none; border: 0; padding: 0; color: var(--accent-gold); font-size: var(--text-xs); font-weight: 600; cursor: pointer; justify-self: start; min-height: 24px; }
+    .empty { border: 1px dashed var(--border-strong); border-radius: var(--radius-lg); padding: 18px; display: grid; gap: 10px; justify-items: start; color: var(--text-secondary); font-size: var(--text-sm); }
+    .empty .acts { display: flex; gap: 8px; flex-wrap: wrap; }
+    @media (min-width: 768px) { .rlist.two { grid-template-columns: 1fr 1fr; } }
+
+    /* Editor */
+    .ed-grid { display: grid; gap: 18px; }
+    @media (min-width: 900px) { .ed-grid { grid-template-columns: 0.9fr 1.1fr; align-items: start; } }
+    .field { display: grid; gap: 6px; }
+    .field label, .field .lab { font-size: var(--text-xs); font-weight: 600; color: var(--text-secondary); }
+    .field .hint { font-size: var(--text-xs); color: var(--text-muted); }
+    .inp { width: 100%; min-height: 44px; padding: 10px 12px; border-radius: var(--radius-md); border: 1px solid var(--border-recessed); background: var(--bg-elevated); color: var(--text-primary); }
+    .inp:focus { outline: none; border-color: var(--border-focus); box-shadow: var(--shadow-focus); }
+    textarea.inp { min-height: 72px; resize: vertical; }
+    .inp.mono { font-family: var(--font-mono); }
+    .inp.err { border-color: var(--status-danger); }
+    .errmsg { display: flex; gap: 6px; align-items: center; font-size: var(--text-xs); color: var(--status-danger); font-weight: 600; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+    .unit { position: relative; }
+    .unit .inp { padding-right: 40px; }
+    .unit em { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-style: normal; font-size: var(--text-xs); color: var(--text-muted); }
+    .sumbar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px; border-radius: var(--radius-md); background: var(--bg-elevated); border: 1px solid var(--border-recessed); }
+    .sumbar div small { display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: var(--tracking-wide); }
+    .sumbar div b { font-family: var(--font-mono); font-size: var(--text-lg); font-weight: 600; }
+    .sumbar div b.w { color: var(--svg-water-stream); }
+    .tlbar { display: flex; height: 10px; border-radius: 6px; overflow: hidden; gap: 2px; margin-top: 10px; grid-column: 1 / -1; }
+    .tlbar span { background: color-mix(in srgb, var(--accent-gold) 55%, var(--bg-surface)); }
+    .tlbar span.z { background: var(--border-strong); }
+    .phases { display: grid; gap: 8px; counter-reset: ph; }
+    .phase { border: 1px solid var(--border-subtle); background: var(--c14-raised); border-radius: var(--radius-md); padding: 10px; display: grid; gap: 8px; }
+    .phase.err { border-color: color-mix(in srgb, var(--status-danger) 60%, transparent); }
+    .phase .ph-top { display: flex; align-items: center; gap: 8px; }
+    .phase .num { counter-increment: ph; width: 26px; height: 26px; border-radius: 8px; background: var(--bg-elevated); display: grid; place-items: center; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--accent-gold); font-weight: 600; }
+    .phase .num::before { content: counter(ph); }
+    .phase .ph-top .inp { flex: 1; min-width: 0; }
+    .phase .tools { display: flex; gap: 4px; }
+    .tool { width: 44px; height: 44px; border-radius: 10px; border: 1px solid var(--border-subtle); background: transparent; display: grid; place-items: center; color: var(--text-secondary); cursor: pointer; }
+    .tool:hover { color: var(--text-primary); border-color: var(--border-strong); }
+    .tool[disabled] { opacity: .35; cursor: not-allowed; }
+    .tool.del:hover { color: var(--status-danger); }
+    @media (max-width: 520px) {
+      .phase .ph-top { flex-wrap: wrap; }
+      .phase .ph-top .tools { margin-left: auto; }
+      .phase .ph-top .inp { order: 3; flex: 1 1 100%; }
+    }
+    .ph-fields { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 8px; }
+    .ph-fields select.inp { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--text-muted) 50%), linear-gradient(135deg, var(--text-muted) 50%, transparent 50%); background-position: calc(100% - 16px) 50%, calc(100% - 11px) 50%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 28px; }
+    .ph-fields .unit .inp.w { color: var(--svg-water-stream); }
+    .add-phase { min-height: 48px; border: 1px dashed var(--border-strong); border-radius: var(--radius-md); background: transparent; color: var(--accent-gold); font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .banner { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: var(--radius-md); font-size: var(--text-sm); }
+    .banner.err { background: var(--status-danger-bg); color: var(--text-primary); border: 1px solid color-mix(in srgb, var(--status-danger) 45%, transparent); }
+    .banner.err svg { color: var(--status-danger); }
+    .banner.ok { background: var(--status-optimal-bg); border: 1px solid color-mix(in srgb, var(--status-optimal) 45%, transparent); }
+    .banner.ok svg { color: var(--status-optimal); }
+    .banner.info { background: var(--accent-gold-soft); border: 1px solid color-mix(in srgb, var(--accent-gold) 35%, transparent); }
+    .banner.info svg { color: var(--accent-gold); }
+    .banner a { color: var(--accent-gold); font-weight: 700; }
+    .banner b { display: block; }
+    details.tech { font-size: var(--text-xs); color: var(--text-muted); }
+    details.tech summary { cursor: pointer; min-height: 24px; }
+    details.tech pre { white-space: pre-wrap; margin: 6px 0 0; font-family: var(--font-mono); }
+
+    /* Compartir / Importar */
+    .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 4px; background: var(--bg-elevated); border-radius: var(--radius-md); }
+    .tabs button { min-height: 40px; border: 0; border-radius: 9px; background: transparent; color: var(--text-secondary); font-weight: 600; cursor: pointer; }
+    .tabs button[aria-selected="true"] { background: var(--c14-raised-strong); color: var(--text-primary); }
+    .json { font-family: var(--font-mono); font-size: 12px; line-height: 1.5; min-height: 180px; color: var(--text-secondary); }
+    .drop { display: flex; align-items: center; gap: 12px; padding: 14px; border: 1px dashed var(--border-strong); border-radius: var(--radius-md); font-size: var(--text-sm); color: var(--text-secondary); }
+
+    /* Demo control (no es parte del diseño) */
+    .demo { position: fixed; left: 12px; bottom: 76px; z-index: 50; background: var(--bg-tooltip); border: 1px solid var(--border-strong); border-radius: 12px; padding: 8px 10px; font-size: 12px; color: var(--text-secondary); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; max-width: calc(100vw - 24px); }
+    .demo select { background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 4px; color: var(--text-primary); }
+    @media (min-width: 1024px) { .demo { bottom: 12px; } }
+    [data-chrome="0"] .demo { display: none; }
+  </style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 19.5V5a2 2 0 0 1 2-2h13v16H6.5A2.5 2.5 0 0 0 4 21.5 2.5 2.5 0 0 0 6.5 24H19M8 7h7M8 11h5"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><polyline fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="6 9 12 15 18 9"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></g></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></g></symbol>
+  <symbol id="i-import" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><polyline points="8 11 12 15 16 11"/><line x1="12" y1="3" x2="12" y2="15"/></g></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6M9 6V4h6v2"/></g></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><polyline fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="18 15 12 9 6 15"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><polyline fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="6 9 12 15 18 9"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></g></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="20 6 9 17 4 12"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></g></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></g></symbol>
+  <symbol id="i-v60" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16l-6 10h-4z"/><path d="M8 19h8M12 15v4"/></g></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><polygon fill="currentColor" points="7 4 20 12 7 20"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="brand"><img src="../../../../design-system/assets/logo.svg" alt="" /><span data-brand-name="short">Marca (TBD)</span></div>
+  <nav class="topnav" aria-label="Principal"><span>Inicio</span><span class="on">Preparar</span><span>Wiki</span><span>Rueda SCA</span></nav>
+</header>
+
+<main class="page" id="station">
+  <a class="back" href="#"><svg width="16" height="16"><use href="#i-up" transform="rotate(-90 8 8)"/></svg>Volver al catálogo</a>
+  <div class="station-head">
+    <div class="title-row">
+      <div class="vessel"><svg width="24" height="24"><use href="#i-v60"/></svg></div>
+      <div>
+        <h1>Hario V60 <span class="switch-pill">Cambiar cafetera <svg width="12" height="12"><use href="#i-chev"/></svg></span></h1>
+        <p class="subtitle">Ajustá intensidad o dosis; cada pulso se recalcula con exactitud de balanza.</p>
+      </div>
+    </div>
+    <div>
+      <button class="recipe-trigger" id="trigger" type="button" aria-haspopup="dialog" aria-describedby="lock-note">
+        <span class="ico"><svg width="20" height="20"><use href="#i-book"/></svg></span>
+        <span>
+          <span class="lbl">Receta</span><br />
+          <span class="name" id="trg-name"></span><br />
+          <span class="meta mono" id="trg-meta"></span>
+        </span>
+        <span class="chev"><span class="chev-txt">Cambiar</span><svg width="16" height="16"><use href="#i-chev"/></svg></span>
+      </button>
+      <div class="lock-note" id="lock-note"><svg width="14" height="14"><use href="#i-lock"/></svg>Receta bloqueada mientras el temporizador está en curso.</div>
+    </div>
+  </div>
+
+  <div class="station-grid">
+    <div style="display:grid;gap:18px">
+      <section class="card">
+        <h2>Intensidad y dosis</h2>
+        <div class="seg"><span>Liviano</span><span class="on">Normal</span><span>Fuerte</span></div>
+        <div class="wells">
+          <div class="well"><small>Café</small><b>20<i>g</i></b></div>
+          <div class="well"><small>Agua</small><b id="w-total">320<i>ml</i></b></div>
+        </div>
+      </section>
+      <section class="card">
+        <h2>Paso a paso</h2>
+        <ol class="tl" id="timeline"></ol>
+      </section>
+    </div>
+    <section class="card timer-card">
+      <h2>Temporizador</h2>
+      <div class="ring">
+        <svg viewBox="0 0 100 100" width="190" height="190" aria-hidden="true"><circle cx="50" cy="50" r="44" fill="none" stroke="var(--border-subtle)" stroke-width="6"/><circle cx="50" cy="50" r="44" fill="none" stroke="var(--accent-gold)" stroke-width="6" stroke-dasharray="276" stroke-dashoffset="220" stroke-linecap="round" transform="rotate(-90 50 50)"/></svg>
+        <div class="clock" id="clock">00:00</div>
+      </div>
+      <p class="mono" style="color:var(--text-secondary);font-size:var(--text-sm);margin:0 0 14px" id="total-dur"></p>
+      <button class="primary-btn" type="button" id="start-btn"><svg width="16" height="16"><use href="#i-play"/></svg><span>Iniciar</span></button>
+    </section>
+  </div>
+</main>
+
+<nav class="tabbar" aria-label="Pestañas"><span>Inicio</span><span class="on">Preparar</span><span>Wiki</span><span>Rueda</span></nav>
+
+<!-- ===================== Selector ===================== -->
+<div class="scrim" id="scrim-sel"></div>
+<div class="sheet" id="sheet-sel" role="dialog" aria-modal="true" aria-labelledby="sel-title">
+  <div class="grab"></div>
+  <div class="sheet-head">
+    <div><h2 id="sel-title">Recetas para Hario V60</h2><p>Elegí qué técnica guía tu preparación. Dosis e intensidad se conservan.</p></div>
+    <button class="icon-btn" type="button" data-close aria-label="Cerrar"><svg width="18" height="18"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="sheet-body" id="sel-body"></div>
+  <div class="sheet-foot">
+    <button class="ghost-btn" type="button" data-open="import"><svg width="16" height="16"><use href="#i-import"/></svg>Importar JSON</button>
+    <button class="primary-btn grow" type="button" data-open="editor-new"><svg width="16" height="16"><use href="#i-plus"/></svg>Crear receta</button>
+  </div>
+</div>
+
+<!-- ===================== Editor ===================== -->
+<div class="scrim stack2" id="scrim-ed"></div>
+<div class="sheet wide stack2" id="sheet-ed" role="dialog" aria-modal="true" aria-labelledby="ed-title">
+  <div class="grab"></div>
+  <div class="sheet-head">
+    <div><h2 id="ed-title">Nueva receta</h2><p id="ed-sub">Hario V60 · se guarda solo en este dispositivo</p></div>
+    <button class="icon-btn" type="button" data-close aria-label="Cerrar editor"><svg width="18" height="18"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="sheet-body">
+    <div class="banner err" id="ed-banner" role="alert" hidden><svg width="18" height="18"><use href="#i-alert"/></svg><div><b>Revisá 2 campos antes de guardar.</b>El nombre es obligatorio y al menos una fase debe aportar agua.</div></div>
+    <div class="ed-grid">
+      <div style="display:grid;gap:14px">
+        <div class="field">
+          <label for="f-name">Nombre de la receta</label>
+          <input class="inp" id="f-name" maxlength="80" />
+          <div class="errmsg" id="f-name-err" hidden><svg width="14" height="14"><use href="#i-alert"/></svg>Poné un nombre para identificar tu receta.</div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="f-dose">Dosis de referencia</label><div class="unit"><input class="inp mono" id="f-dose" value="20" inputmode="decimal" /><em>g</em></div></div>
+          <div class="field"><label for="f-ratio">Ratio base</label><div class="unit"><input class="inp mono" id="f-ratio" inputmode="decimal" /><em>1:x</em></div></div>
+        </div>
+        <div class="field"><label for="f-temp">Temperatura (opcional)</label><div class="unit"><input class="inp mono" id="f-temp" inputmode="numeric" placeholder="93" /><em>°C</em></div><span class="hint">Vacío usa la del método (91–95 °C).</span></div>
+        <details class="notes" id="notes"><summary>Notas: proceso, sabor y molienda (opcional)<svg width="16" height="16"><use href="#i-chev"/></svg></summary>
+          <div class="notes-body">
+            <div class="field"><label for="f-proc">Cómo se hace</label><textarea class="inp" id="f-proc" maxlength="300"></textarea></div>
+            <div class="field"><label for="f-flav">Qué destaca</label><input class="inp" id="f-flav" maxlength="200" /></div>
+            <div class="field"><label for="f-grind">Molienda</label><input class="inp" id="f-grind" maxlength="120" /></div>
+          </div>
+        </details>
+      </div>
+      <div style="display:grid;gap:12px">
+        <div class="sumbar" aria-live="polite">
+          <div><small>Duración</small><b id="s-dur">0:00</b></div>
+          <div><small>Agua</small><b class="w" id="s-water">0 ml</b></div>
+          <div><small>Ratio real</small><b id="s-ratio">—</b></div>
+          <div class="tlbar" id="s-bar" aria-hidden="true"></div>
+        </div>
+        <div class="field"><span class="lab">Fases</span><span class="hint">Agua en ml para la dosis de referencia; al preparar se escala a tu dosis.</span></div>
+        <div class="errmsg" id="ph-err" hidden><svg width="14" height="14"><use href="#i-alert"/></svg>Al menos una fase debe aportar agua.</div>
+        <div class="phases" id="phases"></div>
+        <button class="add-phase" type="button" id="add-phase"><svg width="16" height="16"><use href="#i-plus"/></svg>Agregar fase</button>
+      </div>
+    </div>
+  </div>
+  <div class="sheet-foot">
+    <button class="ghost-btn" type="button" data-close>Cancelar</button>
+    <button class="primary-btn grow" type="button" id="ed-save"><svg width="16" height="16"><use href="#i-check"/></svg>Guardar y usar</button>
+  </div>
+</div>
+
+<!-- ===================== Compartir / Importar ===================== -->
+<div class="scrim stack2" id="scrim-sh"></div>
+<div class="sheet stack2" id="sheet-sh" role="dialog" aria-modal="true" aria-labelledby="sh-title">
+  <div class="grab"></div>
+  <div class="sheet-head">
+    <div><h2 id="sh-title">Compartir e importar</h2><p>Sin cuentas: el JSON viaja por donde quieras.</p></div>
+    <button class="icon-btn" type="button" data-close aria-label="Cerrar"><svg width="18" height="18"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="sheet-body">
+    <div class="tabs" role="tablist"><button role="tab" id="tab-share" aria-selected="true">Compartir</button><button role="tab" id="tab-import" aria-selected="false">Importar</button></div>
+    <div id="pane-share" style="display:grid;gap:12px">
+      <p style="margin:0;font-size:var(--text-sm);color:var(--text-secondary)">Receta: <b style="color:var(--text-primary)">Mi V60 de la mañana</b></p>
+      <div class="banner ok" id="share-ok" role="status" hidden><svg width="18" height="18"><use href="#i-check"/></svg><div><b>JSON copiado.</b>Pegalo en un mensaje o nota para compartirlo.</div></div>
+      <div class="banner info" id="share-blocked" role="status" hidden><svg width="18" height="18"><use href="#i-alert"/></svg><div><b>No pudimos usar el portapapeles.</b>Seleccioná el texto de abajo y copialo a mano.</div></div>
+      <textarea class="inp json" readonly id="share-json"></textarea>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="primary-btn" type="button" id="copy-btn" style="flex:1"><svg width="16" height="16"><use href="#i-copy"/></svg>Copiar JSON</button>
+        <button class="ghost-btn" type="button" style="flex:1"><svg width="16" height="16"><use href="#i-import"/></svg>Descargar .json</button>
+      </div>
+    </div>
+    <div id="pane-import" style="display:none;gap:12px">
+      <div class="banner err" id="imp-err" role="alert" hidden><svg width="18" height="18"><use href="#i-alert"/></svg><div><b>El texto no es un JSON válido.</b>Revisá que lo hayas copiado completo, desde la primera llave hasta la última.<details class="tech"><summary>Detalles técnicos</summary><pre>invalid_json: Unexpected end of JSON input</pre></details></div></div>
+      <div class="banner info" id="imp-other" role="status" hidden><svg width="18" height="18"><use href="#i-alert"/></svg><div><b>"Inverted Caramelo" es una receta de AeroPress.</b>La guardamos en Mis Recetas de AeroPress. <a href="#">Prepararla en AeroPress</a></div></div>
+      <div class="banner info" id="imp-dup" role="status" hidden><svg width="18" height="18"><use href="#i-alert"/></svg><div><b>Ya tenés "Mi V60 de la mañana".</b>¿Querés reemplazarla o guardar esta como copia?<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap"><button class="soft-btn" type="button">Reemplazar</button><button class="ghost-btn" type="button">Guardar como copia</button></div></div></div>
+      <div class="field"><label for="imp-text">Pegá el JSON de la receta</label><textarea class="inp json" id="imp-text" placeholder='{ "schemaVersion": 1, "recipe": { … } }'></textarea></div>
+      <div class="drop"><svg width="20" height="20"><use href="#i-file"/></svg><span>o elegí un archivo <b style="color:var(--text-primary)">.json</b></span><button class="ghost-btn" type="button" style="margin-left:auto">Elegir archivo</button></div>
+      <button class="primary-btn" type="button" id="imp-btn"><svg width="16" height="16"><use href="#i-import"/></svg>Importar receta</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== Confirmar eliminación ===================== -->
+<div class="scrim stack2" id="scrim-del"></div>
+<div class="sheet narrow stack2" id="sheet-del" role="alertdialog" aria-modal="true" aria-labelledby="del-title" aria-describedby="del-desc">
+  <div class="grab"></div>
+  <div class="sheet-head"><div><h2 id="del-title">¿Eliminar "Mi V60 de la mañana"?</h2></div></div>
+  <div class="sheet-body"><p id="del-desc" style="margin:0;color:var(--text-secondary);font-size:var(--text-sm)">Se borra de este dispositivo y no se puede deshacer. Si la compartiste, quien tenga el JSON la puede volver a importar. Como es tu receta activa, la estación vuelve a la Estándar.</p></div>
+  <div class="sheet-foot">
+    <button class="ghost-btn grow" type="button" data-close>Cancelar</button>
+    <button class="danger-btn danger-solid grow" type="button" data-close><svg width="16" height="16"><use href="#i-trash"/></svg>Eliminar</button>
+  </div>
+</div>
+
+<div class="demo" id="demo">
+  <label>Estado <select id="demo-view">
+    <option value="station">Estación</option>
+    <option value="locked">Estación en curso (bloqueado)</option>
+    <option value="selector">Selector</option>
+    <option value="selector-empty">Selector sin Mis Recetas</option>
+    <option value="editor-new">Editor nuevo</option>
+    <option value="editor-dup">Editor duplicado 4:6</option>
+    <option value="editor-error">Editor con errores</option>
+    <option value="share">Compartir copiado</option>
+    <option value="share-blocked">Portapapeles bloqueado</option>
+    <option value="import-error">Importar JSON inválido</option>
+    <option value="import-other">Importar otro método</option>
+    <option value="import-dup">Importar id repetido</option>
+    <option value="confirm">Confirmar eliminar</option>
+  </select></label>
+  <label>Receta <select id="demo-recipe"></select></label>
+</div>
+
+<script>
+(() => {
+  const DOSE = 20;
+  const RECIPES = [
+    { id: 'v60-standard', group: 'std', kind: 'Estándar', title: 'V60 Estándar (3 Vertidos)', author: 'Guía Estándar', diff: 1, diffLbl: 'Universal', ratio: 16, temp: 93, process: 'Bloom de 45 s con agitación suave seguido de dos vertidos continuos en espiral hasta completar en 3:00.', flavor: 'Taza equilibrada y limpia con dulzor a caramelo y acidez cítrica controlada.',
+      phases: [['Bloom', 'bloom', 45, .2, 'Verté {w} g en espiral, agitá suavemente el cono y dejá desgasificar.'], ['Vertido 1', 'pour', 60, .45, 'Verté {w} g en círculos constantes hasta alcanzar {c} g.'], ['Vertido 2', 'pour', 40, .35, 'Agregá los últimos {w} g suave hasta {c} g.'], ['Drawdown', 'drawdown', 35, 0, 'Dejá drenar completamente hasta obtener una cama plana en 3:00.']] },
+    { id: 'v60-hoffmann-1cup', group: 'aut', kind: 'Autor', title: 'Better 1-Cup V60', author: 'James Hoffmann', diff: 2, diffLbl: 'Intermedia', ratio: 16.67, temp: 95, process: 'Cinco pulsos iguales del 20 % con swirl en el bloom y al final para maximizar temperatura y uniformidad en 3:00.', flavor: 'Alta extracción con dulzor parejo, textura sedosa y final largo sin amargor.',
+      phases: [['Bloom + swirl', 'bloom', 45, .2, 'Verté {w} g y hacé swirl.'], ['Pulso 2', 'pour', 25, .2, 'Verté {w} g hasta {c} g.'], ['Pulso 3', 'pour', 20, .2, 'Verté {w} g hasta {c} g.'], ['Pulso 4', 'pour', 20, .2, 'Verté {w} g hasta {c} g.'], ['Pulso 5', 'pour', 15, .2, 'Verté {w} g hasta {c} g y hacé swirl.'], ['Drawdown', 'drawdown', 55, 0, 'Dejá drenar.']] },
+    { id: 'v60-kasuya-4-6', group: 'aut', kind: 'Autor', title: 'Método 4:6 (WBrC 2016)', author: 'Tetsu Kasuya', diff: 3, diffLbl: 'Avanzada', ratio: 15, temp: 92, process: 'Cinco vertidos iguales de 45 s dejando drenar la cama entre pulsos: el primer 40 % regula acidez/dulzor y el 60 % final la fuerza.', flavor: 'Cuerpo jugoso, dulzor pronunciado y separación clara de notas frutales.',
+      phases: [['Vertido 1 (40% · Base)', 'bloom', 45, .2, 'Verté {w} g y dejá drenar por completo hasta 0:45.'], ['Vertido 2 (40% · Balance)', 'pour', 45, .2, 'Verté {w} g hasta {c} g completando el 40 %.'], ['Vertido 3 (60% · Fuerza)', 'pour', 45, .2, 'Verté {w} g hasta {c} g una vez seca la cama.'], ['Vertido 4 (60% · Fuerza)', 'pour', 45, .2, 'Agregá {w} g hasta {c} g y esperá drenar.'], ['Vertido 5 (Cierre)', 'pour', 30, .2, 'Verté los últimos {w} g hasta {c} g y dejá drenar.']] },
+    { id: 'v60-scott-rao', group: 'aut', kind: 'Autor', title: 'Vertido Único + Rao Spin', author: 'Scott Rao', diff: 2, diffLbl: 'Intermedia', ratio: 16.4, temp: 96, process: 'Bloom 3x excavado con cuchara, un solo vertido continuo hasta el 100 % y giro final (Rao Spin) para aplanar la cama.', flavor: 'Estabilidad térmica alta, extracción pareja y claridad sin astringencia.',
+      phases: [['Bloom excavado', 'bloom', 45, .18, 'Verté {w} g y excavá con cuchara.'], ['Vertido principal', 'pour', 50, .82, 'Verté {w} g de forma continua hasta {c} g.'], ['Rao Spin', 'swirl', 10, 0, 'Girá el cono para aplanar la cama.'], ['Drawdown', 'drawdown', 75, 0, 'Dejá drenar.']] },
+    { id: 'custom-v60-mi-v60-de-la-manana', group: 'mine', kind: 'Mía', title: 'Mi V60 de la mañana', author: 'Vos', diff: 1, diffLbl: 'Universal', ratio: 16, temp: 94, process: 'Bloom largo y dos vertidos lentos; pensado para un tueste medio.', flavor: '',
+      phases: [['Bloom', 'bloom', 45, .2, 'Verté {w} g hasta alcanzar {c} g.'], ['Vertido largo', 'pour', 60, .48, 'Verté {w} g hasta alcanzar {c} g.'], ['Vertido final', 'pour', 45, .32, 'Verté {w} g hasta alcanzar {c} g.'], ['Drenaje', 'drawdown', 30, 0, 'Drenaje durante 30 s.']] },
+  ];
+  const PHASE_TYPES = [['bloom', 'Bloom'], ['pour', 'Vertido'], ['swirl', 'Swirl'], ['stir', 'Remover'], ['wait', 'Esperar'], ['drawdown', 'Drenaje']];
+  const byId = Object.fromEntries(RECIPES.map(r => [r.id, r]));
+  const params = new URLSearchParams(location.search);
+  let activeId = params.get('recipe') && byId[params.get('recipe')] ? params.get('recipe') : 'v60-standard';
+  let view = params.get('view') || 'station';
+  if (params.get('chrome') === '0') document.documentElement.dataset.chrome = '0';
+  const $ = (s) => document.querySelector(s);
+  const mmss = (s) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
+  const ratioTxt = (r) => `1:${String(r).replace('.', ',')}`;
+  const water = (r) => Math.round(DOSE * r);
+
+  function renderStation() {
+    const r = byId[activeId];
+    const total = water(r.ratio);
+    const dur = r.phases.reduce((a, p) => a + p[2], 0);
+    $('#trg-name').textContent = r.title;
+    $('#trg-meta').textContent = `${r.author} · ${ratioTxt(r.ratio)} · ${r.temp} °C`;
+    $('#w-total').innerHTML = `${total}<i>ml</i>`;
+    $('#total-dur').textContent = `Total ${mmss(dur)} · ${r.phases.length} fases`;
+    let t = 0, cum = 0;
+    $('#timeline').innerHTML = r.phases.map(([title, , d, share, ins]) => {
+      const g = Math.round(total * share); cum += g; const start = t; t += d;
+      return `<li><span class="t">${mmss(start)}</span><span class="ti">${title}</span><span class="g">${g ? '+' + g + ' g' : '0 g'}</span><span class="in">${ins.replace('{w}', g).replace('{c}', cum)}</span></li>`;
+    }).join('');
+  }
+
+  const diffDots = (n) => `<span class="diff" aria-hidden="true">${[1, 2, 3].map(i => `<i class="${i <= n ? 'on' : ''}"></i>`).join('')}</span>`;
+  const badgeCls = { std: 'b-std', aut: 'b-aut', cls: 'b-cls', mine: 'b-mine' };
+  function card(r, expanded) {
+    const isActive = r.id === activeId;
+    const dur = r.phases.reduce((a, p) => a + p[2], 0);
+    const mine = r.group === 'mine';
+    return `<article class="rcard ${isActive ? 'active' : ''} ${expanded ? 'expanded' : ''}" aria-current="${isActive}">
+      <div class="top"><div><div class="t">${r.title}</div><div class="by">${r.author} · ${diffDots(r.diff)}${r.diffLbl}</div></div>
+        <div class="badges"><span class="badge ${badgeCls[r.group]}">${r.kind}</span>${isActive ? '<span class="badge b-active"><svg width="11" height="11"><use href="#i-check"/></svg>En uso</span>' : ''}</div></div>
+      <div class="facts"><span><b>${ratioTxt(r.ratio)}</b></span><span>${mmss(dur)}</span><span>${r.temp} °C</span><span>${r.phases.length} fases</span></div>
+      ${r.process ? `<p class="proc">${r.process}</p>` : ''}
+      ${r.flavor ? `<p class="flav"><span>Destaca:</span> ${r.flavor}</p>` : ''}
+      ${r.process && r.process.length > 90 && !expanded ? '<button class="more" type="button">Ver más</button>' : ''}
+      <div class="acts">
+        ${isActive ? '<button class="ghost-btn use" type="button" disabled style="opacity:.6">Receta en uso</button>' : `<button class="soft-btn use" type="button" data-use="${r.id}">Usar esta receta</button>`}
+        <button class="ghost-btn" type="button" data-dup="${r.id}" aria-label="Duplicar ${r.title}"><svg width="16" height="16"><use href="#i-copy"/></svg>Duplicar</button>
+        ${mine ? `<button class="ghost-btn" type="button" data-edit="${r.id}" aria-label="Editar"><svg width="16" height="16"><use href="#i-edit"/></svg></button>
+          <button class="ghost-btn" type="button" data-open="share" aria-label="Compartir"><svg width="16" height="16"><use href="#i-share"/></svg></button>
+          <button class="danger-btn" type="button" data-open="confirm" aria-label="Eliminar"><svg width="16" height="16"><use href="#i-trash"/></svg></button>` : ''}
+      </div></article>`;
+  }
+  function renderSelector(empty) {
+    const g = (k) => RECIPES.filter(r => r.group === k);
+    const mine = empty ? [] : g('mine');
+    $('#sel-body').innerHTML = `
+      <section><div class="group-h"><h3>Estándar (por defecto)</h3></div><div class="rlist">${g('std').map(r => card(r)).join('')}</div></section>
+      <section><div class="group-h"><h3>Autores y Clásicas</h3><span>${g('aut').length} recetas verificadas</span></div><div class="rlist two">${g('aut').map(r => card(r, r.id === 'v60-kasuya-4-6')).join('')}</div></section>
+      <section><div class="group-h"><h3>Mis Recetas</h3><span>${mine.length ? mine.length + ' guardada' : ''}</span></div>
+        ${mine.length ? `<div class="rlist">${mine.map(r => card(r)).join('')}</div>` :
+        `<div class="empty"><b style="color:var(--text-primary)">Todavía no guardaste recetas para V60.</b><span>Creá la tuya desde cero, duplicá una de arriba o importá una que te compartieron.</span><div class="acts"><button class="soft-btn" type="button" data-open="editor-new"><svg width="16" height="16"><use href="#i-plus"/></svg>Crear receta</button><button class="ghost-btn" type="button" data-open="import"><svg width="16" height="16"><use href="#i-import"/></svg>Importar</button></div></div>`}
+      </section>`;
+  }
+
+  let draft = null;
+  function draftFrom(r, title) {
+    const total = water(r.ratio);
+    return { title, ratio: r.ratio, temp: r.temp, process: r.group === 'mine' ? r.process : '', flavor: '', grind: '',
+      phases: r.phases.map(([t, type, d, share, ins]) => ({ title: t, type, dur: d, ml: Math.round(total * share) })) };
+  }
+  function renderEditor(mode) {
+    const err = mode === 'editor-error';
+    if (mode === 'editor-new' || err) draft = { title: err ? '' : 'Mi V60', ratio: 16, temp: '', process: '', flavor: '', grind: '',
+      phases: err ? [{ title: 'Bloom', type: 'bloom', dur: 45, ml: 0 }, { title: 'Esperar', type: 'wait', dur: 30, ml: 0 }] :
+        [{ title: 'Bloom', type: 'bloom', dur: 45, ml: 50 }, { title: 'Vertido', type: 'pour', dur: 60, ml: 120 }, { title: 'Vertido', type: 'pour', dur: 45, ml: 80 }, { title: 'Drenaje', type: 'drawdown', dur: 30, ml: 0 }] };
+    if (mode === 'editor-dup') draft = draftFrom(byId['v60-kasuya-4-6'], 'Método 4:6 (copia)');
+    $('#ed-title').textContent = mode === 'editor-dup' ? 'Duplicar receta' : 'Nueva receta';
+    $('#ed-sub').textContent = mode === 'editor-dup' ? 'Basada en Método 4:6 · Tetsu Kasuya. La original no cambia.' : 'Hario V60 · se guarda solo en este dispositivo';
+    $('#f-name').value = draft.title; $('#f-ratio').value = String(draft.ratio).replace('.', ','); $('#f-temp').value = draft.temp;
+    $('#f-proc').value = draft.process; $('#f-flav').value = draft.flavor; $('#f-grind').value = draft.grind;
+    $('#ed-banner').hidden = !err; $('#f-name-err').hidden = !err; $('#ph-err').hidden = !err;
+    $('#f-name').classList.toggle('err', err); $('#f-name').setAttribute('aria-invalid', err);
+    if (err) $('#f-name').setAttribute('aria-describedby', 'f-name-err'); else $('#f-name').removeAttribute('aria-describedby');
+    renderPhases(err);
+  }
+  function renderPhases(err) {
+    const n = draft.phases.length;
+    $('#phases').innerHTML = draft.phases.map((p, i) => `
+      <div class="phase ${err && p.ml === 0 ? 'err' : ''}">
+        <div class="ph-top"><span class="num" aria-hidden="true"></span>
+          <input class="inp" aria-label="Título de la fase ${i + 1}" value="${p.title}" data-i="${i}" data-k="title" maxlength="60" />
+          <div class="tools">
+            <button class="tool" type="button" aria-label="Subir fase ${i + 1}" ${i === 0 ? 'disabled' : ''} data-mv="${i}:-1"><svg width="16" height="16"><use href="#i-up"/></svg></button>
+            <button class="tool" type="button" aria-label="Bajar fase ${i + 1}" ${i === n - 1 ? 'disabled' : ''} data-mv="${i}:1"><svg width="16" height="16"><use href="#i-down"/></svg></button>
+            <button class="tool del" type="button" aria-label="Quitar fase ${i + 1}" ${n === 1 ? 'disabled' : ''} data-rm="${i}"><svg width="16" height="16"><use href="#i-trash"/></svg></button>
+          </div></div>
+        <div class="ph-fields">
+          <select class="inp" aria-label="Tipo de la fase ${i + 1}" data-i="${i}" data-k="type">${PHASE_TYPES.map(([v, l]) => `<option value="${v}" ${v === p.type ? 'selected' : ''}>${l}</option>`).join('')}</select>
+          <div class="unit"><input class="inp mono" aria-label="Duración de la fase ${i + 1} en segundos" value="${p.dur}" inputmode="numeric" data-i="${i}" data-k="dur" /><em>s</em></div>
+          <div class="unit"><input class="inp mono w" aria-label="Agua de la fase ${i + 1} en mililitros" value="${p.ml}" inputmode="decimal" data-i="${i}" data-k="ml" /><em>ml</em></div>
+        </div></div>`).join('');
+    updateSummary();
+  }
+  function updateSummary() {
+    const dur = draft.phases.reduce((a, p) => a + (+p.dur || 0), 0);
+    const w = draft.phases.reduce((a, p) => a + (+p.ml || 0), 0);
+    $('#s-dur').textContent = mmss(dur);
+    $('#s-water').textContent = `${w} ml`;
+    const dose = parseFloat(($('#f-dose').value || '0').replace(',', '.'));
+    $('#s-ratio').textContent = w && dose ? ratioTxt(Math.round(w / dose * 10) / 10) : '—';
+    $('#s-bar').innerHTML = draft.phases.map(p => `<span class="${+p.ml ? '' : 'z'}" style="flex:${+p.dur || 1}"></span>`).join('');
+  }
+  $('#phases').addEventListener('input', (e) => {
+    const el = e.target; if (!el.dataset.k) return;
+    const p = draft.phases[+el.dataset.i]; p[el.dataset.k] = el.dataset.k === 'title' || el.dataset.k === 'type' ? el.value : el.value.replace(',', '.');
+    updateSummary();
+  });
+  $('#f-dose').addEventListener('input', updateSummary);
+  $('#phases').addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (!b || b.disabled) return;
+    if (b.dataset.rm) { draft.phases.splice(+b.dataset.rm, 1); renderPhases(); }
+    if (b.dataset.mv) { const [i, d] = b.dataset.mv.split(':').map(Number); const [x] = draft.phases.splice(i, 1); draft.phases.splice(i + d, 0, x); renderPhases(); }
+  });
+  $('#add-phase').addEventListener('click', () => { draft.phases.push({ title: 'Vertido', type: 'pour', dur: 30, ml: 0 }); renderPhases(); });
+
+  const sheets = { sel: ['#scrim-sel', '#sheet-sel'], ed: ['#scrim-ed', '#sheet-ed'], sh: ['#scrim-sh', '#sheet-sh'], del: ['#scrim-del', '#sheet-del'] };
+  function openSheets(keys) { for (const [k, [s, d]] of Object.entries(sheets)) { const on = keys.includes(k); $(s).classList.toggle('open', on); $(d).classList.toggle('open', on); } }
+  function setTab(share) { $('#tab-share').setAttribute('aria-selected', share); $('#tab-import').setAttribute('aria-selected', !share); $('#pane-share').style.display = share ? 'grid' : 'none'; $('#pane-import').style.display = share ? 'none' : 'grid'; }
+  function renderShare(mode) {
+    const r = byId['custom-v60-mi-v60-de-la-manana'];
+    $('#share-json').value = JSON.stringify({ schemaVersion: 1, exportedAtIso: '2026-11-20T09:12:00.000Z', recipe: { id: r.id, methodId: 'v60', source: 'custom', kind: 'custom', title: r.title, intensityRatios: { light: 17, normal: 16, strong: 14.7 }, totalDurationSeconds: 180, phases: '[4 fases]' } }, null, 2);
+    $('#share-ok').hidden = mode !== 'share'; $('#share-blocked').hidden = mode !== 'share-blocked';
+    $('#imp-err').hidden = mode !== 'import-error'; $('#imp-other').hidden = mode !== 'import-other'; $('#imp-dup').hidden = mode !== 'import-dup';
+    $('#imp-text').value = mode === 'import-error' ? '{ "schemaVersion": 1, "recipe": { "id": "custom-v60-' : '';
+    setTab(mode.startsWith('share'));
+  }
+
+  function go(v) {
+    view = v; $('#demo-view').value = v;
+    document.body.dataset.locked = v === 'locked' ? '1' : '0';
+    const trg = $('#trigger'); trg.setAttribute('aria-disabled', v === 'locked');
+    trg.querySelector('.chev-txt').textContent = v === 'locked' ? 'Bloqueada' : 'Cambiar';
+    $('#clock').textContent = v === 'locked' ? '01:12' : '00:00';
+    $('#start-btn span').textContent = v === 'locked' ? 'Pausar' : 'Iniciar';
+    renderStation();
+    requestAnimationFrame(() => document.querySelectorAll('.sheet-body').forEach((b) => { b.scrollTop = 0; }));
+    if (v === 'station' || v === 'locked') return openSheets([]);
+    renderSelector(v === 'selector-empty');
+    if (v.startsWith('selector')) return openSheets(['sel']);
+    if (v.startsWith('editor')) { renderEditor(v); return openSheets(['sel', 'ed']); }
+    if (v.startsWith('share') || v.startsWith('import')) { renderShare(v); return openSheets(['sel', 'sh']); }
+    if (v === 'confirm') return openSheets(['sel', 'del']);
+  }
+
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('button, a'); if (!b) return;
+    if (b.id === 'trigger') { if (view !== 'locked') go('selector'); return; }
+    if (b.dataset.close !== undefined) { go(e.target.closest('#sheet-sel') ? 'station' : 'selector'); return; }
+    if (b.dataset.use) { activeId = b.dataset.use; $('#demo-recipe').value = activeId; go('station'); return; }
+    if (b.dataset.dup) { const r = byId[b.dataset.dup]; draft = draftFrom(r, r.title + ' (copia)'); go('editor-dup'); if (r.id !== 'v60-kasuya-4-6') { draft = draftFrom(r, r.title + ' (copia)'); $('#f-name').value = draft.title; $('#ed-sub').textContent = `Basada en ${r.title} · ${r.author}. La original no cambia.`; renderPhases(); } return; }
+    if (b.dataset.edit) { draft = draftFrom(byId[b.dataset.edit], byId[b.dataset.edit].title); go('editor-dup'); $('#ed-title').textContent = 'Editar receta'; $('#ed-sub').textContent = 'Los cambios reemplazan esta receta.'; $('#f-name').value = draft.title; renderPhases(); return; }
+    if (b.dataset.open) { go(b.dataset.open === 'import' ? 'import-error' : b.dataset.open); if (b.dataset.open === 'import') { $('#imp-err').hidden = true; $('#imp-text').value = ''; } return; }
+    if (b.id === 'ed-save') { if (!$('#f-name').value.trim()) go('editor-error'); else { activeId = 'custom-v60-mi-v60-de-la-manana'; go('station'); } return; }
+    if (b.id === 'copy-btn') { go('share'); return; }
+    if (b.id === 'tab-share') { setTab(true); return; }
+    if (b.id === 'tab-import') { setTab(false); return; }
+    if (b.id === 'imp-btn') { go('import-error'); return; }
+    if (b.classList.contains('more')) { b.closest('.rcard').classList.add('expanded'); b.remove(); }
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && view !== 'station' && view !== 'locked') go(view.startsWith('selector') ? 'station' : 'selector'); });
+  $('#demo-recipe').innerHTML = RECIPES.map(r => `<option value="${r.id}">${r.title}</option>`).join('');
+  $('#demo-recipe').value = activeId;
+  $('#demo-recipe').addEventListener('change', (e) => { activeId = e.target.value; go(view); });
+  $('#demo-view').addEventListener('change', (e) => go(e.target.value));
+  go(view);
+})();
+</script>
+</body>
+</html>

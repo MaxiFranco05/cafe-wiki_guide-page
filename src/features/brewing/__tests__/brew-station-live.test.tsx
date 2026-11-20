@@ -73,11 +73,11 @@ describe('BrewStationView live execution (C-08)', () => {
     advance(20_000);
     const bloomLevel = Number(scene()?.getAttribute('data-liquid-level'));
     advance(26_000); // 46 s -> phase 2
-    expect(screen.getByText(/fase 2 de 4 · primer vertido/i)).toBeInTheDocument();
-    expect(screen.getByTestId('brew-timer-scale-grams').textContent).toContain('175');
+    expect(screen.getByText(/fase 2 de 4 · vertido 1/i)).toBeInTheDocument();
+    expect(screen.getByTestId('brew-timer-scale-grams').textContent).toContain('156'); // C-14: catalog standard recipe (1:16)
     expect(scene()?.getAttribute('data-pour-stream')).not.toBe('none');
     expect(Number(scene()?.getAttribute('data-liquid-level'))).toBeGreaterThanOrEqual(bloomLevel);
-    const liveRow = screen.getByRole('button', { name: /^0:45 Primer vertido/i });
+    const liveRow = screen.getByRole('button', { name: /^0:45 Vertido 1/i });
     expect(liveRow.className).toContain('brew-timer-row-live');
     expect(screen.getByRole('button', { name: /^0:00 Bloom/i }).className).toContain('brew-timer-row-done');
 
@@ -106,9 +106,9 @@ describe('BrewStationView live execution (C-08)', () => {
     fireEvent.click(screen.getByRole('button', { name: /iniciar extracción/i }));
     await flush();
     advance(1_000);
-    fireEvent.click(screen.getByRole('button', { name: /^2:45 Drenaje final/i }));
+    fireEvent.click(screen.getByRole('button', { name: /^2:25 Drawdown/i }));
     advance(200);
-    expect(screen.getByTestId('brew-timer-total').textContent).toBe('02:45');
+    expect(screen.getByTestId('brew-timer-total').textContent).toBe('02:25');
     expect(screen.getByRole('button', { name: /pausar/i })).toBeInTheDocument();
   });
 
@@ -147,9 +147,15 @@ describe('BrewStationView live execution (C-08)', () => {
     expect(wake.release).toHaveBeenCalled();
   });
 
+  // C-14 header rev 2: the method name in the title opens a menu of the six methods.
+  const switchMethod = (from: string, to: RegExp) => {
+    fireEvent.click(screen.getByRole('button', { name: from, description: 'Cambiar cafetera' }));
+    fireEvent.click(screen.getByRole('menuitemradio', { name: to }));
+  };
+
   it('method selector switches freely when idle and remembers the last method', async () => {
     renderStation('/brew/v60');
-    fireEvent.change(screen.getByLabelText(/cambiar cafetera/i), { target: { value: 'chemex' } });
+    switchMethod('Hario V60', /Chemex/);
     await flush();
     expect(screen.getByRole('heading', { name: 'Chemex' })).toBeInTheDocument();
     expect(readLastBrewMethod()).toBe('chemex');
@@ -161,13 +167,13 @@ describe('BrewStationView live execution (C-08)', () => {
     fireEvent.click(screen.getByRole('button', { name: /iniciar extracción/i }));
     await flush();
 
-    fireEvent.change(screen.getByLabelText(/cambiar cafetera/i), { target: { value: 'aeropress' } });
+    switchMethod('Hario V60', /AeroPress/);
     await flush();
     expect(confirmSpy).toHaveBeenCalledTimes(1);
     expect(screen.getByRole('heading', { name: 'Hario V60' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /pausar/i })).toBeInTheDocument();
 
-    fireEvent.change(screen.getByLabelText(/cambiar cafetera/i), { target: { value: 'aeropress' } });
+    switchMethod('Hario V60', /AeroPress/);
     await flush();
     expect(screen.getByRole('heading', { name: 'AeroPress' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /iniciar extracción/i })).toBeInTheDocument();

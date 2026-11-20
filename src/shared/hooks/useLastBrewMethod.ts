@@ -1,22 +1,20 @@
 import { useSyncExternalStore } from 'react';
 import {
   BrewMethodSlugSchema,
-  createStorageAdapter,
+  getSharedStorageAdapter,
   type BrewMethodSlug,
   type StorageAdapter,
 } from '../../adapters';
 
 export const DEFAULT_BREW_METHOD_SLUG: BrewMethodSlug = 'v60';
 
-let adapter: StorageAdapter | null = null;
+let injectedAdapter: StorageAdapter | null = null;
 let current: BrewMethodSlug | null = null;
 const listeners = new Set<() => void>();
 
+/** Uses the app-wide shared adapter so writes never clobber other preference consumers. */
 function getAdapter(): StorageAdapter {
-  if (adapter === null) {
-    adapter = createStorageAdapter();
-  }
-  return adapter;
+  return injectedAdapter ?? getSharedStorageAdapter();
 }
 
 /** Returns the last brew method the user visited (validated), or `v60`. */
@@ -53,6 +51,6 @@ export function useLastBrewMethod(): BrewMethodSlug {
 
 /** Clears the in-memory cache (tests) and optionally injects a storage adapter. */
 export function resetLastBrewMethodStore(storageAdapter?: StorageAdapter): void {
-  adapter = storageAdapter ?? null;
+  injectedAdapter = storageAdapter ?? null;
   current = null;
 }

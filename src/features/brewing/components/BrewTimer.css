@@ -173,14 +173,6 @@
 .brew-recipe-lock svg { color: var(--accent-gold); flex-shrink: 0; }
 .brew-recipe-locked { opacity: 0.55; }
 
-.brew-method-switcher { position: relative; display: inline-flex; align-items: center; }
-.brew-method-switcher select {
-  appearance: none; -webkit-appearance: none; min-height: 40px; padding: 0 34px 0 12px; border-radius: 11px;
-  background: var(--bg-elevated); border: 1px solid var(--border-recessed);
-  font: 600 13px var(--font-sans); color: var(--text-secondary); cursor: pointer;
-}
-.brew-method-switcher svg { position: absolute; right: 11px; pointer-events: none; color: var(--accent-gold); }
-
 @media (max-width: 1023px) {
   .brew-timer { position: relative; }
 }

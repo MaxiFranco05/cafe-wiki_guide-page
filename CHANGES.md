@@ -395,6 +395,38 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 
 ---
 
+## FASE 5 — Multi-Receta y Recetas Personalizadas
+
+> Habilita múltiples técnicas verificadas por cafetera (1 Estándar universal + recetas de autor fieles) y creación/edición/compartición de recetas personalizadas en `/brew/:methodSlug`.
+
+### [x] [C-13] `multi-recipe-catalog-and-custom-recipes-domain`
+- **Estado**: `[x]` completado y archivado (`openspec/changes/archive/2026-11-19-c-13-multi-recipe-catalog-and-custom-recipes-domain/`)
+- **Scope**: Esquemas Zod multi-receta, catálogo verificado de 19 recetas (6 Estándar + 13 Autor/Clásicas), motor de escalado retrocompatible, normalizador automático de recetas custom (`waterShare`, tiempos, `svgDirective`), Export/Import JSON y persistencia CRUD en `storage.adapter.ts`
+- **Dependencias**: C-02, C-04, C-07
+- **Governance**: MEDIO
+
+---
+
+### [C-14] `recipe-selector-and-custom-editor-ui`
+- **Estado**: `[ ]` pendiente
+- **Scope**: Selector/modal de recetas en `/brew/:methodSlug` (Estándar universal + Recetas de Autor con descripción de proceso y perfil de sabor + Mis Recetas), editor visual de recetas custom, duplicado desde catálogo y compartir/importar JSON
+  - Selector / modal `RecipeSelectorModal.tsx` en `BrewStationView.tsx`: lista agrupada por `Estándar (por defecto)`, `Autores y Clásicas` (mostrando autor, dificultad, resumen del proceso y notas/sabor que destaca) y `Mis Recetas` (custom guardadas en `storageAdapter`)
+  - Editor `CustomRecipeEditorModal.tsx`: formulario para crear desde cero o duplicar (`duplicateRecipeAsDraft`) una receta existente, editando nombre, ratio base, temperatura opcional y fases (tipo, título, duración en segundos, agua en ml o peso relativo) usando `buildCustomRecipe`
+  - Acciones de compartir e importar JSON (`exportCustomRecipeJson` / `importCustomRecipeJson`) con feedback de validación inline y persistencia mediante `saveCustomRecipe` / `deleteCustomRecipe` / `selectedRecipeId`
+  - Integración en `BrewStationView.tsx`, `useBrewTimer.ts` y `PhaseTimelinePreview.tsx` para escalar, previsualizar y ejecutar en vivo cualquier receta elegida o creada por el usuario (resolviendo `customTitle` / `customInstruction` cuando `source === 'custom'`)
+  - UI Mockup requerido antes de `apply` (`visual_design.mode = "system-and-mockups"`, Design System Rev 3, `390x844` y `1440x900`)
+  - Tests: selección de receta de autor (ej. Kasuya 4:6) actualizando fases/ratio/temperatura en `BrewStationView`, creación y persistencia de receta custom, duplicación de receta de autor y round-trip de importación JSON
+- **Dependencias**: C-05, C-08, C-13
+- **Governance**: MEDIO
+- **Leer antes**:
+  - `openspec/specs/multi-recipe-and-custom-recipes-domain/spec.md`
+  - `src/domain/schemas/recipe.schema.ts`
+  - `src/domain/brewing/custom-recipe.engine.ts`
+  - `src/data/recipes/index.ts`
+  - `design-system/README.md` (`Revision: 3`)
+
+---
+
 ## Resumen de Changes
 
 | ID | Change | Fase | Dependencias | Governance | UI Mockup (`system-and-mockups`) |
@@ -412,6 +444,8 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 | `C-10` | `sensory-wiki-explorer-ui` | FASE 3 | `C-03, C-09, C-15` | BAJO | Sí (Portada, secciones y fichas `/wiki`) |
 | `C-11` | `interactive-sca-flavor-wheel-ui` | FASE 3 | `C-03, C-09` | MEDIO | Sí (Rueda interactiva `/flavor-wheel`) |
 | `C-12` | `pwa-offline-and-production-readiness` | FASE 4 | `C-08, C-10, C-11` | MEDIO | Sí (Indicador Offline / PWA shell) |
+| `C-13` | `multi-recipe-catalog-and-custom-recipes-domain` | FASE 5 | `C-02, C-04, C-07` | MEDIO | No (esquemas, 19 recetas, motor y storage) |
+| `C-14` | `recipe-selector-and-custom-editor-ui` | FASE 5 | `C-05, C-08, C-13` | MEDIO | Sí (Selector/modal + Editor custom `/brew`) |
 
 ## Backlog futuro (sin change asignado)
 

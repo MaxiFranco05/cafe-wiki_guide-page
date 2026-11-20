@@ -27,13 +27,15 @@ describe('BrewStationView Integration (C-05 Strict TDD)', () => {
     expect(screen.getByRole('button', { name: /liviano/i })).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByLabelText(/café seco \(g\)/i)).toHaveValue(15);
     expect(screen.getByLabelText(/agua total \(ml\)/i)).toHaveValue(255);
-    expect(screen.getByText(/Guía Estándar/)).toBeInTheDocument();
+    // C-14 header rev 2: the compact recipe pill shows the recipe name (the author lives in the selector card)
+    expect(screen.getByRole('button', { name: /Receta activa: V60 Estándar/ })).toBeInTheDocument();
 
     unmount();
 
     renderBrewRoute('/brew/v60?profile=invalid-tier');
     expect(screen.getByRole('button', { name: /normal/i })).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getByLabelText(/agua total \(ml\)/i)).toHaveValue(250);
+    // C-14: the station follows the catalog standard recipe (1:16, 3:00) instead of the C-02 profile
+    expect(screen.getByLabelText(/agua total \(ml\)/i)).toHaveValue(240);
   });
 
   it('supports bidirectional Coffee <-> Water scaling on V60 and Chemex and preserves coffee dose on intensity change', async () => {
@@ -43,18 +45,18 @@ describe('BrewStationView Integration (C-05 Strict TDD)', () => {
     const coffeeInput = screen.getByLabelText(/café seco \(g\)/i);
     const waterInput = screen.getByLabelText(/agua total \(ml\)/i);
 
-    // Edit coffee -> 22 g => 367 ml + ~2.9 cdas + phases summing 367 g
+    // Edit coffee -> 22 g => 352 ml + ~2.9 cdas + phases summing 352 g
     fireEvent.change(coffeeInput, { target: { value: '22' } });
-    expect(waterInput).toHaveValue(367);
+    expect(waterInput).toHaveValue(352);
     expect(screen.getByText(/~2.9 cdas/i)).toBeInTheDocument();
-    expect(screen.getByText(/3:30 · 367 g agua/i)).toBeInTheDocument();
+    expect(screen.getByText(/3:00 · 352 g agua/i)).toBeInTheDocument();
 
-    // Change intensity to Fuerte (1:15) while preserving current coffee dose (20 g -> 300 ml)
+    // Change intensity to Fuerte (1:14.5) while preserving current coffee dose (20 g -> 290 ml)
     fireEvent.change(coffeeInput, { target: { value: '20' } });
     await user.click(screen.getByRole('button', { name: /fuerte/i }));
     expect(screen.getByRole('button', { name: /fuerte/i })).toHaveAttribute('aria-pressed', 'true');
     expect(coffeeInput).toHaveValue(20);
-    expect(waterInput).toHaveValue(300);
+    expect(waterInput).toHaveValue(290);
 
     unmount();
 
@@ -72,7 +74,7 @@ describe('BrewStationView Integration (C-05 Strict TDD)', () => {
 
     const doseInput = screen.getByLabelText(/dosis en portafiltro \(g\)/i);
     expect(doseInput).toHaveValue(18);
-    expect(screen.getByText('00:28')).toBeInTheDocument();
+    expect(screen.getByText('0:28 · 36 g bebida')).toBeInTheDocument();
 
     // Change dose 18 -> 20 updates all 3 yields simultaneously
     fireEvent.change(doseInput, { target: { value: '20' } });
@@ -80,15 +82,15 @@ describe('BrewStationView Integration (C-05 Strict TDD)', () => {
     expect(screen.getByRole('button', { name: /normale/i })).toHaveTextContent('40 g');
     expect(screen.getByRole('button', { name: /lungo/i })).toHaveTextContent('60 g');
 
-    // Select Ristretto -> updates clock 00:22 and timeline
+    // Select Ristretto -> updates yield in the timeline (C-13 recipes share one 0:28 duration across styles)
     await user.click(screen.getByRole('button', { name: /ristretto/i }));
     expect(screen.getByRole('button', { name: /ristretto/i })).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getByText('00:22')).toBeInTheDocument();
+    expect(screen.getByText('0:28 · 30 g bebida')).toBeInTheDocument();
 
-    // Select Lungo -> updates clock 00:34
+    // Select Lungo -> updates yield
     await user.click(screen.getByRole('button', { name: /lungo/i }));
     expect(screen.getByRole('button', { name: /lungo/i })).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getByText('00:34')).toBeInTheDocument();
+    expect(screen.getByText('0:28 · 60 g bebida')).toBeInTheDocument();
   });
 
   it('shows non-blocking RangeWarningBanner outside thresholds, hides it when valid, and disables Iniciar extracción only on <=0/empty', () => {
@@ -131,19 +133,19 @@ describe('BrewStationView Integration (C-05 Strict TDD)', () => {
 
     // Advance via > button
     await user.click(screen.getByRole('button', { name: /siguiente fase/i }));
-    expect(screen.getByText(/FASE 2 DE 4 · PRIMER VERTIDO/i)).toBeInTheDocument();
+    expect(screen.getByText(/FASE 2 DE 4 · VERTIDO 1/i)).toBeInTheDocument();
 
     // Jump via < button back to 1
     await user.click(screen.getByRole('button', { name: /fase anterior/i }));
     expect(screen.getByText(/FASE 1 DE 4 · BLOOM/i)).toBeInTheDocument();
 
     // Jump via dot slider click to phase 3
-    await user.click(screen.getByRole('button', { name: /ir a la fase 3: segundo vertido/i }));
-    expect(screen.getByText(/FASE 3 DE 4 · SEGUNDO VERTIDO/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /ir a la fase 3: vertido 2/i }));
+    expect(screen.getByText(/FASE 3 DE 4 · VERTIDO 2/i)).toBeInTheDocument();
 
     // Jump via timeline row click to phase 4
-    await user.click(screen.getByRole('button', { name: /^2:45 Drenaje final/i }));
-    expect(screen.getByText(/FASE 4 DE 4 · DRENAJE FINAL/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /^2:25 Drawdown/i }));
+    expect(screen.getByText(/FASE 4 DE 4 · DRAWDOWN/i)).toBeInTheDocument();
 
     // Previewing never starts the timer
     expect(screen.getByRole('button', { name: /iniciar extracción/i })).toBeInTheDocument();
@@ -174,7 +176,7 @@ describe('BrewStationView Integration (C-05 Strict TDD)', () => {
     expect(initialTurbulence).toBeTruthy();
 
     // Advance via timeline row click to drain phase (phase 4) -> updates SVG primitive states
-    await user.click(screen.getByRole('button', { name: /^2:45 Drenaje final/i }));
+    await user.click(screen.getByRole('button', { name: /^2:25 Drawdown/i }));
     expect(sceneSvg?.getAttribute('data-pour-stream')).toBe('none');
     expect(sceneSvg?.getAttribute('data-turbulence')).toBe('settled');
 

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  createStorageAdapter,
   createWakeLockAdapter,
+  getSharedStorageAdapter,
   createWebAudioAdapter,
   type StorageAdapter,
   type WakeLockAdapter,
@@ -38,7 +38,7 @@ interface AdapterSet {
 export function useKitchenAdapters(factories: KitchenAdapterFactories = {}): KitchenControls {
   const factoriesRef = useRef(factories);
   const [storage] = useState<StorageAdapter>(() =>
-    (factories.createStorage ?? (() => createStorageAdapter()))(),
+    (factories.createStorage ?? getSharedStorageAdapter)(),
   );
   const [muted, setMuted] = useState<boolean>(() => storage.getPreferences().muted);
   const [wakeLockActive, setWakeLockActive] = useState(false);

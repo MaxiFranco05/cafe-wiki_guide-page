@@ -206,3 +206,21 @@ export function createStorageAdapter(deps?: StorageAdapterDeps): StorageAdapter 
     },
   };
 }
+
+let sharedStorageAdapter: StorageAdapter | null = null;
+
+/**
+ * App-wide storage adapter. Every consumer must share it: each adapter keeps its own in-memory
+ * mirror and rewrites the whole preferences object, so separate instances overwrite each other.
+ */
+export function getSharedStorageAdapter(): StorageAdapter {
+  if (sharedStorageAdapter === null) {
+    sharedStorageAdapter = createStorageAdapter();
+  }
+  return sharedStorageAdapter;
+}
+
+/** Drops the shared instance so the next access re-reads storage (test isolation). */
+export function resetSharedStorageAdapter(): void {
+  sharedStorageAdapter = null;
+}
