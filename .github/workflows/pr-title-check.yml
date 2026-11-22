@@ -1,0 +1,46 @@
+name: Validar título de PR a main
+
+# Requisito para pasar a producción: el título del PR hacia `main` define la versión.
+# Formato exacto:  release: vMAJOR.MINOR.PATCH   (ej. "release: v1.2.0")
+# Para bloquear el merge, marcar este check como "required" en la protección de la rama `main`.
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, edited, reopened, synchronize]
+
+permissions:
+  contents: read
+
+jobs:
+  validate-title:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validar formato, orden de versión y tag libre
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          set -euo pipefail
+          regex='^release: v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'
+          if ! [[ "$PR_TITLE" =~ $regex ]]; then
+            echo "::error title=Título de PR inválido::Debe ser exactamente 'release: vX.Y.Z' (ej. 'release: v1.2.0'). Recibido: '$PR_TITLE'"
+            exit 1
+          fi
+          version="${PR_TITLE#release: v}"
+
+          if git rev-parse -q --verify "refs/tags/v${version}" >/dev/null; then
+            echo "::error title=Versión repetida::El tag v${version} ya existe."
+            exit 1
+          fi
+
+          current=$(node -p "require('./package.json').version")
+          highest=$(printf '%s\n%s\n' "$current" "$version" | sort -V | tail -n1)
+          if [ "$version" = "$current" ] || [ "$highest" != "$version" ]; then
+            echo "::error title=Versión no incrementada::v${version} debe ser mayor que la versión actual (${current})."
+            exit 1
+          fi
+          echo "OK: ${current} -> ${version}"

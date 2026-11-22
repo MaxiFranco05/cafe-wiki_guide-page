@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Outlet } from 'react-router';
 import { TopNavbar } from './TopNavbar';
 import { BottomTabBar } from './BottomTabBar';
+import { AppFooter } from './AppFooter';
+import { PwaStatusToast } from './PwaStatusToast';
+
+const RouteLoadingFallback: React.FC = () => (
+  <div
+    className="min-h-[60dvh] w-full flex items-center justify-center"
+    aria-busy="true"
+    aria-live="polite"
+  >
+    <div className="w-8 h-8 rounded-full border-2 border-border-subtle border-t-accent motion-safe:animate-spin" />
+  </div>
+);
 
 export const AppLayout: React.FC = () => {
   return (
@@ -16,9 +28,13 @@ export const AppLayout: React.FC = () => {
         <div className="css-bean css-bean--br" />
       </div>
       <TopNavbar />
-      <main className="relative z-10 flex-1 w-full max-w-[1200px] mx-auto px-4 py-6 md:px-9 md:py-8 pb-24 md:pb-16">
-        <Outlet />
+      <main className="relative z-10 flex-1 w-full max-w-[1200px] mx-auto px-4 py-6 md:px-9 md:py-8 pb-8 md:pb-8">
+        <Suspense fallback={<RouteLoadingFallback />}>
+          <Outlet />
+        </Suspense>
       </main>
+      <AppFooter />
+      <PwaStatusToast />
       <BottomTabBar />
     </div>
   );

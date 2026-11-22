@@ -1,13 +1,30 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router';
 import { AppLayout } from './shared/components/AppLayout';
 import { HomeView } from './features/brewing/HomeView';
-import { BrewStationView } from './features/brewing/BrewStationView';
-import { WikiHomeView } from './features/wiki/views/WikiHomeView';
-import { WikiSectionView } from './features/wiki/views/WikiSectionView';
-import { WikiEntryDetailView } from './features/wiki/views/WikiEntryDetailView';
-import { FlavorWheelView } from './features/flavor-wheel/views/FlavorWheelView';
-import { NotFoundView } from './shared/components/NotFoundView';
+
+const BrewStationView = lazy(() =>
+  import('./features/brewing/BrewStationView').then((m) => ({ default: m.BrewStationView }))
+);
+const WikiHomeView = lazy(() =>
+  import('./features/wiki/views/WikiHomeView').then((m) => ({ default: m.WikiHomeView }))
+);
+const WikiSectionView = lazy(() =>
+  import('./features/wiki/views/WikiSectionView').then((m) => ({ default: m.WikiSectionView }))
+);
+const WikiEntryDetailView = lazy(() =>
+  import('./features/wiki/views/WikiEntryDetailView').then((m) => ({
+    default: m.WikiEntryDetailView,
+  }))
+);
+const FlavorWheelView = lazy(() =>
+  import('./features/flavor-wheel/views/FlavorWheelView').then((m) => ({
+    default: m.FlavorWheelView,
+  }))
+);
+const NotFoundView = lazy(() =>
+  import('./shared/components/NotFoundView').then((m) => ({ default: m.NotFoundView }))
+);
 
 export const AppRoutes: React.FC = () => {
   return (

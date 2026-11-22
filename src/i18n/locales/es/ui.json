@@ -743,6 +743,24 @@
     "version": "Versión {version}",
     "ariaLabel": "Información de la aplicación"
   },
+  "pwa": {
+    "regionLabel": "Estado de conexión y actualización",
+    "offline": {
+      "title": "Sin conexión · Modo offline activo",
+      "desc": "Calculadoras, temporizador y Wiki siguen funcionando desde el dispositivo."
+    },
+    "offlineReady": {
+      "title": "Lista para usar sin conexión",
+      "desc": "Recetas, Wiki y Rueda SCA guardadas en este dispositivo."
+    },
+    "update": {
+      "title": "Nueva versión disponible",
+      "desc": "Actualizá cuando termines tu preparación para cargar las últimas mejoras.",
+      "apply": "Actualizar",
+      "later": "Después"
+    },
+    "closeAria": "Cerrar aviso"
+  },
   "notFound": {
     "title": "404 — Ruta no encontrada",
     "desc": "La página solicitada o el método especificado no existe en el catálogo.",
