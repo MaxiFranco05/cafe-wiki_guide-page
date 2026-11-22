@@ -1,0 +1,104 @@
+name: Release (tag + versiÃ³n)
+
+# Al mergear un PR a `main` (pase a producciÃ³n): toma la versiÃ³n del tÃ­tulo del PR,
+# actualiza package.json / package-lock.json (fuente de la versiÃ³n mostrada en el footer),
+# crea el tag vX.Y.Z, publica el GitHub Release y despliega a producción en Vercel.
+# El proyecto de Vercel se identifica por VERCEL_PROJECT_ID (no por nombre), así que el
+# nombre del producto puede definirse o cambiar después sin tocar este workflow.
+
+on:
+  pull_request:
+    branches: [main]
+    types: [closed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Extraer versiÃ³n del tÃ­tulo del PR
+        id: version
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          set -euo pipefail
+          regex='^release: v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'
+          if ! [[ "$PR_TITLE" =~ $regex ]]; then
+            echo "::error::TÃ­tulo de PR invÃ¡lido: '$PR_TITLE'"
+            exit 1
+          fi
+          echo "version=${PR_TITLE#release: v}" >> "$GITHUB_OUTPUT"
+
+      - name: Actualizar archivos de versiÃ³n
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: npm version "$VERSION" --no-git-tag-version --allow-same-version
+
+      - name: Commit del bump y tag
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git commit -m "chore(release): v${VERSION} [skip ci]" || echo "Sin cambios de versiÃ³n"
+          git tag -a "v${VERSION}" -m "v${VERSION}"
+          git push origin main "v${VERSION}"
+
+      - name: Publicar GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: gh release create "v${VERSION}" --title "v${VERSION}" --generate-notes
+
+  deploy:
+    needs: release
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - name: Verificar credenciales de Vercel
+        id: creds
+        run: |
+          if [ -z "$VERCEL_TOKEN" ] || [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_PROJECT_ID" ]; then
+            echo "::warning title=Deploy omitido::Faltan secrets VERCEL_TOKEN / VERCEL_ORG_ID / VERCEL_PROJECT_ID. El tag y el release sí se crearon."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Se despliega el commit de versión (main ya incluye el bump) para que el footer muestre la versión nueva.
+      - uses: actions/checkout@v4
+        if: steps.creds.outputs.ready == 'true'
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        if: steps.creds.outputs.ready == 'true'
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Build y deploy a producción
+        if: steps.creds.outputs.ready == 'true'
+        run: |
+          set -euo pipefail
+          npm ci
+          npx vercel@latest pull --yes --environment=production --token="$VERCEL_TOKEN"
+          npx vercel@latest build --prod --token="$VERCEL_TOKEN"
+          npx vercel@latest deploy --prebuilt --prod --token="$VERCEL_TOKEN"

@@ -1,0 +1,358 @@
+{
+  "flavorWheel": {
+    "nodes": {
+      "fruity": {
+        "label": "Frutal",
+        "note": "Aromas dulces y ácidos derivados de ésteres, aldehídos y ácidos orgánicos desarrollados en maduración de altura y tuestes claros a medios."
+      },
+      "fruity_berry": {
+        "label": "Frutos rojos",
+        "note": "Perfil jugoso de frutos oscuros y bayas frescas, habitual en cafés etíopes naturales, kenianos lavados y procesos honey con alta concentración de azúcares."
+      },
+      "fruity_berry_blackberry": {
+        "label": "Mora",
+        "note": "Dulzor profundo con acidez málica y fosfórica marcada; suele aparecer en variedades SL28/SL34 de Kenia y lotes naturales de altura."
+      },
+      "fruity_berry_raspberry": {
+        "label": "Frambuesa",
+        "note": "Nota brillante, ligeramente ácida y perfumada en retrogusto, común en cafés lavados de alta montaña en Colombia, Kenia y Etiopía."
+      },
+      "fruity_berry_blueberry": {
+        "label": "Arándano",
+        "note": "Descriptor clásico de los cafés naturales de Etiopía (Yirgacheffe y Guji) producido por ésteres generados durante el secado en cereza entera."
+      },
+      "fruity_berry_strawberry": {
+        "label": "Frutilla",
+        "note": "Dulzor frutal suave y fragante, muy frecuente en procesos naturales bien controlados, red honey y fermentaciones anaeróbicas moderadas."
+      },
+      "fruity_dried-fruit": {
+        "label": "Fruta deshidratada",
+        "note": "Dulzor concentrado y denso típico de frutos maduros secados al sol, donde los azúcares caramelizan ligeramente durante el tueste."
+      },
+      "fruity_dried-fruit_raisin": {
+        "label": "Pasa de uva",
+        "note": "Aroma dulce y oscuro con baja astringencia, frecuente en cafés de Brasil naturales, Perú de altura y perfiles honey oscuros."
+      },
+      "fruity_dried-fruit_prune": {
+        "label": "Ciruela pasa",
+        "note": "Dulzor maduro con cuerpo denso y final prolongado, habitual en procesos naturales de tueste medio y cafés centroamericanos de altura."
+      },
+      "fruity_citrus": {
+        "label": "Cítrico",
+        "note": "Sensación limpia, refrescante y salivante generada por ácido cítrico y terpenos volátiles como el limoneno, predominante en cafés lavados de altura."
+      },
+      "fruity_citrus_grapefruit": {
+        "label": "Pomelo",
+        "note": "Acidez chispeante acompañada de un amargor seco muy limpio en el cierre, característico de cafés de Kenia y lavados colombianos."
+      },
+      "fruity_citrus_orange": {
+        "label": "Naranja",
+        "note": "Acidez cítrica dulce y redonda de fácil lectura en taza, típica de cafés de Colombia, Guatemala, Costa Rica y Bourbon amarillo."
+      },
+      "fruity_citrus_lemon": {
+        "label": "Limón",
+        "note": "Acidez directa y brillante que despierta los laterales de la lengua; destaca en cafés etíopes lavados y filtrados V60."
+      },
+      "fruity_citrus_lime": {
+        "label": "Lima",
+        "note": "Aroma cítrico verde y punzante con sensación refrescante en nariz, frecuente en lotes de Costa Rica, Kenia y varietales Villa Sarchí."
+      },
+      "fruity_stone-tropical": {
+        "label": "Carozo y tropical",
+        "note": "Notas jugosas de pulpa dulce originadas por lactonas y ésteres aromáticos, presentes en varietales finos y fermentaciones controladas."
+      },
+      "fruity_stone-tropical_peach": {
+        "label": "Durazno",
+        "note": "Dulzor sedoso de fruta de carozo madura con acidez suave, habitual en Geisha, Bourbon rosado y lavados de Etiopía y Bolivia."
+      },
+      "fruity_stone-tropical_cherry": {
+        "label": "Cereza",
+        "note": "Fruta roja con equilibrio entre acidez málica y dulzor, muy común en Bourbon de El Salvador, Colombia y Honduras."
+      },
+      "fruity_stone-tropical_mango": {
+        "label": "Mango",
+        "note": "Aroma tropical maduro e intenso generado por ésteres frutales en cafés naturales de alta densidad y lotes anaeróbicos."
+      },
+      "fruity_stone-tropical_apple": {
+        "label": "Manzana",
+        "note": "Acidez málica crujiente y limpia similar a manzana verde o roja, habitual en cafés lavados de Guatemala, Perú y Honduras."
+      },
+      "floral": {
+        "label": "Floral",
+        "note": "Compuestos aromáticos volátiles (principalmente linalol y geraniol) que se perciben sobre todo en el aroma seco, la fragancia húmeda y al enfriar la taza."
+      },
+      "floral_tea": {
+        "label": "Té negro",
+        "note": "Sensación ligera, astringencia fina y aroma de infusión seca característica de cafés lavados de cuerpo delicado."
+      },
+      "floral_tea_black-tea": {
+        "label": "Té negro",
+        "note": "Final limpio y ligeramente tánico parecido a té Assam o Darjeeling, clásico en Etiopía lavado, Kenia y filtrados en Chemex."
+      },
+      "floral_blossom": {
+        "label": "Flores blancas",
+        "note": "Perfume delicado de pétalos frescos que distingue a los linajes etíopes y a los cafés cultivados por encima de los 1600 m.s.n.m."
+      },
+      "floral_blossom_jasmine": {
+        "label": "Jazmín",
+        "note": "Aroma floral blanco intenso derivado de altos niveles de linalol; es la firma sensorial del varietal Geisha y de Yirgacheffe lavado."
+      },
+      "floral_blossom_rose": {
+        "label": "Rosa",
+        "note": "Perfume floral dulce asociado al geraniol, presente en cafés de Ecuador (Sidra), Etiopía y Bourbon rosado."
+      },
+      "floral_blossom_chamomile": {
+        "label": "Manzanilla",
+        "note": "Nota floral suave y melosa que aporta sensación calmada en boca, habitual en cafés lavados de Bolivia y Costa Rica."
+      },
+      "floral_blossom_bergamot": {
+        "label": "Bergamota",
+        "note": "Cruce entre aroma floral y cáscara cítrica (como té Earl Grey), muy valorado en Etiopía lavado y Geisha de Panamá."
+      },
+      "sweet": {
+        "label": "Dulce",
+        "note": "Aromas generados por la caramelización de sacarosa y reacciones de Maillard durante el tueste, responsables de la redondez de la taza."
+      },
+      "sweet_brown-sugar": {
+        "label": "Azúcar morena",
+        "note": "Dulzor profundo de caña sin refinar con matices tostados que sostienen la acidez en cafés latinoamericanos."
+      },
+      "sweet_brown-sugar_panela": {
+        "label": "Panela",
+        "note": "Dulzor cálido de jugo de caña evaporado, muy característico de cafés de Colombia, Perú, Ecuador y Centroamérica."
+      },
+      "sweet_brown-sugar_caramel": {
+        "label": "Caramelo",
+        "note": "Nota creada por la degradación térmica de azúcares alrededor de 170-200 °C en el tostador; domina en Brasil, Colombia y Bourbon."
+      },
+      "sweet_brown-sugar_honey": {
+        "label": "Miel",
+        "note": "Dulzor floral y untuoso que recubre el paladar, típico de procesos honey, pulped natural y cafés de altura de Perú y Costa Rica."
+      },
+      "sweet_brown-sugar_molasses": {
+        "label": "Melaza",
+        "note": "Dulzor espeso y oscuro con ligera nota tostada, frecuente en tuestes medios-oscuros, Sumatra y procesos naturales densos."
+      },
+      "sweet_vanilla-aromatics": {
+        "label": "Vainilla y jarabes",
+        "note": "Aromas cremosos generados por vainillina y compuestos fenólicos dulces durante el desarrollo medio del tueste."
+      },
+      "sweet_vanilla-aromatics_vanilla": {
+        "label": "Vainilla",
+        "note": "Aroma dulce y suave derivado de la vainillina natural del grano, presente en Typica, Bourbon y descafeinados con acetato de etilo de caña."
+      },
+      "sweet_vanilla-aromatics_maple-syrup": {
+        "label": "Jarabe de arce",
+        "note": "Dulzor amaderado y denso que aporta sensación licorosa sin alcohol, típico de Honduras, Guatemala y cafés honey."
+      },
+      "nutty-cocoa": {
+        "label": "Nueces y cacao",
+        "note": "Compuestos pirazínicos formados en la reacción de Maillard; forman la columna vertebral de los cafés clásicos de Brasil, Perú y espresso."
+      },
+      "nutty-cocoa_nutty": {
+        "label": "Frutos secos",
+        "note": "Aromas tostados y secos de semillas oleaginosas que aportan comodidad, baja acidez y equilibrio para consumo diario."
+      },
+      "nutty-cocoa_nutty_almond": {
+        "label": "Almendra",
+        "note": "Nota seca y ligeramente dulce de almendra tostada, muy común en Brasil Santos, Perú y varietales Mundo Novo y Catuaí."
+      },
+      "nutty-cocoa_nutty_hazelnut": {
+        "label": "Avellana",
+        "note": "Aroma rico y mantecoso de fruto seco tostado, clásico en Brasil Sul de Minas, México y extracciones de espresso o prensa francesa."
+      },
+      "nutty-cocoa_nutty_peanut": {
+        "label": "Maní tostado",
+        "note": "Nota de leguminosa tostada habitual en granos de baja a media altitud como Brasil Cerrado o lotes con tueste más desarrollado."
+      },
+      "nutty-cocoa_nutty_walnut": {
+        "label": "Nuez",
+        "note": "Fruto seco con un toque astringente amable en el final, frecuente en cafés de Perú, Nicaragua y Catimor."
+      },
+      "nutty-cocoa_cocoa": {
+        "label": "Cacao",
+        "note": "Sensación achocolatada de gran persistencia en el retrogusto, favorecida por tuestes medios que maximizan pirazinas sin quemar azúcares."
+      },
+      "nutty-cocoa_cocoa_dark-chocolate": {
+        "label": "Chocolate amargo",
+        "note": "Cacao intenso con amargor limpio y estructurado, característico de Guatemala, Sumatra, Robusta de calidad y espresso ristretto."
+      },
+      "nutty-cocoa_cocoa_milk-chocolate": {
+        "label": "Chocolate con leche",
+        "note": "Cacao dulce y cremoso de baja acidez, sello clásico de Brasil Bourbon, Perú Cajamarca y Nicaragua."
+      },
+      "nutty-cocoa_cocoa_cocoa-nib": {
+        "label": "Nibs de cacao",
+        "note": "Nota seca de cacao crudo tostado que combina dulzor moderado con un amargor fino y crujiente."
+      },
+      "spiced": {
+        "label": "Especiado",
+        "note": "Notas cálidas y picantes generadas por compuestos fenólicos como el eugenol y el guayacol presentes en suelos volcánicos o procesos húmedos."
+      },
+      "spiced_brown-spice": {
+        "label": "Especias dulces",
+        "note": "Aromas aromáticos y reconfortantes de repostería que enriquecen el retrogusto sin elevar el amargor."
+      },
+      "spiced_brown-spice_cinnamon": {
+        "label": "Canela",
+        "note": "Especia dulce y seca habitual en cafés de México, Ecuador y procesos anaeróbicos que potencian aldehídos aromáticos."
+      },
+      "spiced_brown-spice_clove": {
+        "label": "Clavo de olor",
+        "note": "Aroma cálido y penetrante vinculado al eugenol, presente en Sumatra (giling basah) y cafés de suelos volcánicos."
+      },
+      "spiced_brown-spice_nutmeg": {
+        "label": "Nuez moscada",
+        "note": "Nota especiada seca y amaderada que complementa perfiles de cuerpo medio-alto en Guatemala y Sumatra."
+      },
+      "spiced_brown-spice_anise": {
+        "label": "Anís",
+        "note": "Dulzor herbal especiado y fresco, detectable en varietales Java y ciertos cafés de altura centroamericanos."
+      },
+      "spiced_pungent": {
+        "label": "Picante y aromático",
+        "note": "Sensación ligeramente punzante en nariz y garganta que aporta complejidad en cafés de gran cuerpo."
+      },
+      "spiced_pungent_black-pepper": {
+        "label": "Pimienta negra",
+        "note": "Nota picante seca característica de algunos lotes de Sumatra, Ruanda y varietales Pacamara de altura."
+      },
+      "spiced_pungent_cardamom": {
+        "label": "Cardamomo",
+        "note": "Especia verde, mentolada y cítrica frecuente en cafés etíopes y varietales de herencia abisinia como Java."
+      },
+      "roasted": {
+        "label": "Tostado",
+        "note": "Aromas originados directamente por la pirólisis de carbohidratos y fibra celular en etapas medias y finales del tueste."
+      },
+      "roasted_cereal": {
+        "label": "Cereal y grano",
+        "note": "Notas suaves de cereales horneados y malta, comunes en cafés de desarrollo moderado o descafeinados."
+      },
+      "roasted_cereal_malt": {
+        "label": "Malta",
+        "note": "Dulzor tostado similar a cebada malteada, presente en cafés brasileños, descafeinados Swiss Water y tuestes de espresso."
+      },
+      "roasted_cereal_toasted-grain": {
+        "label": "Grano tostado",
+        "note": "Aroma seco de cereal horneado que aporta estructura neutra y cuerpo en cafés comerciales y Robusta."
+      },
+      "roasted_burnt": {
+        "label": "Ahumado y tueste intenso",
+        "note": "Compuestos carbonizados y fenólicos que aparecen al extender el tueste pasado el segundo crack."
+      },
+      "roasted_burnt_smoky": {
+        "label": "Ahumado",
+        "note": "Aroma de humo de leña típico de tuestes oscuros o de cafés indonesios con secado prolongado."
+      },
+      "roasted_burnt_roast-toast": {
+        "label": "Pan tostado",
+        "note": "Nota cálida de corteza horneada presente en perfiles de tueste medio-oscuro y mezclas italianas."
+      },
+      "roasted_burnt_tobacco": {
+        "label": "Tabaco dulce",
+        "note": "Aroma seco y aromático de hoja curada, clásico en Sumatra y cafés de cuerpo pesado."
+      },
+      "green-vegetative": {
+        "label": "Vegetal y herbal",
+        "note": "Aromas frescos de plantas verdes, hojas e infusiones derivados de clorofila residual, aldehídos verdes y metoxipirazinas."
+      },
+      "green-vegetative_herbal": {
+        "label": "Herbal fresco",
+        "note": "Sensación aromática limpia de hierbas de jardín que aporta frescura en cafés lavados y varietales de altura."
+      },
+      "green-vegetative_herbal_fresh-herb": {
+        "label": "Hierba fresca",
+        "note": "Aroma limpio de hoja verde triturada, habitual en Pacamara, Sumatra y tuestes nórdicos ligeros."
+      },
+      "green-vegetative_herbal_green-tea": {
+        "label": "Té verde",
+        "note": "Nota herbal delicada y ligeramente dulce propia de cafés lavados con tueste claro como Etiopía o Bolivia."
+      },
+      "green-vegetative_herbal_mint": {
+        "label": "Menta",
+        "note": "Sensación refrescante en nariz y retrogusto que puede aparecer en cafés lavados de Kenia, Ruanda y Pacamara."
+      },
+      "green-vegetative_vegetal": {
+        "label": "Vegetal",
+        "note": "Matices de materia vegetal seca o verde que en baja intensidad suman complejidad y en exceso indican sub-desarrollo en el tueste."
+      },
+      "green-vegetative_vegetal_olive-oil": {
+        "label": "Herbal maduro",
+        "note": "Nota vegetal suave y oleosa asociada a suelos ricos y secado húmedo en algunos lotes de Sumatra."
+      },
+      "green-vegetative_vegetal_hay": {
+        "label": "Heno seco",
+        "note": "Aroma seco de pasto cortado que aparece en granos de cosecha vieja o tuestes con desarrollo insuficiente."
+      },
+      "sour-fermented": {
+        "label": "Ácido y fermentado",
+        "note": "Abarca tanto los ácidos orgánicos brillantes deseables en cafés de altura como las notas vinosas derivadas de la actividad microbiana."
+      },
+      "sour-fermented_sour-acids": {
+        "label": "Ácidos orgánicos",
+        "note": "Brillo y estructura en boca aportados por ácidos naturales del grano verde que sobreviven en tuestes claros y medios."
+      },
+      "sour-fermented_sour-acids_citric-acid": {
+        "label": "Acidez cítrica",
+        "note": "Acidez viva y refrescante similar a naranja o limón, concentrada en granos Arábica cultivados sobre los 1500 m.s.n.m."
+      },
+      "sour-fermented_sour-acids_malic-acid": {
+        "label": "Acidez málica",
+        "note": "Acidez jugosa y redonda comparable a manzana verde o pera, muy apreciada en cafés de Colombia, Guatemala y El Salvador."
+      },
+      "sour-fermented_sour-acids_phosphoric-acid": {
+        "label": "Acidez fosfórica",
+        "note": "Sensación efervescente y chispeante en lengua (similar a bebida cola), distintiva de suelos volcánicos de Kenia."
+      },
+      "sour-fermented_fermented": {
+        "label": "Fermentado y licoroso",
+        "note": "Compuestos generados por levaduras y bacterias lácticas durante el beneficio natural o en tanques sellados sin oxígeno."
+      },
+      "sour-fermented_fermented_winey": {
+        "label": "Vinoso",
+        "note": "Aroma y cuerpo que recuerdan a vino tinto joven, característico de cafés naturales, Ruanda y procesos anaeróbicos."
+      },
+      "sour-fermented_fermented_boozy-rum": {
+        "label": "Licoroso / ron",
+        "note": "Nota cálida de alcohol dulce y caña fermentada, muy marcada en lotes de fermentación anaeróbica extendida."
+      },
+      "sour-fermented_fermented_overripe-fruit": {
+        "label": "Fruta sobremadura",
+        "note": "Dulzor intenso de fruta muy madura generado por fermentaciones largas; aporta cuerpo denso si está limpia."
+      },
+      "other": {
+        "label": "Otros",
+        "note": "Descriptores estructurales de madera, tierra, mineralidad y envejecimiento del grano que completan el mapa sensorial SCA."
+      },
+      "other_woody-earthy": {
+        "label": "Amaderado y terroso",
+        "note": "Aromas secos de bosque, corteza y suelo húmedo frecuentes en cafés de Indonesia y en la especie Coffea canephora."
+      },
+      "other_woody-earthy_cedar": {
+        "label": "Cedro",
+        "note": "Aroma seco y resinoso de madera fina que suma elegancia en cafés de Sumatra y tuestes medios de cuerpo alto."
+      },
+      "other_woody-earthy_earthy": {
+        "label": "Terroso húmedo",
+        "note": "Sensación de tierra mojada y musgo, rasgo identitario del proceso giling basah (descascarado húmedo) de Sumatra."
+      },
+      "other_woody-earthy_woody": {
+        "label": "Madera seca",
+        "note": "Nota neutra de madera cortada asociada a Robusta o a granos verdes almacenados durante largos periodos."
+      },
+      "other_papery-mineral": {
+        "label": "Mineral y papel",
+        "note": "Sensaciones táctiles y aromáticas vinculadas a la composición del suelo, el agua de extracción y la frescura del grano."
+      },
+      "other_papery-mineral_mineral": {
+        "label": "Mineral",
+        "note": "Sensación limpia y ligeramente salina en boca asociada a suelos volcánicos ricos en minerales en Guatemala, Kenia y Ecuador."
+      },
+      "other_papery-mineral_papery": {
+        "label": "Papel / cartón",
+        "note": "Descriptor de referencia en cata que aparece cuando el café pierde volátiles por oxidación o cuando no se enjuaga el filtro de papel."
+      }
+    }
+  }
+}

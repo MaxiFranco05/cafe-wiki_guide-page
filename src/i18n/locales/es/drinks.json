@@ -1,0 +1,277 @@
+{
+  "wiki": {
+    "drinkFamilies": {
+      "espresso_black": "Espresso y negros",
+      "espresso_milk": "Espresso con leche",
+      "cold": "Bebidas frías"
+    },
+    "drinks": {
+      "espresso": {
+        "title": "Espresso",
+        "summary": "Extracción corta y concentrada a alta presión (cerca de 9 bares) con textura densa, crema avellana en superficie y dulzor comprimido. Funciona sola o como base para toda la barra de bebidas con leche.",
+        "aliases": "Espresso, Café exprés, Café solo, Normale, Shot de espresso, Pocillo",
+        "history": {
+          "originCountry": "Italia",
+          "era": "Principios del siglo XX (con crema desde 1948)",
+          "story": "Nació en las barras urbanas de Turín y Milán para preparar una taza individual al momento. La máquina de palanca de Achille Gaggia en 1948 elevó la presión a 8–10 bares y dio origen a la crema espesa que define al espresso actual.",
+          "preparation": "Usá 18 g de café molido fino para obtener unos 36 g de bebida (ratio 1:2) en 25 a 30 segundos a 93 grados Celsius."
+        },
+        "variants": {
+          "pocilloPorteno": {
+            "name": "Café en pocillo (Café chico)",
+            "region": "Argentina y Uruguay",
+            "description": "Servicio tradicional de los bares porteños y montevideanos en taza chica de porcelana gruesa, acompañado de un vaso de soda."
+          },
+          "carajillo": {
+            "name": "Carajillo",
+            "region": "España y México",
+            "description": "Espresso combinado con un destilado como brandy, ron o licor de hierbas y cítricos, servido caliente en España o agitado con hielo en México."
+          }
+        }
+      },
+      "ristretto": {
+        "title": "Ristretto",
+        "summary": "Versión más corta y concentrada del espresso que corta la extracción antes de que aparezcan los compuestos más amargos. Entrega cuerpo almibarado, acidez marcada y un dulzor muy intenso.",
+        "aliases": "Ristretto, Espresso corto, Caffè stretto, Shot corto",
+        "history": {
+          "originCountry": "Italia",
+          "era": "Mediados del siglo XX",
+          "story": "Surgió en las barras italianas del sur para quienes buscaban máxima concentración en uno o dos sorbos, reduciendo el agua que atraviesa la pastilla sin disminuir la dosis de café.",
+          "preparation": "Molé ligeramente más fino que para espresso normale y extraé en ratio 1:1 a 1:1,5 (18 g de café para 20 a 27 g en taza) en 20 a 25 segundos."
+        },
+        "variants": {
+          "caffeStretto": {
+            "name": "Caffè stretto",
+            "region": "Italia",
+            "description": "Denominación habitual en las barras italianas para pedir un espresso restringido de unos 15 a 20 ml, más dulce y espeso que el normale."
+          }
+        }
+      },
+      "lungo": {
+        "title": "Lungo",
+        "summary": "Extracción de espresso prolongada con mayor paso de agua a través de la pastilla de café. A diferencia del americano, toda el agua atraviesa el café molido, produciendo cuerpo más ligero y amargor más notorio.",
+        "aliases": "Lungo, Espresso largo, Caffè lungo, Café largo",
+        "history": {
+          "originCountry": "Italia",
+          "era": "Segunda mitad del siglo XX",
+          "story": "Se consolidó en barras europeas como alternativa más extensa para beber despacio sin recurrir a un filtro aparte, dejando correr la bomba más segundos sobre la misma dosis.",
+          "preparation": "Ajustá la molienda un punto más gruesa que en normale y extraé en ratio 1:2,5 a 1:3 (18 g de café para 50 a 55 g de bebida) en 30 a 35 segundos."
+        },
+        "variants": {
+          "jarritoLargo": {
+            "name": "Café largo en jarrito",
+            "region": "Argentina y Uruguay",
+            "description": "Servicio habitual en bares locales dentro de una taza cilíndrica de unos 120 ml, con extracción más extendida que el pocillo."
+          }
+        }
+      },
+      "americano": {
+        "title": "Americano",
+        "summary": "Shot de espresso diluido con agua caliente después de la extracción. Ofrece un volumen comparable al de un café de filtro pero conserva el carácter intenso y las notas tostadas del espresso.",
+        "aliases": "Americano, Caffè Americano, Espresso con agua, Long Black",
+        "history": {
+          "originCountry": "Italia / Estados Unidos",
+          "era": "Década de 1940 (popularizado tras la Segunda Guerra Mundial)",
+          "story": "La versión más difundida vincula su nombre con soldados estadounidenses estacionados en Italia durante la Segunda Guerra Mundial que rebajaban el espresso con agua caliente para acercarlo al café filtrado habitual de su país.",
+          "preparation": "Extraé un espresso doble o simple (30 a 40 ml) y completá con 110 a 160 ml de agua caliente a 85–90 grados Celsius."
+        },
+        "variants": {
+          "longBlack": {
+            "name": "Long Black",
+            "region": "Australia y Nueva Zelanda",
+            "description": "Invierte el orden de servicio: primero se vierte el agua caliente en la taza y luego el espresso doble encima para mantener la crema intacta."
+          },
+          "jarritoRebajado": {
+            "name": "Jarrito rebajado",
+            "region": "Argentina",
+            "description": "Café en jarrito al que el mozo o barista suma un chorro de agua caliente de la lanza o jarra para suavizar la taza sin sobreextraer."
+          }
+        }
+      },
+      "cortado": {
+        "title": "Cortado",
+        "summary": "Bebida corta en partes casi iguales de espresso y leche tibia ligeramente texturizada. La leche reduce la acidez y redondea el amargor sin tapar el protagonismo del café.",
+        "aliases": "Cortado, Café cortado, Tallat, Pingado, Noisette",
+        "history": {
+          "originCountry": "España",
+          "era": "Siglo XX (tradición de barras españolas y rioplatenses)",
+          "story": "El nombre proviene de la expresión cortar el café con un chorro de leche caliente. Desde las barras españolas se arraigó con fuerza en Argentina, Uruguay y Cuba, donde adoptó tamaños y cristalería propios.",
+          "preparation": "Serví un shot de espresso (o doble corto) y completá con una proporción similar de leche vaporizada a 60 grados con capa fina de microespuma."
+        },
+        "variants": {
+          "cortadoJarrito": {
+            "name": "Cortado en jarrito",
+            "region": "Argentina y Uruguay",
+            "description": "Uno de los pedidos más frecuentes del Río de la Plata: taza cilíndrica de 120 a 140 ml con café largo y un chorro generoso de leche caliente."
+          },
+          "gibraltar": {
+            "name": "Gibraltar",
+            "region": "Estados Unidos (San Francisco)",
+            "description": "Doble espresso con igual volumen de leche sedosa servido en el vaso facetado Libbey Gibraltar de 135 ml."
+          },
+          "cortadito": {
+            "name": "Cortadito",
+            "region": "Cuba y Miami",
+            "description": "Café cubano batido con azúcar (espumita) y mezclado en partes iguales con leche entera o evaporada caliente."
+          }
+        }
+      },
+      "macchiato": {
+        "title": "Espresso Macchiato",
+        "summary": "Un espresso marcado con apenas una o dos cucharadas de leche y espuma densa. Mantiene intacta la fuerza del shot mientras suaviza el primer sorbo.",
+        "aliases": "Macchiato, Espresso macchiato, Caffè macchiato, Manchado",
+        "history": {
+          "originCountry": "Italia",
+          "era": "Década de 1980 (barras italianas)",
+          "story": "En italiano macchiato significa manchado. Los baristas comenzaron a marcar el espresso con una gota de espuma para diferenciar en la barra las tazas que llevaban un toque de leche de los espressos solos.",
+          "preparation": "Prepará un espresso en pocillo de 60 ml y agregá 10 a 15 ml de leche vaporizada con espuma fina en el centro de la crema."
+        },
+        "variants": {
+          "cortadoPocillo": {
+            "name": "Cortado en pocillo",
+            "region": "Argentina y Uruguay",
+            "description": "En bares tradicionales del Cono Sur, pedir un cortado en pocillo equivale al macchiato: café chico apenas cortado con un toque de leche y espuma."
+          },
+          "latteMacchiato": {
+            "name": "Latte macchiato",
+            "region": "Italia",
+            "description": "Proporción opuesta servida en vaso alto: leche caliente con espuma abundante marcada desde arriba con medio o un shot de espresso."
+          }
+        }
+      },
+      "cappuccino": {
+        "title": "Cappuccino",
+        "summary": "Clásico italiano equilibrado en tercios aproximados de espresso, leche vaporizada y espuma cremosa gruesa. Combina dulzor lácteo y textura aireada con una base firme de café.",
+        "aliases": "Cappuccino, Capuchino, Capu",
+        "history": {
+          "originCountry": "Italia",
+          "era": "Principios del siglo XX (popularizado en Italia con máquinas de vapor)",
+          "story": "Su nombre remite al color marrón rojizo del hábito de los frailes capuchinos. Aunque existían bebidas previas con crema en Viena (Kapuziner), el cappuccino moderno nació en Italia cuando las máquinas con lanza de vapor permitieron espumar leche al instante.",
+          "preparation": "Serví un espresso en taza de 150 a 180 ml y verté leche vaporizada a 60–65 grados incorporando suficiente aire para lograr 1 a 1,5 cm de espuma elástica."
+        },
+        "variants": {
+          "portenoBar": {
+            "name": "Capuchino de bar porteño",
+            "region": "Argentina y Uruguay",
+            "description": "Versión más grande (200 a 240 ml) en taza alta o copa de vidrio, coronada con espuma seca abundante, cacao en polvo y en muchos bares canela."
+          }
+        }
+      },
+      "flatWhite": {
+        "title": "Flat White",
+        "summary": "Bebida de taza mediana que combina doble espresso (o ristretto doble) con leche texturizada en una capa muy fina y brillante de microespuma. Entrega más presencia de café que un latte y textura más líquida que un cappuccino.",
+        "aliases": "Flat White, Blanco plano",
+        "history": {
+          "originCountry": "Australia y Nueva Zelanda",
+          "era": "Década de 1980",
+          "story": "Tanto Sídney como Wellington y Auckland reclaman su origen en cafeterías de mediados de los años ochenta que ofrecían una leche sin capa gruesa de espuma seca sobre espresso concentrado. La tercera ola lo convirtió en estándar mundial.",
+          "preparation": "Usá un espresso doble (36 a 40 ml) en taza de 160 a 180 ml y verté leche texturizada a 58–62 grados con menos de 5 mm de microespuma integrada."
+        },
+        "variants": {
+          "magic": {
+            "name": "Magic",
+            "region": "Australia (Melbourne)",
+            "description": "Variante más intensa que reemplaza el espresso doble por un doble ristretto en taza de 150 ml con leche sedosa."
+          },
+          "conoSur": {
+            "name": "Flat White de especialidad",
+            "region": "Argentina y Chile",
+            "description": "Referente de las cafeterías de especialidad del Cono Sur, servido con doble shot en taza de cerámica de 160 a 180 ml y latte art definido."
+          }
+        }
+      },
+      "latte": {
+        "title": "Caffè Latte",
+        "summary": "Bebida larga y suave donde domina la leche vaporizada sobre un shot de espresso, rematada con una capa fina de espuma. Resalta notas dulces de caramelo, vainilla y chocolate con leche.",
+        "aliases": "Latte, Caffè Latte, Café latte, Lágrima",
+        "history": {
+          "originCountry": "Italia / Estados Unidos",
+          "era": "Segunda mitad del siglo XX (estandarizado en barras italianas y estadounidenses)",
+          "story": "En los hogares italianos el caffè e latte se tomaba en el desayuno; en la segunda mitad del siglo XX las cafeterías estadounidenses estandarizaron el latte con espresso a presión, leche vaporizada al vapor y formato de vaso grande.",
+          "preparation": "Colocá un espresso simple o doble en taza o vaso de 240 a 300 ml y completá con leche vaporizada a 60–65 grados con una corona delgada de microespuma."
+        },
+        "variants": {
+          "lagrima": {
+            "name": "Lágrima",
+            "region": "Argentina y Uruguay",
+            "description": "Clásico de las confiterías rioplatenses: taza grande o vaso lleno de leche caliente apenas manchado con unas gotas de café."
+          },
+          "lagrimaJarrito": {
+            "name": "Lágrima en jarrito",
+            "region": "Argentina",
+            "description": "Misma relación predominante de leche apenas teñida con café, servida en el formato tradicional de jarrito de 120 a 140 ml."
+          }
+        }
+      },
+      "mocha": {
+        "title": "Mocha",
+        "summary": "Combinación de espresso, salsa o cacao de chocolate y leche vaporizada con espuma ligera. Une la intensidad tostada del café con el dulzor cremoso del cacao.",
+        "aliases": "Mocha, Moca, Mocaccino, Caffè Mocha",
+        "history": {
+          "originCountry": "Italia / Estados Unidos",
+          "era": "Siglo XVIII–XX (inspirado en el bicerin turinés y popularizado en cafeterías modernas)",
+          "story": "Toma su nombre del puerto yemení de Moca, famoso históricamente por granos con notas naturales a cacao. Su formato actual combina el antecedente turinés del bicerin con la estructura del latte moderno.",
+          "preparation": "Disolvé 15 a 20 g de salsa de chocolate o cacao amargo en un espresso caliente, mezclá bien y completá con leche vaporizada y espuma ligera en taza de 220 ml."
+        },
+        "variants": {
+          "bicerin": {
+            "name": "Bicerin",
+            "region": "Italia (Turín)",
+            "description": "Antecedente del siglo XVIII servido en copa pequeña con capas visibles sin mezclar de espresso, chocolate espeso y crema fría."
+          },
+          "submarinoConCafe": {
+            "name": "Submarino con café",
+            "region": "Argentina",
+            "description": "Adaptación local del submarino porteño: leche bien caliente con una barra de chocolate semiamargo derretida y un shot de espresso."
+          }
+        }
+      },
+      "cafeConLeche": {
+        "title": "Café con Leche",
+        "summary": "Bebida de desayuno en proporción clásica 1:1 entre café fuerte y leche caliente con poca o nula espuma. Reconfortante, tibia y menos espumosa que un cappuccino o latte.",
+        "aliases": "Café con leche, Café au lait, Cortado grande, Café con leche de desayuno",
+        "history": {
+          "originCountry": "España / Francia / Río de la Plata",
+          "era": "Siglo XVII–XIX (tradición doméstica europea y rioplatense)",
+          "story": "Mezclar infusión de café con leche caliente en partes iguales se popularizó en Europa desde el siglo XVII y pasó a ser el desayuno cotidiano de España, Argentina y Uruguay tanto en casa como en confiterías.",
+          "preparation": "Combiná partes iguales de café concentrado (espresso doble, moka o filtro cargado) y leche escaldada a 65 grados en una taza amplia de 220 a 260 ml."
+        },
+        "variants": {
+          "rioplatense": {
+            "name": "Café con leche de desayuno",
+            "region": "Argentina y Uruguay",
+            "description": "Mitad café y mitad leche caliente en taza grande de porcelana, servido casi siempre junto a medialunas o tostadas."
+          },
+          "cafeAuLait": {
+            "name": "Café au lait",
+            "region": "Francia",
+            "description": "Preparado en partes iguales con café filtrado (en lugar de espresso) y leche caliente servida en tazón ancho sin espuma espesa."
+          }
+        }
+      },
+      "coldBrew": {
+        "title": "Cold Brew",
+        "summary": "Infusión lenta de café molido grueso en agua fría o a temperatura ambiente durante 12 a 18 horas y luego filtrada. Produce una bebida refrescante de acidez muy baja, cuerpo redondo y dulzor achocolatado.",
+        "aliases": "Cold Brew, Extracción en frío, Café macerado en frío, Kyoto",
+        "history": {
+          "originCountry": "Japón / Estados Unidos",
+          "era": "Siglo XVII (infusión en frío japonesa tipo Kyoto) y popularización moderna en la década de 2010",
+          "story": "El registro más antiguo corresponde al café de goteo en frío desarrollado en Kioto en el siglo XVII tras el contacto comercial con navegantes neerlandeses. En la década de 2010 la inmersión en frío se masificó en cafeterías de especialidad.",
+          "preparation": "Infundí café molido grueso en agua filtrada fría en ratio 1:10 (listo para beber) o 1:6 (concentrado) durante 12 a 16 horas en heladera y filtrá con papel o malla fina."
+        },
+        "variants": {
+          "concentrado": {
+            "name": "Cold Brew concentrado",
+            "region": "Estados Unidos y Cono Sur",
+            "description": "Maceración concentrada (ratio 1:5 a 1:8) que se conserva varios días en frío y se diluye al servir 1:1 con agua, hielo o leche."
+          },
+          "tonic": {
+            "name": "Cold Brew Tonic",
+            "region": "Cono Sur y Europa",
+            "description": "Base de hielo y agua tónica fría coronada con cold brew concentrado y una rodaja o piel de naranja."
+          }
+        }
+      }
+    }
+  }
+}

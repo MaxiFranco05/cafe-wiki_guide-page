@@ -1,0 +1,769 @@
+{
+  "app": {
+    "title": "Atelier Brew",
+    "tagline": "Barismo de Especialidad",
+    "subtitle": "BARISMO DE ESPECIALIDAD · TBD"
+  },
+  "nav": {
+    "methods": "Métodos",
+    "brewStation": "Estación de Preparación",
+    "wiki": "Wiki & Orígenes",
+    "flavorWheel": "Rueda SCA",
+    "mobile": {
+      "methods": "Métodos",
+      "brew": "Preparar",
+      "wiki": "Wiki",
+      "wheel": "Rueda SCA"
+    },
+    "aria": {
+      "main": "Navegación principal",
+      "mobile": "Navegación móvil",
+      "brand": "Ir al inicio de Atelier Brew"
+    },
+    "search": {
+      "placeholder": "Buscar cafetera, grano, cata...",
+      "ariaLabel": "Buscar en toda la guía de café",
+      "clearAriaLabel": "Limpiar búsqueda",
+      "resultsAriaLabel": "Resultados de búsqueda",
+      "noResults": "Sin resultados para \"{query}\"",
+      "groups": {
+        "methods": "Métodos de Preparación",
+        "wiki": "Wiki Sensorial",
+        "wheel": "Cata SCA"
+      },
+      "entries": {
+        "wiki": {
+          "indexSubtitle": "Orígenes, varietales, procesos, cafeteras y bebidas"
+        },
+        "wheel": {
+          "subtitle": "Anillos aromáticos floral, frutal, cacao y especias",
+          "keywords": "rueda sca cata sabores aromas floral frutal cacao especias acidez"
+        }
+      }
+    }
+  },
+  "methods": {
+    "ratioLabel": "Ratio 1:{ratio}",
+    "yieldLabel": "Yield 1:{yield}",
+    "timeLabel": "{time} min",
+    "doseLabel": "{dose} g",
+    "v60": {
+      "title": "Hario V60",
+      "tag": "Filtro Cónico",
+      "desc": "Vertido en espiral por fases con claridad sensorial brillante.",
+      "ratio": "16.7",
+      "dose": "15",
+      "time": "3:30"
+    },
+    "espresso": {
+      "title": "Espresso",
+      "tag": "Presión 9 Bar",
+      "desc": "Cálculo por rendimiento en taza: Ristretto, Normale y Lungo.",
+      "yield": "2",
+      "dose": "18",
+      "time": "25–30 s"
+    },
+    "chemex": {
+      "title": "Chemex",
+      "tag": "Filtro Grueso",
+      "desc": "Triple capa de papel para jarras limpias y notas florales.",
+      "ratio": "16",
+      "dose": "30",
+      "time": "4:00"
+    },
+    "melitta": {
+      "title": "Melitta",
+      "tag": "Fondo Plano",
+      "desc": "Cuerpo equilibrado y extracción constante para todos los días.",
+      "ratio": "16",
+      "dose": "20",
+      "time": "3:30"
+    },
+    "aeropress": {
+      "title": "AeroPress",
+      "tag": "Inmersión + Presión",
+      "desc": "Taza densa y dulce en dos minutos, estándar o invertida.",
+      "ratio": "15",
+      "dose": "15",
+      "time": "2:00"
+    },
+    "frenchPress": {
+      "title": "Prensa Francesa",
+      "tag": "Inmersión Pura",
+      "desc": "Textura untuosa sin filtros de papel y notas acarameladas.",
+      "ratio": "15",
+      "dose": "30",
+      "time": "4:30"
+    }
+  },
+  "home": {
+    "heroBadge": "6 MÉTODOS CALIBRADOS · ESCALADO EN VIVO",
+    "heroTitle": "Precisión de barra en cada extracción.",
+    "heroDesc": "Calculá proporciones en gramos, escalá cada vertido automáticamente y seguí los tiempos con pantalla activa en la mesada.",
+    "heroCtaBrew": "Abrir Hario V60",
+    "heroCtaWiki": "Ver Granos y Orígenes",
+    "heroCtaDiscover": "Explorar Wiki y Rueda SCA",
+    "heroMediaAlt": "Máquina profesional de espresso de doble grupo en barra con manómetros iluminados",
+    "methodsTitle": "Métodos de Extracción",
+    "methodsSubtitle": "Seleccioná una cafetera para abrir su estación con receta base pre-cargada.",
+    "filters": {
+      "ariaLabel": "Filtrar métodos por tipo de extracción",
+      "all": "Todos",
+      "pour_over": "Filtro",
+      "immersion": "Inmersión",
+      "hybrid": "Híbrido",
+      "pressure": "Presión"
+    },
+    "categoryBadges": {
+      "pour_over": "Filtro · Pour-Over",
+      "immersion": "Inmersión Pura",
+      "hybrid": "Híbrido · Inmersión + Presión",
+      "pressure": "Presión · 9 Bar"
+    },
+    "wikiCard": {
+      "tag": "ORÍGENES · VARIETALES · BENEFICIOS",
+      "title": "Wiki Sensorial del Café",
+      "desc": "Consultá fichas técnicas de trazabilidad, altitud, procesos de beneficio (lavado, natural, honey) y qué cafetera destaca cada perfil.",
+      "cta": "Explorar Wiki Sensorial"
+    },
+    "wheelCard": {
+      "tag": "CATA & ANÁLISIS SENSORIAL",
+      "title": "Rueda de Sabores SCA",
+      "desc": "Entrená el paladar navegando los anillos aromáticos (floral, frutal, cacao, especias) y vinculá notas con recetas.",
+      "cta": "Abrir Rueda de Sabores"
+    },
+    "wikiBannerTitle": "Enciclopedia de Granos, Procesos y Cata SCA",
+    "wikiBannerDesc": "Descubrí qué origen y tueste rinde mejor según tu cafetera y explorá la rueda de sabores.",
+    "wikiBannerCta": "Explorar Wiki Sensorial",
+    "wikiBannerAlt": "Granos de café tostado de especialidad y cucharas de cata"
+  },
+  "brew": {
+    "backToCatalog": "Volver al catálogo",
+    "stationTitle": "Estación de Barra",
+    "stationSubtitle": "Ajustá intensidad o dosis; cada pulso se recalcula con exactitud de balanza.",
+    "intensityTitle": "Perfil de Intensidad",
+    "intensityLight": "Liviano 1:17",
+    "intensityNormal": "Normal 1:16.7",
+    "intensityStrong": "Fuerte 1:15",
+    "tiers": {
+      "light": "Liviano",
+      "normal": "Normal",
+      "strong": "Fuerte"
+    },
+    "ratioBadge": "Ratio 1:{ratio}",
+    "ratioInline": "1:{ratio}",
+    "suggestedRange": "Rango sugerido: {min}–{max} {unit}",
+    "tablespoonsEstimate": "~{tbsp} cdas",
+    "waterTempBadge": "{recommended} °C ({min}–{max} °C)",
+    "dryCoffee": "Café seco",
+    "dryCoffeeLabel": "Café seco (g)",
+    "waterTotalLabel": "Agua total (ml)",
+    "unitGrams": "g",
+    "unitMl": "ml",
+    "water": "Agua (93 °C)",
+    "sampleDryCoffee": "15.0 g",
+    "sampleWater": "250 ml",
+    "phaseBloom": "Bloom",
+    "phaseBloomDelta": "+30 g → 30 g",
+    "phasePour1": "Vertido 1 (60%)",
+    "phasePour1Delta": "+120 g → 150 g",
+    "phasePour2": "Vertido 2 (100%)",
+    "phasePour2Delta": "+100 g → 250 g",
+    "phaseIndicator": "FASE 1 DE 4 · BLOOM (45 s)",
+    "phaseInstruction": "Verté 30 g en espiral sobre la cama seca y agitá suavemente la jarra.",
+    "timerZero": "00:00",
+    "actionStart": "Iniciar extracción",
+    "actionReset": "Reiniciar reloj",
+    "espresso": {
+      "doseLabel": "Dosis en portafiltro (g)",
+      "stylesTitle": "Estilo de extracción",
+      "targetWindow": "{min}–{max} s",
+      "yieldGrams": "{yield} g",
+      "targetShotTitle": "Objetivo en taza",
+      "styles": {
+        "ristretto": "Ristretto",
+        "normale": "Normale",
+        "lungo": "Lungo"
+      }
+    },
+    "warnings": {
+      "invalidInput": "Ingresá una cantidad válida mayor a 0 para calcular la receta.",
+      "bannerLabel": "Advertencia de rango físico"
+    },
+    "grind": {
+      "prefix": "Molienda:",
+      "labels": {
+        "finer": "Más fina",
+        "standard": "Estándar",
+        "coarser": "Más gruesa"
+      }
+    },
+    "grindTips": {
+      "finer": "Dosis pequeña: ajustá la molienda 1–2 puntos más fina para evitar sub-extracción.",
+      "coarser": "Dosis grande: ajustá la molienda 1–2 puntos más gruesa para evitar sobre-extracción y bloqueo.",
+      "standard": "Mantené la molienda estándar recomendada para este método."
+    },
+    "timeline": {
+      "title": "Fases · Tocá una fila para previsualizar",
+      "totalWater": "{time} · {water} g agua",
+      "totalYield": "{time} · {water} g bebida",
+      "pourDelta": "+{grams} g",
+      "pourCumulative": "→ {grams} g",
+      "drawdownRelative": "0:00",
+      "drawdownZero": "0 g"
+    },
+    "timer": {
+      "phaseHeader": "FASE {current} DE {total} · {title} ({start}–{end})",
+      "pourSummary": "+{water} g agua · Acumulado {cumulative} g",
+      "shotSummary": "Objetivo {cumulative} g en taza",
+      "prevPhaseAria": "Fase anterior",
+      "nextPhaseAria": "Siguiente fase",
+      "phaseDotAria": "Ir a la fase {index}: {title}",
+      "scene": {
+        "ariaLabel": "Escena procedural de preparación sincronizada con la fase activa"
+      },
+      "tooltips": {
+        "coffee": "Dosis de café seco en gramos",
+        "water": "Agua total de vertido o rendimiento objetivo",
+        "ratio": "Proporción café : agua del perfil activo"
+      },
+      "status": {
+        "running": "En curso",
+        "paused": "Pausado",
+        "completed": "Lista"
+      },
+      "remainingLabel": "Resta en esta fase",
+      "pausedRemainingLabel": "Pausado · resta",
+      "totalTimeLabel": "Tiempo total",
+      "totalLabel": "Total",
+      "phaseOf": "Fase {current} de {total} · {title}",
+      "phaseRange": "{start}–{end}",
+      "nextLabel": "Siguiente",
+      "lastStep": "Último paso",
+      "nextReadout": "{start} · → {cumulative} g",
+      "stepGramsLabel": "Este paso",
+      "scaleGramsLabel": "En balanza",
+      "cupTargetLabel": "Objetivo en taza",
+      "doseLabel": "Dosis",
+      "actionPause": "Pausar",
+      "actionResume": "Reanudar",
+      "actionRestart": "Nueva preparación (00:00)",
+      "actionResetZero": "Reiniciar a 00:00",
+      "completedTitle": "Preparación lista",
+      "completedSummary": "{total} · {water} {unit} · 1:{ratio}. Retirá y serví.",
+      "phaseAnnouncement": "Fase {index}: {title}",
+      "ringAria": "Avance de la fase: {percent}%",
+      "phasesGroupAria": "Fases de la receta",
+      "panelAria": "Temporizador de preparación"
+    },
+    "kitchen": {
+      "screenOn": "Pantalla activa",
+      "screenUnsupported": "La pantalla podría apagarse",
+      "idleHint": "Pantalla activa y avisos al iniciar",
+      "mute": "Silenciar alertas",
+      "unmute": "Activar sonido"
+    },
+    "recipeLocked": "Receta bloqueada durante la preparación · Reiniciá para editar",
+    "methodSwitcher": {
+      "label": "Cambiar cafetera",
+      "confirmDiscard": "Hay una preparación en curso. ¿Cambiar de cafetera y descartarla?",
+      "menuAria": "Cafeteras"
+    },
+    "recipes": {
+      "tempSingle": "{recommended} °C",
+      "trigger": {
+        "label": "Receta",
+        "change": "Cambiar",
+        "locked": "Bloqueada",
+        "meta": "1:{ratio} · {temp} °C",
+        "aria": "Elegir receta. Receta activa: {title}"
+      },
+      "selector": {
+        "title": "Recetas para {method}",
+        "subtitle": "Elegí qué técnica guía tu preparación. Dosis e intensidad se conservan.",
+        "close": "Cerrar",
+        "groups": {
+          "standard": "Estándar (por defecto)",
+          "catalog": "Autores y Clásicas",
+          "mine": "Mis Recetas"
+        },
+        "catalogCount": "{count} recetas verificadas",
+        "mineCount": "{count} guardadas",
+        "mineCountOne": "1 guardada",
+        "emptyTitle": "Todavía no guardaste recetas para {method}.",
+        "emptyBody": "Creá la tuya desde cero, duplicá una de arriba o importá una que te compartieron.",
+        "create": "Crear receta",
+        "import": "Importar JSON"
+      },
+      "card": {
+        "kinds": {
+          "standard": "Estándar",
+          "author": "Autor",
+          "classic": "Clásica",
+          "custom": "Mía"
+        },
+        "difficulty": {
+          "universal": "Universal",
+          "intermediate": "Intermedia",
+          "advanced": "Avanzada"
+        },
+        "inUse": "En uso",
+        "phasesCount": "{count} fases",
+        "highlight": "Destaca:",
+        "seeMore": "Ver más",
+        "seeLess": "Ver menos",
+        "use": "Usar esta receta",
+        "using": "Receta en uso",
+        "duplicate": "Duplicar",
+        "duplicateAria": "Duplicar {title}",
+        "editAria": "Editar {title}",
+        "shareAria": "Compartir {title}",
+        "deleteAria": "Eliminar {title}",
+        "userAuthor": "Vos"
+      },
+      "editor": {
+        "newTitle": "Nueva receta",
+        "duplicateTitle": "Duplicar receta",
+        "editTitle": "Editar receta",
+        "newSubtitle": "{method} · se guarda solo en este dispositivo",
+        "duplicateSubtitle": "Basada en {title} · {author}. La original no cambia.",
+        "editSubtitle": "Los cambios reemplazan esta receta.",
+        "close": "Cerrar editor",
+        "copyName": "{title} (copia)",
+        "name": "Nombre de la receta",
+        "dose": "Dosis de referencia",
+        "ratio": "Ratio base",
+        "temp": "Temperatura (opcional)",
+        "tempHint": "Vacío usa la del método ({min}–{max} °C).",
+        "notes": "Notas: proceso, sabor y molienda (opcional)",
+        "process": "Cómo se hace",
+        "flavor": "Qué destaca",
+        "grind": "Molienda",
+        "summaryDuration": "Duración",
+        "summaryWater": "Agua",
+        "summaryRatio": "Ratio real",
+        "phasesTitle": "Fases",
+        "phasesHint": "Agua en ml para la dosis de referencia; al preparar se escala a tu dosis.",
+        "phaseTitleAria": "Título de la fase {index}",
+        "phaseTypeAria": "Tipo de la fase {index}",
+        "phaseDurationAria": "Duración de la fase {index} en segundos",
+        "phaseWaterAria": "Agua de la fase {index} en mililitros",
+        "moveUp": "Subir fase {index}",
+        "moveDown": "Bajar fase {index}",
+        "remove": "Quitar fase {index}",
+        "addPhase": "Agregar fase",
+        "cancel": "Cancelar",
+        "save": "Guardar y usar",
+        "errorSummaryOne": "Revisá 1 campo antes de guardar.",
+        "errorSummary": "Revisá {count} campos antes de guardar.",
+        "errorGeneric": "No pudimos guardar la receta. Revisá los valores e intentá de nuevo.",
+        "techDetails": "Detalles técnicos",
+        "phaseTypes": {
+          "bloom": "Bloom",
+          "pour": "Vertido",
+          "wait": "Esperar",
+          "stir": "Remover",
+          "swirl": "Swirl",
+          "plunge": "Presionar",
+          "drawdown": "Drenaje",
+          "espresso_shot": "Extracción"
+        },
+        "errors": {
+          "titleRequired": "Poné un nombre para identificar tu receta.",
+          "doseInvalid": "Ingresá una dosis mayor a 0 g.",
+          "ratioInvalid": "Ingresá un ratio mayor a 0.",
+          "tempInvalid": "Ingresá una temperatura entre 60 y 100 °C o dejala vacía.",
+          "phaseTitleRequired": "Poné un título a la fase.",
+          "durationInvalid": "Usá segundos enteros mayores a 0.",
+          "waterInvalid": "El agua no puede ser negativa.",
+          "noWater": "Al menos una fase debe aportar agua.",
+          "typeInvalid": "Ese tipo de fase no está disponible para este método."
+        },
+        "summaryAria": "Resumen de la receta"
+      },
+      "share": {
+        "title": "Compartir e importar",
+        "subtitle": "Sin cuentas: el JSON viaja por donde quieras.",
+        "close": "Cerrar",
+        "tabShare": "Compartir",
+        "tabImport": "Importar",
+        "recipeLabel": "Receta:",
+        "jsonLabel": "JSON de la receta",
+        "copy": "Copiar JSON",
+        "download": "Descargar .json",
+        "copiedTitle": "JSON copiado.",
+        "copiedBody": "Pegalo en un mensaje o nota para compartirlo.",
+        "blockedTitle": "No pudimos usar el portapapeles.",
+        "blockedBody": "Seleccioná el texto de abajo y copialo a mano.",
+        "downloaded": "Descargamos el archivo .json.",
+        "noRecipe": "Para compartir, elegí Compartir en una de tus recetas de Mis Recetas.",
+        "tabsAria": "Compartir o importar recetas"
+      },
+      "import": {
+        "pasteLabel": "Pegá el JSON de la receta",
+        "placeholder": "{ \"schemaVersion\": 1, \"recipe\": { … } }",
+        "fileHint": "o elegí un archivo .json",
+        "chooseFile": "Elegir archivo",
+        "submit": "Importar receta",
+        "emptyInput": "Pegá un JSON o elegí un archivo.",
+        "invalidJsonTitle": "El texto no es un JSON válido.",
+        "invalidJsonBody": "Revisá que lo hayas copiado completo, desde la primera llave hasta la última.",
+        "invalidSchemaTitle": "El JSON no es una receta compatible.",
+        "invalidSchemaBody": "Puede venir de otra versión de la app o tener datos incompletos.",
+        "fileReadError": "No pudimos leer el archivo elegido.",
+        "successTitle": "Receta importada.",
+        "successBody": "\"{title}\" se agregó a Mis Recetas y quedó activa.",
+        "otherMethodTitle": "\"{title}\" es una receta de {method}.",
+        "otherMethodBody": "La guardamos en Mis Recetas de {method}.",
+        "otherMethodLink": "Prepararla en {method}",
+        "duplicateTitle": "Ya tenés \"{title}\".",
+        "duplicateBody": "¿Querés reemplazarla o guardar esta como copia?",
+        "replace": "Reemplazar",
+        "saveAsCopy": "Guardar como copia"
+      },
+      "confirmDelete": {
+        "title": "¿Eliminar \"{title}\"?",
+        "body": "Se borra de este dispositivo y no se puede deshacer. Si la compartiste, quien tenga el JSON la puede volver a importar.",
+        "activeNote": "Como es tu receta activa, la estación vuelve a la Estándar.",
+        "cancel": "Cancelar",
+        "confirm": "Eliminar"
+      }
+    }
+  },
+  "wiki": {
+    "title": "Wiki de Orígenes y Varietales",
+    "subtitle": "Perfiles sensoriales reales por altitud, proceso y método recomendado.",
+    "ui": {
+      "home": {
+        "eyebrow": "Wiki del Café",
+        "title": "Todo sobre el café, por tema",
+        "desc": "Elegí qué querés conocer: de dónde viene el grano, qué planta es, cómo se procesó, con qué cafetera prepararlo o qué bebida pedir.",
+        "heroAlt": "Granos de café tostado y cucharas de cata",
+        "sectionsAria": "Secciones de la Wiki",
+        "entriesCount": "{count} fichas",
+        "explore": "Explorar {section}"
+      },
+      "sections": {
+        "origenes": {
+          "title": "Orígenes",
+          "singular": "Origen",
+          "desc": "Países y regiones productoras: altitud, cosecha y qué esperar en taza.",
+          "groupLabel": "Región",
+          "groupAll": "Todas las regiones"
+        },
+        "varietales": {
+          "title": "Varietales",
+          "singular": "Varietal",
+          "desc": "Las plantas detrás del grano: linaje, especie y perfil de cada variedad.",
+          "groupLabel": "Grupo genético",
+          "groupAll": "Todos los grupos"
+        },
+        "procesos": {
+          "title": "Procesos",
+          "singular": "Proceso",
+          "desc": "Cómo se beneficia la cereza: lavado, honey, natural y fermentaciones.",
+          "groupLabel": "Familia",
+          "groupAll": "Todas las familias"
+        },
+        "cafeteras": {
+          "title": "Cafeteras",
+          "singular": "Cafetera",
+          "desc": "Origen e historia de cada cafetera, cómo funciona y sus recetas de autor y tradicionales.",
+          "groupLabel": "Tipo",
+          "groupAll": "Todos los tipos"
+        },
+        "bebidas": {
+          "title": "Bebidas",
+          "singular": "Bebida",
+          "desc": "Del espresso al cappuccino: origen, proporciones y variantes de cada bebida.",
+          "groupLabel": "Tipo",
+          "groupAll": "Todos los tipos"
+        }
+      },
+      "section": {
+        "searchLabel": "Buscar en {section}",
+        "clearSearch": "Borrar búsqueda",
+        "moreFilters": "Perfil y sabor",
+        "profileTitle": "Perfil en taza",
+        "familyTitle": "Familia de sabor (rueda SCA)",
+        "resultsOne": "{count} ficha",
+        "resultsOther": "{count} fichas",
+        "clearFilters": "Limpiar filtros",
+        "emptyTitle": "No hay {section} con esos filtros",
+        "emptyDesc": "Probá con otra palabra o quitá algún filtro.",
+        "emptyAction": "Limpiar búsqueda y filtros"
+      },
+      "profileFilters": {
+        "acidez": "Acidez alta",
+        "dulzor": "Dulzor alto",
+        "cuerpo": "Cuerpo alto",
+        "amargor": "Amargor bajo"
+      },
+      "sensory": {
+        "acidity": "Acidez",
+        "sweetness": "Dulzor",
+        "body": "Cuerpo",
+        "bitterness": "Amargor",
+        "valueAria": "{label} {value} de 5",
+        "wheelAria": "Perfil sensorial: {values}",
+        "cardLine": "Predomina:",
+        "summary": "Predomina {attrs} ({value}/5).",
+        "and": "y"
+      },
+      "card": {
+        "station": "Con estación",
+        "encyclopedic": "Enciclopédica",
+        "recipes": "{count} recetas",
+        "withMilk": "Con leche",
+        "noMilk": "Sin leche",
+        "volume": "{min}–{max} ml",
+        "southernCone": "Cono Sur"
+      },
+      "detail": {
+        "breadcrumbAria": "Miga de pan",
+        "breadcrumbHome": "Wiki",
+        "back": "Volver a {section}",
+        "tocTitle": "En esta ficha",
+        "wheelTitle": "Perfil sensorial",
+        "aliasesMore": "y {count} más",
+        "facts": {
+          "altitude": "Altitud",
+          "altitudeValue": "{min}–{max} m s. n. m.",
+          "region": "Región",
+          "harvest": "Cosecha",
+          "species": "Especie",
+          "lineage": "Linaje",
+          "discovery": "Descubrimiento",
+          "fermentation": "Fermentación",
+          "mucilage": "Mucílago",
+          "drying": "Secado",
+          "creator": "Creador / Diseño",
+          "origin": "Origen",
+          "era": "Época",
+          "serving": "Servicio típico",
+          "servingValue": "{min}–{max} ml"
+        }
+      },
+      "fermentation": {
+        "washed": "Lavado",
+        "natural": "Natural",
+        "pulped_natural": "Pulped natural",
+        "honey": "Honey",
+        "anaerobic": "Anaeróbico",
+        "decaf": "Descafeinado"
+      },
+      "chapters": {
+        "story": {
+          "title": "Historia y simbología cultural"
+        },
+        "originStory": {
+          "title": "Origen e historia",
+          "sub": "Cómo nació y cómo se popularizó"
+        },
+        "notes": {
+          "title": "Vocabulario en taza",
+          "sub": "Tocá una nota para ubicarla en la Rueda de Sabores SCA"
+        },
+        "varietals": {
+          "title": "Varietales que se cultivan",
+          "sub": "Las plantas más comunes en {origin}"
+        },
+        "origins": {
+          "title": "Dónde se cultiva",
+          "sub": "Orígenes de la Wiki donde es una variedad habitual"
+        },
+        "coffees": {
+          "title": "Cafés que lucen en esta cafetera",
+          "sub": "Fichas de la Wiki que la recomiendan, con el perfil sugerido",
+          "group": "{section} · {count}"
+        },
+        "recipes": {
+          "title": "Recetas de autor y tradicionales",
+          "sub": "Elegí una y se abre directo en la estación",
+          "tabsAria": "Tipo de receta",
+          "author": "De autor",
+          "traditional": "Tradicionales"
+        },
+        "prepare": {
+          "title": "Cómo se prepara",
+          "sub": "Preparación tradicional paso a paso",
+          "encyclopedicNote": "Esta cafetera es de consulta: todavía no tiene estación con temporizador en la app."
+        },
+        "howItWorks": {
+          "title": "Cómo funciona",
+          "sub": "Principio físico · {family}"
+        },
+        "drinks": {
+          "title": "Bebidas que nacen con esta cafetera",
+          "sub": "Explorá sus proporciones y variantes"
+        },
+        "composition": {
+          "title": "Composición y proporciones",
+          "sub": "Nivel de llenado a escala real según el recipiente",
+          "prepare": "Cómo se prepara.",
+          "baseBrewer": "Cafetera base",
+          "served": "Volumen servido"
+        },
+        "variants": {
+          "title": "Variantes regionales y de barra",
+          "sub": "Cómo se pide y adapta según la cultura cafetera"
+        }
+      },
+      "recipe": {
+        "inCup": "En taza:",
+        "prepare": "Preparar esta receta",
+        "duration": "{time} min",
+        "difficulty": {
+          "universal": "Fácil",
+          "intermediate": "Intermedia",
+          "advanced": "Avanzada"
+        }
+      },
+      "methods": {
+        "title": "Cómo prepararlo",
+        "prepare": "Preparar en {method} ({profile})",
+        "knowBrewer": "Conocer la {brewer}"
+      },
+      "station": {
+        "title": "Estación de preparación",
+        "desc": "Calculadora de dosis y temporizador paso a paso con la receta estándar.",
+        "open": "Abrir estación {method}"
+      },
+      "drinkBrew": {
+        "title": "Prepararla",
+        "desc": "Empezá por la base: el {method} con perfil {profile}.",
+        "cta": "Preparar la base en {method} ({profile})",
+        "none": "No usa una estación de la app: seguí la preparación de esta ficha."
+      },
+      "composition": {
+        "layers": {
+          "water": "Agua",
+          "coffee": "Café",
+          "milk": "Leche",
+          "foam": "Espuma"
+        },
+        "vessels": {
+          "demitasse": "Pocillo",
+          "medium": "Taza mediana",
+          "large": "Taza grande",
+          "tall": "Vaso alto con hielo"
+        },
+        "caption": "{vessel} · escala en ml (máx. {cap})",
+        "aria": "Composición en {vessel} ({min} a {max} ml): {layers}",
+        "layerValue": "{label} {value}%"
+      },
+      "photoCaptions": {
+        "v60": "Hario V60 · Cono a 60° en vidrio borosilicato",
+        "chemex": "Chemex · Jarra reloj de arena con collar de madera",
+        "melitta": "Melitta · Cono trapezoidal con filtro de papel",
+        "aeropress": "AeroPress · Inmersión y presión manual con émbolo",
+        "french-press": "Prensa Francesa · Inmersión total con malla metálica",
+        "espresso-machine": "Máquina de Espresso · Extracción a 9 bares con portafiltro",
+        "moka": "Cafetera Moka · Cuerpo octogonal para hornalla",
+        "siphon": "Sifón Japonés · Dos globos por presión de vapor y vacío",
+        "cezve": "Cezve · Cazo de cobre martillado",
+        "electric-drip": "Filtro Eléctrica · Termosifón y ducha automática"
+      }
+    }
+  },
+  "wheel": {
+    "tag": "CATA SCA",
+    "title": "Rueda de Sabores SCA",
+    "subtitle": "Tocá una familia para acercarte, seguí hasta el descriptor y mirá qué orígenes, varietales y procesos lo suelen tener.",
+    "counts": {
+      "families": "{count} familias",
+      "subfamilies": "{count} subfamilias",
+      "descriptors": "{count} descriptores"
+    },
+    "tiers": {
+      "family": "Familia",
+      "subfamily": "Subfamilia",
+      "descriptor": "Descriptor"
+    },
+    "wheelRegion": "Rueda de sabores",
+    "treeLabel": "Rueda de sabores SCA",
+    "accordionLabel": "Familias de sabor",
+    "detailLabel": "Detalle del sabor",
+    "descriptorCount": "{count} descriptores",
+    "center": {
+      "eyebrow": "SCA",
+      "title": "Familias",
+      "hint": "tocá una",
+      "back": "Rueda completa",
+      "backAria": "Volver a la rueda completa"
+    },
+    "keyboard": {
+      "label": "Atajos de teclado de la rueda",
+      "sideKeys": "← →",
+      "side": "mismo nivel",
+      "downKey": "↓",
+      "down": "entrar",
+      "upKey": "↑",
+      "up": "salir",
+      "enterKey": "Enter",
+      "enter": "elegir",
+      "escKey": "Esc",
+      "esc": "volver"
+    },
+    "returnTo": "Volver a {title}",
+    "close": "Cerrar detalle",
+    "pathLabel": "Ruta del sabor",
+    "childrenTitle": {
+      "family": "Subfamilias",
+      "subfamily": "Descriptores"
+    },
+    "related": {
+      "title": "Dónde aparece en la Wiki",
+      "origin": "Orígenes",
+      "varietal": "Varietales",
+      "process": "Procesos",
+      "empty": "Todavía no hay fichas de la Wiki con este sabor."
+    },
+    "presence": {
+      "one": "Aparece en 1 ficha",
+      "many": "Aparece en {count} fichas",
+      "origin": { "one": "1 origen", "many": "{count} orígenes" },
+      "varietal": { "one": "1 varietal", "many": "{count} varietales" },
+      "process": { "one": "1 proceso", "many": "{count} procesos" }
+    },
+    "guide": {
+      "eyebrow": "Para empezar a catar",
+      "question": "¿Qué sentís en la taza?",
+      "lead": "No hace falta saber de cata. Andá de lo general a lo específico.",
+      "steps": {
+        "general": { "title": "Elegí lo más general.", "body": "¿Te recuerda a fruta, a algo dulce, a tostado?" },
+        "refine": { "title": "Afiná un poco.", "body": "Si es fruta, ¿cítrica, roja, seca?" },
+        "discover": { "title": "Mirá dónde aparece.", "body": "Vas a ver orígenes, varietales y procesos con ese sabor." }
+      },
+      "examplesLabel": "Familias para empezar",
+      "dismiss": "Ocultar guía"
+    }
+  },
+  "footer": {
+    "version": "Versión {version}",
+    "ariaLabel": "Información de la aplicación"
+  },
+  "pwa": {
+    "regionLabel": "Estado de conexión y actualización",
+    "offline": {
+      "title": "Sin conexión · Modo offline activo",
+      "desc": "Calculadoras, temporizador y Wiki siguen funcionando desde el dispositivo."
+    },
+    "offlineReady": {
+      "title": "Lista para usar sin conexión",
+      "desc": "Recetas, Wiki y Rueda SCA guardadas en este dispositivo."
+    },
+    "update": {
+      "title": "Nueva versión disponible",
+      "desc": "Actualizá cuando termines tu preparación para cargar las últimas mejoras.",
+      "apply": "Actualizar",
+      "later": "Después"
+    },
+    "closeAria": "Cerrar aviso"
+  },
+  "notFound": {
+    "title": "404 — Ruta no encontrada",
+    "desc": "La página solicitada o el método especificado no existe en el catálogo.",
+    "cta": "Volver al inicio"
+  }
+}
