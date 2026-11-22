@@ -375,8 +375,8 @@ Paso │ Agente A (Backend/Domain Core)          │ Agente B (Backend/Domain Au
 
 > Empaqueta la aplicación completa como Progressive Web App (PWA) 100% funcional sin conexión y valida las métricas de calidad mobile-first del MVP.
 
-### [C-12] `pwa-offline-and-production-readiness`
-- **Estado**: `[ ]` pendiente
+### [x] [C-12] `pwa-offline-and-production-readiness`
+- **Estado**: `[x]` completado (archivado 2026-11-22; release `v1.0.0`)
 - **Scope**: Configuración PWA Offline con `vite-plugin-pwa`, `manifest.webmanifest`, cabeceras CSP y verificación integral E2E (`US-008`)
   - Configuración de `vite-plugin-pwa` (Workbox `generateSW`) en `vite.config.ts` para precachear el shell HTML/JS/CSS, íconos, escenas SVG y todo el catálogo estático (6 métodos, Wiki y Rueda SCA) (`US-008 CA-2`)
   - Manifiesto `public/manifest.webmanifest` con modo `standalone`, orientación `portrait`, colores de tema sincronizados con `design-system/tokens.css` e íconos `192x192`, `512x512` y `maskable` en `public/icons/` (`US-008 CA-1`)
